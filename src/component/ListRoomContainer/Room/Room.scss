@@ -1,0 +1,25 @@
+.RoomItem {
+    width: 100%;
+    // padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    .RoomDetailEmpty {
+        margin: 30px;
+        padding-top: 20px;
+        text-align: center;
+        background-color: green;
+        width: 220px;
+        height: 200px;
+        border-radius: 20%;
+    }
+    .RoomDetail {
+        margin: 30px;
+        padding-top: 20px;
+        text-align: center;
+        background-color: yellow;
+        width: 220px;
+        height: 200px;
+        border-radius: 20%;
+    }
+}
