@@ -17,11 +17,11 @@ export class BaseServices {
       url: `${DOMAIN}/${url}`,
       method: "POST",
       data: model,
-      headers: {
-        Authorization:
-          "Bearer " +
-          "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJhdXRoIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY2ODg3OTA5NiwiZXhwIjoxNjY4ODgyNjk2fQ.Eg7-EAKi6xlQqD7j-xckq2sZxjrcJ3IFWxRuQBYzLVE",
-      },
+      // headers: {
+      //   Authorization:
+      //     "Bearer " +
+      //     "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJhdXRoIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY2ODg4MTQxMSwiZXhwIjoxNjY4ODg1MDExfQ.JARCyXBeEGH8Fm98i2hsbJ6TT3PZxo9ODzopqlSm30M",
+      // },
     });
   };
 

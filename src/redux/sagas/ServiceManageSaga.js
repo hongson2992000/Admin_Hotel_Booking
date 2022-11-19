@@ -36,11 +36,19 @@ function* createHotelService(action) {
     });
     yield delay(1000);
     console.log(action.payload);
+    let formData = new FormData();
+    formData.append("description",action.payload.description);
+    formData.append("id",0);
+    formData.append("majorGroup",action.payload.majorGroup);
+    formData.append("name",action.payload.name);
+    formData.append("price",action.payload.price);
+    formData.append("serviceCategory_Id",action.payload.serviceCategory_Id);
+    formData.append("status",action.payload.status);
     let service = yield call(()=>{
-      return serviceManage.createHotelService(action.payload) 
-    });
+      return serviceManage.createHotelService(formData)
+    })
     // console.log("data", listService.data);
-    console.log(service.toSTring);
+    console.log("Thanh An",service.data);
 
     if (service.status === STATUS_CODE.SUCCESS) {
       yield put(
@@ -51,8 +59,6 @@ function* createHotelService(action) {
       type: HIDE_LOADING,
     });
   } catch (error) {
-    console.log(error.toSTring);
-
     yield put(actions.createNewHotelService.createHotelServiceFailure(error));
   }
 }

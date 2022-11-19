@@ -34,8 +34,7 @@ const ServiceContainer = () => {
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
-  let serviceColumns = useMemo(
-    () => [
+  let serviceColumns = [
       {
         field: "id",
         headerName: "ID",
@@ -85,9 +84,8 @@ const ServiceContainer = () => {
           );
         },
       },
-    ],
-    []
-  );
+    ]
+ 
 
   const actionColumn = [
     {
