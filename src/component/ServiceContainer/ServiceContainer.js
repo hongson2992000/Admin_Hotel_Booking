@@ -37,7 +37,7 @@ const ServiceContainer = () => {
   let serviceColumns = [
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Mã",
       width: 100,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.id}</div>;
@@ -45,7 +45,7 @@ const ServiceContainer = () => {
     },
     {
       field: "name",
-      headerName: "Tên Dịch Vụ",
+      headerName: "Tên dịch vụ",
       width: 300,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.name}</div>;
@@ -62,7 +62,7 @@ const ServiceContainer = () => {
 
     {
       field: "image",
-      headerName: "Hình Ảnh",
+      headerName: "Hình ảnh",
       width: 150,
       renderCell: (params) => {
         return (
@@ -74,12 +74,12 @@ const ServiceContainer = () => {
     },
     {
       field: "status",
-      headerName: "Trạng Thái",
+      headerName: "Trạng thái",
       width: 200,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
-            {!params.row.status ? "Đang Ẩn" : "Đang Hiện"}
+            {!params.row.status ? "Đang ẩn" : "Đang hiện"}
           </div>
         );
       },
@@ -89,19 +89,27 @@ const ServiceContainer = () => {
   const actionColumn = [
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Chức năng",
       width: 200,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
+            <div
+              className="updateButton"
+              onClick={() => handleDelete(params.row.id)}
+            >
+              {" "}
+              Cập nhật
+            </div>
+            <Link to="" style={{ textDecoration: "none" }}>
+              <div className="viewButton">Xem</div>
             </Link>
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
             >
-              Delete
+              {" "}
+              Xoá
             </div>
           </div>
         );
@@ -116,7 +124,7 @@ const ServiceContainer = () => {
       <div className="datatableTitle">
         Danh sách dịch vụ
         <a onClick={openCreateServiceModal} className="link">
-          Thêm Dịch Vụ
+          Thêm dịch vụ
         </a>
       </div>
       <DataGrid

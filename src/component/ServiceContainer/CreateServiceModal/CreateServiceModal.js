@@ -42,9 +42,9 @@ export default function CreateServiceModal() {
           value={formik.values.majorGroup}
           onChange={formik.handleChange}
         >
-          <MenuItem value={"appetizer"}>Khai Vị</MenuItem>
-          <MenuItem value={"main_dishes"}>Món Chính</MenuItem>
-          <MenuItem value={"dessert"}>Tráng Miệng</MenuItem>
+          <MenuItem value={"appetizer"}>Khai vị</MenuItem>
+          <MenuItem value={"main_dishes"}>Món chính</MenuItem>
+          <MenuItem value={"dessert"}>Tráng miệng</MenuItem>
         </Select>
       );
     } else if (formik.values.serviceCategory_Id === 2) {
@@ -57,9 +57,9 @@ export default function CreateServiceModal() {
           value={formik.values.majorGroup}
           onChange={formik.handleChange}
         >
-          <MenuItem value={"coffee"}>Cà Phê</MenuItem>
+          <MenuItem value={"coffee"}>Cà phê</MenuItem>
           <MenuItem value={"tea"}>Trà</MenuItem>
-          <MenuItem value={"water_and_soft_drink"}>Nước Giải Khát</MenuItem>
+          <MenuItem value={"water_and_soft_drink"}>Nước giải khát</MenuItem>
           <MenuItem value={"mocktails"}>MockTail</MenuItem>
           <MenuItem value={"beer"}>Bia</MenuItem>
         </Select>
@@ -95,7 +95,7 @@ export default function CreateServiceModal() {
   });
   const body = (
     <div className="paper" id="simple-modal-title">
-      <h2>Thêm Dịch Vụ</h2>
+      <h2>Thêm mới dịch vụ</h2>
       <hr />
       <form
         noValidate
@@ -105,7 +105,7 @@ export default function CreateServiceModal() {
       >
         <div className="row">
           <div className="col-6">
-            <InputLabel>Tên Dịch Vụ</InputLabel>
+            <InputLabel>Tên dịch vụ</InputLabel>
             <TextField
               className="title"
               required
@@ -116,7 +116,7 @@ export default function CreateServiceModal() {
             />
           </div>
           <div className="col-6">
-            <InputLabel>Giá Dịch Vụ</InputLabel>
+            <InputLabel>Giá</InputLabel>
             <TextField
               type={"number"}
               className="title"
@@ -128,7 +128,7 @@ export default function CreateServiceModal() {
             />
           </div>
           <div className="col-6">
-            <InputLabel>Nhóm Dịch Vụ</InputLabel>
+            <InputLabel>Nhóm dịch vụ</InputLabel>
             <Select
               className="title"
               required
@@ -137,8 +137,8 @@ export default function CreateServiceModal() {
               value={formik.values.serviceCategory_Id}
               onChange={formik.handleChange}
             >
-              <MenuItem value={1}>Thức Ăn</MenuItem>
-              <MenuItem value={2}>Đồ Uống</MenuItem>
+              <MenuItem value={1}>Thức ăn</MenuItem>
+              <MenuItem value={2}>Đồ uống</MenuItem>
             </Select>
           </div>
           <div className="col-6">
@@ -146,7 +146,7 @@ export default function CreateServiceModal() {
             {renderMajorGroup()}
           </div>
           <div className="col-12">
-            <InputLabel>Mô Tả</InputLabel>
+            <InputLabel>Thông tin mô tả</InputLabel>
             <TextareaAutosize
               className="title"
               minRows={5}
@@ -160,7 +160,7 @@ export default function CreateServiceModal() {
           <div className="InfoCreate col-12">
             <div className="row">
               <div className="col-6">
-                <InputLabel>Ngày Tạo</InputLabel>
+                <InputLabel>Ngày tạo</InputLabel>
                 <TextField
                   className="title"
                   required
@@ -172,7 +172,7 @@ export default function CreateServiceModal() {
                 />
               </div>
               <div className="col-6">
-                <InputLabel>Người Tạo</InputLabel>
+                <InputLabel>Người tạo</InputLabel>
                 <TextField
                   className="title"
                   required
@@ -183,7 +183,7 @@ export default function CreateServiceModal() {
                 />
               </div>
               <div className="col-6">
-                <InputLabel>Ngày Cập Nhật</InputLabel>
+                <InputLabel>Ngày cập nhật</InputLabel>
                 <TextField
                   className="title"
                   required
@@ -195,7 +195,7 @@ export default function CreateServiceModal() {
                 />
               </div>
               <div className="col-6">
-                <InputLabel>Người Cập Nhật</InputLabel>
+                <InputLabel>Người cập nhật</InputLabel>
                 <TextField
                   className="title"
                   required

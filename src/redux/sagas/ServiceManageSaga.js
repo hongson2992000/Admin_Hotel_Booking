@@ -35,19 +35,33 @@ function* createHotelService(action) {
       type: DISPLAY_LOADING,
     });
     yield delay(1000);
-    let formData = new FormData();
-    formData.append("description", action.payload.description);
-    formData.append("id", 0);
-    formData.append("majorGroup", action.payload.majorGroup);
-    formData.append("name", action.payload.name);
-    formData.append("price", action.payload.price);
-    formData.append("serviceCategory_Id", action.payload.serviceCategory_Id);
-    formData.append("status", action.payload.status);
     let service = yield call(() => {
       return serviceManage.createHotelService(action.payload);
     });
     // console.log("data", listService.data);
     // console.log("", service);
+    if (service.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.createNewHotelService.createHotelServiceSuccess(service.data)
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+  } catch (error) {
+    yield put(actions.createNewHotelService.createHotelServiceFailure(error));
+  }
+}
+
+function* deleteService(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    yield delay(1000);
+    let service = yield call(() => {
+      return serviceManage.deleteService(action.payload.id);
+    });
     if (service.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.createNewHotelService.createHotelServiceSuccess(service.data)
