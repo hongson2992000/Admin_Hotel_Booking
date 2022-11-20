@@ -96,9 +96,8 @@ const ServiceContainer = () => {
           <div className="cellAction">
             <div
               className="updateButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => openCreateServiceModal}
             >
-              {" "}
               Cập nhật
             </div>
             <Link to="" style={{ textDecoration: "none" }}>
