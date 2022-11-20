@@ -35,57 +35,56 @@ const ServiceContainer = () => {
     setData(data.filter((item) => item.id !== id));
   };
   let serviceColumns = [
-      {
-        field: "id",
-        headerName: "ID",
-        width: 100,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.id}</div>;
-        },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 100,
+      renderCell: (params) => {
+        return <div className="cellWithImg">{params.row.id}</div>;
       },
-      {
-        field: "name",
-        headerName: "Tên Dịch Vụ",
-        width: 350,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.name}</div>;
-        },
+    },
+    {
+      field: "name",
+      headerName: "Tên Dịch Vụ",
+      width: 300,
+      renderCell: (params) => {
+        return <div className="cellWithImg">{params.row.name}</div>;
       },
-      {
-        field: "type",
-        headerName: "Loại",
-        width: 200,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.type}</div>;
-        },
+    },
+    {
+      field: "type",
+      headerName: "Loại",
+      width: 200,
+      renderCell: (params) => {
+        return <div className="cellWithImg">{params.row.type}</div>;
       },
+    },
 
-      {
-        field: "image",
-        headerName: "Hình Ảnh",
-        width: 150,
-        renderCell: (params) => {
-          return (
-            <div className="cellWithImg">
-              <img className="cellImg" src={params.row.image} alt="img" />
-            </div>
-          );
-        },
+    {
+      field: "image",
+      headerName: "Hình Ảnh",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div className="cellWithImg">
+            <img className="cellImg" src={params.row.image} alt="img" />
+          </div>
+        );
       },
-      {
-        field: "status",
-        headerName: "Trạng Thái",
-        width: 200,
-        renderCell: (params) => {
-          return (
-            <div className={`cellWithStatus ${params.row.status}`}>
-              {!params.row.status ? "Đang Ẩn" : "Đang Hiện"}
-            </div>
-          );
-        },
+    },
+    {
+      field: "status",
+      headerName: "Trạng Thái",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div className={`cellWithStatus ${params.row.status}`}>
+            {!params.row.status ? "Đang Ẩn" : "Đang Hiện"}
+          </div>
+        );
       },
-    ]
- 
+    },
+  ];
 
   const actionColumn = [
     {

@@ -70,6 +70,7 @@ export default function CreateServiceModal() {
   const onSubmitService = useCallback(
     (values) => {
       dispatch(actions.createNewHotelService.createHotelServiceRequest(values));
+      dispatch(hideModal());
     },
     [dispatch]
   );
@@ -87,9 +88,9 @@ export default function CreateServiceModal() {
       status: true,
       serviceCategory_Id: 1,
     },
-    onSubmit: (values) => {
-      onSubmitService(values)
-      // console.log(values);
+    onSubmit: (values, { resetForm }) => {
+      onSubmitService(values);
+      resetForm({ values: "" });
     },
   });
   const body = (

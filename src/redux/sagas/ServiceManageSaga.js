@@ -12,11 +12,11 @@ function* getAllHotelService(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    // yield delay(1000);
+    yield delay(1000);
     let listService = yield call(() => {
       return serviceManage.getAllHotelService();
     });
-    console.log("data", listService.data);
+    console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.getHotelService.getHotelServiceSuccess(listService.data)
@@ -35,21 +35,19 @@ function* createHotelService(action) {
       type: DISPLAY_LOADING,
     });
     yield delay(1000);
-    console.log(action.payload);
     let formData = new FormData();
-    formData.append("description",action.payload.description);
-    formData.append("id",0);
-    formData.append("majorGroup",action.payload.majorGroup);
-    formData.append("name",action.payload.name);
-    formData.append("price",action.payload.price);
-    formData.append("serviceCategory_Id",action.payload.serviceCategory_Id);
-    formData.append("status",action.payload.status);
-    let service = yield call(()=>{
-      return serviceManage.createHotelService(formData)
-    })
+    formData.append("description", action.payload.description);
+    formData.append("id", 0);
+    formData.append("majorGroup", action.payload.majorGroup);
+    formData.append("name", action.payload.name);
+    formData.append("price", action.payload.price);
+    formData.append("serviceCategory_Id", action.payload.serviceCategory_Id);
+    formData.append("status", action.payload.status);
+    let service = yield call(() => {
+      return serviceManage.createHotelService(action.payload);
+    });
     // console.log("data", listService.data);
-    console.log("Thanh An",service.data);
-
+    // console.log("", service);
     if (service.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.createNewHotelService.createHotelServiceSuccess(service.data)
@@ -62,6 +60,7 @@ function* createHotelService(action) {
     yield put(actions.createNewHotelService.createHotelServiceFailure(error));
   }
 }
+
 export function* followActionGetAllHotelService() {
   yield takeLatest(
     actions.getHotelService.getHotelServiceRequest,

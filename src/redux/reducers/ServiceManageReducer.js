@@ -1,4 +1,8 @@
-import { getHotelService, getType,createNewHotelService } from "../actions/ServiceManageAction";
+import {
+  getHotelService,
+  getType,
+  createNewHotelService,
+} from "../actions/ServiceManageAction";
 
 const initialState = {
   arrService: [],
@@ -32,11 +36,12 @@ export default function ServiceManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-      case getType(createNewHotelService.createHotelServiceSuccess):
+    case getType(createNewHotelService.createHotelServiceSuccess):
       return {
-        arrService:[...state.arrService,action.payload]
+        ...state,
+        arrService: action.payload,
       };
-      case getType(createNewHotelService.createHotelServiceFailure):
+    case getType(createNewHotelService.createHotelServiceFailure):
       return {
         ...state,
       };

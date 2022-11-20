@@ -5,7 +5,7 @@ class ServiceManage extends BaseServices {
     return this.get(`v1/services`);
   };
   createHotelService = (model) => {
-    return this.post(`v1/service`,model);
+    return this.post(`v1/service`, model);
   };
 }
 export const serviceManage = new ServiceManage();
