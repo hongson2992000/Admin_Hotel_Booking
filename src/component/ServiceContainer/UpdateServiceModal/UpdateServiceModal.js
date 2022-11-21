@@ -5,19 +5,20 @@ import {
   Select,
   TextareaAutosize,
   TextField,
-  Button,
 } from "@mui/material";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { modalCreateServiceState$ } from "../../../redux/selectors/ModalSelector";
-import "./CreateServiceModal.scss";
-import { hideModal } from "../../../redux/actions/ModalAction";
+import { modalUpdateServiceState$ } from "../../../redux/selectors/ModalSelector";
+import "./UpdateServiceModal.scss";
+import { hideModalUpdate } from "../../../redux/actions/ModalAction";
 import * as actions from "../../../redux/actions/ServiceManageAction";
-export default function CreateServiceModal() {
+import { serviceItemManageState$ } from "../../../redux/selectors/ServiceManageSelector";
+export default function UpdateServiceModal() {
   const dispatch = useDispatch();
-  const isShow = useSelector(modalCreateServiceState$);
-
+  const isShow = useSelector(modalUpdateServiceState$);
+  const serviceInfo = useSelector(serviceItemManageState$);
+  console.log("Giá Trị Store", serviceInfo);
   const getCurrentDate = () => {
     let showDate = new Date();
     let displayDate =
@@ -28,8 +29,49 @@ export default function CreateServiceModal() {
       showDate.getFullYear();
     return displayDate;
   };
+  useEffect(() => {
+    setDataService({
+      id: serviceInfo.id,
+      name: serviceInfo.name,
+      price: serviceInfo.price,
+      majorGroup: serviceInfo.majorGroup,
+      description: serviceInfo.description,
+      createDate: serviceInfo.createDate,
+      createBy: serviceInfo.createBy,
+      updateDate: getCurrentDate(),
+      updateBy: "hongson2992000",
+      status: serviceInfo.status,
+      serviceCategory_Id: serviceInfo.serviceCategory_Id,
+    });
+  }, [
+    serviceInfo.id,
+    serviceInfo.name,
+    serviceInfo.price,
+    serviceInfo.majorGroup,
+    serviceInfo.description,
+    serviceInfo.createDate,
+    serviceInfo.createBy,
+    serviceInfo.status,
+    serviceInfo.serviceCategory_Id,
+  ]);
+  const [dataService, setDataService] = useState({
+    id: serviceInfo.id,
+    name: serviceInfo.name,
+    price: serviceInfo.price,
+    majorGroup: serviceInfo.majorGroup,
+    description: serviceInfo.description,
+    createDate: serviceInfo.createDate,
+    createBy: serviceInfo.createBy,
+    updateDate: getCurrentDate(),
+    updateBy: "hongson2992000",
+    status: serviceInfo.status,
+    serviceCategory_Id: serviceInfo.serviceCategory_Id,
+  });
+  console.log("Giá trị state", dataService);
+
   const onClose = useCallback(() => {
-    dispatch(hideModal());
+    dispatch(hideModalUpdate());
+    //
   }, [dispatch]);
   const renderMajorGroup = () => {
     if (formik.values.serviceCategory_Id === 1) {
@@ -66,42 +108,32 @@ export default function CreateServiceModal() {
       );
     }
   };
-  // let dataService = formik.values
   const onSubmitService = useCallback(
     (values) => {
-      dispatch(actions.createNewHotelService.createHotelServiceRequest(values));
-      dispatch(hideModal());
+      dispatch(actions.updateHotelService.updateHotelServiceRequest(values));
+      dispatch(hideModalUpdate());
     },
     [dispatch]
   );
   const formik = useFormik({
-    initialValues: {
-      id: 0,
-      name: "",
-      price: 0,
-      majorGroup: "",
-      description: "",
-      createDate: getCurrentDate(),
-      createBy: "hongson2992000",
-      updateDate: getCurrentDate(),
-      updateBy: "hongson2992000",
-      status: true,
-      serviceCategory_Id: 1,
-    },
+    initialValues: dataService,
     onSubmit: (values, { resetForm }) => {
       onSubmitService(values);
       resetForm({ values: "" });
     },
+    enableReinitialize: true,
   });
+  console.log("Giá Trị Form", formik.values);
   const body = (
     <div className="paper" id="simple-modal-title">
-      <h2>Thêm mới dịch vụ</h2>
+      <h2>Chỉnh sửa dịch vụ</h2>
       <hr />
       <form
         noValidate
         autoComplete="off"
         className="form col-12"
         onSubmit={formik.handleSubmit}
+        onReset={formik.handleReset}
       >
         <div className="row">
           <div className="col-6">
@@ -211,7 +243,7 @@ export default function CreateServiceModal() {
             <button className="buttonSave" type="submit">
               Lưu
             </button>
-            <button className="buttonClose" onClick={onClose}>
+            <button className="buttonClose" type="reset" onClick={onClose}>
               Đóng
             </button>
           </div>

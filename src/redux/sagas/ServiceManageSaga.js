@@ -50,26 +50,49 @@ function* createHotelService(action) {
     yield put(actions.createNewHotelService.createHotelServiceFailure(error));
   }
 }
-
-function* deleteService(action) {
+function* updateHotelService(action) {
   try {
     yield put({
       type: DISPLAY_LOADING,
     });
     yield delay(1000);
     let service = yield call(() => {
-      return serviceManage.deleteService(action.payload.id);
+      return serviceManage.updateService(action.payload);
     });
     if (service.status === STATUS_CODE.SUCCESS) {
       yield put(
-        actions.createNewHotelService.createHotelServiceSuccess(service.data)
+        actions.updateHotelService.updateHotelServiceSuccess(service.data)
       );
     }
     yield put({
       type: HIDE_LOADING,
     });
   } catch (error) {
-    yield put(actions.createNewHotelService.createHotelServiceFailure(error));
+    yield put(actions.updateHotelService.updateHotelServiceFailure(error));
+  }
+}
+
+function* deleteService(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    console.log(action.payload)
+    yield delay(1000);
+    let service = yield call(() => {
+      return serviceManage.deleteService(action.payload);
+    });
+    console.log("Thanh An",service)
+    if (service.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.deleteHotelService.deleteHotelServiceSuccess(service.data)
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+  } catch (error) {
+    yield put(actions.deleteHotelService.deleteHotelServiceFailure(error));
   }
 }
 
@@ -84,5 +107,17 @@ export function* followActionCreateHotelService() {
   yield takeLatest(
     actions.createNewHotelService.createHotelServiceRequest,
     createHotelService
+  );
+}
+export function* followActionUpdateHotelService() {
+  yield takeLatest(
+    actions.updateHotelService.updateHotelServiceRequest,
+    updateHotelService
+  );
+}
+export function* followActionDeleteHotelService() {
+  yield takeLatest(
+    actions.deleteHotelService.deleteHotelServiceRequest,
+    deleteService
   );
 }
