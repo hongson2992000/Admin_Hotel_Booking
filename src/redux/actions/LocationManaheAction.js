@@ -19,12 +19,12 @@ export const updateLocation = createActions({
     updateLocationFailure: (err) => err,
 });
 
-export const deleteLocation = createActions({
-    deleteLocationRequest: (payload) => payload,
-    deleteLocationSuccess: (payload) => payload,
-    deleteLocationFailure: (err) => err,
-});
+// export const deleteLocation = createActions({
+//     deleteLocationRequest: (payload) => payload,
+//     deleteLocationSuccess: (payload) => payload,
+//     deleteLocationFailure: (err) => err,
+// });
 
-export const filInfoLocation = createActions({
-    filInfoLocationRequest: (payload) => payload,
-});
+// export const filInfoLocation = createActions({
+//     filInfoLocationRequest: (payload) => payload,
+// });
