@@ -208,14 +208,7 @@ export default function CreateServiceModal() {
             </div>
           </div>
           <div className="footer">
-            <button
-              className="button"
-              // variant="contained"
-              // color="primary"
-              // component="span"
-              // onSubmit={onSubmitService}
-              type="submit"
-            >
+            <button className="button" type="submit">
               Lưu
             </button>
             <Button

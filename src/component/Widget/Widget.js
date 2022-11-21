@@ -1,77 +1,48 @@
 import React from "react";
 import "./Widget.scss";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
-export default function Widget({type}) {
+export default function Widget({ type }) {
   let data;
 
   //temporary
-  const amount = 100;
-  const diff = 20;
+  const amount = 0;
+  const diff = 0;
 
   switch (type) {
-    case "user":
+    case "dat_hom_nay":
       data = {
-        title: "Tổng Số Khách Hàng",
+        title: "Đặt hôm nay",
         isMoney: false,
-        link: "Xem Chi Tiết",
-        icon: (
-          <PersonOutlinedIcon
-            className="icon"
-            style={{
-              color: "crimson",
-              backgroundColor: "rgba(255, 0, 0, 0.2)",
-            }}
-          />
-        ),
       };
       break;
-    case "order":
+    case "doanh_thu":
       data = {
-        title: "Đơn Hàng",
+        title: "Doanh thu",
+        isMoney: true,
+      };
+      break;
+    case "doanh_thu_luy_ke":
+      data = {
+        title: "Doanh thu luỹ kế",
+        isMoney: true,
+      };
+      break;
+    case "huy_hom_nay":
+      data = {
+        title: "Huỷ hôm nay",
         isMoney: false,
-        link: "Xem Chi Tiết",
-        icon: (
-          <ShoppingCartOutlinedIcon
-            className="icon"
-            style={{
-              backgroundColor: "rgba(218, 165, 32, 0.2)",
-              color: "goldenrod",
-            }}
-          />
-        ),
       };
       break;
-    case "earning":
+    case "doanh_thu_huy":
       data = {
-        title: "Doanh Số",
+        title: "Doanh thu huỷ",
         isMoney: true,
-        link: "Xem Chi Tiết",
-        icon: (
-          <MonetizationOnOutlinedIcon
-            className="icon"
-            style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
-          />
-        ),
       };
       break;
-    case "balance":
+    case "doanh_thu_huy_luy_ke":
       data = {
-        title: "BALANCE",
-        isMoney: true,
-        link: "Xem Chi Tiết",
-        icon: (
-          <AccountBalanceWalletOutlinedIcon
-            className="icon"
-            style={{
-              backgroundColor: "rgba(128, 0, 128, 0.2)",
-              color: "purple",
-            }}
-          />
-        ),
+        title: "Doanh thu huỷ luỹ kế",
+        isMoney: false,
       };
       break;
     default:
