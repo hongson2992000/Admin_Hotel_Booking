@@ -74,25 +74,25 @@ export default function CreateServiceModal() {
     },
     [dispatch]
   );
-  const formik = useFormik({
-    initialValues: {
-      id: 0,
-      name: "",
-      price: 0,
-      majorGroup: "",
-      description: "",
-      createDate: getCurrentDate(),
-      createBy: "hongson2992000",
-      updateDate: getCurrentDate(),
-      updateBy: "hongson2992000",
-      status: true,
-      serviceCategory_Id: 1,
-    },
-    onSubmit: (values, { resetForm }) => {
-      onSubmitService(values);
-      resetForm({ values: "" });
-    },
-  });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     id: 0,
+  //     name: "",
+  //     price: 0,
+  //     majorGroup: "",
+  //     description: "",
+  //     createDate: getCurrentDate(),
+  //     createBy: "hongson2992000",
+  //     updateDate: getCurrentDate(),
+  //     updateBy: "hongson2992000",
+  //     status: true,
+  //     serviceCategory_Id: 1,
+  //   },
+  //   onSubmit: (values, { resetForm }) => {
+  //     onSubmitService(values);
+  //     resetForm({ values: "" });
+  //   },
+  // });
   const body = (
     <div className="paper" id="simple-modal-title">
       <h2>Thêm mới dịch vụ</h2>
