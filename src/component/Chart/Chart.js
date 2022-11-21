@@ -1,28 +1,22 @@
-import React from "react";
-import "./Chart.scss";
+import React from 'react'
+import "./Chart.scss"
 import {
-  AreaChart,
-  Area,
-  XAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+    AreaChart,
+    Area,
+    XAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+  } from "recharts";
 export default function Chart({ aspect, title }) {
-  const data = [
-    { name: "Tháng 1", Total: 0 },
-    { name: "Tháng 2", Total: 0 },
-    { name: "Tháng 3", Total: 90 },
-    { name: "Tháng 4", Total: 0 },
-    { name: "Tháng 5", Total: 50 },
-    { name: "Tháng 6", Total: 0 },
-    { name: "Tháng 7", Total: 0 },
-    { name: "Tháng 8", Total: 0 },
-    { name: "Tháng 9", Total: 0 },
-    { name: "Tháng 10", Total: 100 },
-    { name: "Tháng 11", Total: 200 },
-    { name: "Tháng 12", Total: 500 },
-  ];
+    const data = [
+        { name: "January", Total: 1200 },
+        { name: "February", Total: 2100 },
+        { name: "March", Total: 800 },
+        { name: "April", Total: 1600 },
+        { name: "May", Total: 900 },
+        { name: "June", Total: 1700 },
+      ];
   return (
     <div className="chart">
       <div className="title">{title}</div>
@@ -52,5 +46,5 @@ export default function Chart({ aspect, title }) {
         </AreaChart>
       </ResponsiveContainer>
     </div>
-  );
+  )
 }

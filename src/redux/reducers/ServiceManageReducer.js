@@ -2,10 +2,14 @@ import {
   getHotelService,
   getType,
   createNewHotelService,
+  updateHotelService,
+  deleteHotelService,
+  filInfoHotelService,
 } from "../actions/ServiceManageAction";
 
 const initialState = {
   arrService: [],
+  serviceItem: {},
 };
 export default function ServiceManageReducer(state = initialState, action) {
   switch (action.type) {
@@ -14,19 +18,6 @@ export default function ServiceManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(getHotelService.getHotelServiceSuccess):
-      // let arrNew = [...state.arrService];
-      // console.log("Hello Son 1", action.payload)
-      //  action.payload.forEach(item => {
-      //   arrNew.push({
-      //     id: item.id,
-      //     name: item.name,
-      //     type: item.serviceCategory.name,
-      //     status: item.status,
-      //     image: item.image[0].pictureUrl,
-      //   });
-      // })
-      // console.log("Hello Son", arrNew)
-      // state.arrService = arrNew;
       return {
         ...state,
         arrService: action.payload,
@@ -44,6 +35,29 @@ export default function ServiceManageReducer(state = initialState, action) {
     case getType(createNewHotelService.createHotelServiceFailure):
       return {
         ...state,
+      };
+      case getType(updateHotelService.updateHotelServiceSuccess):
+      return {
+        ...state,
+        arrService: action.payload,
+      };
+    case getType(updateHotelService.updateHotelServiceFailure):
+      return {
+        ...state,
+      };
+    case getType(deleteHotelService.deleteHotelServiceSuccess):
+      return {
+        ...state,
+        arrService: action.payload,
+      };
+    case getType(deleteHotelService.deleteHotelServiceFailure):
+      return {
+        ...state,
+      };
+    case getType(filInfoHotelService.filInfoHotelServiceRequest):
+      return {
+        ...state,
+        serviceItem: action.payload,
       };
     default:
       return state;
