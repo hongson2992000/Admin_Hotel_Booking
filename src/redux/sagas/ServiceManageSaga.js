@@ -38,8 +38,6 @@ function* createHotelService(action) {
     let service = yield call(() => {
       return serviceManage.createHotelService(action.payload);
     });
-    // console.log("data", listService.data);
-    // console.log("", service);
     if (service.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.createNewHotelService.createHotelServiceSuccess(service.data)
