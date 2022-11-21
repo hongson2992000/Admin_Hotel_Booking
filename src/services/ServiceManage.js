@@ -11,7 +11,7 @@ class ServiceManage extends BaseServices {
     return this.put(`v1/service`, model);
   };
   deleteService = (id) => {
-    return this.delete(`v1/service`, id);
+    return this.delete(`v1/service/${id}`);
   };
 }
 export const serviceManage = new ServiceManage();

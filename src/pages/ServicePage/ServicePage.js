@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { serviceManageState$ } from "../../redux/selectors/ServiceManageSelector";
 import * as actions from "../../redux/actions/ServiceManageAction";
 import CreateServiceModal from "../../component/ServiceContainer/CreateServiceModal/CreateServiceModal";
+import UpdateServiceModal from "../../component/ServiceContainer/UpdateServiceModal/UpdateServiceModal";
 export default function ServicePage() {
   
 
@@ -17,6 +18,7 @@ export default function ServicePage() {
       <div className="listContainer">
         <Navbar />
         <CreateServiceModal />
+        <UpdateServiceModal/>
         <ServiceContainer  />
       </div>
     </div>

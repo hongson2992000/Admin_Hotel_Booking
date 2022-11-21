@@ -7,12 +7,10 @@ export class BaseServices {
       url: `${DOMAIN}/${url}`,
       method: "PUT",
       data: model,
-      headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
+      // headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
     });
   };
   post = (url, model) => {
-    console.log(url);
-    console.log(model);
     return axios({
       url: `${DOMAIN}/${url}`,
       method: "POST",
@@ -30,7 +28,7 @@ export class BaseServices {
       url: `${DOMAIN}/${url}`,
       method: "DELETE",
       data: model,
-      headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
+      // headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
     });
   };
   get = (url) => {

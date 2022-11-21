@@ -1,7 +1,14 @@
-import { getType, hideModal, showModal } from "../actions/ModalAction";
+import {
+  getType,
+  hideModal,
+  showModal,
+  showModalUpdate,
+  hideModalUpdate,
+} from "../actions/ModalAction";
 
 const initialState = {
   isShow: false,
+  isShowUpdate: false,
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -15,6 +22,17 @@ export default function ModalReducer(state = initialState, action) {
       return {
         ...state,
         isShow: false,
+      };
+    case getType(showModalUpdate):
+      return {
+        ...state,
+        isShowUpdate: true,
+      };
+
+    case getType(hideModalUpdate):
+      return {
+        ...state,
+        isShowUpdate: false,
       };
     default:
       return state;
