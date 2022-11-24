@@ -1,21 +1,25 @@
 .datatable {
     height: 600px;
     padding: 20px;
-    .fillter {
-        display: flex;
-         :nth-child(0) {
-            background-color: grey;
-        }
-        .fillterItem {
-            width: 150px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            a {
-                text-decoration: none;
-            }
-        }
+    // .fillter {
+    //     display: flex;
+    //      :nth-child(0) {
+    //         background-color: grey;
+    //     }
+    //     .fillterItem {
+    //         width: 150px;
+    //         height: 50px;
+    //         display: flex;
+    //         justify-content: center;
+    //         align-items: center;
+    //         a {
+    //             text-decoration: none;
+    //         }
+    //     }
+    // }
+    .datagrid {
+        height: 560px;
+        width: 1200px;
     }
     .datatableTitle {
         width: 100%;

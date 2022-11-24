@@ -1,7 +1,8 @@
 import { all } from "redux-saga/effects";
 import * as serviceManageSaga from "./ServiceManageSaga";
 import * as locationManageSaga from "./LocationManageSaga";
-import * as login from "./LoginSaga"
+import * as login from "./LoginSaga";
+import * as bookingManageSaga from "./BookingManageSaga";
 export default function* rootSaga() {
   yield all([
     serviceManageSaga.followActionGetAllHotelService(),
@@ -12,7 +13,7 @@ export default function* rootSaga() {
     locationManageSaga.followActionCreateLocation(),
     locationManageSaga.followActionDeleteLocation(),
     locationManageSaga.followActionUpdateLocation(),
-    login.followActionLogin()
-
+    login.followActionLogin(),
+    bookingManageSaga.followActionGetAllBooing(),
   ]);
 }

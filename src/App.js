@@ -13,6 +13,7 @@ import ServicePage from "./pages/ServicePage/ServicePage";
 import { loadingState$ } from "./redux/selectors/LoadingSelector";
 import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
+import CheckInPage from "./pages/CheckInPage/CheckInPage";
 function App() {
   let isLoading = useSelector(loadingState$);
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function App() {
           <Route exact path="/greeting" element={<GreetingPage />} />
           <Route exact path="/listBooking" element={<ListBookingPage />} />
           <Route exact path="/listRoom" element={<ListRoomPage />} />
+          <Route exact path="/checkIn" element={<CheckInPage />} />
         </Routes>
       </BrowserRouter>
     </div>
