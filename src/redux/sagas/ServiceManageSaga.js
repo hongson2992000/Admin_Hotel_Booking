@@ -7,8 +7,10 @@ import {
 import { call, delay, put, takeLatest } from "redux-saga/effects";
 import { serviceManage } from "../../services/ServiceManage";
 
+
 function* getAllHotelService(action) {
   try {
+    console.log("Action",action)
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -25,6 +27,7 @@ function* getAllHotelService(action) {
     yield put({
       type: HIDE_LOADING,
     });
+    // navigate("/location")
   } catch (error) {
     yield put(actions.getHotelService.getHotelServiceFailure(error));
   }

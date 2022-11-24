@@ -3,13 +3,15 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import "./Navbar.scss";
+import { useSelector } from "react-redux";
+import { userState$ } from "../../redux/selectors/UserSelector";
 export default function Navbar() {
   const menuRef = useRef();
   const imgRef = useRef();
 
   const [open, setOpen] = useState(false);
   const Menus = ["Đăng xuất"];
-
+  const userInfo = useSelector(userState$)
   // window.addEventListener("click", (e) => {
   //   if (e.target !== menuRef.current && e.target !== imgRef) {
   //     setOpen(false);
@@ -34,7 +36,7 @@ export default function Navbar() {
               className="avatar"
             />
             <span ref={imgRef} className="username">
-              Thức Nguyễn
+              {userInfo.lastName} {userInfo.firstName}
             </span>
             <KeyboardArrowDownIcon className="text-gray-400 text-14" />
           </div>

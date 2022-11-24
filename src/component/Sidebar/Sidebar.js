@@ -9,96 +9,147 @@ import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { Link, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userState$ } from "../../redux/selectors/UserSelector";
+import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
 export default function Sidebar() {
-  return (
-    <div className="sidebar">
-      <div className="top">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">5 Men Hotel</span>
-        </Link>
-      </div>
-      <hr />
-      <div className="center">
-        <ul>
-          <li>
-            <NavLink
-              to="/overview"
-              style={{ textDecoration: "none" }}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <DashboardIcon className="icon" />
-              <span>Tổng Quan</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/service"
-              style={{ textDecoration: "none" }}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <RoomServiceIcon className="icon" />
-              <span>Dịch Vụ</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/location"
-              style={{ textDecoration: "none" }}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <FmdGoodIcon className="icon" />
-              <span>Địa Điểm</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/news"
-              style={{ textDecoration: "none" }}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <CampaignIcon className="icon" />
-              <span>Tin Tức</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/greeting"
-              style={{ textDecoration: "none" }}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <EmojiPeopleIcon className="icon" />
-              <span>Lời Chào</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/listBooking"
-              style={{ textDecoration: "none" }}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <FormatListBulletedIcon className="icon" />
-              <span>Danh Sách Booking</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/listRoom"
-              style={{ textDecoration: "none" }}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <MeetingRoomIcon className="icon" />
-              <span>Sơ Đồ Phòng</span>
-            </NavLink>
-          </li>
-        </ul>
-      </div>
-      <hr />
-      <div className="bottom">
-        <Link to="/overview" style={{ textDecoration: "none" }}>
-          <LogoutIcon className="icon" />
-          <span>Đăng Xuất</span>
-        </Link>
-      </div>
-    </div>
-  );
+  const userInfo = useSelector(userState$);
+  const renderByAuth = () => {
+    if (userInfo.userRole === USER_ROLE.ADMIN) {
+      return (
+        <div className="sidebar">
+          <div className="top">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <span className="logo">5 Men Hotel</span>
+            </Link>
+          </div>
+          <hr />
+          <div className="center">
+            <ul>
+              <li>
+                <NavLink
+                  to="/overview"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <DashboardIcon className="icon" />
+                  <span>Tổng Quan</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/service"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <RoomServiceIcon className="icon" />
+                  <span>Dịch Vụ</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/location"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <FmdGoodIcon className="icon" />
+                  <span>Địa Điểm</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/news"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <CampaignIcon className="icon" />
+                  <span>Tin Tức</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/greeting"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <EmojiPeopleIcon className="icon" />
+                  <span>Lời Chào</span>
+                </NavLink>
+              </li>
+              {/* <li>
+           <NavLink
+             to="/listBooking"
+             style={{ textDecoration: "none" }}
+             className={({ isActive }) => (isActive ? "active" : "")}
+           >
+             <FormatListBulletedIcon className="icon" />
+             <span>Danh Sách Booking</span>
+           </NavLink>
+         </li> */}
+              {/* <li>
+           <NavLink
+             to="/listRoom"
+             style={{ textDecoration: "none" }}
+             className={({ isActive }) => (isActive ? "active" : "")}
+           >
+             <MeetingRoomIcon className="icon" />
+             <span>Sơ Đồ Phòng</span>
+           </NavLink>
+         </li> */}
+            </ul>
+          </div>
+          <hr />
+          <div className="bottom">
+            <Link to="/overview" style={{ textDecoration: "none" }}>
+              <LogoutIcon className="icon" />
+              <span>Đăng Xuất</span>
+            </Link>
+          </div>
+        </div>
+      );
+    } else if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
+      return (
+        <div className="sidebar">
+          <div className="top">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <span className="logo">5 Men Hotel</span>
+            </Link>
+          </div>
+          <hr />
+          <div className="center">
+            <ul>
+              <li>
+                <NavLink
+                  to="/listBooking"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <FormatListBulletedIcon className="icon" />
+                  <span>Danh Sách Booking</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/listRoom"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <MeetingRoomIcon className="icon" />
+                  <span>Sơ Đồ Phòng</span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+          <hr />
+          <div className="bottom">
+            <Link to="/overview" style={{ textDecoration: "none" }}>
+              <LogoutIcon className="icon" />
+              <span>Đăng Xuất</span>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+  };
+  return <div>{renderByAuth()}</div>;
 }

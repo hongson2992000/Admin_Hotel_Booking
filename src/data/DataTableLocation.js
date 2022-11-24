@@ -1,37 +1,4 @@
-export const userColumns = [
-    { field: "id", headerName: "ID", width: 200 },
-    {
-      field: "username",
-      headerName: "Tên Địa Điểm",
-      width: 300,
-    //   renderCell: (params) => {
-    //     return (
-    //       <div className="cellWithImg">
-    //         <img className="cellImg" src={params.row.img} alt="avatar" />
-    //         {params.row.username}
-    //       </div>
-    //     );
-    //   },
-    },
-    
-    {
-      field: "img",
-      headerName: "Hình Ảnh",
-      width: 250,
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 250,
-      renderCell: (params) => {
-        return (
-          <div className={`cellWithStatus ${params.row.status}`}>
-            {params.row.status}
-          </div>
-        );
-      },
-    },
-  ];
+
   
   //temporary data
   export const userRows = [

@@ -4,7 +4,7 @@ export const getType = (reduxAction) => {
   return reduxAction().type;
 };
 export const getHotelService = createActions({
-  getHotelServiceRequest: undefined,
+  getHotelServiceRequest: (payload,navigate)=>payload,
   getHotelServiceSuccess: (payload) => payload,
   getHotelServiceFailure: (err) => err,
 });

@@ -18,7 +18,6 @@ export default function UpdateServiceModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalUpdateServiceState$);
   const serviceInfo = useSelector(serviceItemManageState$);
-  console.log("Giá Trị Store", serviceInfo);
   const getCurrentDate = () => {
     let showDate = new Date();
     let displayDate =
@@ -67,7 +66,6 @@ export default function UpdateServiceModal() {
     status: serviceInfo.status,
     serviceCategory_Id: serviceInfo.serviceCategory_Id,
   });
-  console.log("Giá trị state", dataService);
 
   const onClose = useCallback(() => {
     dispatch(hideModalUpdate());
@@ -123,7 +121,6 @@ export default function UpdateServiceModal() {
     },
     enableReinitialize: true,
   });
-  console.log("Giá Trị Form", formik.values);
   const body = (
     <div className="paper" id="simple-modal-title">
       <h2>Chỉnh sửa dịch vụ</h2>
@@ -143,7 +140,7 @@ export default function UpdateServiceModal() {
               required
               id="name"
               name="name"
-              value={formik.values.name}
+              value={formik.values.name || ""}
               onChange={formik.handleChange}
             />
           </div>
@@ -155,7 +152,7 @@ export default function UpdateServiceModal() {
               required
               id="price"
               name="price"
-              value={formik.values.price}
+              value={formik.values.price || ""}
               onChange={formik.handleChange}
             />
           </div>
@@ -166,7 +163,7 @@ export default function UpdateServiceModal() {
               required
               id="serviceCategory_Id"
               name="serviceCategory_Id"
-              value={formik.values.serviceCategory_Id}
+              value={formik.values.serviceCategory_Id || ""}
               onChange={formik.handleChange}
             >
               <MenuItem value={1}>Thức ăn</MenuItem>
@@ -185,7 +182,7 @@ export default function UpdateServiceModal() {
               maxRows={10}
               id="description"
               name="description"
-              value={formik.values.description}
+              value={formik.values.description || ""}
               onChange={formik.handleChange}
             />
           </div>
@@ -198,7 +195,7 @@ export default function UpdateServiceModal() {
                   required
                   id="createDate"
                   name="createDate"
-                  value={formik.values.createDate}
+                  value={formik.values.createDate || ""}
                   onChange={formik.handleChange}
                   disabled
                 />
@@ -210,7 +207,7 @@ export default function UpdateServiceModal() {
                   required
                   id="createBy"
                   name="createBy"
-                  value={formik.values.createBy}
+                  value={formik.values.createBy || ""}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -221,7 +218,7 @@ export default function UpdateServiceModal() {
                   required
                   id="updateDate"
                   name="updateDate"
-                  value={formik.values.updateDate}
+                  value={formik.values.updateDate || ""}
                   onChange={formik.handleChange}
                   disabled
                 />
@@ -233,7 +230,7 @@ export default function UpdateServiceModal() {
                   required
                   id="updateBy"
                   name="updateBy"
-                  value={formik.values.updateBy}
+                  value={formik.values.updateBy || ""}
                   onChange={formik.handleChange}
                 />
               </div>
