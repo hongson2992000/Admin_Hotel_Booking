@@ -35,6 +35,8 @@ function* login(action) {
           action.payload.navigate("/overview");
         } else if (userInfo.data.userRole === USER_ROLE.HOTEL_MANAGE) {
           action.payload.navigate("/listBooking");
+        } else if (userInfo.data.userRole === USER_ROLE.RESTAURANT) {
+          action.payload.navigate("/listRoom");
         }
       }
     }
