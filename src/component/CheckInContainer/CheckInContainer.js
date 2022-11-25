@@ -44,7 +44,7 @@ export default function CheckInContainer() {
     },
   });
   let [dataUser, setDataUser] = useState([]);
-  let handleDelete = () => {};
+  let handleDelete = () => { };
   let infoUserColumns = useMemo(
     () => [
       {
@@ -385,7 +385,7 @@ export default function CheckInContainer() {
 
         <div className="buttonCheckIn">
           {infoBooking.numOfAdult + infoBooking.numOfChildren <=
-          infoUser.length ? (
+            infoUser.length ? (
             <button onClick={openCreateServiceModal} className="link" disabled>
               Thêm Khách +
             </button>

@@ -1,14 +1,30 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import "./Room.scss";
 import RoomServiceIcon from "@mui/icons-material/RoomService";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Room({ data }) {
   const MenusEmpty = [{ name: "Tạo đặt phòng", id: 0 }];
   const MenusNotEmpty = [{ name: "Xem thông tin khách", id: 0 }, { name: "Gửi thông báo", id: 1 }, { name: "Check out", id: 2 }];
   const [openNotEmpty, setOpenNotEmpty] = useState({ id: 0, display: false });
   const [openEmpty, setOpenEmpty] = useState({ id: 0, display: false });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+  const handleFillInfoRoom = useCallback(
+    (id) => {
+      // const infoBooking = listBooking.find(
+      //   (bookingItem) => bookingItem.id === id
+      // );
+      // dispatch(actions.getBookingById.getBookingByIdRequest(infoBooking));
+      navigate("/checkCustomerInfo")
+    },
+    [navigate, dispatch]
+  );
 
   return (
     <div className="RoomItem row">
@@ -39,7 +55,7 @@ export default function Room({ data }) {
                     </div>
                     <div onClick={() => setOpenNotEmpty({ id: item.id })}>
                       {MenusNotEmpty.map((menu) => (
-                        <span onClick={() => console.log(i + ` ${menu.id}`)} className="menuhover" key={menu.id}>
+                        <span onClick={() => handleFillInfoRoom()} className="menuhover" key={menu.id}>
                           {menu.name}
                         </span>))}
                     </div>
