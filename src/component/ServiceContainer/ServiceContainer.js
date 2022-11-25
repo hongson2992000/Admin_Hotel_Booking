@@ -137,7 +137,6 @@ const ServiceContainer = () => {
       let newService = Object.assign({}, service, {
         serviceCategory_Id: service.serviceCategory.id,
       });
-
       dispatch(
         actions.filInfoHotelService.filInfoHotelServiceRequest(newService)
       );

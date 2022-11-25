@@ -105,7 +105,7 @@ export default function LoginPage() {
           </div>
         </form>
       </div>
-      <div className="login-right"><img src={image} /></div>
+      {/* <div className="login-right"><img src={image} /></div> */}
     </div>
   );
 }

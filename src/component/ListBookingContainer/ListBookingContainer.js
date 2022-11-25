@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import "./ListBookingContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import { userColumns, userRows } from "../../data/DataTableBooking";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bookingManageState$ } from "../../redux/selectors/BookingManageSelector";
@@ -12,10 +11,11 @@ import * as actions from "../../redux/actions/BookingManageAction";
 import moment from "moment";
 export default function ListBookingContainer() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(actions.getAllBooking.getAllBookingRequest());
   }, [dispatch]);
-  const [data, setData] = useState(userRows);
+
   const [value, setValue] = React.useState("1");
 
   const listBooking = useSelector(bookingManageState$);
@@ -23,9 +23,17 @@ export default function ListBookingContainer() {
   const handleChange = (e, val) => {
     setValue(val);
   };
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  const handleFillInfoCheckIn = useCallback(
+    (id) => {
+      const infoBooking = listBooking.find(
+        (bookingItem) => bookingItem.id === id
+      );
+      dispatch(actions.getBookingById.getBookingByIdRequest(infoBooking));
+      navigate("/checkIn")
+    },
+    [navigate,listBooking, dispatch]
+  );
+
   const renderTypeRoom = (roomTypeId) => {
     let roomType = "";
     switch (roomTypeId) {
@@ -58,37 +66,54 @@ export default function ListBookingContainer() {
     });
     return arrNew;
   };
-  const renderArrByDate = () => {
+  const renderArrByDateToCheckIn = () => {
+    let arrNew = [];
     let currentDate = moment().format("DD/MM/YYYY");
-    //parser string to date to compare
-    // console.log("Date",date);
-    // console.log("Check Af9ter", moment().isAfter(date));
-    // console.log("Check Before", moment().isBefore(date));
-    // let displayDate =
-    //   showDate.getDate() +
-    //   "/" +
-    //   (showDate.getMonth() + 1) +
-    //   "/" +
-    //   showDate.getFullYear();
-    let arrivalDate = new Date("24/11/2022").getTime();
-    let currrDate = new Date(currentDate.toString()).getTime();
-    console.log("arrivalDate",arrivalDate)
-    console.log("currrDate",currrDate)
-    if (arrivalDate === currrDate) {
-      return true;
-    }
-    // listBooking.forEach((item) => {
-    //   let sub = item.arrivalDate;
-    //   let nDate = sub.substring(0,10);
-      
-    //   // let currDate = new Date(currentDate.toString()).getTime()
-    //   console.log("DateTime", currentDate);
-    //   console.log("DateE", arrivalDate);
-      
-    // });
-    return false;
+    let listArrivalDate = listBooking.filter(
+      (item) => item.arrivalDate.substring(0, 10) === currentDate
+    );
+    listArrivalDate.forEach((item) => {
+      arrNew.push({
+        id: item.id,
+        name:
+          item.customer?.firstName +
+          " " +
+          item.customer?.middleName +
+          " " +
+          item.customer?.lastName,
+        roomType: renderTypeRoom(item.roomTypeId),
+        requestService: "Đưa Đón Sân Bay",
+        arrivalDate: item.arrivalDate,
+        departureDate: item.departureDate,
+      });
+    });
+    return arrNew;
   };
-  console.log("Thanh An", renderArrByDate());
+  const renderArrByDateToCheckOut = () => {
+    let arrNew = [];
+    let currentDate = moment().format("DD/MM/YYYY");
+    let listArrivalDate = listBooking.filter(
+      (item) => item.departureDate.substring(0, 10) === currentDate
+    );
+    listArrivalDate.forEach((item) => {
+      arrNew.push({
+        id: item.id,
+        name:
+          item.customer?.firstName +
+          " " +
+          item.customer?.middleName +
+          " " +
+          item.customer?.lastName,
+        roomType: renderTypeRoom(item.roomTypeId),
+        requestService: "Đưa Đón Sân Bay",
+        arrivalDate: item.arrivalDate,
+        departureDate: item.departureDate,
+      });
+    });
+    return arrNew;
+  };
+
+  // console.log("Thanh An", renderArrByDate());
   const allBooking = useMemo(
     () => [
       {
@@ -130,7 +155,11 @@ export default function ListBookingContainer() {
         headerName: "Ngày Đến",
         width: 200,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.arrivalDate}</div>;
+          return (
+            <div className="cellWithImg">
+              {params.row.arrivalDate.substring(0, 10)}
+            </div>
+          );
         },
       },
       {
@@ -138,7 +167,11 @@ export default function ListBookingContainer() {
         headerName: "Ngày Đi",
         width: 200,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.departureDate}</div>;
+          return (
+            <div className="cellWithImg">
+              {params.row.departureDate.substring(0, 10)}
+            </div>
+          );
         },
       },
     ],
@@ -146,93 +179,123 @@ export default function ListBookingContainer() {
   );
   const bookingArriveInDay = useMemo(
     () => [
-      { field: "id", headerName: "Mã Đặt Phòng", width: 200 },
       {
-        field: "username",
-        headerName: "Tên Khách Đặt",
-        width: 300,
+        field: "id",
+        headerName: "Mã Đặt Phòng",
+        width: 150,
         renderCell: (params) => {
-          return (
-            <div className={`cellWithStatus ${params.row.status}`}>
-              {params.row.status}
-            </div>
-          );
+          return <div className="cellWithImg">{params.row.id}</div>;
         },
       },
 
       {
-        field: "img",
+        field: "name",
+        headerName: "Tên Khách Đặt",
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.name}</div>;
+        },
+      },
+
+      {
+        field: "roomType",
         headerName: "Loại Phòng",
-        width: 250,
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.roomType}</div>;
+        },
       },
       {
-        field: "status",
+        field: "requestService",
         headerName: "Dịch Vụ Đi Kèm",
-        width: 250,
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.requestService}</div>;
+        },
+      },
+      {
+        field: "arrivalDate",
+        headerName: "Ngày Đến",
+        width: 200,
         renderCell: (params) => {
           return (
-            <div className={`cellWithStatus ${params.row.status}`}>
-              {params.row.status}
+            <div className="cellWithImg">
+              {params.row.arrivalDate.substring(0, 10)}
             </div>
           );
         },
       },
       {
-        field: "status",
-        headerName: "Ngày Đến",
-        width: 250,
-        // renderCell: (params) => {
-        //   return (
-        //     <div className={`cellWithStatus ${params.row.status}`}>
-        //       {params.row.status}
-        //     </div>
-        //   );
-        // },
-      },
-      {
-        field: "status",
+        field: "departureDate",
         headerName: "Ngày Đi",
-        width: 250,
-        // renderCell: (params) => {
-        //   return (
-        //     <div className={`cellWithStatus ${params.row.status}`}>
-        //       {params.row.status}
-        //     </div>
-        //   );
-        // },
+        width: 200,
+        renderCell: (params) => {
+          return (
+            <div className="cellWithImg">
+              {params.row.departureDate.substring(0, 10)}
+            </div>
+          );
+        },
       },
     ],
     []
   );
   const bookingLeaveInDay = useMemo(
     () => [
-      { field: "id", headerName: "Mã Đặt Phòng", width: 200 },
       {
-        field: "username",
-        headerName: "Tên Khách Đặt",
-        width: 300,
+        field: "id",
+        headerName: "Mã Đặt Phòng",
+        width: 150,
         renderCell: (params) => {
-          return (
-            <div className={`cellWithStatus ${params.row.status}`}>
-              {params.row.status}
-            </div>
-          );
+          return <div className="cellWithImg">{params.row.id}</div>;
         },
       },
 
       {
-        field: "img",
+        field: "name",
+        headerName: "Tên Khách Đặt",
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.name}</div>;
+        },
+      },
+
+      {
+        field: "roomType",
         headerName: "Loại Phòng",
-        width: 250,
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.roomType}</div>;
+        },
       },
       {
-        field: "status",
-        headerName: "Status",
-        width: 250,
+        field: "requestService",
+        headerName: "Dịch Vụ Đi Kèm",
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.requestService}</div>;
+        },
+      },
+      {
+        field: "arrivalDate",
+        headerName: "Ngày Đến",
+        width: 200,
         renderCell: (params) => {
           return (
-            <div className={`cellWithStatus ${params.row.status}`}>
-              {params.row.status}
+            <div className="cellWithImg">
+              {params.row.arrivalDate.substring(0, 10)}
+            </div>
+          );
+        },
+      },
+      {
+        field: "departureDate",
+        headerName: "Ngày Đi",
+        width: 200,
+        renderCell: (params) => {
+          return (
+            <div className="cellWithImg">
+              {params.row.departureDate.substring(0, 10)}
             </div>
           );
         },
@@ -240,7 +303,7 @@ export default function ListBookingContainer() {
     ],
     []
   );
-  const actionColumn = [
+  const actionColumnCheckIn = [
     {
       field: "action",
       headerName: "Hành Động",
@@ -248,69 +311,45 @@ export default function ListBookingContainer() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
+            {/* <Link to="/users/test" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
-            </Link>
+            </Link> */}
             <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              className="checkInButton"
+              onClick={() => handleFillInfoCheckIn(params.row.id)}
             >
-              Delete
+              Check In
             </div>
           </div>
         );
       },
     },
   ];
-  // const updateIndexTable = (indexTable) => {
-  //   if (indexTable === 1) {
-  //     setIndexTable(1);
-  //   } else if (indexTable === 2) {
-  //     setIndexTable(2);
-  //   } else {
-  //     setIndexTable(3);
-  //   }
-  // };
-  // const renderInfoTable = () => {
-  //   if (indexTable === 1) {
-  //     return (
-  //       <DataGrid
-  //         className="datagrid"
-  //         rows={data}
-  //         columns={bookingArriveInDay.concat(actionColumn)}
-  //         pageSize={9}
-  //         rowsPerPageOptions={[9]}
-  //         checkboxSelection
-  //       />
-  //     );
-  //   } else if (indexTable === 2) {
-  //     return (
-  //       <DataGrid
-  //         className="datagrid"
-  //         rows={data}
-  //         columns={bookingArriveInDay.concat(actionColumn)}
-  //         pageSize={9}
-  //         rowsPerPageOptions={[9]}
-  //         checkboxSelection
-  //       />
-  //     );
-  //   } else {
-  //     return (
-  //       <DataGrid
-  //         className="datagrid"
-  //         rows={data}
-  //         columns={bookingLeaveInDay.concat(actionColumn)}
-  //         pageSize={9}
-  //         rowsPerPageOptions={[9]}
-  //         checkboxSelection
-  //       />
-  //     );
-  //   }
-  // };
-
+  const actionColumnCheckOut = [
+    {
+      field: "action",
+      headerName: "Hành Động",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            {/* <Link to="/users/test" style={{ textDecoration: "none" }}>
+              <div className="viewButton">View</div>
+            </Link> */}
+            <div
+              className="checkInButton"
+              onClick={() => handleFillInfoCheckIn(params.row.id)}
+            >
+              Check Out
+            </div>
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <div className="datatable">
-      <div className="datatableTitle">Danh sách Booking</div>
+      <div className="datatableTitle">Danh sách booking</div>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -332,8 +371,8 @@ export default function ListBookingContainer() {
         <TabPanel value="2">
           <DataGrid
             className="datagrid"
-            rows={data}
-            columns={bookingArriveInDay.concat(actionColumn)}
+            rows={renderArrByDateToCheckIn()}
+            columns={bookingArriveInDay.concat(actionColumnCheckIn)}
             pageSize={9}
             rowsPerPageOptions={[9]}
             checkboxSelection
@@ -342,8 +381,8 @@ export default function ListBookingContainer() {
         <TabPanel value="3">
           <DataGrid
             className="datagrid"
-            rows={data}
-            columns={bookingLeaveInDay.concat(actionColumn)}
+            rows={renderArrByDateToCheckOut()}
+            columns={bookingLeaveInDay.concat(actionColumnCheckOut)}
             pageSize={9}
             rowsPerPageOptions={[9]}
             checkboxSelection
