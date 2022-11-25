@@ -3,6 +3,7 @@ import * as serviceManageSaga from "./ServiceManageSaga";
 import * as locationManageSaga from "./LocationManageSaga";
 import * as login from "./LoginSaga";
 import * as bookingManageSaga from "./BookingManageSaga";
+import * as roomManageSaga from "./RoomManageSaga";
 export default function* rootSaga() {
   yield all([
     serviceManageSaga.followActionGetAllHotelService(),
@@ -15,5 +16,6 @@ export default function* rootSaga() {
     locationManageSaga.followActionUpdateLocation(),
     login.followActionLogin(),
     bookingManageSaga.followActionGetAllBooing(),
+    roomManageSaga.followActionGetAllRoom()
   ]);
 }

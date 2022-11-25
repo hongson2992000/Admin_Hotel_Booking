@@ -5,11 +5,13 @@ import ModalReducer from "./ModalReducer";
 import LocationManageReducer from "./LocationManageReducer"
 import LoginReducer from "./LoginReducer"
 import BookingManageReducer from "./BookingManageReducer"
+import RoomManageReducer from "./RoomManageReducer"
 export default combineReducers({
   LoadingReducer,
   ServiceManageReducer,
   ModalReducer,
   LocationManageReducer,
   LoginReducer,
-  BookingManageReducer
+  BookingManageReducer,
+  RoomManageReducer
 });
