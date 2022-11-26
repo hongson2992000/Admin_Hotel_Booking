@@ -50,11 +50,11 @@ export default function Navbar() {
             <div ref={menuRef} className="menu shadow-lg">
               {Menus.map((menu) => (
                 <span
-                  onClick={() => setOpen(false)}
+                  onClick={() => handleLogout()}
                   className="p-2 text-lg cursor-pointer rounded"
                   key={menu}
                 >
-                  {menu}
+                  <LogoutIcon className="text-gray-400 text-14" /> {menu}
                 </span>
               ))}
             </div>

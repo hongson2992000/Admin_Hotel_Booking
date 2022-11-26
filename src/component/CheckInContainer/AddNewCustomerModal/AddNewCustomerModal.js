@@ -33,24 +33,31 @@ export default function AddNewCustomerModal() {
   );
   const renderIdRandom = () => {
     let id = new Date().getTime();
-    setId(id)
+    setId(id);
     return id;
   };
-  let [id , setId] =useState(new Date().getTime())
+  let [id, setId] = useState(new Date().getTime());
   const formik = useFormik({
     initialValues: {
       id: id,
-      name: "",
-      phoneNumber: "",
-      email: "",
-      idNo: "",
-      gender: "",
       birthDate: "",
+      createBy: "",
+      createDate: "",
+      email: "",
+      firstName: "",
+      gender: 1,
+      phoneNumber: "",
+      lastName: "",
+      middleName: "",
+      passportNo: "",
+      idNo: "",
+      updateDate: "",
+      lastModifyBy:""
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitInfoUser(values);
       resetForm({ values: "" });
-      renderIdRandom()
+      renderIdRandom();
     },
     enableReinitialize: true,
   });
@@ -66,18 +73,18 @@ export default function AddNewCustomerModal() {
         onSubmit={formik.handleSubmit}
       >
         <div className="row">
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Tên khách</InputLabel>
             <TextField
               className="title"
               required
-              id="name"
-              name="name"
-              value={formik.values.name}
+              id="lastName"
+              name="lastName"
+              value={formik.values.lastName}
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Số điện thoại</InputLabel>
             <TextField
               type={"number"}
@@ -89,7 +96,7 @@ export default function AddNewCustomerModal() {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Email</InputLabel>
             <TextField
               className="title"
@@ -100,7 +107,7 @@ export default function AddNewCustomerModal() {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Số Hộ Chiếu/CCCD</InputLabel>
             <TextField
               className="title"
@@ -111,18 +118,21 @@ export default function AddNewCustomerModal() {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Giới Tính</InputLabel>
-            <TextField
+            <Select
               className="title"
               required
               id="gender"
               name="gender"
               value={formik.values.gender}
               onChange={formik.handleChange}
-            />
+            >
+              <MenuItem value={1}>Nam</MenuItem>
+              <MenuItem value={0}>Nữ</MenuItem>
+            </Select>
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Ngày Sinh</InputLabel>
             <TextField
               className="title"

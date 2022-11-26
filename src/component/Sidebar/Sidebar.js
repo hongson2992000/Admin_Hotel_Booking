@@ -151,7 +151,11 @@ export default function Sidebar() {
           </div>
         </div>
       );
+<<<<<<< Updated upstream
     } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
+=======
+    }else if(userInfo.userRole === USER_ROLE.HOUSEKEEPING){
+>>>>>>> Stashed changes
       return (
         <div className="sidebar">
           <div className="top">
@@ -164,22 +168,48 @@ export default function Sidebar() {
             <ul>
               <li>
                 <NavLink
+<<<<<<< Updated upstream
                   to="/listRoom"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <MeetingRoomIcon className="icon" />
+=======
+                  to="/listRoomStaff"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <FormatListBulletedIcon className="icon" />
+>>>>>>> Stashed changes
                   <span>Sơ Đồ Phòng</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink
+<<<<<<< Updated upstream
                   to="/listrequestService"
+=======
+                  to="/listRequestServiceStaff"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <MeetingRoomIcon className="icon" />
+                  <span>Danh Sách Yêu Cầu Dịch Vụ</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/listRequestServiceStaff"
+>>>>>>> Stashed changes
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <MeetingRoomIcon className="icon" />
+<<<<<<< Updated upstream
                   <span>List Request</span>
+=======
+                  <span>Danh Sách Yêu Cầu Dịch Vụ</span>
+>>>>>>> Stashed changes
                 </NavLink>
               </li>
             </ul>

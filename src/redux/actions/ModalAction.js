@@ -14,4 +14,8 @@ export const showModalAddUser = createAction("SHOW_ADD_USER_MODAL");
 export const hideModalAddUser = createAction("HIDE_ADD_USER_MODAL");
 
 export const showModalSuccess = createAction("SHOW_ADD_USER_MODAL");
+<<<<<<< Updated upstream
 export const hideModalSuccess = createAction("HIDE_ADD_USER_MODAL");
+=======
+export const hideModalSuccess = createAction("HIDE_ADD_USER_MODAL");
+>>>>>>> Stashed changes
