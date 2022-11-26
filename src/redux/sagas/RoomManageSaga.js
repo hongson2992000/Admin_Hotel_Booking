@@ -16,7 +16,7 @@ function* getAllRoom(action) {
     });
     yield delay(1000);
     let listRoom = yield call(() => {
-      return roomManage.getAllHotelService();
+      return roomManage.getAllRoom();
     });
     console.log(listRoom.data);
     if (listRoom.status === STATUS_CODE.SUCCESS) {

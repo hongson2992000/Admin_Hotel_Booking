@@ -4,12 +4,14 @@ import {
   getBookingById,
   addNewUserBooking,
   getInfoUserBooking,
+  checkInRoom,
 } from "../actions/BookingManageAction";
 
 const initialState = {
   arrBooking: [],
   bookingItem: {},
   userInfoBooking: [],
+  arrCheckIn: [],
 };
 export default function BookingManageReducer(state = initialState, action) {
   switch (action.type) {
@@ -38,9 +40,22 @@ export default function BookingManageReducer(state = initialState, action) {
       };
     case getType(addNewUserBooking.addNewUserBookingRequest):
       let bookingItemNew = [...state.userInfoBooking];
-      bookingItemNew.push(action.payload)
-      state.userInfoBooking = bookingItemNew
+      bookingItemNew.push(action.payload);
+      state.userInfoBooking = bookingItemNew;
       return { ...state };
+    case getType(checkInRoom.checkInRoomRequest):
+      return {
+        ...state,
+      };
+    case getType(checkInRoom.checkInRoomSuccess):
+      return {
+        ...state,
+        arrCheckIn: action.payload,
+      };
+    case getType(checkInRoom.checkInRoomFailure):
+      return {
+        ...state,
+      };
     default:
       return state;
   }

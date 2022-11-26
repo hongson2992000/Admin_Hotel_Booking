@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bookingManageState$ } from "../../redux/selectors/BookingManageSelector";
 import * as actions from "../../redux/actions/BookingManageAction";
+import * as actionRoom from "../../redux/actions/RoomManageAction";
 import moment from "moment";
 export default function ListBookingContainer() {
   const dispatch = useDispatch();
@@ -29,11 +30,17 @@ export default function ListBookingContainer() {
         (bookingItem) => bookingItem.id === id
       );
       dispatch(actions.getBookingById.getBookingByIdRequest(infoBooking));
-      navigate("/checkIn")
+      dispatch(actionRoom.getAllRoom.getAllRoomRequest());
+      navigate("/checkIn");
     },
-    [navigate,listBooking, dispatch]
+    [navigate, listBooking, dispatch]
   );
-
+  const handleCheckOut = useCallback(
+    (id) => {
+      dispatch(actions.checkOutRoom.checkOutRoomRequest({ id, navigate }));
+    },
+    [navigate, dispatch]
+  );
   const renderTypeRoom = (roomTypeId) => {
     let roomType = "";
     switch (roomTypeId) {
@@ -113,7 +120,6 @@ export default function ListBookingContainer() {
     return arrNew;
   };
 
-  // console.log("Thanh An", renderArrByDate());
   const allBooking = useMemo(
     () => [
       {
@@ -338,7 +344,7 @@ export default function ListBookingContainer() {
             </Link> */}
             <div
               className="checkInButton"
-              onClick={() => handleFillInfoCheckIn(params.row.id)}
+              onClick={() => handleCheckOut(params.row.id)}
             >
               Check Out
             </div>

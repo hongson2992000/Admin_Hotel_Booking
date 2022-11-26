@@ -8,6 +8,8 @@ import CampaignIcon from "@mui/icons-material/Campaign";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import PersonIcon from '@mui/icons-material/Person';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
@@ -76,26 +78,6 @@ export default function Sidebar() {
                   <span>Lời Chào</span>
                 </NavLink>
               </li>
-              {/* <li>
-           <NavLink
-             to="/listBooking"
-             style={{ textDecoration: "none" }}
-             className={({ isActive }) => (isActive ? "active" : "")}
-           >
-             <FormatListBulletedIcon className="icon" />
-             <span>Danh Sách Booking</span>
-           </NavLink>
-         </li> */}
-              {/* <li>
-           <NavLink
-             to="/listRoom"
-             style={{ textDecoration: "none" }}
-             className={({ isActive }) => (isActive ? "active" : "")}
-           >
-             <MeetingRoomIcon className="icon" />
-             <span>Sơ Đồ Phòng</span>
-           </NavLink>
-         </li> */}
             </ul>
           </div>
           <hr />
@@ -138,6 +120,26 @@ export default function Sidebar() {
                   <span>Sơ Đồ Phòng</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/listRequestServiceStaff"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <PersonIcon className="icon" />
+                  <span>Khách Hàng</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/listRequestServiceStaff"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <AccessAlarmIcon className="icon" />
+                  <span>Báo Thức</span>
+                </NavLink>
+              </li>
             </ul>
           </div>
           <hr />
@@ -149,7 +151,7 @@ export default function Sidebar() {
           </div>
         </div>
       );
-    } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
+    }else if(userInfo.userRole === USER_ROLE.HOUSEKEEPING){
       return (
         <div className="sidebar">
           <div className="top">
@@ -162,25 +164,34 @@ export default function Sidebar() {
             <ul>
               <li>
                 <NavLink
-                  to="/listRoom"
+                  to="/listRoomStaff"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
-                  <MeetingRoomIcon className="icon" />
+                  <FormatListBulletedIcon className="icon" />
                   <span>Sơ Đồ Phòng</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/listrequestService"
+                  to="/listRequestServiceStaff"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <MeetingRoomIcon className="icon" />
-                  <span>List Request</span>
+                  <span>Danh Sách Yêu Cầu Dịch Vụ</span>
                 </NavLink>
               </li>
-
+              <li>
+                <NavLink
+                  to="/listRequestServiceStaff"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <MeetingRoomIcon className="icon" />
+                  <span>Danh Sách Yêu Cầu Dịch Vụ</span>
+                </NavLink>
+              </li>
             </ul>
           </div>
           <hr />

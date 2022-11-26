@@ -16,6 +16,8 @@ export default function* rootSaga() {
     locationManageSaga.followActionUpdateLocation(),
     login.followActionLogin(),
     bookingManageSaga.followActionGetAllBooing(),
-    roomManageSaga.followActionGetAllRoom()
+    roomManageSaga.followActionGetAllRoom(),
+    bookingManageSaga.followActionCheckIn(),
+    bookingManageSaga.followActionCheckOut()
   ]);
 }

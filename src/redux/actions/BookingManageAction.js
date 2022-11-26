@@ -23,3 +23,14 @@ export const addNewUserBooking = createActions({
   getBookingByIdSuccess: (payload) => payload,
   getBookingByIdFailure: (err) => err,
 });
+
+export const checkInRoom = createActions({
+  checkInRoomRequest: (payload) => payload,
+  checkInRoomSuccess: (payload) => payload,
+  checkInRoomFailure: (err) => err,
+});
+export const checkOutRoom = createActions({
+  checkOutRoomRequest: (payload) => payload,
+  checkOutRoomSuccess: (payload) => payload,
+  checkOutRoomFailure: (err) => err,
+});

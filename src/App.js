@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loading from "./component/Loading/Loading";
 import GreetingPage from "./pages/GreetingPage/GreetingPage";
 import HomePage from "./pages/HomePage/HomePage";
@@ -10,14 +9,21 @@ import LocationPage from "./pages/LocationePage/LocationPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import NewsPage from "./pages/NewsPage/NewsPage";
 import ServicePage from "./pages/ServicePage/ServicePage";
-import { loadingState$ } from "./redux/selectors/LoadingSelector";
+import {
+  loadingState$,
+  successState$,
+} from "./redux/selectors/LoadingSelector";
 import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
 import CheckInPage from "./pages/CheckInPage/CheckInPage";
+import PopupSucess from "./component/PopupSuccess/PopupSuccess";
 import CustomerPage from "./pages/CustomerPage/CustomerPage"
 import ListRequestServicePage from "./pages/ListRequestServicePage/ListRequestServicePage";
+import { useEffect } from "react";
+
 function App() {
   let isLoading = useSelector(loadingState$);
+  let isSuccess = useSelector(successState$);
   const dispatch = useDispatch();
   useEffect(() => {
     const userInfo = localStorage.getItem(USER_LOGIN);
@@ -31,6 +37,7 @@ function App() {
   return (
     <div className="App">
       {isLoading ? <Loading /> : ""}
+      {isSuccess ? <PopupSucess /> : ""}
       <BrowserRouter>
         <Routes>
           <Route index path="/" element={<LoginPage />} />

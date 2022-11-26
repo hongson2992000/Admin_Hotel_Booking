@@ -1,24 +1,29 @@
 import React, { useRef, useState } from "react";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
+import LogoutIcon from '@mui/icons-material/Logout';
 import "./Navbar.scss";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
+import { useNavigate } from "react-router-dom";
 export default function Navbar() {
   const menuRef = useRef();
   const imgRef = useRef();
 
   const [open, setOpen] = useState(false);
-  const Menus = ["Đăng xuất"];
-  const userInfo = useSelector(userState$)
+  const Menus = ["Đăng Xuất"];
+  const userInfo = useSelector(userState$);
+  const navigate = useNavigate();
   // window.addEventListener("click", (e) => {
   //   if (e.target !== menuRef.current && e.target !== imgRef) {
   //     setOpen(false);
   //   }
   //   // console.log(e.target);
   // });
-
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -45,11 +50,11 @@ export default function Navbar() {
             <div ref={menuRef} className="menu shadow-lg">
               {Menus.map((menu) => (
                 <span
-                  onClick={() => setOpen(false)}
+                  onClick={() => handleLogout()}
                   className="p-2 text-lg cursor-pointer rounded"
                   key={menu}
                 >
-                  {menu}
+                  <LogoutIcon className="text-gray-400 text-14" /> {menu}
                 </span>
               ))}
             </div>

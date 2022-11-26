@@ -1,4 +1,4 @@
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { InputLabel, MenuItem, Select, TextField, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
 import React, { useCallback, useMemo, useState } from "react";
@@ -10,15 +10,82 @@ import {
   hideModalAddUser,
 } from "../../redux/actions/ModalAction";
 import { infoUserBookingState$ } from "../../redux/selectors/BookingManageSelector";
+import { roomManageState$ } from "../../redux/selectors/RoomManageSelector";
+import * as actions from "../../redux/actions/BookingManageAction";
+// import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+// import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/lab";
+
 export default function CheckInContainer() {
   const dispatch = useDispatch();
   const infoUser = useSelector(infoUserBookingState$);
-
-  console.log("Hello Son", infoUser);
+  console.log("InfoUser", infoUser);
+  const listRoom = useSelector(roomManageState$);
   const infoBooking = useSelector(bookingItemState$);
+  console.log("Hello Son", infoBooking);
+  const renderTypeRoom = () => {
+    let roomType = "";
+    switch (infoBooking.roomTypeId) {
+      case 1:
+        return (roomType = "Standard Room");
+      case 2:
+        return (roomType = "Superior Room");
+      case 3:
+        return (roomType = "Deluxe Room");
+      default:
+        return roomType;
+    }
+  };
+  const renderRoomavailability = () => {
+    let listRoomailAbility = listRoom.filter((item) => item.status === false);
+    let renderMenu = listRoomailAbility.map((item, index) => (
+      <MenuItem value={item.id} key={index}>
+        {item.roomNo}
+      </MenuItem>
+    ));
+    return renderMenu;
+  };
+  const onSubmitCheckIn = useCallback(
+    (values) => {
+      let bookingRequest = {
+        actualArrivalDate: values.actualArrivalDate,
+        actualDepartureDate: values.actualDepartureDate,
+        arrivalDate: values.arrivalDate,
+        confirmationNo: 0,
+        createBy: values.createBy,
+        createDate: values.createDate,
+        customer_Id: values.customer_Id,
+        departureDate: values.departureDate,
+        hotel_Id: values.hotel_Id,
+        id: values.id,
+        lastModifyBy: "",
+        numOfAdult: values.numOfAdult,
+        numOfChildren: values.numOfChildren,
+        roomPayment: "",
+        roomType_Id: values.roomTypeId,
+        room_Id: values.room_Id,
+        specialNote: "",
+        status: true,
+        totalAmount: values.totalAmount,
+        updateDate: "",
+      };
+      // console.log("ARRRR", infoUser);
+      // let infoCheckIn = {};
+      // let newInfoCheckIn = Object.assign(infoCheckIn, { bookingRequest });
+
+      let newInfoCheckInWithUser = {
+        bookingRequest: bookingRequest,
+        customer: infoUser,
+      };
+
+      console.log("NewCheckInFo", newInfoCheckInWithUser);
+      dispatch(actions.checkInRoom.checkInRoomRequest(newInfoCheckInWithUser));
+    },
+    [infoUser, dispatch]
+  );
   const formik = useFormik({
     initialValues: {
       id: infoBooking.id,
+      room_Id: infoBooking.room_Id,
       name:
         infoBooking.customer.firstName +
         " " +
@@ -32,14 +99,23 @@ export default function CheckInContainer() {
       arrivalTime: "",
       departureDate: infoBooking.departureDate,
       departureTime: "12:00",
+      customer_Id: infoBooking.customer.id,
       phoneNumber: infoBooking.customer.phoneNumber,
       email: infoBooking.customer.email,
       idNo: infoBooking.customer.idNo,
-      gender: infoBooking.customer.gender === 1 ? "Nam" : "Nữ",
+      gender: infoBooking.customer.gender,
       birthDate: infoBooking.customer.birthDate,
+      status: true,
+      actualArrivalDate: "",
+      actualDepartureDate: "",
+      confirmationNo: "",
+      createBy: "",
+      hotel_Id: 0,
+      roomTypeId: infoBooking.roomTypeId,
+      totalAmount: infoBooking.totalAmount,
     },
     onSubmit: (values, { resetForm }) => {
-      //   onSubmitService(values);
+      onSubmitCheckIn(values);
       resetForm({ values: "" });
     },
   });
@@ -52,7 +128,7 @@ export default function CheckInContainer() {
         headerName: "Tên Khách Hàng",
         width: 200,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.name}</div>;
+          return <div className="cellWithImg">{params.row.lastName}</div>;
         },
       },
       {
@@ -107,20 +183,10 @@ export default function CheckInContainer() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {/* <div
-              className="updateButton"
-              onClick={() => openUpdateServiceModal(params.row.id)}
-            >
-              Cập nhật
-            </div> */}
-            {/* <Link to="" style={{ textDecoration: "none" }}>
-              <div className="viewButton">Xem</div>
-            </Link> */}
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
             >
-              {" "}
               Xoá
             </div>
           </div>
@@ -128,29 +194,36 @@ export default function CheckInContainer() {
       },
     },
   ];
+  // const [value, setValue] = React.useState("2022-04-07");
   const openCreateServiceModal = useCallback(() => {
     dispatch(showModalAddUser());
   }, [dispatch]);
   return (
     <div className="CheckInContainer">
       <div className="InfoRoomBooking">
-        <p>Phòng: Standard Room</p>
-        <form>
+        <p>Phòng: {renderTypeRoom()}</p>
+        <form
+          noValidate
+          autoComplete="off"
+          className="form col-12"
+          onSubmit={formik.handleSubmit}
+        >
           <div className="top-form">
             <div className="roomNo">
               <span style={{ width: "100px" }}>Số Phòng:</span>
               <Select
                 className="title"
                 required
-                id="serviceCategory_Id"
-                name="serviceCategory_Id"
-                value={formik.values.serviceCategory_Id || ""}
+                id="room_Id"
+                name="room_Id"
+                value={formik.values.room_Id || ""}
                 onChange={formik.handleChange}
               >
-                <MenuItem value={1}>Thức ăn</MenuItem>
-                <MenuItem value={2}>Đồ uống</MenuItem>
+                {renderRoomavailability()}
               </Select>
-              <span style={{ paddingLeft: "50px" }}>Tiền Phòng:</span>
+              <span style={{ paddingLeft: "50px" }}>
+                Tiền Phòng: {infoBooking.totalAmount}
+              </span>
             </div>
           </div>
           <hr />
@@ -314,27 +387,41 @@ export default function CheckInContainer() {
                 />
               </div>
               <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Giới Tính</InputLabel>
-                <TextField
+                <InputLabel>Giới Tính</InputLabel>
+                <Select
                   className="title"
                   required
                   id="gender"
                   name="gender"
                   value={formik.values.gender}
                   onChange={formik.handleChange}
-                />
+                >
+                  <MenuItem value={1}>Nam</MenuItem>
+                  <MenuItem value={0}>Nữ</MenuItem>
+                </Select>
               </div>
               <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Ngày Sinh</InputLabel>
+
                 <TextField
-                  className="title"
-                  required
-                  id="birthDate"
-                  name="birthDate"
-                  value={formik.values.birthDate}
-                  onChange={formik.handleChange}
+                  id="date"
+                  label="Birthday"
+                  type="date"
+                  defaultValue="2017-05-24"
+                  sx={{ width: 220 }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </div>
+            </div>
+            <div className="buttonCheckIn" style={{ width: "100px" }}>
+              <button
+                type="submit"
+                className="buttonCheckInItem btn btn-primary"
+              >
+                Check In
+              </button>
             </div>
           </div>
         </form>
@@ -372,16 +459,15 @@ export default function CheckInContainer() {
         </div> */}
         <p style={{ paddingTop: "20px" }}>Thông Tin Khách Ở</p>
         <hr style={{ width: "20%" }} />
-
-        <DataGrid
-          getRowId={(row) => row.id}
-          className="datagrid"
-          rows={infoUser}
-          columns={infoUserColumns.concat(actionColumn)}
-          pageSize={9}
-          rowsPerPageOptions={[9]}
-          checkboxSelection
-        />
+          <DataGrid
+            getRowId={(row) => row.id}
+            className="datagrid"
+            rows={infoUser}
+            columns={infoUserColumns.concat(actionColumn)}
+            pageSize={9}
+            rowsPerPageOptions={[9]}
+            checkboxSelection
+          />
 
         <div className="buttonCheckIn">
           {infoBooking.numOfAdult + infoBooking.numOfChildren <=
@@ -394,7 +480,6 @@ export default function CheckInContainer() {
               Thêm Khách +
             </button>
           )}
-          <a className="link">Check In</a>
         </div>
       </div>
     </div>

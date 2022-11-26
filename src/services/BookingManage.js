@@ -4,9 +4,12 @@ class BookingManage extends BaseServices {
   getAllBooking = () => {
     return this.get(`v1/bookings`);
   };
-//   createHotelService = (model) => {
-//     return this.post(`v1/service`, model);
-//   };
+  checkInRoom = (model) => {
+    return this.post(`v1/booking/checkIn`, model);
+  };
+  checkOutRoom = (model) => {
+    return this.post(`v1/booking/checkOut`, model);
+  };
 //   updateService = (model) => {
 //     return this.put(`v1/service`, model);
 //   };
