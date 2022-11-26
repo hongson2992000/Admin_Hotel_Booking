@@ -172,9 +172,9 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/listRoom"
+                  to="/listrequestService"
                   style={{ textDecoration: "none" }}
-                  className={({ isActive }) => (isActive ? "" : "")}
+                  className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <MeetingRoomIcon className="icon" />
                   <span>List Request</span>

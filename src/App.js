@@ -15,6 +15,7 @@ import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
 import CheckInPage from "./pages/CheckInPage/CheckInPage";
 import CustomerPage from "./pages/CustomerPage/CustomerPage"
+import ListRequestServicePage from "./pages/ListRequestServicePage/ListRequestServicePage";
 function App() {
   let isLoading = useSelector(loadingState$);
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function App() {
           <Route exact path="/listRoom" element={<ListRoomPage />} />
           <Route exact path="/checkIn" element={<CheckInPage />} />
           <Route exact path="/checkCustomerInfo" element={<CustomerPage />} />
+          <Route exact path="/listrequestService" element={<ListRequestServicePage />} />
         </Routes>
       </BrowserRouter>
     </div>
