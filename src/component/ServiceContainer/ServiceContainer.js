@@ -1,7 +1,7 @@
 import "./ServiceContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 // import { userColumns, userRows } from "../../data/DataTableUser";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal, showModalUpdate } from "../../redux/actions/ModalAction";
@@ -10,6 +10,7 @@ import * as actions from "../../redux/actions/ServiceManageAction";
 import DialogDelete from "../DialogDelete/DialogDelete";
 const ServiceContainer = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const listHotelService = useSelector(serviceManageState$);
   useEffect(() => {
     dispatch(actions.getHotelService.getHotelServiceRequest());
@@ -136,7 +137,6 @@ const ServiceContainer = () => {
       let newService = Object.assign({}, service, {
         serviceCategory_Id: service.serviceCategory.id,
       });
-
       dispatch(
         actions.filInfoHotelService.filInfoHotelServiceRequest(newService)
       );
@@ -177,7 +177,7 @@ const ServiceContainer = () => {
     dispatch(showModal());
   }, [dispatch]);
   return (
-    <div className="datatable">
+    <div className="datatableService">
       <div className="datatableTitle">
         Danh sách dịch vụ
         <a onClick={openCreateServiceModal} className="link">

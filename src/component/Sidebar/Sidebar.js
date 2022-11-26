@@ -151,7 +151,7 @@ export default function Sidebar() {
           </div>
         </div>
       );
-    }else if(userInfo.userRole === USER_ROLE.HOUSEKEEPING){
+    } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
       return (
         <div className="sidebar">
           <div className="top">
@@ -164,32 +164,22 @@ export default function Sidebar() {
             <ul>
               <li>
                 <NavLink
-                  to="/listRoomStaff"
+                  to="/listRoom"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
-                  <FormatListBulletedIcon className="icon" />
+                  <MeetingRoomIcon className="icon" />
                   <span>Sơ Đồ Phòng</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/listRequestServiceStaff"
+                  to="/listrequestService"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <MeetingRoomIcon className="icon" />
-                  <span>Danh Sách Yêu Cầu Dịch Vụ</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/listRequestServiceStaff"
-                  style={{ textDecoration: "none" }}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <MeetingRoomIcon className="icon" />
-                  <span>Danh Sách Yêu Cầu Dịch Vụ</span>
+                  <span>List Request</span>
                 </NavLink>
               </li>
             </ul>

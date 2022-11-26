@@ -43,14 +43,11 @@ export class BaseServices {
     });
   };
   getAuthor = (url, model) => {
+    console.log("Token",localStorage.getItem(TOKEN))
     return axios({
       url: `${DOMAIN}/${url}`,
       method: "GET",
-      headers: {
-        Authorization:
-          "Bearer " +
-          "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNjY1MjA1NzkwLCJleHAiOjE2NjUyMDkzOTB9.o26YuXLrdALALR-ieXyZ6y6gmDE5FBsFg5UXQ6LDvY4",
-      },
+      headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
     });
   };
 }

@@ -17,6 +17,8 @@ import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
 import CheckInPage from "./pages/CheckInPage/CheckInPage";
 import PopupSucess from "./component/PopupSuccess/PopupSuccess";
+import CustomerPage from "./pages/CustomerPage/CustomerPage"
+import ListRequestServicePage from "./pages/ListRequestServicePage/ListRequestServicePage";
 import { useEffect } from "react";
 
 function App() {
@@ -46,6 +48,9 @@ function App() {
           <Route exact path="/greeting" element={<GreetingPage />} />
           <Route exact path="/listBooking" element={<ListBookingPage />} />
           <Route exact path="/listRoom" element={<ListRoomPage />} />
+          <Route exact path="/checkIn" element={<CheckInPage />} />
+          <Route exact path="/checkCustomerInfo" element={<CustomerPage />} />
+          <Route exact path="/listrequestService" element={<ListRequestServicePage />} />
         </Routes>
       </BrowserRouter>
     </div>

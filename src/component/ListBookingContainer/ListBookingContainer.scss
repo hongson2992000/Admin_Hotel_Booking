@@ -1,21 +1,25 @@
 .datatable {
     height: 600px;
     padding: 20px;
-    .fillter {
-        display: flex;
-         :nth-child(0) {
-            background-color: grey;
-        }
-        .fillterItem {
-            width: 150px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            a {
-                text-decoration: none;
-            }
-        }
+    // .fillter {
+    //     display: flex;
+    //      :nth-child(0) {
+    //         background-color: grey;
+    //     }
+    //     .fillterItem {
+    //         width: 150px;
+    //         height: 50px;
+    //         display: flex;
+    //         justify-content: center;
+    //         align-items: center;
+    //         a {
+    //             text-decoration: none;
+    //         }
+    //     }
+    // }
+    .datagrid {
+        height: 560px;
+        width: 1200px;
     }
     .datatableTitle {
         width: 100%;
@@ -74,11 +78,12 @@
             border: 1px dotted rgba(0, 0, 139, 0.596);
             cursor: pointer;
         }
-        .deleteButton {
+        .checkInButton {
             padding: 2px 5px;
             border-radius: 5px;
-            color: crimson;
-            border: 1px dotted rgba(220, 20, 60, 0.6);
+            color: white;
+            background-color: #AAAA;
+            border: 1px dotted #AAAA;
             cursor: pointer;
         }
     }

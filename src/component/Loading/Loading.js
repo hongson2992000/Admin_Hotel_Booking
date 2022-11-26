@@ -1,6 +1,6 @@
 import React from "react";
 import "./Loading.scss"
-import image from "../../../src/assets/img/loading11.gif"
+import image from "../../../src/assets/img/loading12.gif"
 import { useSelector } from "react-redux";
 import { loadingState$ } from "../../redux/selectors/LoadingSelector";
 export default function Loading() {
