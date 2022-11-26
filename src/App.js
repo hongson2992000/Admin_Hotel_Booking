@@ -17,13 +17,10 @@ import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
 import CheckInPage from "./pages/CheckInPage/CheckInPage";
 import PopupSucess from "./component/PopupSuccess/PopupSuccess";
-<<<<<<< Updated upstream
 import CustomerPage from "./pages/CustomerPage/CustomerPage"
 import ListRequestServicePage from "./pages/ListRequestServicePage/ListRequestServicePage";
 import { useEffect } from "react";
 
-=======
->>>>>>> Stashed changes
 function App() {
   let isLoading = useSelector(loadingState$);
   let isSuccess = useSelector(successState$);
@@ -40,7 +37,7 @@ function App() {
   return (
     <div className="App">
       {isLoading ? <Loading /> : ""}
-      {isLoading ? <PopupSucess /> : ""}
+      {isSuccess ? <PopupSucess /> : ""}
       <BrowserRouter>
         <Routes>
           <Route index path="/" element={<LoginPage />} />

@@ -1,19 +1,5 @@
-<<<<<<< Updated upstream
-import Sidebar from "../../component/Sidebar/Sidebar";
-import Navbar from "../../component/Navbar/Navbar";
-import CustomerInfoContainer from "../../component/CustomerInfoContainer/CustomerInfoContainer";
-export default function CheckInPage() {
-    return (
-        <div className="list">
-            <div className="listContainer">
-                <CustomerInfoContainer />
-            </div>
-        </div>
-    );
-}
-=======
 import React, { useEffect, useState } from "react";
-import "./CheckInPage.scss";
+import "./CustomerPage.scss";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import Navbar from "../../component/Navbar/Navbar";
 import CheckInContainer from "../../component/CheckInContainer/CheckInContainer";
@@ -31,4 +17,3 @@ export default function CustomerPage() {
     </div>
   );
 }
->>>>>>> Stashed changes

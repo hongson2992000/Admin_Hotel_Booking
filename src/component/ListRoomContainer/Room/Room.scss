@@ -21,13 +21,6 @@
         height: 200px;
         border-radius: 30px;
         .dropDownTouch {
-<<<<<<< Updated upstream
-            margin: 5px;
-            right: 1px;
-            padding-bottom: 10px;
-            position: relative;
-            border-radius: 5px;
-=======
             height: auto;
             margin: 20px;
             right: 1px;
@@ -37,7 +30,6 @@
             border: 1px solid #000000;
             z-index: 10;
             background: #fff;
->>>>>>> Stashed changes
             cursor: pointer;
             span {
                 list-style: none;
@@ -49,124 +41,6 @@
                 border-radius: 5px;
                 background-color: #c4c4c4;
             }
-<<<<<<< Updated upstream
-            p {
-                font-size: 20px;
-                color: #fff;
-            }
-            .RoomNo p {
-                font-weight: bold;
-                font-size: 25px;
-            }
-            .RoomDetailEmpty {
-                margin: 30px;
-                padding-top: 20px;
-                text-align: center;
-                background-color: #4caf50;
-                width: 250px;
-                height: 200px;
-                border-radius: 30px;
-                .dropDownTouch {
-                    height: auto;
-                    margin: 20px;
-                    right: 1px;
-                    padding-bottom: 20px;
-                    position: relative;
-                    border-radius: 5px;
-                    border: 1px solid #000000;
-                    z-index: 10;
-                    background: #fff;
-                    cursor: pointer;
-                    span {
-                        list-style: none;
-                        display: list-item;
-                        padding: 7px;
-                    }
-                    .menuhover:hover {
-                        padding: 7px;
-                        border-radius: 5px;
-                        background-color: #c4c4c4;
-                    }
-                }
-            }
-            .RoomDetail {
-                margin: 30px;
-                padding-top: 20px;
-                text-align: center;
-                background-color: yellow;
-                width: 220px;
-                height: 200px;
-                border-radius: 20%;
-                background-color: #ffc42a;
-                width: 250px;
-                height: 200px;
-                border-radius: 30px;
-                .dropDownTouch {
-                    margin: 10px;
-                    right: 25px;
-                    padding-bottom: 10px;
-                    position: relative;
-                    top: 10px;
-                    border-radius: 5px;
-                    border: 1px solid #000000;
-                    z-index: 10;
-                    background: #fff;
-                    cursor: pointer;
-                    span {
-                        list-style: none;
-                        display: list-item;
-                        padding: 7px;
-                    }
-                    .menuhover:hover {
-                        padding: 7px;
-                        border-radius: 5px;
-                        background-color: #c4c4c4;
-                    }
-                }
-            }
-            .icon {
-                width: 50px;
-                cursor: pointer;
-                margin-top: 35px;
-                color: #000;
-                font-size: 35px;
-            }
-            .RoomDetail {
-                margin: 30px;
-                padding-top: 20px;
-                text-align: center;
-                background-color: #ffc42a;
-                width: 250px;
-                height: 200px;
-                border-radius: 30px;
-                .dropDownTouch {
-                    margin: 5px;
-                    right: 1px;
-                    padding-bottom: 10px;
-                    position: relative;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    span {
-                        list-style: none;
-                        display: list-item;
-                        padding: 7px;
-                    }
-                    .menuhover:hover {
-                        padding: 7px;
-                        border-radius: 5px;
-                        background-color: #c4c4c4;
-                    }
-                }
-            }
-            .icon {
-                width: 50px;
-                cursor: pointer;
-                margin-top: 35px;
-                color: #000;
-                font-size: 35px;
-            }
-        }
-=======
         }
     }
     .RoomDetail {
@@ -206,6 +80,5 @@
         margin-top: 35px;
         color: #000;
         font-size: 35px;
->>>>>>> Stashed changes
     }
 }
