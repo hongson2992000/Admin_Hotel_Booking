@@ -1,9 +1,12 @@
 import {
   DISPLAY_LOADING,
   HIDE_LOADING,
+  DISPLAY_POPUP_SUCCESS,
+  HIDE_POPUP_SUCCESS
 } from "../../utils/constants/settingSystem";
 const initialState = {
   isLoading: false,
+  isSuccess:false
 };
 
 export default function LoadingReducer(state = initialState, action) {
@@ -18,6 +21,18 @@ export default function LoadingReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      };
+    }
+    case DISPLAY_POPUP_SUCCESS: {
+      return {
+        ...state,
+        isSuccess: true,
+      };
+    }
+    case HIDE_POPUP_SUCCESS: {
+      return {
+        ...state,
+        isSuccess: false,
       };
     }
     default:
