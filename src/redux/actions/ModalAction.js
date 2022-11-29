@@ -21,3 +21,6 @@ export const hideCreateAccountModel = createAction("HIDE_UPDATE_ACCOUNT_MODAL");
 
 export const showUpdateAccountModel = createAction("SHOW_UPDATE_ACCOUNT_MODAL");
 export const hideUpdateAccountModel = createAction("HIDE_UPDATE_ACCOUNT_MODAL");
+
+export const showModalListService = createAction("SHOW_LIST_SERVICE_MODAL");
+export const hideModalListService = createAction("HIDE_LIST_SERVICE_MODAL");

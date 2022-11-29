@@ -31,7 +31,7 @@ export class BaseServices {
       // headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
     });
   };
-  get = (url) => {
+  get = (url,model) => {
     return axios({
       url: `${DOMAIN}/${url}`,
       method: "GET",

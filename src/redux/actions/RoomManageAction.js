@@ -8,3 +8,8 @@ export const getAllRoom = createActions({
   getAllRoomSuccess: (payload) => payload,
   getAllRoomFailure: (err) => err,
 });
+export const getRoomAvailability = createActions({
+  getRoomAvailabilityRequest: (payload) => payload,
+  getRoomAvailabilitySuccess: (payload) => payload,
+  getRoomAvailabilityFailure: (err) => err,
+});

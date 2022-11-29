@@ -6,6 +6,8 @@ import LocationManageReducer from "./LocationManageReducer"
 import LoginReducer from "./LoginReducer"
 import BookingManageReducer from "./BookingManageReducer"
 import RoomManageReducer from "./RoomManageReducer"
+import RequestServiceReducer from "./RequestServiceReducer"
+import SendMessageReducer from "./SendMessageReducer"
 export default combineReducers({
   LoadingReducer,
   ServiceManageReducer,
@@ -13,5 +15,7 @@ export default combineReducers({
   LocationManageReducer,
   LoginReducer,
   BookingManageReducer,
-  RoomManageReducer
+  RoomManageReducer,
+  RequestServiceReducer,
+  SendMessageReducer
 });

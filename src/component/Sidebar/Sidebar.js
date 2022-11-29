@@ -113,16 +113,6 @@ export default function Sidebar() {
             <ul>
               <li>
                 <NavLink
-                  to="/listBooking"
-                  style={{ textDecoration: "none" }}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <FormatListBulletedIcon className="icon" />
-                  <span>Danh Sách Booking</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
                   to="/listRoom"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
@@ -133,7 +123,17 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/listRequestServiceStaff"
+                  to="/listBooking"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <FormatListBulletedIcon className="icon" />
+                  <span>Danh Sách Booking</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/listCustomer"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
@@ -143,12 +143,55 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/listRequestServiceStaff"
+                  to="/alarm"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <AccessAlarmIcon className="icon" />
                   <span>Báo Thức</span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+          <hr />
+          <div className="bottom">
+            <Link to="/overview" style={{ textDecoration: "none" }}>
+              <LogoutIcon className="icon" />
+              <span>Đăng Xuất</span>
+            </Link>
+          </div>
+        </div>
+      );
+    } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
+    } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
+      return (
+        <div className="sidebar">
+          <div className="top">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <span className="logo">5 Men Hotel</span>
+            </Link>
+          </div>
+          <hr />
+          <div className="center">
+            <ul>
+              <li>
+                <NavLink
+                  to="/listRoom"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <FormatListBulletedIcon className="icon" />
+                  <span>Sơ Đồ Phòng</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/listRequestServiceStaff"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <MeetingRoomIcon className="icon" />
+                  <span>Danh Sách Yêu Cầu Dịch Vụ</span>
                 </NavLink>
               </li>
             </ul>
@@ -175,7 +218,7 @@ export default function Sidebar() {
             <ul>
               <li>
                 <NavLink
-                  to="/listRoomStaff"
+                  to="/listRoom"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
@@ -185,17 +228,7 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/listRequestServiceStaff"
-                  style={{ textDecoration: "none" }}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <MeetingRoomIcon className="icon" />
-                  <span>Danh Sách Yêu Cầu Dịch Vụ</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/listRequestServiceStaff"
+                  to="/listTurnDownService"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >

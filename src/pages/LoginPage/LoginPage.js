@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useFormik } from "formik";
-import image from "../../assets/img/thuc.jpg";
+import image from "../../assets/img/loginImage.jpg";
 import "./LoginPage.scss";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../redux/actions/LoginAction";
@@ -67,7 +67,7 @@ export default function LoginPage() {
                 value={formik.values.password}
                 onChange={formik.handleChange}
               />
-              {errMessage ? (
+              {errMessage === "INVALID USER NAME OR PASSWORD" ? (
                 <p style={{ paddingTop: "10px", color: "red" }}>
                   Tài Khoản Và Mật Khẩu Không Đúng
                 </p>
@@ -91,21 +91,21 @@ export default function LoginPage() {
             <a href="#">
               <img
                 width="30"
-                src="https://wiki.in-circuit.de/images/thumb/1/13/facebook_logo.png/600px-facebook_logo.png"
+                src="https://wiki.in-circuit.de/images/thumb/1/13/facebook_logo.png/600px-facebook_logo.png" alt=""
               />
               Facebook Login
             </a>
             <a href="#">
               <img
                 width="30"
-                src="https://play-lh.googleusercontent.com/aFWiT2lTa9CYBpyPjfgfNHd0r5puwKRGj2rHpdPTNrz2N9LXgN_MbLjePd1OTc0E8Rl1=w240-h480-rw"
+                src="https://play-lh.googleusercontent.com/aFWiT2lTa9CYBpyPjfgfNHd0r5puwKRGj2rHpdPTNrz2N9LXgN_MbLjePd1OTc0E8Rl1=w240-h480-rw" alt=""
               />
               Google Login
             </a>
           </div>
         </form>
       </div>
-      {/* <div className="login-right"><img src={image} /></div> */}
+      <div className="login-right"><img src={image} alt="" /></div>
     </div>
   );
 }

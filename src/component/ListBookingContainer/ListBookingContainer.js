@@ -10,6 +10,12 @@ import { bookingManageState$ } from "../../redux/selectors/BookingManageSelector
 import * as actions from "../../redux/actions/BookingManageAction";
 import * as actionRoom from "../../redux/actions/RoomManageAction";
 import moment from "moment";
+import {
+  BOOKED,
+  CHECKIN,
+  CHECKOUT,
+  INFO_BOOKING_DETAIL,
+} from "../../utils/constants/settingSystem";
 export default function ListBookingContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,12 +31,21 @@ export default function ListBookingContainer() {
     setValue(val);
   };
   const handleFillInfoCheckIn = useCallback(
-    (id) => {
+    (item) => {
+      console.log("Thanh An Hong Son", item);
       const infoBooking = listBooking.find(
-        (bookingItem) => bookingItem.id === id
+        (bookingItem) => bookingItem.id === item.id
       );
       dispatch(actions.getBookingById.getBookingByIdRequest(infoBooking));
-      dispatch(actionRoom.getAllRoom.getAllRoomRequest());
+      localStorage.setItem(INFO_BOOKING_DETAIL, JSON.stringify(infoBooking));
+      dispatch(
+        actionRoom.getRoomAvailability.getRoomAvailabilityRequest({
+          dateCheckIn: item.arrivalDate,
+          dateCheckOut: item.departureDate,
+          numOfPerson: item.numOfPerson,
+          roomTypeId: item.roomTypeId,
+        })
+      );
       navigate("/checkIn");
     },
     [navigate, listBooking, dispatch]
@@ -45,11 +60,17 @@ export default function ListBookingContainer() {
     let roomType = "";
     switch (roomTypeId) {
       case 1:
-        return (roomType = "Standard Room");
+        return (roomType = "Deluxe King/ Cao cấp");
       case 2:
-        return (roomType = "Superior Room");
+        return (roomType = "Deluxe Twin/ Cao cấp");
       case 3:
-        return (roomType = "Deluxe Room");
+        return (roomType = "Superior King/ Phòng thường");
+      case 4:
+        return (roomType = "Superior Twin/ Phòng thường");
+      case 5:
+        return (roomType = "Standard King/ Phòng thường");
+      case 6:
+        return (roomType = "Standard Twin/ Phòng thường");
       default:
         return roomType;
     }
@@ -77,7 +98,9 @@ export default function ListBookingContainer() {
     let arrNew = [];
     let currentDate = moment().format("DD/MM/YYYY");
     let listArrivalDate = listBooking.filter(
-      (item) => item.arrivalDate.substring(0, 10) === currentDate
+      (item) =>
+        item.arrivalDate.substring(0, 10) === currentDate &&
+        item.status === BOOKED
     );
     listArrivalDate.forEach((item) => {
       arrNew.push({
@@ -92,6 +115,9 @@ export default function ListBookingContainer() {
         requestService: "Đưa Đón Sân Bay",
         arrivalDate: item.arrivalDate,
         departureDate: item.departureDate,
+        status: item.status,
+        numOfPerson: item.numOfAdult + item.numOfChildren,
+        roomTypeId: item.roomTypeId,
       });
     });
     return arrNew;
@@ -100,7 +126,9 @@ export default function ListBookingContainer() {
     let arrNew = [];
     let currentDate = moment().format("DD/MM/YYYY");
     let listArrivalDate = listBooking.filter(
-      (item) => item.departureDate.substring(0, 10) === currentDate
+      (item) =>
+        item.departureDate.substring(0, 10) === currentDate &&
+        item.status === CHECKIN
     );
     listArrivalDate.forEach((item) => {
       arrNew.push({
@@ -134,7 +162,7 @@ export default function ListBookingContainer() {
       {
         field: "name",
         headerName: "Tên Khách Đặt",
-        width: 200,
+        width: 180,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.name}</div>;
         },
@@ -143,7 +171,7 @@ export default function ListBookingContainer() {
       {
         field: "roomType",
         headerName: "Loại Phòng",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.roomType}</div>;
         },
@@ -188,7 +216,7 @@ export default function ListBookingContainer() {
       {
         field: "id",
         headerName: "Mã Đặt Phòng",
-        width: 150,
+        width: 130,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.id}</div>;
         },
@@ -206,7 +234,7 @@ export default function ListBookingContainer() {
       {
         field: "roomType",
         headerName: "Loại Phòng",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.roomType}</div>;
         },
@@ -313,19 +341,34 @@ export default function ListBookingContainer() {
     {
       field: "action",
       headerName: "Hành Động",
-      width: 200,
+      width: 140,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {/* <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link> */}
-            <div
-              className="checkInButton"
-              onClick={() => handleFillInfoCheckIn(params.row.id)}
-            >
-              Check In
-            </div>
+            {params.row.status === CHECKIN ? (
+              <div
+                className="checkInButton"
+                style={{ pointerEvents: "none" }}
+                // onClick={() =>
+                //   handleFillInfoCheckIn(
+                //     params.row.id,
+                //     params.row.arrivalDate,
+                //     // params.row.departureDate,
+                //     // params.row.numOfPerson,
+                //     // params.row.roomTypeId
+                //   )
+                // }
+              >
+                Check In
+              </div>
+            ) : (
+              <div
+                className="checkInButton"
+                onClick={() => handleFillInfoCheckIn(params.row)}
+              >
+                Check In
+              </div>
+            )}
           </div>
         );
       },
@@ -371,7 +414,6 @@ export default function ListBookingContainer() {
             columns={allBooking}
             pageSize={9}
             rowsPerPageOptions={[9]}
-            checkboxSelection
           />
         </TabPanel>
         <TabPanel value="2">
@@ -381,7 +423,6 @@ export default function ListBookingContainer() {
             columns={bookingArriveInDay.concat(actionColumnCheckIn)}
             pageSize={9}
             rowsPerPageOptions={[9]}
-            checkboxSelection
           />
         </TabPanel>
         <TabPanel value="3">
@@ -391,7 +432,6 @@ export default function ListBookingContainer() {
             columns={bookingLeaveInDay.concat(actionColumnCheckOut)}
             pageSize={9}
             rowsPerPageOptions={[9]}
-            checkboxSelection
           />
         </TabPanel>
       </TabContext>

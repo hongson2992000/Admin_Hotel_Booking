@@ -65,8 +65,10 @@ function* checkOutRoom(action) {
       type: DISPLAY_LOADING,
     });
     yield delay(1000);
+    let formData = new FormData();
+    formData.append("booking_id", action.payload.id);
     let listBooking = yield call(() => {
-      return bookingManage.checkOutRoom(action.payload.id);
+      return bookingManage.checkOutRoom(formData);
     });
     console.log(listBooking.data);
     if (listBooking.status === STATUS_CODE.SUCCESS) {
