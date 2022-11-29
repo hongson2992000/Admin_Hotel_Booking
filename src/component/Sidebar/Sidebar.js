@@ -8,12 +8,13 @@ import CampaignIcon from "@mui/icons-material/Campaign";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
-import PersonIcon from '@mui/icons-material/Person';
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import PersonIcon from "@mui/icons-material/Person";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
+import { ManageAccounts } from "@mui/icons-material";
 export default function Sidebar() {
   const userInfo = useSelector(userState$);
   const renderByAuth = () => {
@@ -76,6 +77,16 @@ export default function Sidebar() {
                 >
                   <EmojiPeopleIcon className="icon" />
                   <span>Lời Chào</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/account"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <ManageAccounts className="icon" />
+                  <span>Account</span>
                 </NavLink>
               </li>
             </ul>
@@ -151,7 +162,7 @@ export default function Sidebar() {
           </div>
         </div>
       );
-    }else if(userInfo.userRole === USER_ROLE.HOUSEKEEPING){
+    } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
       return (
         <div className="sidebar">
           <div className="top">
