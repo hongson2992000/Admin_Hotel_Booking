@@ -122,7 +122,7 @@ export default function UpdateServiceModal() {
     enableReinitialize: true,
   });
   const body = (
-    <div className="paper" id="simple-modal-title">
+    <div className="paperUpdate" id="simple-modal-title">
       <h2>Chỉnh sửa dịch vụ</h2>
       <hr />
       <form

@@ -14,22 +14,45 @@ import "./AddNewCustomerModal.scss";
 import { hideModalAddUser } from "../../../redux/actions/ModalAction";
 import * as actions from "../../../redux/actions/BookingManageAction";
 import { useNavigate } from "react-router-dom";
+import { USER_LOGIN } from "../../../utils/constants/settingSystem";
+import { userState$ } from "../../../redux/selectors/UserSelector";
+import moment from "moment";
 export default function AddNewCustomerModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalAddUserState$);
   const navigate = useNavigate();
-  //   console.log("THanh An", isShow);
+  const infoUser = useSelector(userState$);
   const onClose = useCallback(() => {
     dispatch(hideModalAddUser());
   }, [dispatch]);
   // let dataService = formik.values
   const onSubmitInfoUser = useCallback(
     (values) => {
-      dispatch(actions.addNewUserBooking.addNewUserBookingRequest(values));
+      let arrDate = values.birthDate.split("-");
+      let formatedDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
+      let infoUserCheckIn = {
+        id: values.id,
+        birthDate: formatedDate,
+        createBy: values.createBy,
+        createDate: values.createDate,
+        email: values.email,
+        firstName: values.firstName,
+        gender: 1,
+        phoneNumber: values.phoneNumber,
+        lastName: values.lastName,
+        middleName: values.middleName,
+        passportNo: values.passportNo,
+        idNo: values.idNo,
+        updateDate: values.updateDate,
+        lastModifyBy: values.lastModifyBy,
+      };
+      dispatch(
+        actions.addNewUserBooking.addNewUserBookingRequest(infoUserCheckIn)
+      );
       dispatch(hideModalAddUser());
-      navigate("/checkIn");
+      // navigate("/checkIn");
     },
-    [navigate, dispatch]
+    [dispatch]
   );
   const renderIdRandom = () => {
     let id = new Date().getTime();
@@ -37,12 +60,18 @@ export default function AddNewCustomerModal() {
     return id;
   };
   let [id, setId] = useState(new Date().getTime());
+  let currentDate = moment().format("DD/MM/YYYY");
   const formik = useFormik({
     initialValues: {
       id: id,
       birthDate: "",
-      createBy: "",
-      createDate: "",
+      createBy:
+        infoUser.firstName +
+        " " +
+        infoUser.middleName +
+        " " +
+        infoUser.lastName,
+      createDate: currentDate,
       email: "",
       firstName: "",
       gender: 1,
@@ -51,8 +80,13 @@ export default function AddNewCustomerModal() {
       middleName: "",
       passportNo: "",
       idNo: "",
-      updateDate: "",
-      lastModifyBy:""
+      updateDate: currentDate,
+      lastModifyBy:
+        infoUser.firstName +
+        " " +
+        infoUser.middleName +
+        " " +
+        infoUser.lastName,
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitInfoUser(values);
@@ -73,8 +107,8 @@ export default function AddNewCustomerModal() {
         onSubmit={formik.handleSubmit}
       >
         <div className="row">
-          <div className="col-6 simpleModalItem">
-            <InputLabel>Tên khách</InputLabel>
+          <div className="col-12 simpleModalItem">
+            {/* <InputLabel>Tên khách</InputLabel>
             <TextField
               className="title"
               required
@@ -82,7 +116,42 @@ export default function AddNewCustomerModal() {
               name="lastName"
               value={formik.values.lastName}
               onChange={formik.handleChange}
-            />
+            /> */}
+            <div className="row">
+              <div className="col-4">
+                <InputLabel>Họ</InputLabel>
+                <TextField
+                  className="title"
+                  required
+                  id="firstName"
+                  name="firstName"
+                  value={formik.values.firstName || ""}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <div className="col-4">
+                <InputLabel>Tên Lót</InputLabel>
+                <TextField
+                  className="title"
+                  required
+                  id="middleName"
+                  name="middleName"
+                  value={formik.values.middleName || ""}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <div className="col-4">
+                <InputLabel>Tên</InputLabel>
+                <TextField
+                  className="title"
+                  required
+                  id="lastName"
+                  name="lastName"
+                  value={formik.values.lastName || ""}
+                  onChange={formik.handleChange}
+                />
+              </div>
+            </div>
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Số điện thoại</InputLabel>
@@ -92,7 +161,7 @@ export default function AddNewCustomerModal() {
               required
               id="phoneNumber"
               name="phoneNumber"
-              value={formik.values.phoneNumber}
+              value={formik.values.phoneNumber || ""}
               onChange={formik.handleChange}
             />
           </div>
@@ -103,7 +172,7 @@ export default function AddNewCustomerModal() {
               required
               id="email"
               name="email"
-              value={formik.values.email}
+              value={formik.values.email || ""}
               onChange={formik.handleChange}
             />
           </div>
@@ -111,10 +180,11 @@ export default function AddNewCustomerModal() {
             <InputLabel>Số Hộ Chiếu/CCCD</InputLabel>
             <TextField
               className="title"
+              type="number"
               required
               id="idNo"
               name="idNo"
-              value={formik.values.idNo}
+              value={formik.values.idNo || ""}
               onChange={formik.handleChange}
             />
           </div>
@@ -125,7 +195,7 @@ export default function AddNewCustomerModal() {
               required
               id="gender"
               name="gender"
-              value={formik.values.gender}
+              value={formik.values.gender || ""}
               onChange={formik.handleChange}
             >
               <MenuItem value={1}>Nam</MenuItem>
@@ -137,9 +207,22 @@ export default function AddNewCustomerModal() {
             <TextField
               className="title"
               required
+              type="date"
               id="birthDate"
               name="birthDate"
-              value={formik.values.birthDate}
+              value={formik.values.birthDate || ""}
+              onChange={formik.handleChange}
+            />
+          </div>
+          <div className="col-6 simpleModalItem">
+            <InputLabel>Người Tạo</InputLabel>
+            <TextField
+              className="title"
+              disabled
+              type="text"
+              id="lastModifyBy"
+              name="lastModifyBy"
+              value={formik.values.lastModifyBy || ""}
               onChange={formik.handleChange}
             />
           </div>

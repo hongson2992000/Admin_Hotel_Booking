@@ -11,8 +11,8 @@ export default function CustomerPage() {
       <Sidebar />
       <div className="listContainer">
         <Navbar />
-        <CheckInContainer />
-        <AddNewCustomerModal/>
+        {/* <CheckInContainer />
+        <AddNewCustomerModal/> */}
       </div>
     </div>
   );

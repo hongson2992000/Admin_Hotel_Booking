@@ -34,8 +34,10 @@ function* login(action) {
         if (userInfo.data.userRole === USER_ROLE.ADMIN) {
           action.payload.navigate("/overview");
         } else if (userInfo.data.userRole === USER_ROLE.HOTEL_MANAGE) {
-          action.payload.navigate("/listBooking");
+          action.payload.navigate("/listRoom");
         } else if (userInfo.data.userRole === USER_ROLE.RESTAURANT) {
+          action.payload.navigate("/listRoom");
+        }else if (userInfo.data.userRole === USER_ROLE.HOUSEKEEPING) {
           action.payload.navigate("/listRoom");
         }
       }
@@ -47,8 +49,8 @@ function* login(action) {
     console.log(error)
     if (error.response.status === 404) {
       action.payload.navigate("/");
+      yield put(actions.login.loginFailure(error.response.data.message));
     }
-    yield put(actions.login.loginFailure(error.response.data.message));
     yield put({
       type: HIDE_LOADING,
     });

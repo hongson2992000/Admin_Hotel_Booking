@@ -5,13 +5,16 @@ import {
   showModalUpdate,
   hideModalUpdate,
   showModalAddUser,
-  hideModalAddUser
+  hideModalAddUser,
+  showModalListService,
+  hideModalListService
 } from "../actions/ModalAction";
 
 const initialState = {
   isShow: false,
   isShowUpdate: false,
-  isShowAddNewUser:false
+  isShowAddNewUser: false,
+  isShowListService:false
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -37,7 +40,7 @@ export default function ModalReducer(state = initialState, action) {
         ...state,
         isShowUpdate: false,
       };
-      case getType(showModalAddUser):
+    case getType(showModalAddUser):
       return {
         ...state,
         isShowAddNewUser: true,
@@ -47,6 +50,17 @@ export default function ModalReducer(state = initialState, action) {
       return {
         ...state,
         isShowAddNewUser: false,
+      };
+      case getType(showModalListService):
+      return {
+        ...state,
+        isShowListService: true,
+      };
+
+    case getType(hideModalListService):
+      return {
+        ...state,
+        isShowListService: false,
       };
     default:
       return state;

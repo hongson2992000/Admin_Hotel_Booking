@@ -20,6 +20,7 @@ import PopupSucess from "./component/PopupSuccess/PopupSuccess";
 import CustomerPage from "./pages/CustomerPage/CustomerPage"
 import ListRequestServicePage from "./pages/ListRequestServicePage/ListRequestServicePage";
 import { useEffect } from "react";
+import ListTurnDownServicePage from "./pages/ListTurnDownServicePage/ListTurnDownServicePage";
 
 function App() {
   let isLoading = useSelector(loadingState$);
@@ -50,7 +51,10 @@ function App() {
           <Route exact path="/listRoom" element={<ListRoomPage />} />
           <Route exact path="/checkIn" element={<CheckInPage />} />
           <Route exact path="/checkCustomerInfo" element={<CustomerPage />} />
-          <Route exact path="/listrequestService" element={<ListRequestServicePage />} />
+          <Route exact path="/listrequestServiceStaff" element={<ListRequestServicePage />} />
+          <Route exact path="/listTurnDownService" element={<ListTurnDownServicePage />} />
+          <Route exact path="/listCustomer" element={<CustomerPage />} />
+          <Route exact path="/alarm" element={<CustomerPage />} />
         </Routes>
       </BrowserRouter>
     </div>
