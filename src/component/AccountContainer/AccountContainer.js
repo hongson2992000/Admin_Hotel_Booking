@@ -212,7 +212,7 @@ const AccountContainer = () => {
         renderCell: (params) => {
           return (
             <div className={`cellWithStatus ${params.row.isActive}`}>
-              {!params.row.status ? "Đang ẩn" : "Đang hiện"}
+              {params.row.isActive ? "Đang hiện" : "Đang ẩn"}
             </div>
           );
         },
