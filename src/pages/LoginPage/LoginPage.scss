@@ -110,7 +110,7 @@
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus {
-    border-color: #131086;
+    border-color: #adadad;
 }
 
 .checkbox {
@@ -122,12 +122,12 @@ input[type=email]:focus {
 input[type=checkbox] {
     width: 20px;
     height: 20px;
-    accent-color: #131086;
+    accent-color: #747474;
 }
 
 .buttonSignIn {
     border: none;
-    background: linear-gradient(45deg, #131086, #b621f3);
+    background: linear-gradient(45deg, #7f7f7f, #666268);
     color: white;
     padding: 1rem;
     border-radius: 100px;

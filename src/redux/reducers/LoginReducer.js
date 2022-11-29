@@ -2,7 +2,7 @@ import { login, getType } from "../actions/LoginAction";
 
 const initialState = {
   userInfo: {},
-  errMessage: {},
+  errMessage: "",
 };
 export default function LoginReducer(state = initialState, action) {
   switch (action.type) {
@@ -11,9 +11,10 @@ export default function LoginReducer(state = initialState, action) {
         ...state,
       };
     case getType(login.loginSuccess):
+      state.userInfo = action.payload;
+      state.errMessage = "";
       return {
         ...state,
-        userInfo: action.payload,
       };
 
     case getType(login.loginFailure):

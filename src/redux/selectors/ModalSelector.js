@@ -3,3 +3,5 @@ export const modalUpdateServiceState$ = (state) =>
   state.ModalReducer.isShowUpdate;
 export const modalAddUserState$ = (state) =>
   state.ModalReducer.isShowAddNewUser;
+  export const modalListServiceState$ = (state) =>
+  state.ModalReducer.isShowListService;
