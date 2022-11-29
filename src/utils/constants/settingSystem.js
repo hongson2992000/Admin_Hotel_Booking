@@ -25,3 +25,6 @@ export const USER_ROLE = {
   HOUSEKEEPING: "ROLE_HOUSEKEEPING",
   RESTAURANT: "ROLE_RESTAURANT",
 };
+
+export const PHONE_VALID =
+  "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$";

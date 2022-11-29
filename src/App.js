@@ -17,9 +17,10 @@ import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
 import CheckInPage from "./pages/CheckInPage/CheckInPage";
 import PopupSucess from "./component/PopupSuccess/PopupSuccess";
-import CustomerPage from "./pages/CustomerPage/CustomerPage"
+import CustomerPage from "./pages/CustomerPage/CustomerPage";
 import ListRequestServicePage from "./pages/ListRequestServicePage/ListRequestServicePage";
 import { useEffect } from "react";
+import AccountPage from "./pages/AccountPage/AccountPage";
 import ListTurnDownServicePage from "./pages/ListTurnDownServicePage/ListTurnDownServicePage";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index path="/" element={<LoginPage />} />
+          <Route exact path="/account" element={<AccountPage />} />
           <Route exact path="/overview" element={<HomePage />} />
           <Route exact path="/service" element={<ServicePage />} />
           <Route exact path="/location" element={<LocationPage />} />
@@ -51,8 +53,21 @@ function App() {
           <Route exact path="/listRoom" element={<ListRoomPage />} />
           <Route exact path="/checkIn" element={<CheckInPage />} />
           <Route exact path="/checkCustomerInfo" element={<CustomerPage />} />
-          <Route exact path="/listrequestServiceStaff" element={<ListRequestServicePage />} />
-          <Route exact path="/listTurnDownService" element={<ListTurnDownServicePage />} />
+          <Route
+            exact
+            path="/listrequestService"
+            element={<ListRequestServicePage />}
+          />
+          <Route
+            exact
+            path="/listrequestServiceStaff"
+            element={<ListRequestServicePage />}
+          />
+          <Route
+            exact
+            path="/listTurnDownService"
+            element={<ListTurnDownServicePage />}
+          />
           <Route exact path="/listCustomer" element={<CustomerPage />} />
           <Route exact path="/alarm" element={<CustomerPage />} />
         </Routes>

@@ -14,6 +14,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
+import { ManageAccounts } from "@mui/icons-material";
 export default function Sidebar() {
   const userInfo = useSelector(userState$);
   const renderByAuth = () => {
@@ -76,6 +77,16 @@ export default function Sidebar() {
                 >
                   <EmojiPeopleIcon className="icon" />
                   <span>Lời Chào</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/account"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <ManageAccounts className="icon" />
+                  <span>Account</span>
                 </NavLink>
               </li>
             </ul>
@@ -151,6 +162,7 @@ export default function Sidebar() {
           </div>
         </div>
       );
+    } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
     } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
       return (
         <div className="sidebar">

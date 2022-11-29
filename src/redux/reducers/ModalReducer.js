@@ -6,15 +6,21 @@ import {
   hideModalUpdate,
   showModalAddUser,
   hideModalAddUser,
+  showCreateAccountModel,
+  hideCreateAccountModel,
+  showUpdateAccountModel,
+  hideUpdateAccountModel,
   showModalListService,
-  hideModalListService
+  hideModalListService,
 } from "../actions/ModalAction";
 
 const initialState = {
   isShow: false,
   isShowUpdate: false,
   isShowAddNewUser: false,
-  isShowListService:false
+  isShowAddAccount: false,
+  isShowUpdateAccount: false,
+  isShowListService: false,
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -51,7 +57,27 @@ export default function ModalReducer(state = initialState, action) {
         ...state,
         isShowAddNewUser: false,
       };
-      case getType(showModalListService):
+    case getType(showCreateAccountModel):
+      return {
+        ...state,
+        isShowAddAccount: true,
+      };
+    case getType(hideCreateAccountModel):
+      return {
+        ...state,
+        isShowAddAccount: false,
+      };
+    case getType(showUpdateAccountModel):
+      return {
+        ...state,
+        isShowUpdateAccount: true,
+      };
+    case getType(hideUpdateAccountModel):
+      return {
+        ...state,
+        isShowUpdateAccount: false,
+      };
+    case getType(showModalListService):
       return {
         ...state,
         isShowListService: true,
