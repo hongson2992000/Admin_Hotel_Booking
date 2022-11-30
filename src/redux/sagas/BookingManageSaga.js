@@ -105,3 +105,40 @@ function* checkOutRoom(action) {
 export function* followActionCheckOut() {
   yield takeLatest(actions.checkOutRoom.checkOutRoomRequest, checkOutRoom);
 }
+
+function* getDashBoard(action) {
+  try {
+    console.log("DashBoard", action);
+
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    yield delay(1000);
+
+    let listBooking = yield call(() => {
+      return bookingManage.getDashBoard(action.payload);
+    });
+    console.log(listBooking.data);
+    if (listBooking.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getDashBoardOverview.getDashBoardOverviewSuccess(
+          listBooking.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+  } catch (error) {
+    yield put(actions.getDashBoardOverview.getDashBoardOverviewFailure(error));
+  }
+}
+export function* followActionGetDashBoard() {
+  yield takeLatest(
+    actions.getDashBoardOverview.getDashBoardOverviewRequest,
+    getDashBoard
+  );
+}

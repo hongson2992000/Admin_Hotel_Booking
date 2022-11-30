@@ -5,6 +5,7 @@ import {
   addNewUserBooking,
   getInfoUserBooking,
   checkInRoom,
+  getDashBoardOverview,
 } from "../actions/BookingManageAction";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   bookingItem: {},
   userInfoBooking: [],
   arrCheckIn: [],
+  dashboard: {},
 };
 export default function BookingManageReducer(state = initialState, action) {
   switch (action.type) {
@@ -54,6 +56,19 @@ export default function BookingManageReducer(state = initialState, action) {
         arrCheckIn: action.payload,
       };
     case getType(checkInRoom.checkInRoomFailure):
+      return {
+        ...state,
+      };
+    case getType(getDashBoardOverview.getDashBoardOverviewRequest):
+      return {
+        ...state,
+      };
+    case getType(getDashBoardOverview.getDashBoardOverviewSuccess):
+      return {
+        ...state,
+        dashboard: action.payload,
+      };
+    case getType(getDashBoardOverview.getDashBoardOverviewFailure):
       return {
         ...state,
       };
