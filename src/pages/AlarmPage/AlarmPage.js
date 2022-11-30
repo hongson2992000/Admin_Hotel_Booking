@@ -1,15 +1,16 @@
 import React from "react";
-import ListRoomContainer from "../../component/ListRoomContainer/ListRoomContainer";
+import AlarmContainer from "../../component/AlarmContainer/AlarmContainer";
 import Navbar from "../../component/Navbar/Navbar";
 import Sidebar from "../../component/Sidebar/Sidebar";
-import "./ListRoomPage.scss";
-export default function ListRoomPage() {
+
+export default function AlarmPage() {
   return (
-    <div className="main-screenListRoom">
+    <div className="main-screen">
       <Sidebar />
       <div className="listContainer">
         <Navbar />
-        <ListRoomContainer />
+        {/* <CreateAccountModel /> */}
+        <AlarmContainer />
       </div>
     </div>
   );

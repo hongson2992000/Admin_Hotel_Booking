@@ -5,14 +5,12 @@ import Sidebar from '../../component/Sidebar/Sidebar'
 import "./ListBookingPage.scss"
 export default function ListBookingPage() {
   return (
-    <div className="main-screen">
-      <div className="main-screen">
+      <div className="main-screenListBookingPage">
         <Sidebar />
         <div className="listContainer">
           <Navbar />
           <ListBookingContainer />
         </div>
       </div>
-    </div>
   )
 }

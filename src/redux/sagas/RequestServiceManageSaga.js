@@ -217,7 +217,7 @@ function* confirmTurnDownService(action) {
             booking_Id: action.payload.booking_Id,
             id: 0,
             messageContent:
-              "Chúng Tôi Đã Hoàn Này Dịch Vụ Dọn Phòng Nhanh Tại Phòng Của Quý Khách ",
+              "Chúng tôi đã hoàn thành dịch vụ dọn phòng nhanh tại phòng của quý khách",
           });
         });
         if (listMessage.status === STATUS_CODE.SUCCESS) {

@@ -3,7 +3,7 @@ import "./ListBookingContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bookingManageState$ } from "../../redux/selectors/BookingManageSelector";
@@ -19,9 +19,10 @@ import {
 export default function ListBookingContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   useEffect(() => {
     dispatch(actions.getAllBooking.getAllBookingRequest());
-  }, [dispatch]);
+  }, [dispatch, searchParams]);
 
   const [value, setValue] = React.useState("1");
 
@@ -32,7 +33,6 @@ export default function ListBookingContainer() {
   };
   const handleFillInfoCheckIn = useCallback(
     (item) => {
-      console.log("Thanh An Hong Son", item);
       const infoBooking = listBooking.find(
         (bookingItem) => bookingItem.id === item.id
       );
@@ -40,10 +40,7 @@ export default function ListBookingContainer() {
       localStorage.setItem(INFO_BOOKING_DETAIL, JSON.stringify(infoBooking));
       dispatch(
         actionRoom.getRoomAvailability.getRoomAvailabilityRequest({
-          dateCheckIn: item.arrivalDate,
-          dateCheckOut: item.departureDate,
-          numOfPerson: item.numOfPerson,
-          roomTypeId: item.roomTypeId,
+          booking_id:item.id
         })
       );
       navigate("/checkIn");

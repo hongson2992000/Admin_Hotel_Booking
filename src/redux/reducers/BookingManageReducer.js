@@ -34,11 +34,12 @@ export default function BookingManageReducer(state = initialState, action) {
       return {
         ...state,
         bookingItem: action.payload,
+        userInfoBooking: [],
       };
     case getType(getInfoUserBooking.getInfoUserBookingRequest):
       return {
         ...state,
-        bookingItem: action.payload,
+        bookingItem: action.payload,     
       };
     case getType(addNewUserBooking.addNewUserBookingRequest):
       let bookingItemNew = [...state.userInfoBooking];

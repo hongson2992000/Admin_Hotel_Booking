@@ -22,6 +22,7 @@ import ListRequestServicePage from "./pages/ListRequestServicePage/ListRequestSe
 import { useEffect } from "react";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import ListTurnDownServicePage from "./pages/ListTurnDownServicePage/ListTurnDownServicePage";
+import AlarmPage from "./pages/AlarmPage/AlarmPage";
 
 function App() {
   let isLoading = useSelector(loadingState$);
@@ -69,7 +70,7 @@ function App() {
             element={<ListTurnDownServicePage />}
           />
           <Route exact path="/listCustomer" element={<CustomerPage />} />
-          <Route exact path="/alarm" element={<CustomerPage />} />
+          <Route exact path="/alarm" element={<AlarmPage />} />
         </Routes>
       </BrowserRouter>
     </div>
