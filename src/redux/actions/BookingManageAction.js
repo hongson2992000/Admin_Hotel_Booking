@@ -34,3 +34,9 @@ export const checkOutRoom = createActions({
   checkOutRoomSuccess: (payload) => payload,
   checkOutRoomFailure: (err) => err,
 });
+
+export const getDashBoardOverview = createActions({
+  getDashBoardOverviewRequest: (payload) => payload,
+  getDashBoardOverviewSuccess: (payload) => payload,
+  getDashBoardOverviewFailure: (err) => err,
+});

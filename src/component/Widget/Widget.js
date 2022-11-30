@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Widget.scss";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-export default function Widget({ type }) {
+export default function Widget({ type, amount, diff }) {
   let data;
 
-  //temporary
-  const amount = 0;
-  const diff = 0;
+  // //temporary
+  // const amount = 0;
+  // const diff = 0;
+  // useEffect(() => {
+  //   if(amount === ''){
+  //     amount = 0;
+  //   }
+  // })
 
   switch (type) {
     case "dat_hom_nay":
@@ -48,22 +53,23 @@ export default function Widget({ type }) {
     default:
       break;
   }
+
   return (
     <div className="widget">
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {amount === "" ? 0 : amount} {data.isMoney && " đ"}
         </span>
         <span className="link">{data.link}</span>
       </div>
-      <div className="right">
+      {/* <div className="right">
         <div className="percentage positive">
           <KeyboardArrowUpIcon />
           {diff} %
         </div>
         {data.icon}
-      </div>
+      </div> */}
     </div>
   );
 }
