@@ -1,26 +1,37 @@
-import { InputLabel, MenuItem, Select, TextField, Stack, Checkbox } from "@mui/material";
+import {
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
 import React, { useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { bookingItemState$ } from "../../redux/selectors/BookingManageSelector";
 import "./CheckInContainer.scss";
 import { showModalAddUser } from "../../redux/actions/ModalAction";
 import { infoUserBookingState$ } from "../../redux/selectors/BookingManageSelector";
 import {
-  roomManageState$,
+
   roomValidState$,
 } from "../../redux/selectors/RoomManageSelector";
 import * as actions from "../../redux/actions/BookingManageAction";
 import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
-
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
 export default function CheckInContainer() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const infoUser = useSelector(infoUserBookingState$);
   console.log("InfoUser", infoUser);
   const roomValid = useSelector(roomValidState$);
   const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
   // console.log("Hello Son", infoBooking);
+  const renderCurrentDate = () => {
+    let currentDate = moment().format("YYYY-MM-DD");
+    return currentDate;
+  };
+  console.log(renderCurrentDate());
   const renderTypeRoom = () => {
     let roomType = "";
     switch (infoBooking.roomTypeId) {
@@ -49,11 +60,16 @@ export default function CheckInContainer() {
     ));
     return renderMenu;
   };
+  const renderFormatDate = (date) => {
+    let arrDate = date.split("-");
+    let formatDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
+    return formatDate;
+  };
   const onSubmitCheckIn = useCallback(
     (values) => {
       let bookingRequest = {
-        actualArrivalDate: values.actualArrivalDate,
-        actualDepartureDate: values.actualDepartureDate,
+        actualArrivalDate: renderFormatDate(values.actualArrivalDate),
+        actualDepartureDate: renderFormatDate(values.actualDepartureDate),
         arrivalDate: values.arrivalDate,
         confirmationNo: values.confirmationNo,
         createBy: values.createBy,
@@ -73,19 +89,17 @@ export default function CheckInContainer() {
         totalAmount: values.totalAmount,
         updateDate: "",
       };
-      // console.log("ARRRR", infoUser);
-      // let infoCheckIn = {};
-      // let newInfoCheckIn = Object.assign(infoCheckIn, { bookingRequest });
-
       let newInfoCheckInWithUser = {
         bookingRequest: bookingRequest,
-        customer: infoUser,
+        customerRequests: infoUser,
       };
 
       console.log("NewCheckInFo", newInfoCheckInWithUser);
-      dispatch(actions.checkInRoom.checkInRoomRequest(newInfoCheckInWithUser));
+      // dispatch(
+      //   actions.checkInRoom.checkInRoomRequest({newInfoCheckInWithUser, navigate})
+      // );
     },
-    [infoUser, dispatch]
+    [navigate, infoUser, dispatch]
   );
   const formik = useFormik({
     initialValues: {
@@ -182,11 +196,15 @@ export default function CheckInContainer() {
         },
       },
       {
-        field: "birthDate",
-        headerName: "Ngày Sinh",
-        width: 150,
+        field: "primary",
+        headerName: "Đại Diện",
+        width: 200,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.birthDate}</div>;
+          return (
+            <div className="cellWithImg">
+              {params.row.primary === true ? "Người Đại Diện" : "Người Thường"}
+            </div>
+          );
         },
       },
     ],
@@ -207,16 +225,6 @@ export default function CheckInContainer() {
               Cập Nhật
             </div>
           </div>
-        );
-      },
-    },
-    {
-      field: "setPrimaryPerson",
-      headerName: "Người Đại Diện",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <Checkbox/>
         );
       },
     },
@@ -311,7 +319,7 @@ export default function CheckInContainer() {
                   required
                   id="numOfChildren"
                   name="numOfChildren"
-                  value={formik.values.numOfChildren || ""}
+                  value={formik.values.numOfChildren}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -341,10 +349,12 @@ export default function CheckInContainer() {
               </div>
               <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Ngày Thực Sự Đến</InputLabel>
-                <TextField
+                <input
                   className="title"
+                  style={{ padding: "0.875rem", borderRadius: "5px" }}
                   type="date"
                   required
+                  min={moment().format("YYYY-MM-DD")}
                   id="actualArrivalDate"
                   name="actualArrivalDate"
                   value={formik.values.actualArrivalDate || ""}
@@ -365,13 +375,15 @@ export default function CheckInContainer() {
               </div>
               <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Ngày Thực Sự Đi</InputLabel>
-                <TextField
+                <input
                   className="title"
+                  style={{ padding: "0.875rem", borderRadius: "5px" }}
                   type="date"
                   required
-                  id="departureDate"
-                  name="departureDate"
-                  value={formik.values.departureDate}
+                  min={moment().format("YYYY-MM-DD")}
+                  id="actualDepartureDate"
+                  name="actualDepartureDate"
+                  value={formik.values.actualDepartureDate}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -397,6 +409,7 @@ export default function CheckInContainer() {
                 <InputLabel className="label">Tên Khách Hàng</InputLabel>
                 <TextField
                   className="title"
+                  disabled
                   required
                   id="name"
                   name="name"
@@ -408,6 +421,7 @@ export default function CheckInContainer() {
                 <InputLabel className="label">Số Điện Thoại</InputLabel>
                 <TextField
                   className="title"
+                  disabled
                   required
                   id="phoneNumber"
                   name="phoneNumber"
@@ -419,6 +433,7 @@ export default function CheckInContainer() {
                 <InputLabel className="label">Email</InputLabel>
                 <TextField
                   className="title"
+                  disabled
                   required
                   id="email"
                   name="email"
@@ -475,7 +490,12 @@ export default function CheckInContainer() {
                 Check In
               </button>
             ) : (
-              <button type="submit" className="buttonCheckInItem" disabled style={{pointerEvents:"none"}}>
+              <button
+                type="submit"
+                className="buttonCheckInItem"
+                disabled
+                style={{ pointerEvents: "none" }}
+              >
                 Check In
               </button>
             )}

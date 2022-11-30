@@ -40,10 +40,7 @@ function* getRoomAvailability(action) {
     });
     yield delay(1000);
     let formData = new FormData();
-    formData.append("dateCheckIn", action.payload.dateCheckIn);
-    formData.append("dateCheckOut", action.payload.dateCheckOut);
-    formData.append("numOfPerson", action.payload.numOfPerson);
-    formData.append("roomTypeId", action.payload.roomTypeId);
+    formData.append("booking_id", action.payload.booking_id);
     let roomValid = yield call(() => {
       return roomManage.getRoomAvailability(formData);
     });

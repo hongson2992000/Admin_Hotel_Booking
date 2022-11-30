@@ -1,87 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Room from "./Room/Room";
 import "./ListRoomContainer.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { roomManageState$ } from "../../redux/selectors/RoomManageSelector";
+import * as actions from "../../redux/actions/RoomManageAction"
 export default function ListRoomContainer() {
-  const data = [
-    {
-      id: 1,
-      name: "R001",
-      roomNo: "001",
-      description: "Phong Standard 001",
-      createDate: "28/10/2022",
-      updateDate: "28/10/2022",
-      createBy: "Duong",
-      lastModifyBy: "long",
-      hotel_Id: 1,
-      roomType_Id: 1,
-      status: true,
-    },
-    {
-      id: 2,
-      name: "R001",
-      roomNo: "001",
-      description: "Phong Standard 001",
-      createDate: "28/10/2022",
-      updateDate: "28/10/2022",
-      createBy: "Duong",
-      lastModifyBy: "long",
-      hotel_Id: 1,
-      roomType_Id: 1,
-      status: true,
-    },
-    {
-      id: 3,
-      name: "R001",
-      roomNo: "001",
-      description: "Phong Standard 001",
-      createDate: "28/10/2022",
-      updateDate: "28/10/2022",
-      createBy: "Duong",
-      lastModifyBy: "long",
-      hotel_Id: 1,
-      roomType_Id: 1,
-      status: true,
-    },
-    {
-      id: 4,
-      name: "R001",
-      roomNo: "001",
-      description: "Phong Standard 001",
-      createDate: "28/10/2022",
-      updateDate: "28/10/2022",
-      createBy: "Duong",
-      lastModifyBy: "long",
-      hotel_Id: 1,
-      roomType_Id: 1,
-      status: true,
-    },
-    {
-      id: 5,
-      name: "R001",
-      roomNo: "001",
-      description: "Phong Standard 001",
-      createDate: "28/10/2022",
-      updateDate: "28/10/2022",
-      createBy: "Duong",
-      lastModifyBy: "long",
-      hotel_Id: 1,
-      roomType_Id: 1,
-      status: false,
-    },
-    {
-      id: 6,
-      name: "R001",
-      roomNo: "001",
-      description: "Phong Standard 001",
-      createDate: "28/10/2022",
-      updateDate: "28/10/2022",
-      createBy: "Duong",
-      lastModifyBy: "long",
-      hotel_Id: 1,
-      roomType_Id: 1,
-      status: false,
-    },
-  ];
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(actions.getAllRoom.getAllRoomRequest())
+  },[dispatch])
+  const listRoom = useSelector(roomManageState$)
   return (
     <div className="ListRoomContainer col-12">
       <div className="FillterRoom">
@@ -102,7 +30,7 @@ export default function ListRoomContainer() {
         </a>
       </div>
       <div className="col-12 RoomContainer">
-        <Room data={data} />
+        <Room listRoom={listRoom} />
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ function* getAllBooking(action) {
     });
     // navigate("/location")
   } catch (error) {
-    console.log(error)
+    console.log(error);
     yield put(actions.getAllBooking.getAllBookingFailure(error));
   }
 }
@@ -35,23 +35,33 @@ export function* followActionGetAllBooing() {
 }
 function* checkInRoom(action) {
   try {
+    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
     yield delay(1000);
     let listBooking = yield call(() => {
-      return bookingManage.checkInRoom(action.payload);
+      return bookingManage.checkInRoom(action.payload.newInfoCheckInWithUser);
     });
     console.log(listBooking.data);
     if (listBooking.status === STATUS_CODE.SUCCESS) {
       yield put(actions.checkInRoom.checkInRoomSuccess(listBooking.data));
+      let list = yield call(() => {
+        return bookingManage.getAllBooking();
+      });
+      if (list.status === STATUS_CODE.SUCCESS) {
+        yield put(actions.getAllBooking.getAllBookingSuccess(list.data));
+      }
     }
     yield put({
       type: HIDE_LOADING,
     });
-    // navigate("/listBooking")
+    action.payload.navigate("/listBooking");
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     yield put(actions.checkInRoom.checkInRoomFailure(error));
   }
 }
@@ -73,16 +83,22 @@ function* checkOutRoom(action) {
     console.log(listBooking.data);
     if (listBooking.status === STATUS_CODE.SUCCESS) {
       yield put(actions.checkOutRoom.checkOutRoomSuccess(listBooking.data));
+      let list = yield call(() => {
+        return bookingManage.getAllBooking();
+      });
+      if (list.status === STATUS_CODE.SUCCESS) {
+        yield put(actions.getAllBooking.getAllBookingSuccess(list.data));
+      }
     }
     yield put({
       type: HIDE_LOADING,
     });
-    action.payload.navigate("/listBooking")
+    action.payload.navigate("/listBooking");
     yield put({
       type: DISPLAY_POPUP_SUCCESS,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     yield put(actions.checkOutRoom.checkOutRoomFailure(error));
   }
 }

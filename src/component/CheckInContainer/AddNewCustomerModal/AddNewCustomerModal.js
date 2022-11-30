@@ -1,11 +1,4 @@
-import {
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  TextareaAutosize,
-  TextField,
-} from "@mui/material";
+import { InputLabel, MenuItem, Modal, Select, TextField } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,11 +10,17 @@ import { useNavigate } from "react-router-dom";
 import { USER_LOGIN } from "../../../utils/constants/settingSystem";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 import moment from "moment";
+import { infoUserBookingState$ } from "../../../redux/selectors/BookingManageSelector";
 export default function AddNewCustomerModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalAddUserState$);
   const navigate = useNavigate();
   const infoUser = useSelector(userState$);
+  const listCustomer = useSelector(infoUserBookingState$);
+  const renderListCustomerAvailability = () => {
+    let newList = listCustomer.filter((item) => item.primary === true);
+    return newList;
+  };
   const onClose = useCallback(() => {
     dispatch(hideModalAddUser());
   }, [dispatch]);
@@ -45,6 +44,7 @@ export default function AddNewCustomerModal() {
         idNo: values.idNo,
         updateDate: values.updateDate,
         lastModifyBy: values.lastModifyBy,
+        primary: values.primary,
       };
       dispatch(
         actions.addNewUserBooking.addNewUserBookingRequest(infoUserCheckIn)
@@ -87,6 +87,7 @@ export default function AddNewCustomerModal() {
         infoUser.middleName +
         " " +
         infoUser.lastName,
+      primary: false,
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitInfoUser(values);
@@ -97,7 +98,7 @@ export default function AddNewCustomerModal() {
   });
   console.log(formik.values);
   const body = (
-    <div className="paper" id="simple-modal-title">
+    <div className="paperAddNewService" id="simple-modal-title">
       <h2>Thêm khách</h2>
       <hr />
       <form
@@ -108,15 +109,6 @@ export default function AddNewCustomerModal() {
       >
         <div className="row">
           <div className="col-12 simpleModalItem">
-            {/* <InputLabel>Tên khách</InputLabel>
-            <TextField
-              className="title"
-              required
-              id="lastName"
-              name="lastName"
-              value={formik.values.lastName}
-              onChange={formik.handleChange}
-            /> */}
             <div className="row">
               <div className="col-4">
                 <InputLabel>Họ</InputLabel>
@@ -215,16 +207,33 @@ export default function AddNewCustomerModal() {
             />
           </div>
           <div className="col-6 simpleModalItem">
-            <InputLabel>Người Tạo</InputLabel>
-            <TextField
-              className="title"
-              disabled
-              type="text"
-              id="lastModifyBy"
-              name="lastModifyBy"
-              value={formik.values.lastModifyBy || ""}
-              onChange={formik.handleChange}
-            />
+            <InputLabel>Người Đại Diện</InputLabel>
+            {renderListCustomerAvailability().length !== 0 ? (
+              <Select
+                className="title"
+                disabled
+                required
+                id="primary"
+                name="primary"
+                value={formik.values.primary || ""}
+                onChange={formik.handleChange}
+              >
+                <MenuItem value={true}>Người Đại Diện</MenuItem>
+                <MenuItem value={false}>Người Thường</MenuItem>
+              </Select>
+            ) : (
+              <Select
+                className="title"
+                required
+                id="primary"
+                name="primary"
+                value={formik.values.primary || ""}
+                onChange={formik.handleChange}
+              >
+                <MenuItem value={true}>Người Đại Diện</MenuItem>
+                <MenuItem value={false}>Người Thường</MenuItem>
+              </Select>
+            )}
           </div>
           <div className="footer">
             <button className="buttonSave" type="submit">

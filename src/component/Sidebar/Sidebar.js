@@ -162,7 +162,6 @@ export default function Sidebar() {
           </div>
         </div>
       );
-    } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
     } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
       return (
         <div className="sidebar">

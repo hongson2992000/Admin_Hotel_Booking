@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import * as actions from "../../../redux/actions/RequestServiceManageAction";
 import { DataGrid } from "@mui/x-data-grid";
 import { requestServiceDetailManageState$ } from "../../../redux/selectors/RequestServiceManageSelector";
+import DialogDelete from "../../DialogDelete/DialogDelete";
 export default function ModalListRequestService() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalListServiceState$);
@@ -19,42 +20,38 @@ export default function ModalListRequestService() {
   const onClose = useCallback(() => {
     dispatch(hideModalListService());
   }, [dispatch]);
-  // let dataService = formik.values
-  // const onSubmitInfoUser = useCallback(
-  //   (values) => {
-  //     let arrDate = values.birthDate.split("-");
-  //     let formatedDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
-  //     let infoUserCheckIn = {
-  //       id: values.id,
-  //       birthDate: formatedDate,
-  //       createBy: values.createBy,
-  //       createDate: values.createDate,
-  //       email: values.email,
-  //       firstName: values.firstName,
-  //       gender: 1,
-  //       phoneNumber: values.phoneNumber,
-  //       lastName: values.lastName,
-  //       middleName: values.middleName,
-  //       passportNo: values.passportNo,
-  //       idNo: values.idNo,
-  //       updateDate: values.updateDate,
-  //       lastModifyBy: values.lastModifyBy,
-  //     };
-  //     dispatch(
-  //       actions.addNewUserBooking.addNewUserBookingRequest(infoUserCheckIn)
-  //     );
-  //     dispatch(hideModalAddUser());
-  //     // navigate("/checkIn");
-  //   },
-  //   [dispatch]
-  // );
-  // const renderIdRandom = () => {
-  //   let id = new Date().getTime();
-  //   setId(id);
-  //   return id;
-  // };
-  // let [id, setId] = useState(new Date().getTime());
-  // let currentDate = moment().format("DD/MM/YYYY");
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
+  const [idService, setIdService] = useState({
+    id: 0,
+  });
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
+  };
+  const handleCancelService = (id) => {
+    handleDialog("Bạn chắc chắn xóa dịch vụ này?", true);
+    setIdService({
+      id: id,
+    });
+  };
+  const areUSureDelete = (choose) => {
+    if (choose) {
+      dispatch(
+        actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdRequest(
+          { orderDetailId: idService, orderId: infoOderDetail.id }
+        )
+      );
+      dispatch(hideModalListService())
+      handleDialog("", false);
+    } else {
+      handleDialog("", false);
+    }
+  };
   const renderArr = () => {
     let arrNew = [];
     infoOderDetail.orderDetails?.forEach((item) => {
@@ -76,17 +73,17 @@ export default function ModalListRequestService() {
     });
     return arrNew;
   };
-  const handleCancelService = useCallback(
-    (id) => {
-      dispatch(
-        actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdRequest(
-          { orderDetailId: id, orderId: infoOderDetail.id }
-        )
-      );
-      dispatch(hideModalListService())
-    },
-    [infoOderDetail, dispatch]
-  );
+  // const handleCancelService = useCallback(
+  //   (id) => {
+  //     dispatch(
+  //       actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdRequest(
+  //         { orderDetailId: id, orderId: infoOderDetail.id }
+  //       )
+  //     );
+  //     dispatch(hideModalListService())
+  //   },
+  //   [infoOderDetail, dispatch]
+  // );
   const actionColumn = [
     {
       field: "action",
@@ -260,6 +257,9 @@ export default function ModalListRequestService() {
           )}
         </div>
       </Modal>
+      {dialog.isLoading && (
+        <DialogDelete onDialog={areUSureDelete} message={dialog.message} />
+      )}
     </div>
   );
 }

@@ -25,14 +25,16 @@ export default function ListTurnDownServiceContainer() {
     let listRequestServiceNew = listRequestService.filter(
       (item) => item.status !== DONE
     );
-    listRequestServiceNew?.forEach((item) => {
+    listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
+        stt: index + 1,
         id: item.id,
         booking_Id: item.booking.id,
         requestServiceName: item.requestServiceName,
         requestServiceType: item.requestServiceType,
-        roomNo: item.booking.room.roomNo,
-        dateTime: item.dateTime,
+        roomNo: item.booking.room?.roomNo,
+        dateTime: item.dateTime.substring(0,10),
+        time: item.dateTime.substring(10),
         customerName:
           item.booking.customer.firstName +
           " " +
@@ -109,17 +111,27 @@ export default function ListTurnDownServiceContainer() {
   let serviceColumns = useMemo(
     () => [
       {
-        field: "id",
-        headerName: "Mã Hóa Đơn",
+        field: "roomNo",
+        headerName: "Phòng",
         width: 150,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.id}</div>;
+          return <div className="cellWithImg">{params.row?.roomNo}</div>;
+        },
+      },
+      {
+        field: "customerName",
+        headerName: "Tên Khách",
+        width: 180,
+        renderCell: (params) => {
+          return (
+            <div className={`cellWithStatus`}>{params.row.customerName}</div>
+          );
         },
       },
       {
         field: "requestServiceName",
         headerName: "Tên Dịch Vụ",
-        width: 150,
+        width: 200,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">{params.row.requestServiceName}</div>
@@ -127,29 +139,19 @@ export default function ListTurnDownServiceContainer() {
         },
       },
       {
-        field: "roomNo",
-        headerName: "Phòng",
-        width: 150,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.roomNo}</div>;
-        },
-      },
-      {
         field: "dateTime",
         headerName: "Ngày Đặt",
-        width: 200,
+        width: 150,
         renderCell: (params) => {
           return <div className={`cellWithStatus`}>{params.row.dateTime}</div>;
         },
       },
       {
-        field: "customerName",
-        headerName: "Tên Khách",
+        field: "time",
+        headerName: "Thời Gian Thực Hiện",
         width: 200,
         renderCell: (params) => {
-          return (
-            <div className={`cellWithStatus`}>{params.row.customerName}</div>
-          );
+          return <div className={`cellWithStatus`}>{params.row.time}</div>;
         },
       },
       {
@@ -210,12 +212,12 @@ export default function ListTurnDownServiceContainer() {
                 >
                   Xác Nhận
                 </div>
-                <div
+                {/* <div
                   className="cancelButton"
                   //   onClick={() => openRequestServiceModal(params.row.id)}
                 >
                   Hủy
-                </div>
+                </div> */}
               </div>
             ) : params.row.status === PROCESSING ? (
               <div className="cellAction">
