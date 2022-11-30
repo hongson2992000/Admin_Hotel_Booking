@@ -26,7 +26,7 @@ function* getAllBooking(action) {
     });
     // navigate("/location")
   } catch (error) {
-    console.log(error)
+    console.log(error);
     yield put(actions.getAllBooking.getAllBookingFailure(error));
   }
 }
@@ -51,7 +51,7 @@ function* checkInRoom(action) {
     });
     // navigate("/listBooking")
   } catch (error) {
-    console.log(error)
+    console.log(error);
     yield put(actions.checkInRoom.checkInRoomFailure(error));
   }
 }
@@ -77,15 +77,52 @@ function* checkOutRoom(action) {
     yield put({
       type: HIDE_LOADING,
     });
-    action.payload.navigate("/listBooking")
+    action.payload.navigate("/listBooking");
     yield put({
       type: DISPLAY_POPUP_SUCCESS,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     yield put(actions.checkOutRoom.checkOutRoomFailure(error));
   }
 }
 export function* followActionCheckOut() {
   yield takeLatest(actions.checkOutRoom.checkOutRoomRequest, checkOutRoom);
+}
+
+function* getDashBoard(action) {
+  try {
+    console.log("DashBoard", action);
+
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    yield delay(1000);
+
+    let listBooking = yield call(() => {
+      return bookingManage.getDashBoard(action.payload);
+    });
+    console.log(listBooking.data);
+    if (listBooking.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getDashBoardOverview.getDashBoardOverviewSuccess(
+          listBooking.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+  } catch (error) {
+    yield put(actions.getDashBoardOverview.getDashBoardOverviewFailure(error));
+  }
+}
+export function* followActionGetDashBoard() {
+  yield takeLatest(
+    actions.getDashBoardOverview.getDashBoardOverviewRequest,
+    getDashBoard
+  );
 }
