@@ -9,7 +9,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../../redux/selectors/UserSelector";
-import { USER_ROLE } from "../../../utils/constants/settingSystem";
+import {
+  BOOKED,
+  PROCESSING,
+  USER_ROLE,
+} from "../../../utils/constants/settingSystem";
 import RoomPopup from "./roomPopup";
 
 export default function Room({ listRoom }) {
@@ -22,7 +26,6 @@ export default function Room({ listRoom }) {
     { name: "Gửi thông báo", id: 1 },
     { name: "Check out", id: 2 },
   ];
-  const [] = useState();
   const [openNotEmpty, setOpenNotEmpty] = useState({ id: 0, display: false });
   const [openEmpty, setOpenEmpty] = useState({ id: 0, display: false });
   const dispatch = useDispatch();
@@ -58,17 +61,34 @@ export default function Room({ listRoom }) {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
+      let arrTurnDown = item.booking.orders?.filter(
+        (item) => item.status === BOOKED || item.status === PROCESSING
+      );
       return (
         <div className="rowIcon">
-          <RoomServiceIcon
-            onClick={() => {
-              setOpenNotEmpty({
-                id: item.id,
-                display: !openNotEmpty.display,
-              });
-            }}
-            className="icon"
-          />
+          {arrTurnDown?.length !== 0 ? (
+            <RoomServiceIcon
+              onClick={() => {
+                setOpenNotEmpty({
+                  id: item.id,
+                  display: !openNotEmpty.display,
+                });
+              }}
+              className="icon animate__animated animate__heartBeat animate__infinite"
+              style={{ color: "red" }}
+            />
+          ) : (
+            <RoomServiceIcon
+              onClick={() => {
+                setOpenNotEmpty({
+                  id: item.id,
+                  display: !openNotEmpty.display,
+                });
+              }}
+              className="icon"
+              style={{pointerEvents:"none"}}
+            />
+          )}
           {openNotEmpty.display && openNotEmpty.id === item.id && (
             <div className="dropDownTouch">
               <div>
@@ -86,17 +106,34 @@ export default function Room({ listRoom }) {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
+      let arrTurnDown = item.booking.requestServices?.filter(
+        (item) => item.status === BOOKED || item.status === PROCESSING
+      );
       return (
         <div className="rowIcon">
-          <CleaningServicesIcon
-            onClick={() => {
-              setOpenNotEmpty({
-                id: item.id,
-                display: !openNotEmpty.display,
-              });
-            }}
-            className="icon"
-          />
+          {arrTurnDown?.length !== 0 ? (
+            <CleaningServicesIcon
+              onClick={() => {
+                setOpenNotEmpty({
+                  id: item.id,
+                  display: !openNotEmpty.display,
+                });
+              }}
+              className="icon animate__animated animate__heartBeat animate__infinite"
+              style={{ color: "red" }}
+            />
+          ) : (
+            <CleaningServicesIcon
+              onClick={() => {
+                setOpenNotEmpty({
+                  id: item.id,
+                  display: !openNotEmpty.display,
+                });
+              }}
+              className="icon"
+              style={{pointerEvents:"none"}}
+            />
+          )}
           {openNotEmpty.display && openNotEmpty.id === item.id && (
             <div className="dropDownTouch">
               <div>
@@ -174,7 +211,7 @@ export default function Room({ listRoom }) {
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
       return (
-        <div className="rowIcon" style={{pointerEvents:"none"}}>
+        <div className="rowIcon" style={{ pointerEvents: "none" }}>
           <CleaningServicesIcon
             onClick={() => {
               setOpenEmpty({
@@ -250,7 +287,10 @@ export default function Room({ listRoom }) {
                   <p>{item.roomType.name}</p>
                 </div>
                 <div className="CustomerName">
-                  <p>{item.booking.customer?.middleName} {item.booking.customer?.lastName}</p>
+                  <p>
+                    {item.booking.customer?.middleName}{" "}
+                    {item.booking.customer?.lastName}
+                  </p>
                 </div>
                 <div className="RoomNo">
                   <p>{item.roomNo}</p>

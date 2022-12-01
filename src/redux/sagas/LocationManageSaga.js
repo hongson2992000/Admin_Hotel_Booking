@@ -34,7 +34,7 @@ function* createLocation(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let location = yield call(() => {
       return locationManage.createLocation(action.payload);
     });
@@ -55,7 +55,7 @@ function* updateLocation(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let location = yield call(() => {
       return locationManage.updateLocation(action.payload);
     });
@@ -78,7 +78,7 @@ function* deleteLocation(action) {
       type: DISPLAY_LOADING,
     });
     console.log(action.payload)
-    yield delay(1000);
+    // yield delay(1000);
     let location = yield call(() => {
       return locationManage.deleteLocation(action.payload);
     });

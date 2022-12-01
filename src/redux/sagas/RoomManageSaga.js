@@ -12,7 +12,7 @@ function* getAllRoom(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let listRoom = yield call(() => {
       return roomManage.getAllRoom();
     });
@@ -38,7 +38,7 @@ function* getRoomAvailability(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let formData = new FormData();
     formData.append("booking_id", action.payload.booking_id);
     let roomValid = yield call(() => {

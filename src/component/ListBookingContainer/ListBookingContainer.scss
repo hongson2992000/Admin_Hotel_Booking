@@ -54,6 +54,27 @@
     .cellWithImg {
         display: flex;
         align-items: center;
+        &.BOOKED {
+            padding: 5px;
+            background-color: #fff;
+            color: orange;
+            border: 0.5px solid orange;
+            border-radius: 5px;
+        }
+        &.CHECKIN {
+            padding: 5px;
+            background-color: #fff;
+            color: green;
+            border: 0.5px solid green;
+            border-radius: 5px;
+        }
+        &.CHECKOUT {
+            padding: 5px;
+            background-color: #fff;
+            color: red;
+            border: 0.5px solid red;
+            border-radius: 5px;
+        }
         .cellImg {
             width: 32px;
             height: 32px;
@@ -90,12 +111,20 @@
             cursor: pointer;
         }
         .checkInButton {
-            padding: 2px 5px;
+            padding: 5px 7px;
             border-radius: 5px;
-            color: white;
-            background-color: #AAAA;
-            border: 1px dotted #AAAA;
+            color: #AAAA;
+            background-color: #fff;
+            border: 1px solid #AAAA;
             cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: white;
+                background-color: #AAAA;
+                border: 1px solid #AAAA;
+                cursor: pointer;
+            }
         }
     }
 }

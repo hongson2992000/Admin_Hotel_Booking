@@ -18,7 +18,7 @@ function* login(action) {
     let formData = new FormData();
     formData.append("password", action.payload.values.password);
     formData.append("username", action.payload.values.username);
-    yield delay(1000);
+    // yield delay(1000);
     let userToken = yield call(() => {
       return loginService.login(formData);
     });
