@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Room.scss";
 import RoomServiceIcon from "@mui/icons-material/RoomService";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
-
+import * as actions from "../../../redux/actions/RoomManageAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -14,10 +14,13 @@ import {
   PROCESSING,
   USER_ROLE,
 } from "../../../utils/constants/settingSystem";
-import RoomPopup from "./roomPopup";
+// import RoomPopup from "./roomPopup";
+import { roomManageState$ } from "../../../redux/selectors/RoomManageSelector";
 
-export default function Room({ listRoom }) {
+export default function Room() {
+  const dispatch = useDispatch();
   const userInfo = useSelector(userState$);
+  const listRoom = useSelector(roomManageState$);
   let MenusEmpty = [{ name: "Tạo đặt phòng", id: 0 }];
   let MenusNotEmptyHousekeeping = [{ name: "Xem Yêu Cầu Dịch Vụ", id: 0 }];
   let MenusNotEmptyRestaurant = [{ name: "Xem Yêu Cầu Dịch Vụ", id: 0 }];
@@ -28,7 +31,6 @@ export default function Room({ listRoom }) {
   ];
   const [openNotEmpty, setOpenNotEmpty] = useState({ id: 0, display: false });
   const [openEmpty, setOpenEmpty] = useState({ id: 0, display: false });
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const renderMenuByRole = (item) => {
@@ -86,7 +88,7 @@ export default function Room({ listRoom }) {
                 });
               }}
               className="icon"
-              style={{pointerEvents:"none"}}
+              style={{ pointerEvents: "none" }}
             />
           )}
           {openNotEmpty.display && openNotEmpty.id === item.id && (
@@ -131,7 +133,7 @@ export default function Room({ listRoom }) {
                 });
               }}
               className="icon"
-              style={{pointerEvents:"none"}}
+              style={{ pointerEvents: "none" }}
             />
           )}
           {openNotEmpty.display && openNotEmpty.id === item.id && (
@@ -265,42 +267,62 @@ export default function Room({ listRoom }) {
   );
 
   return (
-    <div className="RoomItem row">
-      {listRoom &&
-        listRoom.map((item, i) => {
-          if (item.booking === null) {
-            return (
-              <div className="RoomDetailEmpty col-3" key={i}>
-                <div className="RoomTitile">
-                  <p>{item.roomType.name}</p>
-                </div>
-                <div className="RoomNo">
-                  <p>{item.roomNo}</p>
-                </div>
-                {renderMenuByRoleIsEmpty(item)}
-              </div>
-            );
-          } else {
-            return (
-              <div className="RoomDetail col-3" key={i}>
-                <div className="RoomTitile">
-                  <p>{item.roomType.name}</p>
-                </div>
-                <div className="CustomerName">
-                  <p>
-                    {item.booking.customer?.middleName}{" "}
-                    {item.booking.customer?.lastName}
-                  </p>
-                </div>
-                <div className="RoomNo">
-                  <p>{item.roomNo}</p>
-                </div>
+    <div className="RoomItem col-12">
+      <div className="row">
+        <div className="FillterRoom">
+          <a href="#">
+            <div className="FillterAll">
+              <p>Tất Cả</p>
+            </div>
+          </a>
+          <a href="#">
+            <div className="FillterEmpty">
+              <p>Trống</p>
+            </div>
+          </a>
+          <a href="#">
+            <div className="FillterNotEmpty">
+              <p>Có Khách</p>
+            </div>
+          </a>
+        </div>
 
-                {renderMenuByRole(item)}
-              </div>
-            );
-          }
-        })}
+        {listRoom &&
+          listRoom.map((item, i) => {
+            if (item.booking === null) {
+              return (
+                <div className="RoomDetailEmpty col-4" key={i}>
+                  <div className="RoomTitile">
+                    <p>{item.roomType.name}</p>
+                  </div>
+                  <div className="RoomNo">
+                    <p>{item.roomNo}</p>
+                  </div>
+                  <div className="CustomerName">
+                    <p>...........</p>
+                  </div>
+
+                  {renderMenuByRoleIsEmpty(item)}
+                </div>
+              );
+            } else {
+              return (
+                <div className="RoomDetail col-4" key={i}>
+                  <div className="RoomTitile">
+                    <p>{item.roomType.name}</p>
+                  </div>
+                  <div className="RoomNo">
+                    <p>{item.roomNo}</p>
+                  </div>
+                  <div className="CustomerName">
+                    <p>{item.primaryCustomer}</p>
+                  </div>
+                  {renderMenuByRole(item)}
+                </div>
+              );
+            }
+          })}
+      </div>
     </div>
   );
 }

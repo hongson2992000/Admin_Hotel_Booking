@@ -1,9 +1,72 @@
+body {
+    overflow-x: hidden;
+}
+
 .RoomItem {
-    width: 100%;
+    // width: 100%;
     height: auto;
     display: flex;
     justify-content: center;
-    align-items: start;
+    align-items: center;
+    .FillterRoom {
+        display: flex;
+         :nth-child(2),
+         :nth-child(3) {
+            padding-left: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+        .FillterAll {
+            width: 150px;
+            background-color: #969696;
+            border-radius: 10px;
+            p {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding-top: 0.8rem;
+                padding-bottom: 0.8rem;
+                font-size: 20px;
+            }
+        }
+        .FillterAll:hover {
+            background-color: #c4c4c4;
+        }
+        .FillterEmpty {
+            width: 150px;
+            background-color: #2a942d;
+            border-radius: 10px;
+            p {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding-top: 0.8rem;
+                padding-bottom: 0.8rem;
+                font-size: 20px;
+            }
+        }
+        .FillterEmpty:hover {
+            background-color: #63be66;
+        }
+        .FillterNotEmpty {
+            width: 150px;
+            background-color: #e9aa0c;
+            border-radius: 10px;
+            p {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding-top: 0.8rem;
+                padding-bottom: 0.8rem;
+                font-size: 20px;
+            }
+        }
+        .FillterNotEmpty:hover {
+            background-color: #ffc42a;
+        }
+    }
     p {
         font-size: 20px;
         color: #fff;
@@ -16,12 +79,12 @@
         margin: 30px;
         padding-top: 20px;
         text-align: center;
-        background-color: #4CAF50;
-        width: 320px;
+        background-color: #4caf50;
+        width: 251px;
         height: 270px;
         border-radius: 30px;
         .RoomTitile {
-            height: 100px;
+            height: 60px;
         }
         .dropDownTouch {
             height: auto;
@@ -51,11 +114,11 @@
         padding-top: 20px;
         text-align: center;
         background-color: #ffc42a;
-        width: 320px;
+        width: 251px;
         height: 270px;
         border-radius: 30px;
         .RoomTitile {
-            height: 50px;
+            height: 60px;
         }
         .dropDownTouch {
             height: auto;

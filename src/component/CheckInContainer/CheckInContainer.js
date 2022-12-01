@@ -359,7 +359,7 @@ export default function CheckInContainer() {
                 />
               </div>
               <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Thực Sự Đến</InputLabel>
+                <InputLabel className="label">Ngày Đến Thực Tế</InputLabel>
                 <input
                   className="title"
                   style={{ padding: "0.875rem", borderRadius: "5px" }}
@@ -385,7 +385,7 @@ export default function CheckInContainer() {
                 />
               </div>
               <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Thực Sự Đi</InputLabel>
+                <InputLabel className="label">Ngày Đi Thực Tế</InputLabel>
                 <input
                   className="title"
                   style={{ padding: "0.875rem", borderRadius: "5px" }}

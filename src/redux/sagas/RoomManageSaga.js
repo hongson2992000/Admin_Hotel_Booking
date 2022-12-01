@@ -16,9 +16,24 @@ function* getAllRoom(action) {
     let listRoom = yield call(() => {
       return roomManage.getAllRoom();
     });
+    
     console.log(listRoom.data);
     if (listRoom.status === STATUS_CODE.SUCCESS) {
-      yield put(actions.getAllRoom.getAllRoomSuccess(listRoom.data));
+      let arrRoom = [];
+      
+       yield listRoom.data.forEach((item) => {
+        console.log("ID",item.id)
+        let formData = new FormData();
+        formData.append("room_id", item.id);
+        let booking = call(() => {
+          return roomManage.getBookingCheckInByRoomId(formData);
+        });
+        console.log("ARR", booking)
+        arrRoom.push(booking.data);
+        
+      });
+
+      yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
     }
     yield put({
       type: HIDE_LOADING,
