@@ -87,7 +87,7 @@ export default function LoginPage() {
               Sign In
             </button>
           </div>
-          <div className="login-form-footer">
+          {/* <div className="login-form-footer">
             <a href="#">
               <img
                 width="30"
@@ -102,7 +102,7 @@ export default function LoginPage() {
               />
               Google Login
             </a>
-          </div>
+          </div> */}
         </form>
       </div>
       <div className="login-right"><img src={image} alt="" /></div>

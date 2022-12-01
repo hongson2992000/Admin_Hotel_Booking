@@ -1,9 +1,4 @@
-import {
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
 import React, { useCallback, useMemo, useState } from "react";
@@ -11,10 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./CheckInContainer.scss";
 import { showModalAddUser } from "../../redux/actions/ModalAction";
 import { infoUserBookingState$ } from "../../redux/selectors/BookingManageSelector";
-import {
-
-  roomValidState$,
-} from "../../redux/selectors/RoomManageSelector";
+import { roomValidState$ } from "../../redux/selectors/RoomManageSelector";
 import * as actions from "../../redux/actions/BookingManageAction";
 import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
 import moment from "moment";
@@ -67,9 +59,23 @@ export default function CheckInContainer() {
   };
   const onSubmitCheckIn = useCallback(
     (values) => {
+      let arrActualArrivalDate = values.actualArrivalDate.split("-");
+      let formatDate =
+        arrActualArrivalDate[2] +
+        "/" +
+        arrActualArrivalDate[1] +
+        "/" +
+        arrActualArrivalDate[0];
+      let arrDateActualDepartureDate = values.actualDepartureDate.split("-");
+      let formatActualDepartureDate =
+        arrDateActualDepartureDate[2] +
+        "/" +
+        arrDateActualDepartureDate[1] +
+        "/" +
+        arrDateActualDepartureDate[0];
       let bookingRequest = {
-        actualArrivalDate: renderFormatDate(values.actualArrivalDate),
-        actualDepartureDate: renderFormatDate(values.actualDepartureDate),
+        actualArrivalDate: formatDate,
+        actualDepartureDate: formatActualDepartureDate,
         arrivalDate: values.arrivalDate,
         confirmationNo: values.confirmationNo,
         createBy: values.createBy,
@@ -81,10 +87,10 @@ export default function CheckInContainer() {
         lastModifyBy: "",
         numOfAdult: values.numOfAdult,
         numOfChildren: values.numOfChildren,
-        roomPayment: "",
+        roomPayment: values.roomPayment,
         roomType_Id: values.roomTypeId,
         room_Id: values.room_Id,
-        specialNote: "",
+        specialNote: values.specialNote,
         status: values.status,
         totalAmount: values.totalAmount,
         updateDate: "",
@@ -95,9 +101,12 @@ export default function CheckInContainer() {
       };
 
       console.log("NewCheckInFo", newInfoCheckInWithUser);
-      // dispatch(
-      //   actions.checkInRoom.checkInRoomRequest({newInfoCheckInWithUser, navigate})
-      // );
+      dispatch(
+        actions.checkInRoom.checkInRoomRequest({
+          newInfoCheckInWithUser,
+          navigate,
+        })
+      );
     },
     [navigate, infoUser, dispatch]
   );
@@ -128,10 +137,12 @@ export default function CheckInContainer() {
       actualArrivalDate: "",
       actualDepartureDate: "",
       confirmationNo: infoBooking?.confirmationNo,
-      createBy: "",
+      roomPayment: infoBooking?.roomPayment,
+      createBy: infoBooking?.createBy,
       hotel_Id: infoBooking?.hotel_Id,
       roomTypeId: infoBooking?.roomTypeId,
       totalAmount: infoBooking?.totalAmount,
+      specialNote: infoBooking?.specialNote,
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitCheckIn(values);
@@ -357,7 +368,7 @@ export default function CheckInContainer() {
                   min={moment().format("YYYY-MM-DD")}
                   id="actualArrivalDate"
                   name="actualArrivalDate"
-                  value={formik.values.actualArrivalDate || ""}
+                  value={formik.values.actualArrivalDate}
                   onChange={formik.handleChange}
                 />
               </div>

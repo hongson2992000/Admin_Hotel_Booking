@@ -13,7 +13,7 @@ function* getAllBooking(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let listBooking = yield call(() => {
       return bookingManage.getAllBooking();
     });
@@ -39,7 +39,7 @@ function* checkInRoom(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let listBooking = yield call(() => {
       return bookingManage.checkInRoom(action.payload.newInfoCheckInWithUser);
     });
@@ -74,7 +74,7 @@ function* checkOutRoom(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let formData = new FormData();
     formData.append("booking_id", action.payload.id);
     let listBooking = yield call(() => {
@@ -99,7 +99,9 @@ function* checkOutRoom(action) {
     });
   } catch (error) {
     console.log(error);
-    yield put(actions.checkOutRoom.checkOutRoomFailure(error));
+    if (error.response.status === 400) {
+      yield put(actions.checkOutRoom.checkOutRoomFailure(error.response.data.message));
+    }
   }
 }
 export function* followActionCheckOut() {
@@ -113,7 +115,7 @@ function* getDashBoard(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
 
     let listBooking = yield call(() => {
       return bookingManage.getDashBoard(action.payload);
@@ -129,9 +131,9 @@ function* getDashBoard(action) {
     yield put({
       type: HIDE_LOADING,
     });
-    yield put({
-      type: DISPLAY_POPUP_SUCCESS,
-    });
+    // yield put({
+    //   type: DISPLAY_POPUP_SUCCESS,
+    // });
   } catch (error) {
     yield put(actions.getDashBoardOverview.getDashBoardOverviewFailure(error));
   }

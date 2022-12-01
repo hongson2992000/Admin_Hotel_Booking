@@ -14,7 +14,7 @@ function* getAllHotelService(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let listService = yield call(() => {
       return serviceManage.getAllHotelService();
     });
@@ -37,7 +37,7 @@ function* createHotelService(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let service = yield call(() => {
       return serviceManage.createHotelService(action.payload);
     });
@@ -58,7 +58,7 @@ function* updateHotelService(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let service = yield call(() => {
       return serviceManage.updateService(action.payload);
     });
@@ -81,7 +81,7 @@ function* deleteService(action) {
       type: DISPLAY_LOADING,
     });
     console.log(action.payload)
-    yield delay(1000);
+    // yield delay(1000);
     let service = yield call(() => {
       return serviceManage.deleteService(action.payload);
     });

@@ -17,7 +17,7 @@ function* getAllRequestService(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    yield delay(1000);
+    // yield delay(1000);
     let listService = yield call(() => {
       return requestServiceManage.getAllRequestService();
     });

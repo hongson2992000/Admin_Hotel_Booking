@@ -40,7 +40,7 @@ export default function ListBookingContainer() {
       localStorage.setItem(INFO_BOOKING_DETAIL, JSON.stringify(infoBooking));
       dispatch(
         actionRoom.getRoomAvailability.getRoomAvailabilityRequest({
-          booking_id:item.id
+          booking_id: item.id,
         })
       );
       navigate("/checkIn");
@@ -87,6 +87,7 @@ export default function ListBookingContainer() {
         requestService: "Đưa Đón Sân Bay",
         arrivalDate: item.arrivalDate,
         departureDate: item.departureDate,
+        status: item.status,
       });
     });
     return arrNew;
@@ -144,7 +145,29 @@ export default function ListBookingContainer() {
     });
     return arrNew;
   };
-
+  const renderArrCustomerCheckIn = () => {
+    let arrNew = [];
+    let listArrivalDate = listBooking.filter((item) => item.status === CHECKIN);
+    listArrivalDate.forEach((item) => {
+      arrNew.push({
+        id: item.id,
+        name:
+          item.customer?.firstName +
+          " " +
+          item.customer?.middleName +
+          " " +
+          item.customer?.lastName,
+        roomType: renderTypeRoom(item.roomTypeId),
+        requestService: "Đưa Đón Sân Bay",
+        arrivalDate: item.arrivalDate,
+        departureDate: item.departureDate,
+        status: item.status,
+        numOfPerson: item.numOfAdult + item.numOfChildren,
+        roomTypeId: item.roomTypeId,
+      });
+    });
+    return arrNew;
+  };
   const allBooking = useMemo(
     () => [
       {
@@ -159,7 +182,7 @@ export default function ListBookingContainer() {
       {
         field: "name",
         headerName: "Tên Khách Đặt",
-        width: 180,
+        width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.name}</div>;
         },
@@ -173,18 +196,18 @@ export default function ListBookingContainer() {
           return <div className="cellWithImg">{params.row.roomType}</div>;
         },
       },
-      {
-        field: "requestService",
-        headerName: "Dịch Vụ Đi Kèm",
-        width: 200,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.requestService}</div>;
-        },
-      },
+      // {
+      //   field: "requestService",
+      //   headerName: "Dịch Vụ Đi Kèm",
+      //   width: 200,
+      //   renderCell: (params) => {
+      //     return <div className="cellWithImg">{params.row.requestService}</div>;
+      //   },
+      // },
       {
         field: "arrivalDate",
         headerName: "Ngày Đến",
-        width: 200,
+        width: 180,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
@@ -196,11 +219,35 @@ export default function ListBookingContainer() {
       {
         field: "departureDate",
         headerName: "Ngày Đi",
-        width: 200,
+        width: 180,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
               {params.row.departureDate.substring(0, 10)}
+            </div>
+          );
+        },
+      },
+      {
+        field: "status",
+        headerName: "Trạng Thái",
+        width: 200,
+        renderCell: (params) => {
+          return (
+            <div
+              className={`cellWithImg ${
+                params.row.status === CHECKIN
+                  ? "CHECKIN"
+                  : params.row.status === CHECKOUT
+                  ? "CHECKOUT"
+                  : "BOOKED"
+              }`}
+            >
+              {params.row.status === BOOKED
+                ? "Đã đặt phòng"
+                : params.row.status === CHECKIN
+                ? "Đang Ở"
+                : "Đã rời khỏi"}
             </div>
           );
         },
@@ -213,7 +260,7 @@ export default function ListBookingContainer() {
       {
         field: "id",
         headerName: "Mã Đặt Phòng",
-        width: 130,
+        width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.id}</div>;
         },
@@ -236,18 +283,18 @@ export default function ListBookingContainer() {
           return <div className="cellWithImg">{params.row.roomType}</div>;
         },
       },
-      {
-        field: "requestService",
-        headerName: "Dịch Vụ Đi Kèm",
-        width: 200,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.requestService}</div>;
-        },
-      },
+      // {
+      //   field: "requestService",
+      //   headerName: "Dịch Vụ Đi Kèm",
+      //   width: 200,
+      //   renderCell: (params) => {
+      //     return <div className="cellWithImg">{params.row.requestService}</div>;
+      //   },
+      // },
       {
         field: "arrivalDate",
         headerName: "Ngày Đến",
-        width: 200,
+        width: 180,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
@@ -259,7 +306,7 @@ export default function ListBookingContainer() {
       {
         field: "departureDate",
         headerName: "Ngày Đi",
-        width: 200,
+        width: 180,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
@@ -285,6 +332,69 @@ export default function ListBookingContainer() {
       {
         field: "name",
         headerName: "Tên Khách Đặt",
+        width: 250,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.name}</div>;
+        },
+      },
+
+      {
+        field: "roomType",
+        headerName: "Loại Phòng",
+        width: 250,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.roomType}</div>;
+        },
+      },
+      // {
+      //   field: "requestService",
+      //   headerName: "Dịch Vụ Đi Kèm",
+      //   width: 200,
+      //   renderCell: (params) => {
+      //     return <div className="cellWithImg">{params.row.requestService}</div>;
+      //   },
+      // },
+      {
+        field: "arrivalDate",
+        headerName: "Ngày Đến",
+        width: 180,
+        renderCell: (params) => {
+          return (
+            <div className="cellWithImg">
+              {params.row.arrivalDate.substring(0, 10)}
+            </div>
+          );
+        },
+      },
+      {
+        field: "departureDate",
+        headerName: "Ngày Đi",
+        width: 180,
+        renderCell: (params) => {
+          return (
+            <div className="cellWithImg">
+              {params.row.departureDate.substring(0, 10)}
+            </div>
+          );
+        },
+      },
+    ],
+    []
+  );
+  const customerIsCheckIn = useMemo(
+    () => [
+      {
+        field: "id",
+        headerName: "Mã Đặt Phòng",
+        width: 150,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.id}</div>;
+        },
+      },
+
+      {
+        field: "name",
+        headerName: "Tên Khách Đặt",
         width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.name}</div>;
@@ -294,19 +404,19 @@ export default function ListBookingContainer() {
       {
         field: "roomType",
         headerName: "Loại Phòng",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.roomType}</div>;
         },
       },
-      {
-        field: "requestService",
-        headerName: "Dịch Vụ Đi Kèm",
-        width: 200,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.requestService}</div>;
-        },
-      },
+      // {
+      //   field: "requestService",
+      //   headerName: "Dịch Vụ Đi Kèm",
+      //   width: 200,
+      //   renderCell: (params) => {
+      //     return <div className="cellWithImg">{params.row.requestService}</div>;
+      //   },
+      // },
       {
         field: "arrivalDate",
         headerName: "Ngày Đến",
@@ -327,6 +437,26 @@ export default function ListBookingContainer() {
           return (
             <div className="cellWithImg">
               {params.row.departureDate.substring(0, 10)}
+            </div>
+          );
+        },
+      },
+      {
+        field: "status",
+        headerName: "Trạng Thái",
+        width: 200,
+        renderCell: (params) => {
+          return (
+            <div
+              className={`cellWithImg ${
+                params.row.status === CHECKIN
+                  ? "CHECKIN"
+                  : params.row.status === CHECKOUT
+                  ? "CHECKOUT"
+                  : "BOOKED"
+              }`}
+            >
+              {params.row.status === CHECKIN ? "Đang Ở" : " "}
             </div>
           );
         },
@@ -379,9 +509,6 @@ export default function ListBookingContainer() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {/* <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link> */}
             <div
               className="checkInButton"
               onClick={() => handleCheckOut(params.row.id)}
@@ -402,6 +529,7 @@ export default function ListBookingContainer() {
             <Tab label="Tất Cả" value="1" />
             <Tab label="Đến Trong Ngày" value="2" />
             <Tab label="Đi Trong Ngày" value="3" />
+            <Tab label="Khách Đang Ở" value="4" />
           </TabList>
         </Box>
         <TabPanel value="1">
@@ -427,6 +555,15 @@ export default function ListBookingContainer() {
             className="datagrid"
             rows={renderArrByDateToCheckOut()}
             columns={bookingLeaveInDay.concat(actionColumnCheckOut)}
+            pageSize={9}
+            rowsPerPageOptions={[9]}
+          />
+        </TabPanel>
+        <TabPanel value="4">
+          <DataGrid
+            className="datagrid"
+            rows={renderArrCustomerCheckIn()}
+            columns={customerIsCheckIn}
             pageSize={9}
             rowsPerPageOptions={[9]}
           />
