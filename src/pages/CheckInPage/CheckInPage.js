@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./CheckInPage.scss";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import Navbar from "../../component/Navbar/Navbar";
@@ -8,16 +8,16 @@ export default function CheckInPage() {
   // console.log("arrNew", renderArr());
   return (
     <div className="main-screenCheckIn col-12">
-    <div className="row">
-      <div className="col-2">
-        <Sidebar />
-      </div>
-      <div className="content-main col-10">
-      <Navbar />
-        <CheckInContainer />
-        <AddNewCustomerModal/>
+      <div className="row">
+        <div className="col-2">
+          <Sidebar />
+        </div>
+        <div className="content-main col-10">
+          <Navbar />
+          <CheckInContainer />
+          <AddNewCustomerModal />
+        </div>
       </div>
     </div>
-  </div>
   );
 }

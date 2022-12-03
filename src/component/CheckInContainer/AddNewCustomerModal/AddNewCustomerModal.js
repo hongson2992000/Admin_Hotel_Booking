@@ -6,15 +6,13 @@ import { modalAddUserState$ } from "../../../redux/selectors/ModalSelector";
 import "./AddNewCustomerModal.scss";
 import { hideModalAddUser } from "../../../redux/actions/ModalAction";
 import * as actions from "../../../redux/actions/BookingManageAction";
-import { useNavigate } from "react-router-dom";
-import { USER_LOGIN } from "../../../utils/constants/settingSystem";
+
 import { userState$ } from "../../../redux/selectors/UserSelector";
 import moment from "moment";
 import { infoUserBookingState$ } from "../../../redux/selectors/BookingManageSelector";
 export default function AddNewCustomerModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalAddUserState$);
-  const navigate = useNavigate();
   const infoUser = useSelector(userState$);
   const listCustomer = useSelector(infoUserBookingState$);
   const renderListCustomerAvailability = () => {

@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutIcon from '@mui/icons-material/Logout';
 import "./Navbar.scss";

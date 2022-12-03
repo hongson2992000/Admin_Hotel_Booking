@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useFormik } from "formik";
 import image from "../../assets/img/loginImage.jpg";
 import "./LoginPage.scss";
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../redux/actions/LoginAction";
 import { useNavigate } from "react-router-dom";
 import { errState$ } from "../../redux/selectors/UserSelector";
-import { USER_LOGIN } from "../../utils/constants/settingSystem";
+
 export default function LoginPage() {
   const dispatch = useDispatch();
   const errMessage = useSelector(errState$);

@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import ListRoomContainer from "../../component/ListRoomContainer/ListRoomContainer";
 import Navbar from "../../component/Navbar/Navbar";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import "./ListRoomPage.scss";
 import * as actions from "../../redux/actions/RoomManageAction";
-import { roomManageState$ } from "../../redux/selectors/RoomManageSelector";
+
 export default function ListRoomPage() {
   const dispatch = useDispatch();
   useEffect(() => {
