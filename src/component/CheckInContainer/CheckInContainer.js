@@ -1,7 +1,7 @@
 import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./CheckInContainer.scss";
 import { showModalAddUser } from "../../redux/actions/ModalAction";
@@ -52,11 +52,11 @@ export default function CheckInContainer() {
     ));
     return renderMenu;
   };
-  const renderFormatDate = (date) => {
-    let arrDate = date.split("-");
-    let formatDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
-    return formatDate;
-  };
+  // const renderFormatDate = (date) => {
+  //   let arrDate = date.split("-");
+  //   let formatDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
+  //   return formatDate;
+  // };
   const onSubmitCheckIn = useCallback(
     (values) => {
       let arrActualArrivalDate = values.actualArrivalDate.split("-");

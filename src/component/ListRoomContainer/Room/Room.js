@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Room.scss";
 import RoomServiceIcon from "@mui/icons-material/RoomService";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
-import * as actions from "../../../redux/actions/RoomManageAction";
+// import * as actions from "../../../redux/actions/RoomManageAction";
 import * as actionSendMessage from "../../../redux/actions/SendMessageAction";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 import {
@@ -33,7 +33,7 @@ export default function Room() {
   ];
   const [openNotEmpty, setOpenNotEmpty] = useState({ id: 0, display: false });
   const [openEmpty, setOpenEmpty] = useState({ id: 0, display: false });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const handleRoomNotEmpty = (menuId,bookingId) => {
     switch (menuId) {
       case 1:
@@ -261,37 +261,37 @@ export default function Room() {
       );
     }
   };
-  const handleFillInfoRoom = useCallback(
-    (id) => {
-      // const infoBooking = listBooking.find(
-      //   (bookingItem) => bookingItem.id === id
-      // );
-      // dispatch(actions.getBookingById.getBookingByIdRequest(infoBooking));
-      navigate("/checkCustomerInfo");
-    },
+  // const handleFillInfoRoom = useCallback(
+  //   (id) => {
+  //     // const infoBooking = listBooking.find(
+  //     //   (bookingItem) => bookingItem.id === id
+  //     // );
+  //     // dispatch(actions.getBookingById.getBookingByIdRequest(infoBooking));
+  //     navigate("/checkCustomerInfo");
+  //   },
 
-    [navigate, dispatch]
-  );
+  //   [navigate, dispatch]
+  // );
 
   return (
     <div className="RoomItem col-12">
       <div className="row">
         <div className="FillterRoom">
-          <a href="#">
+          <span>
             <div className="FillterAll">
               <p>Tất Cả</p>
             </div>
-          </a>
-          <a href="#">
+          </span>
+          <span>
             <div className="FillterEmpty">
               <p>Trống</p>
             </div>
-          </a>
-          <a href="#">
+          </span>
+          <span >
             <div className="FillterNotEmpty">
               <p>Có Khách</p>
             </div>
-          </a>
+          </span>
         </div>
 
         {listRoom &&

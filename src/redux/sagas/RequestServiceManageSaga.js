@@ -7,7 +7,7 @@ import {
   STATUS_CODE,
   DONE,
 } from "../../utils/constants/settingSystem";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { requestServiceManage } from "../../services/RequestServiceManage";
 import { sendMessageService } from "../../services/SendMessageService";
 import { showModalListService } from "../actions/ModalAction";

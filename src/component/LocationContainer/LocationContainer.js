@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "./LocationContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import {  userRows } from "../../data/DataTableLocation";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

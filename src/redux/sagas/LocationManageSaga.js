@@ -4,7 +4,7 @@ import {
   HIDE_LOADING,
   STATUS_CODE,
 } from "../../utils/constants/settingSystem";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { locationManage } from "../../services/LocationManage";
 
 function* getAllLocation(action) {

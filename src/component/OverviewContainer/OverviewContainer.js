@@ -3,7 +3,6 @@ import "./OverviewContainer.scss";
 
 import Navbar from "../Navbar/Navbar";
 import Widget from "../Widget/Widget";
-import Featured from "../Featured/Featured";
 import Chart from "../Chart/Chart";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import HomeIcon from "@mui/icons-material/Home";
@@ -26,7 +25,7 @@ export default function OverviewContainer() {
         currentDate
       )
     );
-  }, [dispatch]);
+  }, [currentDate,dispatch]);
 
   if (!dashBoard) return;
 

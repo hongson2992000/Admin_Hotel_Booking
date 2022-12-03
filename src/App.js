@@ -13,7 +13,7 @@ import {
   loadingState$,
   successState$,
 } from "./redux/selectors/LoadingSelector";
-import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
+import { USER_LOGIN} from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
 import CheckInPage from "./pages/CheckInPage/CheckInPage";
 import PopupSucess from "./component/PopupSuccess/PopupSuccess";

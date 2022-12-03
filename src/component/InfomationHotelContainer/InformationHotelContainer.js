@@ -1,26 +1,26 @@
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { InputLabel, TextField } from "@mui/material";
 import { useFormik } from "formik";
-import moment from "moment";
+// import moment from "moment";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 import { infoUserBookingState$ } from "../../redux/selectors/BookingManageSelector";
-import { roomValidState$ } from "../../redux/selectors/RoomManageSelector";
-import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
+// import { roomValidState$ } from "../../redux/selectors/RoomManageSelector";
+// import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
 import "./InformationHotelContainer.scss";
 import image from "../../assets/img/anhthucte3.png";
 export default function InfomationHotelContainer() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
   const infoUser = useSelector(infoUserBookingState$);
   console.log("InfoUser", infoUser);
-  const roomValid = useSelector(roomValidState$);
-  const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
-  // console.log("Hello Son", infoBooking);
-  const renderCurrentDate = () => {
-    let currentDate = moment().format("YYYY-MM-DD");
-    return currentDate;
-  };
+  // const roomValid = useSelector(roomValidState$);
+  // const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
+  // // console.log("Hello Son", infoBooking);
+  // const renderCurrentDate = () => {
+  //   let currentDate = moment().format("YYYY-MM-DD");
+  //   return currentDate;
+  // };
   const formik = useFormik({
     initialValues: {
       id: "",

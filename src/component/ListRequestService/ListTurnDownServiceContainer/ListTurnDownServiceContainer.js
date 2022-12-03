@@ -1,7 +1,7 @@
 import "./ListTurnDownServiceContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useMemo, useState } from "react";
+// import {  useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../redux/actions/RequestServiceManageAction";
 // import DialogDelete from "../DialogDelete/DialogDelete";
@@ -13,7 +13,7 @@ import {
 } from "../../../utils/constants/settingSystem";
 export default function ListTurnDownServiceContainer() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const listRequestService = useSelector(turnDownServiceManageState$);
   console.log("Hello Thanh Anh", listRequestService);
   useEffect(() => {
@@ -48,25 +48,25 @@ export default function ListTurnDownServiceContainer() {
   };
 
   //Handle Dialog
-  const [dialog, setDialog] = useState({
-    message: "",
-    isLoading: false,
-  });
-  const [idService, setIdService] = useState({
-    id: 0,
-  });
-  const handleDialog = (message, isLoading) => {
-    setDialog({
-      message,
-      isLoading,
-    });
-  };
-  const handleDelete = (id) => {
-    handleDialog("Bạn chắc chắn xóa dịch vụ này?", true);
-    setIdService({
-      id: id,
-    });
-  };
+  // const [dialog, setDialog] = useState({
+  //   message: "",
+  //   isLoading: false,
+  // });
+  // const [idService, setIdService] = useState({
+  //   id: 0,
+  // });
+  // const handleDialog = (message, isLoading) => {
+  //   setDialog({
+  //     message,
+  //     isLoading,
+  //   });
+  // };
+  // const handleDelete = (id) => {
+  //   handleDialog("Bạn chắc chắn xóa dịch vụ này?", true);
+  //   setIdService({
+  //     id: id,
+  //   });
+  // };
   // const areUSureDelete = (choose) => {
   //   if (choose) {
   //     dispatch(

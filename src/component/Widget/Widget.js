@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Widget.scss";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+// import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 export default function Widget({ type, amount, diff }) {
   let data;
 

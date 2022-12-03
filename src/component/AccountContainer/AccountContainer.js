@@ -71,21 +71,21 @@ const AccountContainer = () => {
     message: "",
     isLoading: false,
   });
-  const [idService, setIdService] = useState({
-    id: 0,
-  });
+  // const [idService, setIdService] = useState({
+  //   id: 0,
+  // });
   const handleDialog = (message, isLoading) => {
     setDialog({
       message,
       isLoading,
     });
   };
-  const handleDelete = (id) => {
-    handleDialog("Bạn chắc chắn xóa dịch vụ này?", true);
-    setIdService({
-      id: id,
-    });
-  };
+  // const handleDelete = (id) => {
+  //   handleDialog("Bạn chắc chắn xóa dịch vụ này?", true);
+  //   setIdService({
+  //     id: id,
+  //   });
+  // };
   const areUSureDelete = (choose) => {
     if (choose) {
       // dispatch(
@@ -116,7 +116,7 @@ const AccountContainer = () => {
             </Link>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              // onClick={() => handleDelete(params.row.id)}
             >
               Xoá
             </div>

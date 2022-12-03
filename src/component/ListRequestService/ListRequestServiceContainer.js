@@ -1,19 +1,15 @@
 import "./ListRequestServiceContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useMemo, useState } from "react";
+// import {  useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  showModal,
-  showModalListService,
-  showModalUpdate,
-} from "../../redux/actions/ModalAction";
+import { showModalListService } from "../../redux/actions/ModalAction";
 import * as actions from "../../redux/actions/RequestServiceManageAction";
-import DialogDelete from "../DialogDelete/DialogDelete";
+// import DialogDelete from "../DialogDelete/DialogDelete";
 import { requestServiceManageState$ } from "../../redux/selectors/RequestServiceManageSelector";
 export default function ListRequestServiceContainer() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const listRequestService = useSelector(requestServiceManageState$);
   console.log("Hello Thanh Anh", listRequestService);
   useEffect(() => {
@@ -25,7 +21,7 @@ export default function ListRequestServiceContainer() {
     listRequestService?.forEach((item) => {
       arrNew.push({
         id: item.id,
-        roomNo:item.booking.room?.roomNo,
+        roomNo: item.booking.room?.roomNo,
         totalAmount: item.totalAmount,
         createDate: item.createDate,
         customerName: item.createBy,
@@ -42,25 +38,25 @@ export default function ListRequestServiceContainer() {
   // const [data, setData] = useState(renderArr());
 
   //Handle Dialog
-  const [dialog, setDialog] = useState({
-    message: "",
-    isLoading: false,
-  });
-  const [idService, setIdService] = useState({
-    id: 0,
-  });
-  const handleDialog = (message, isLoading) => {
-    setDialog({
-      message,
-      isLoading,
-    });
-  };
-  const handleDelete = (id) => {
-    handleDialog("Bạn chắc chắn xóa dịch vụ này?", true);
-    setIdService({
-      id: id,
-    });
-  };
+  // const [dialog, setDialog] = useState({
+  //   message: "",
+  //   isLoading: false,
+  // });
+  // const [idService, setIdService] = useState({
+  //   id: 0,
+  // });
+  // const handleDialog = (message, isLoading) => {
+  //   setDialog({
+  //     message,
+  //     isLoading,
+  //   });
+  // };
+  // const handleDelete = (id) => {
+  //   handleDialog("Bạn chắc chắn xóa dịch vụ này?", true);
+  //   setIdService({
+  //     id: id,
+  //   });
+  // };
   // const areUSureDelete = (choose) => {
   //   if (choose) {
   //     dispatch(
@@ -140,28 +136,18 @@ export default function ListRequestServiceContainer() {
     ],
     []
   );
-  // const getCurrentDate = () => {
-  //   let showDate = new Date();
-  //   let displayDate =
-  //     showDate.getDate() +
-  //     "/" +
-  //     (showDate.getMonth() + 1) +
-  //     "/" +
-  //     showDate.getFullYear();
-  //   return displayDate;
-  // };
   const openRequestServiceModal = useCallback(
     (id) => {
       const service = listRequestService.find(
         (serviceItem) => serviceItem.id === id
       );
-    //  let newService = service
+      //  let newService = service
       dispatch(
         actions.getRequestServiceById.getRequestServiceByIdRequest(service)
       );
       dispatch(showModalListService());
     },
-    [listRequestService,dispatch]
+    [listRequestService, dispatch]
   );
   const actionColumn = [
     {
