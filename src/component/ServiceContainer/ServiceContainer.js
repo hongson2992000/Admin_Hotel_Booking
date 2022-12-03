@@ -180,9 +180,9 @@ const ServiceContainer = () => {
     <div className="datatableService">
       <div className="datatableTitle">
         Danh sách dịch vụ
-        <a onClick={openCreateServiceModal} className="link">
+        <span onClick={openCreateServiceModal} className="link">
           Thêm dịch vụ
-        </a>
+        </span>
       </div>
       <DataGrid
         className="datagrid"
@@ -190,7 +190,6 @@ const ServiceContainer = () => {
         columns={serviceColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        checkboxSelection
       />
       {dialog.isLoading && (
         <DialogDelete onDialog={areUSureDelete} message={dialog.message} />

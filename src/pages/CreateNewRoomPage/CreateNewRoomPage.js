@@ -1,18 +1,18 @@
 import React from 'react'
-import ListBookingContainer from '../../component/ListBookingContainer/ListBookingContainer'
+import CreateNewRoomContainer from '../../component/CreateNewRoomContainer/CreateNewRoomContainer'
 import Navbar from '../../component/Navbar/Navbar'
 import Sidebar from '../../component/Sidebar/Sidebar'
-import "./ListBookingPage.scss"
-export default function ListBookingPage() {
+import "./CreateNewRoomPage.scss"
+export default function CreateNewRoomPage() {
   return (
-      <div className="main-screenListBookingPage col-12">
+    <div className="main-screenCreateNewRoom col-12">
       <div className="row">
         <div className="col-2">
           <Sidebar />
         </div>
         <div className="content-main col-10">
-        <Navbar />
-          <ListBookingContainer />
+          <Navbar />
+          <CreateNewRoomContainer/>
         </div>
       </div>
     </div>

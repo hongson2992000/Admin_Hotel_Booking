@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import "./CustomerPage.scss";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import Navbar from "../../component/Navbar/Navbar";
-import CheckInContainer from "../../component/CheckInContainer/CheckInContainer";
-import AddNewCustomerModal from "../../component/CheckInContainer/AddNewCustomerModal/AddNewCustomerModal";
+import ListCustomerContainer from "../../component/ListCustomerContainer/ListCustomerContainer";
 export default function CustomerPage() {
   // console.log("arrNew", renderArr());
   return (
-    <div className="list">
-      <Sidebar />
-      <div className="listContainer">
+    <div className="main-screenCustomerPage col-12">
+    <div className="row">
+      <div className="col-2">
+        <Sidebar />
+      </div>
+      <div className="content-main col-10">
         <Navbar />
-        {/* <CheckInContainer />
-        <AddNewCustomerModal/> */}
+        <ListCustomerContainer/>
       </div>
     </div>
+  </div>
   );
 }

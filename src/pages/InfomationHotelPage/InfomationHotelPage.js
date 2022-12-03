@@ -1,18 +1,18 @@
 import React from "react";
-import AlarmContainer from "../../component/AlarmContainer/AlarmContainer";
+import InformationHotelContainer from "../../component/InfomationHotelContainer/InformationHotelContainer";
 import Navbar from "../../component/Navbar/Navbar";
 import Sidebar from "../../component/Sidebar/Sidebar";
 
-export default function AlarmPage() {
+export default function InfomationHotelPage() {
   return (
-    <div className="main-screenAlarmPage col-12">
+    <div className="main-screenInfomationHotelPage col-12">
       <div className="row">
         <div className="col-2">
           <Sidebar />
         </div>
         <div className="content-main col-10">
           <Navbar />
-          <AlarmContainer />
+          <InformationHotelContainer/>
         </div>
       </div>
     </div>

@@ -11,3 +11,5 @@ export const modelUpdateAccountState$ = (state) =>
   state.ModalReducer.isShowUpdateAccount;
 export const modalListServiceState$ = (state) =>
   state.ModalReducer.isShowListService;
+export const modalSendMessageState$ = (state) =>
+  state.ModalReducer.isShowSendMessage;

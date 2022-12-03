@@ -10,6 +10,10 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import PersonIcon from "@mui/icons-material/Person";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import InfoIcon from '@mui/icons-material/Info';
+import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
+import EventRepeatIcon from '@mui/icons-material/EventRepeat';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
@@ -89,10 +93,51 @@ export default function Sidebar() {
                   <span>Account</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/setupRoom"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <RoomPreferencesIcon className="icon" />
+                  <span>Cài đặt phòng</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/setupPriceRoom"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <SettingsSuggestIcon className="icon" />
+                  <span>Cấu hình giá</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/setupPriceRoom1"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <EventRepeatIcon className="icon" />
+                  <span>Giá theo ngày</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/infomationHotel"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <InfoIcon className="icon" />
+                  <span>Thông Tin KS</span>
+                </NavLink>
+              </li>
             </ul>
           </div>
-          <hr />
+          
           <div className="bottom">
+          <hr />
             <Link to="/overview" style={{ textDecoration: "none" }}>
               <LogoutIcon className="icon" />
               <span>Đăng Xuất</span>
@@ -102,19 +147,26 @@ export default function Sidebar() {
       );
     } else if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
       return (
-        <div className="sidebar">
-          <div className="top">
-            <Link to="/" style={{ textDecoration: "none" }}>
+        <div className="sidebar" style={{overflow:"hidden"}}>
+          <div className="top" style={{ height: "100px" }}>
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+              }}
+            >
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
           <hr />
-          <div className="center">
+          <div className="center" style={{height:"70%"}}>
             <ul>
               <li>
                 <NavLink
                   to="/listRoom"
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                  }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <MeetingRoomIcon className="icon" />
@@ -124,7 +176,9 @@ export default function Sidebar() {
               <li>
                 <NavLink
                   to="/listBooking"
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                  }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <FormatListBulletedIcon className="icon" />
@@ -134,7 +188,9 @@ export default function Sidebar() {
               <li>
                 <NavLink
                   to="/listCustomer"
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                  }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <PersonIcon className="icon" />
@@ -144,7 +200,9 @@ export default function Sidebar() {
               <li>
                 <NavLink
                   to="/alarm"
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                  }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <AccessAlarmIcon className="icon" />
@@ -153,9 +211,10 @@ export default function Sidebar() {
               </li>
             </ul>
           </div>
+         
+          <div className="bottom" style={{paddingTop:"10px"}}>
           <hr />
-          <div className="bottom">
-            <Link to="/overview" style={{ textDecoration: "none" }}>
+            <Link to="/overview" style={{ textDecoration: "none"}}>
               <LogoutIcon className="icon" />
               <span>Đăng Xuất</span>
             </Link>
@@ -164,19 +223,26 @@ export default function Sidebar() {
       );
     } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
       return (
-        <div className="sidebar">
-          <div className="top">
-            <Link to="/" style={{ textDecoration: "none" }}>
+        <div className="sidebar" style={{overflow:"hidden"}}>
+          <div className="top" style={{ height: "100px" }}>
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+              }}
+            >
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
           <hr />
-          <div className="center">
+          <div className="center" style={{height:"70%"}}>
             <ul>
               <li>
                 <NavLink
                   to="/listRoom"
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                  }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <FormatListBulletedIcon className="icon" />
@@ -186,7 +252,9 @@ export default function Sidebar() {
               <li>
                 <NavLink
                   to="/listRequestServiceStaff"
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                  }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <MeetingRoomIcon className="icon" />
@@ -196,7 +264,7 @@ export default function Sidebar() {
             </ul>
           </div>
           <hr />
-          <div className="bottom">
+          <div className="bottom" style={{paddingTop:"10px"}}>
             <Link to="/overview" style={{ textDecoration: "none" }}>
               <LogoutIcon className="icon" />
               <span>Đăng Xuất</span>
@@ -206,19 +274,21 @@ export default function Sidebar() {
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
       return (
-        <div className="sidebar">
+        <div className="sidebar" style={{overflow:"hidden"}}>
           <div className="top">
             <Link to="/" style={{ textDecoration: "none" }}>
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
           <hr />
-          <div className="center">
+          <div className="center" style={{width:"70%"}}>
             <ul>
               <li>
                 <NavLink
                   to="/listRoom"
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                  }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <FormatListBulletedIcon className="icon" />
@@ -228,7 +298,9 @@ export default function Sidebar() {
               <li>
                 <NavLink
                   to="/listTurnDownService"
-                  style={{ textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                  }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <MeetingRoomIcon className="icon" />
@@ -238,7 +310,7 @@ export default function Sidebar() {
             </ul>
           </div>
           <hr />
-          <div className="bottom">
+          <div className="bottom" style={{paddingTop:"10px"}}>
             <Link to="/overview" style={{ textDecoration: "none" }}>
               <LogoutIcon className="icon" />
               <span>Đăng Xuất</span>

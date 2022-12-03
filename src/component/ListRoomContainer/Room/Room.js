@@ -5,6 +5,7 @@ import TouchAppIcon from "@mui/icons-material/TouchApp";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import * as actions from "../../../redux/actions/RoomManageAction";
+import * as actionSendMessage from "../../../redux/actions/SendMessageAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -16,6 +17,7 @@ import {
 } from "../../../utils/constants/settingSystem";
 // import RoomPopup from "./roomPopup";
 import { roomManageState$ } from "../../../redux/selectors/RoomManageSelector";
+import { showModalSendMessage } from "../../../redux/actions/ModalAction";
 
 export default function Room() {
   const dispatch = useDispatch();
@@ -32,28 +34,46 @@ export default function Room() {
   const [openNotEmpty, setOpenNotEmpty] = useState({ id: 0, display: false });
   const [openEmpty, setOpenEmpty] = useState({ id: 0, display: false });
   const navigate = useNavigate();
-
-  const renderMenuByRole = (item) => {
+  const handleRoomNotEmpty = (menuId,bookingId) => {
+    switch (menuId) {
+      case 1:
+        dispatch(showModalSendMessage());
+        dispatch(actionSendMessage.fillFormSendMessage.fillFormSendMessageRequest(bookingId))
+        break;
+      case 2:
+        console.log("YEU BE AN");
+        break;
+      default:
+        break;
+    }
+  };
+  const renderMenuByRole = (item, index) => {
     if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
       return (
         <div className="rowIcon">
           <TouchAppIcon
             onClick={() => {
               setOpenNotEmpty({
-                id: item.id,
+                id: index,
                 display: !openNotEmpty.display,
               });
             }}
             className="icon"
           />
-          {openNotEmpty.display && openNotEmpty.id === item.id && (
+          {openNotEmpty.display && openNotEmpty.id === index && (
             <div className="dropDownTouch">
               <div>
                 <KeyboardArrowUpIcon />
               </div>
-              <div onClick={() => setOpenNotEmpty({ id: item.id })}>
+              <div onClick={() => setOpenNotEmpty({ id: index })}>
                 {MenusNotEmpty.map((menu) => (
-                  <span className="menuhover" key={menu.id}>
+                  <span
+                    className="menuhover"
+                    key={menu.id}
+                    onClick={() => {
+                      handleRoomNotEmpty(menu.id,item.booking.id);
+                    }}
+                  >
                     {menu.name}
                   </span>
                 ))}
@@ -72,7 +92,7 @@ export default function Room() {
             <RoomServiceIcon
               onClick={() => {
                 setOpenNotEmpty({
-                  id: item.id,
+                  id: index,
                   display: !openNotEmpty.display,
                 });
               }}
@@ -83,7 +103,7 @@ export default function Room() {
             <RoomServiceIcon
               onClick={() => {
                 setOpenNotEmpty({
-                  id: item.id,
+                  id: index,
                   display: !openNotEmpty.display,
                 });
               }}
@@ -91,12 +111,12 @@ export default function Room() {
               style={{ pointerEvents: "none" }}
             />
           )}
-          {openNotEmpty.display && openNotEmpty.id === item.id && (
+          {openNotEmpty.display && openNotEmpty.id === index && (
             <div className="dropDownTouch">
               <div>
                 <KeyboardArrowUpIcon />
               </div>
-              <div onClick={() => setOpenNotEmpty({ id: item.id })}>
+              <div onClick={() => setOpenNotEmpty({ id: index })}>
                 {MenusNotEmptyRestaurant.map((menu) => (
                   <span className="menuhover" key={menu.id}>
                     {menu.name}
@@ -117,7 +137,7 @@ export default function Room() {
             <CleaningServicesIcon
               onClick={() => {
                 setOpenNotEmpty({
-                  id: item.id,
+                  id: index,
                   display: !openNotEmpty.display,
                 });
               }}
@@ -128,7 +148,7 @@ export default function Room() {
             <CleaningServicesIcon
               onClick={() => {
                 setOpenNotEmpty({
-                  id: item.id,
+                  id: index,
                   display: !openNotEmpty.display,
                 });
               }}
@@ -136,12 +156,12 @@ export default function Room() {
               style={{ pointerEvents: "none" }}
             />
           )}
-          {openNotEmpty.display && openNotEmpty.id === item.id && (
+          {openNotEmpty.display && openNotEmpty.id === index && (
             <div className="dropDownTouch">
               <div>
                 <KeyboardArrowUpIcon />
               </div>
-              <div onClick={() => setOpenNotEmpty({ id: item.id })}>
+              <div onClick={() => setOpenNotEmpty({ id: index })}>
                 {MenusNotEmptyHousekeeping.map((menu) => (
                   <span className="menuhover" key={menu.id}>
                     {menu.name}
@@ -154,25 +174,25 @@ export default function Room() {
       );
     }
   };
-  const renderMenuByRoleIsEmpty = (item) => {
+  const renderMenuByRoleIsEmpty = (item, index) => {
     if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
       return (
         <div className="rowIcon">
           <TouchAppIcon
             onClick={() => {
               setOpenEmpty({
-                id: item.id,
+                id: index,
                 display: !openEmpty.display,
               });
             }}
             className="icon"
           />
-          {openEmpty.display && openEmpty.id === item.id && (
+          {openEmpty.display && openEmpty.id === index && (
             <div className="dropDownTouch">
               <div>
                 <KeyboardArrowUpIcon />
               </div>
-              <div onClick={() => setOpenEmpty({ id: item.id })}>
+              <div onClick={() => setOpenEmpty({ id: index })}>
                 {MenusEmpty.map((menu) => (
                   <span className="menuhover" key={menu.id}>
                     {menu.name}
@@ -189,18 +209,18 @@ export default function Room() {
           <RoomServiceIcon
             onClick={() => {
               setOpenNotEmpty({
-                id: item.id,
+                id: index,
                 display: !openEmpty.display,
               });
             }}
             className="icon"
           />
-          {openEmpty.display && openEmpty.id === item.id && (
+          {openEmpty.display && openEmpty.id === index && (
             <div className="dropDownTouch">
               <div>
                 <KeyboardArrowUpIcon />
               </div>
-              <div onClick={() => setOpenEmpty({ id: item.id })}>
+              <div onClick={() => setOpenEmpty({ id: index })}>
                 {MenusNotEmptyRestaurant.map((menu) => (
                   <span className="menuhover" key={menu.id}>
                     {menu.name}
@@ -217,18 +237,18 @@ export default function Room() {
           <CleaningServicesIcon
             onClick={() => {
               setOpenEmpty({
-                id: item.id,
+                id: index,
                 display: !openEmpty.display,
               });
             }}
             className="icon"
           />
-          {openEmpty.display && openEmpty.id === item.id && (
+          {openEmpty.display && openEmpty.id === index && (
             <div className="dropDownTouch">
               <div>
                 <KeyboardArrowUpIcon />
               </div>
-              <div onClick={() => setOpenEmpty({ id: item.id })}>
+              <div onClick={() => setOpenEmpty({ id: index })}>
                 {MenusNotEmptyHousekeeping.map((menu) => (
                   <span className="menuhover" key={menu.id}>
                     {menu.name}
@@ -241,19 +261,6 @@ export default function Room() {
       );
     }
   };
-  // if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
-  //   MenusEmpty = [{ name: "Tạo đặt phòng", id: 0 }];
-  //   MenusNotEmpty = [
-  //     { name: "Xem thông tin khách", id: 0 },
-  //     { name: "Gửi thông báo", id: 1 },
-  //     { name: "Check out", id: 2 },
-  //   ];
-  // } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
-  //   MenusEmpty = [{ name: "Xem yêu cầu dịch vụ", id: 0 }];
-
-  //   MenusNotEmpty = [{ name: "Xem yêu cầu dịch vụ", id: 0 }];
-  // }
-
   const handleFillInfoRoom = useCallback(
     (id) => {
       // const infoBooking = listBooking.find(
@@ -293,31 +300,31 @@ export default function Room() {
               return (
                 <div className="RoomDetailEmpty col-4" key={i}>
                   <div className="RoomTitile">
-                    <p>{item.roomType.name}</p>
+                    <p>{item.room?.name}</p>
                   </div>
                   <div className="RoomNo">
-                    <p>{item.roomNo}</p>
+                    <p>{item.room?.roomNo}</p>
                   </div>
                   <div className="CustomerName">
                     <p>...........</p>
                   </div>
 
-                  {renderMenuByRoleIsEmpty(item)}
+                  {renderMenuByRoleIsEmpty(item, i)}
                 </div>
               );
             } else {
               return (
                 <div className="RoomDetail col-4" key={i}>
                   <div className="RoomTitile">
-                    <p>{item.roomType.name}</p>
+                    <p>{item.room.name}</p>
                   </div>
                   <div className="RoomNo">
-                    <p>{item.roomNo}</p>
+                    <p>{item.room.roomNo}</p>
                   </div>
-                  <div className="CustomerName">
+                  {/* <div className="CustomerName">
                     <p>{item.primaryCustomer}</p>
-                  </div>
-                  {renderMenuByRole(item)}
+                  </div> */}
+                  {renderMenuByRole(item, i)}
                 </div>
               );
             }

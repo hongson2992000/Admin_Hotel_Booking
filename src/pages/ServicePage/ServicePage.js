@@ -7,13 +7,17 @@ import Sidebar from "../../component/Sidebar/Sidebar";
 import "./ServicePage.scss";
 export default function ServicePage() {
   return (
-    <div className="list">
-      <Sidebar />
-      <div className="listContainer">
-        <Navbar />
-        <CreateServiceModal />
-        <UpdateServiceModal />
-        <ServiceContainer />
+    <div className="main-screenServicePage col-12">
+      <div className="row">
+        <div className="col-2">
+          <Sidebar />
+        </div>
+        <div className="content-main col-10">
+          <Navbar />
+          <CreateServiceModal />
+          <UpdateServiceModal />
+          <ServiceContainer />
+        </div>
       </div>
     </div>
   );

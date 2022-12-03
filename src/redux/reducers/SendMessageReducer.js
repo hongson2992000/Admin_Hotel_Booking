@@ -1,7 +1,8 @@
-import { getType, sendMessage } from "../actions/SendMessageAction";
+import { getType, sendMessage,fillFormSendMessage } from "../actions/SendMessageAction";
 
 const initialState = {
   arrMessage: [],
+  bookingIdToSend: 0,
 };
 export default function SendMessageReducer(state = initialState, action) {
   switch (action.type) {
@@ -14,12 +15,16 @@ export default function SendMessageReducer(state = initialState, action) {
         ...state,
         arrMessage: action.payload,
       };
-
     case getType(sendMessage.sendMessageFailure):
       return {
         ...state,
       };
-    
+      case getType(fillFormSendMessage.fillFormSendMessageRequest):
+      return {
+        ...state,
+        bookingIdToSend: action.payload,
+      };
+
     default:
       return state;
   }

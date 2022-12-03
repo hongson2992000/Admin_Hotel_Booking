@@ -1,0 +1,40 @@
+.InfoHotelContainer {
+    width: auto;
+    margin-top: 100px;
+    padding: 20px;
+    .InfoRoom {
+        padding-top: 20px;
+        .InfoRoomImage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                width: 300px;
+                height: 300px;
+                border-radius: 50%;
+            }
+        }
+        .InfoRoomItem {
+            margin-top: 20px;
+        }
+    }
+    .buttonCheckIn {
+        text-align: end;
+        .buttonCheckInItem {
+            background-color: #fff;
+            color: #c4c4c4;
+            padding: 15px;
+            width: 100px;
+            border-radius: 5px;
+            border: 1px solid #c4c4c4;
+            &:hover {
+                background-color: #c4c4c4;
+                color: #fff;
+                padding: 15px;
+                width: 100px;
+                border-radius: 5px;
+                border: 1px solid #c4c4c4;
+            }
+        }
+    }
+}

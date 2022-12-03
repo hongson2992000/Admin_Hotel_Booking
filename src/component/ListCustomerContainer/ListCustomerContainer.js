@@ -1,10 +1,10 @@
 import React from "react";
-import "./NewsContainer.scss";
+import "./ListCustomerContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../data/DataTableNews";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-export default function NewsContainer() {
+export default function ListCustomerContainer() {
   const [data, setData] = useState(userRows);
 
   const handleDelete = (id) => {
@@ -34,7 +34,7 @@ export default function NewsContainer() {
     },
   ];
   return (
-    <div className="datatableNewsContainer">
+    <div className="datatableCustomerContainer">
       <div className="datatableTitle">
         Danh sách tin tức
         <span className="link">
@@ -47,6 +47,7 @@ export default function NewsContainer() {
         columns={userColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
+        checkboxSelection
       />
     </div>
   );

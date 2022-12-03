@@ -7,8 +7,8 @@ class RoomManage extends BaseServices {
   getRoomAvailability = (model) => {
     return this.post(`v1/room/checkAvaiblebilityAndType`, model);
   };
-  getBookingCheckInByRoomId = (model) => {
-    return this.post(`v1/room/getRoomCheckInToday`, model);
+  getBookingCheckInByRoomId = () => {
+    return this.get(`v1/room/getRoomCheckInToday`);
   };
 }
 export const roomManage = new RoomManage();

@@ -1,0 +1,85 @@
+.paperSendMessage {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 50%;
+    height: 400px;
+    background-color: white;
+    padding: 20px;
+    .form {
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        .simpleModalItem {
+            padding-top: 10px;
+            height: 200px;
+            .titleSendMessage {
+                background-color: white;
+                border: 0.5px solid grey;
+                border-radius: 5px;
+                height: 100% !important;
+                width: 100%;
+                // padding-top: 20px;
+            }
+        }
+    }
+    .footer {
+        margin-top: 20px;
+        text-align: right;
+        .buttonSave {
+            margin: 5px;
+            padding: 10px;
+            width: 150px;
+            border: none;
+            color: #c4c4c4;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 2px solid #c4c4c4;
+            &:hover {
+                margin: 5px;
+                padding: 10px;
+                width: 150px;
+                border: none;
+                color: #fff;
+                background-color: #c4c4c4;
+                border-radius: 5px;
+                border: 2px solid #c4c4c4;
+            }
+        }
+        .buttonClose {
+            margin: 5px;
+            padding: 10px;
+            width: 150px;
+            border: none;
+            color: red;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 2px solid #EA1212;
+            &:hover {
+                margin: 5px;
+                padding: 10px;
+                width: 150px;
+                border: none;
+                color: #fff;
+                background-color: #EA1212;
+                border-radius: 5px;
+                border: 2px solid #EA1212;
+            }
+        }
+    }
+}
+
+.header {
+    margin: 0 0 10px 0;
+}
+
+.title {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+}

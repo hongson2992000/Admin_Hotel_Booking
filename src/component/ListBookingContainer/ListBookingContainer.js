@@ -521,7 +521,7 @@ export default function ListBookingContainer() {
     },
   ];
   return (
-    <div className="datatable">
+    <div className="datatableListBooking">
       <div className="datatableTitle">Danh sách booking</div>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

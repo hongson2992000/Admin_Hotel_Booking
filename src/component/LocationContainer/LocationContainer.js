@@ -90,7 +90,6 @@ export default function LocationContainer() {
         columns={locationColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        checkboxSelection
       />
     </div>
   );

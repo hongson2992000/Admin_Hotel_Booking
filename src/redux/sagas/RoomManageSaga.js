@@ -6,7 +6,6 @@ import {
 } from "../../utils/constants/settingSystem";
 import { call, delay, put, takeLatest } from "redux-saga/effects";
 import { roomManage } from "../../services/RoomManage";
-
 function* getAllRoom(action) {
   try {
     yield put({
@@ -16,22 +15,42 @@ function* getAllRoom(action) {
     let listRoom = yield call(() => {
       return roomManage.getAllRoom();
     });
-    
-    console.log(listRoom.data);
+
     if (listRoom.status === STATUS_CODE.SUCCESS) {
       let arrRoom = [];
-      
-       yield listRoom.data.forEach((item) => {
-        console.log("ID",item.id)
-        let formData = new FormData();
-        formData.append("room_id", item.id);
-        let booking = call(() => {
-          return roomManage.getBookingCheckInByRoomId(formData);
-        });
-        console.log("ARR", booking)
-        arrRoom.push(booking.data);
-        
+      let booking = yield call(() => {
+        return roomManage.getBookingCheckInByRoomId();
       });
+      console.log(booking.data)
+      if(booking.data.length !== 0){
+        for (let i = 0; i < listRoom.data.length; i++) {
+          let newRoom;
+          for (let j = 0; j < booking?.data.length; j++) {
+            if (listRoom.data[i].id === booking?.data[j].room.id) {
+              newRoom = {
+                room: listRoom.data[i],
+                booking: booking?.data[j],
+              };
+              break;
+            } else {
+              newRoom = {
+                room: listRoom.data[i],
+                booking: null,
+              };
+            }
+          }
+          arrRoom.push(newRoom)
+        }
+      }else{
+        for (let i = 0; i < listRoom.data.length; i++){
+          let newRoom = {}
+          newRoom = {
+            room: listRoom.data[i],
+            booking: null,
+          }
+          arrRoom.push(newRoom)
+        }
+      }
 
       yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
     }

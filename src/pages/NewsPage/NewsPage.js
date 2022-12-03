@@ -5,14 +5,16 @@ import NewsContainer from "../../component/NewsContainer/NewsContainer";
 import "./NewsPage.scss";
 export default function NewsPage() {
   return (
-    <div className="main-screen">
-      <div className="main-screen">
-        <Sidebar />
-        <div className="listContainer">
-          <Navbar />
-          <NewsContainer />
-        </div>
-      </div>
-    </div>
+     <div className="main-screenNewPage col-12">
+     <div className="row">
+       <div className="col-2">
+         <Sidebar />
+       </div>
+       <div className="content-main col-10">
+         <Navbar />
+         <NewsContainer />
+       </div>
+     </div>
+   </div>
   );
 }

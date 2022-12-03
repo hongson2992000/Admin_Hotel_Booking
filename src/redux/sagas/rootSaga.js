@@ -5,6 +5,7 @@ import * as login from "./LoginSaga";
 import * as bookingManageSaga from "./BookingManageSaga";
 import * as roomManageSaga from "./RoomManageSaga";
 import * as requestServiceManageSaga from "./RequestServiceManageSaga";
+import * as sendMessageSaga from "./SendMessageSaga"
 export default function* rootSaga() {
   yield all([
     serviceManageSaga.followActionGetAllHotelService(),
@@ -27,6 +28,7 @@ export default function* rootSaga() {
     requestServiceManageSaga.followActionCancelRequestService(),
     requestServiceManageSaga.followActionGetAllTurnDownService(),
     requestServiceManageSaga.followActionConfirmTurnDownService(),
-    // requestServiceManageSaga.followActionGetRequestServiceById()
+    sendMessageSaga.followActionSendMessage()
+    
   ]);
 }

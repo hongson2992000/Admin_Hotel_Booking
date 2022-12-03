@@ -8,3 +8,7 @@ export const sendMessage = createActions({
     sendMessageSuccess: (payload) => payload,
     sendMessageFailure: (err) => err,
 });
+
+export const fillFormSendMessage = createActions({
+  fillFormSendMessageRequest: (payload) => payload,
+});

@@ -23,6 +23,8 @@ import { useEffect } from "react";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import ListTurnDownServicePage from "./pages/ListTurnDownServicePage/ListTurnDownServicePage";
 import AlarmPage from "./pages/AlarmPage/AlarmPage";
+import CreateNewRoomPage from "./pages/CreateNewRoomPage/CreateNewRoomPage";
+import InfomationHotelPage from "./pages/InfomationHotelPage/InfomationHotelPage";
 
 function App() {
   let isLoading = useSelector(loadingState$);
@@ -71,6 +73,8 @@ function App() {
           />
           <Route exact path="/listCustomer" element={<CustomerPage />} />
           <Route exact path="/alarm" element={<AlarmPage />} />
+          <Route exact path="/createNewRoom" element={<CreateNewRoomPage />} />
+          <Route exact path="/infomationHotel" element={<InfomationHotelPage />} />
         </Routes>
       </BrowserRouter>
     </div>
