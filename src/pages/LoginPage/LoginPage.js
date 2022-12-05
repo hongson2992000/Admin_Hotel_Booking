@@ -93,14 +93,14 @@ export default function LoginPage() {
                 ""
               )}
             </div>
-            {/* <div className="form-item">
+            <div className="form-item">
               <div className="checkbox">
-                <input type="checkbox" id="rememberMeCheckbox" checked />
+                <input type="checkbox" id="rememberMeCheckbox" />
                 <label className="checkboxLabel" for="rememberMeCheckbox">
                   Nhớ mật khẩu
                 </label>
               </div>
-            </div> */}
+            </div>
             <button type="submit" className="buttonSignIn">
               Đăng Nhập
             </button>
