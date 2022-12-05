@@ -27,6 +27,7 @@ import CreateNewRoomPage from "./pages/CreateNewRoomPage/CreateNewRoomPage";
 import InfomationHotelPage from "./pages/InfomationHotelPage/InfomationHotelPage";
 import PrivateRoute from "./pages/PrivateRoute/PrivateRoute";
 import SetupRoomPage from "./pages/SetupRoomPage/SetupRoomPage";
+import SetUpPricePage from "./pages/SetUpPricePage/SetUpPricePage";
 
 function App() {
   let isLoading = useSelector(loadingState$);
@@ -91,8 +92,13 @@ function App() {
             />
             <Route
               exact
-              path="/setupRoom"
+              path="/setUpRoom"
               element={<SetupRoomPage />}
+            />
+            <Route
+              exact
+              path="/setUpPriceRoom"
+              element={<SetUpPricePage />}
             />
           </Route>
           

@@ -10,17 +10,22 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import PersonIcon from "@mui/icons-material/Person";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
-import InfoIcon from '@mui/icons-material/Info';
-import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
-import EventRepeatIcon from '@mui/icons-material/EventRepeat';
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
-import { Link, NavLink } from "react-router-dom";
+import InfoIcon from "@mui/icons-material/Info";
+import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
+import EventRepeatIcon from "@mui/icons-material/EventRepeat";
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
 import { USER_ROLE } from "../../utils/constants/settingSystem";
 import { ManageAccounts } from "@mui/icons-material";
 export default function Sidebar() {
+  const navigate = useNavigate();
   const userInfo = useSelector(userState$);
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
   const renderByAuth = () => {
     if (userInfo.userRole === USER_ROLE.ADMIN) {
       return (
@@ -94,7 +99,7 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/setupRoom"
+                  to="/setUpRoom"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
@@ -104,7 +109,7 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/setupPriceRoom"
+                  to="/setUpPriceRoom"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
@@ -134,19 +139,32 @@ export default function Sidebar() {
               </li>
             </ul>
           </div>
-          
+
           <div className="bottom">
-          <hr />
-            <Link to="/overview" style={{ textDecoration: "none" }}>
-              <LogoutIcon className="icon" />
+            <hr />
+            <div
+              onClick={() => {
+                handleLogout();
+              }}
+              className="buttonLogout"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                padding: "10px",
+              }}
+            >
+              <LogoutIcon className="icon" style={{ marginRight: "5px" }} />
               <span>Đăng Xuất</span>
-            </Link>
+            </div>
           </div>
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
       return (
-        <div className="sidebar" style={{overflow:"hidden"}}>
+        <div className="sidebar" style={{ overflow: "hidden" }}>
           <div className="top" style={{ height: "100px" }}>
             <Link
               to="/"
@@ -157,7 +175,7 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <div className="center" style={{height:"70%"}}>
+          <div className="center" style={{ height: "70%" }}>
             <ul>
               <li>
                 <NavLink
@@ -209,19 +227,32 @@ export default function Sidebar() {
               </li>
             </ul>
           </div>
-         
-          <div className="bottom" style={{paddingTop:"10px"}}>
-          <hr />
-            <Link to="/overview" style={{ textDecoration: "none"}}>
-              <LogoutIcon className="icon" />
+
+          <div className="bottom" style={{ paddingTop: "10px" }}>
+            <hr />
+            <div
+              onClick={() => {
+                handleLogout();
+              }}
+              className="buttonLogout"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                padding: "10px",
+              }}
+            >
+              <LogoutIcon className="icon" style={{ marginRight: "5px" }} />
               <span>Đăng Xuất</span>
-            </Link>
+            </div>
           </div>
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
       return (
-        <div className="sidebar" style={{overflow:"hidden"}}>
+        <div className="sidebar" style={{ overflow: "hidden" }}>
           <div className="top" style={{ height: "100px" }}>
             <Link
               to="/"
@@ -232,7 +263,7 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <div className="center" style={{height:"70%"}}>
+          <div className="center" style={{ height: "70%" }}>
             <ul>
               <li>
                 <NavLink
@@ -261,23 +292,36 @@ export default function Sidebar() {
             </ul>
           </div>
           <hr />
-          <div className="bottom" style={{paddingTop:"10px"}}>
-            <Link to="/overview" style={{ textDecoration: "none" }}>
-              <LogoutIcon className="icon" />
+          <div className="bottom" style={{ paddingTop: "10px" }}>
+            <div
+              onClick={() => {
+                handleLogout();
+              }}
+              className="buttonLogout"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                padding: "10px",
+              }}
+            >
+              <LogoutIcon className="icon" style={{ marginRight: "5px" }} />
               <span>Đăng Xuất</span>
-            </Link>
+            </div>
           </div>
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
       return (
-        <div className="sidebar" style={{overflow:"hidden"}}>
+        <div className="sidebar" style={{ overflow: "hidden" }}>
           <div className="top">
             <Link to="/" style={{ textDecoration: "none" }}>
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <div className="center" style={{width:"70%"}}>
+          <div className="center" style={{ width: "70%" }}>
             <ul>
               <li>
                 <NavLink
@@ -306,11 +350,24 @@ export default function Sidebar() {
             </ul>
           </div>
           <hr />
-          <div className="bottom" style={{paddingTop:"10px"}}>
-            <Link to="/overview" style={{ textDecoration: "none" }}>
-              <LogoutIcon className="icon" />
+          <div className="bottom" style={{ paddingTop: "10px" }}>
+            <div
+              onClick={() => {
+                handleLogout();
+              }}
+              className="buttonLogout"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                padding: "10px",
+              }}
+            >
+              <LogoutIcon className="icon" style={{ marginRight: "5px" }} />
               <span>Đăng Xuất</span>
-            </Link>
+            </div>
           </div>
         </div>
       );
