@@ -321,7 +321,7 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <div className="center" style={{ width: "70%" }}>
+          <div className="center" style={{ height: "70%" }}>
             <ul>
               <li>
                 <NavLink

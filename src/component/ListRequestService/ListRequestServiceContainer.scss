@@ -1,12 +1,39 @@
 .datatableRequestService {
-    height: 650px;
-    padding: 20px;
-    margin-top: 25px;
+    width: 100%;
+    padding: 40px;
+    height: auto;
+    margin-top: 120px;
+    margin-left: 245px;
     .MuiDataGrid-main {
-        padding: 10px;
+        padding-left: 10px;
         .MuiDataGrid-columnHeaders {
-            padding: 10px;
+            padding-left: 10px;
         }
+    }
+    .InfoRoomItem {
+        #actualArrivalDate {
+            height: 0.875rem;
+        }
+    }
+    // .fillter {
+    //     display: flex;
+    //      :nth-child(0) {
+    //         background-color: grey;
+    //     }
+    //     .fillterItem {
+    //         width: 150px;
+    //         height: 50px;
+    //         display: flex;
+    //         justify-content: center;
+    //         align-items: center;
+    //         a {
+    //             text-decoration: none;
+    //         }
+    //     }
+    // }
+    .datagrid {
+        height: 500px;
+        width: 1220px;
     }
     .datatableTitle {
         width: 100%;
@@ -30,6 +57,27 @@
     .cellWithImg {
         display: flex;
         align-items: center;
+        &.BOOKED {
+            padding: 5px;
+            background-color: #fff;
+            color: orange;
+            border: 0.5px solid orange;
+            border-radius: 5px;
+        }
+        &.CHECKIN {
+            padding: 5px;
+            background-color: #fff;
+            color: green;
+            border: 0.5px solid green;
+            border-radius: 5px;
+        }
+        &.CHECKOUT {
+            padding: 5px;
+            background-color: #fff;
+            color: red;
+            border: 0.5px solid red;
+            border-radius: 5px;
+        }
         .cellImg {
             width: 32px;
             height: 32px;

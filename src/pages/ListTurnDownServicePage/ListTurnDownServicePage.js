@@ -6,13 +6,15 @@ import "./ListTurnDownServicePage.scss";
 export default function ListTurnDownServicePage() {
   // let isSuccess = useSelector(successState$);
   return (
-    <div className="main-screen">
-      {/* {isSuccess ? <PopupSucess /> : ""} */}
-      <Sidebar />
-      <div className="listContainer">
-        <Navbar />
-        <ListTurnDownServiceContainer />
-        {/* <ModalListRequestService/> */}
+    <div className="main-screenListTurnDownServicePage col-12">
+      <div className="row">
+        <div className="col-2">
+          <Sidebar />
+        </div>
+        <div className="content-main col-10">
+          <Navbar />
+          <ListTurnDownServiceContainer />
+        </div>
       </div>
     </div>
   );
