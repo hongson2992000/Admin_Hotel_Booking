@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import "./ListBookingContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import {  useNavigate, useSearchParams } from "react-router-dom";
-// import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { bookingManageState$ } from "../../redux/selectors/BookingManageSelector";
 import * as actions from "../../redux/actions/BookingManageAction";
@@ -15,19 +14,40 @@ import {
   CHECKIN,
   CHECKOUT,
   INFO_BOOKING_DETAIL,
+  USER_LOGIN,
+  USER_ROLE,
 } from "../../utils/constants/settingSystem";
+import { useEffect } from "react";
 export default function ListBookingContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  useEffect(() => {
-    dispatch(actions.getAllBooking.getAllBookingRequest());
-  }, [dispatch, searchParams]);
-
   const [value, setValue] = React.useState("1");
 
   const listBooking = useSelector(bookingManageState$);
-
+  useEffect(() => {
+    const userLocal = localStorage.getItem(USER_LOGIN);
+    if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
+      navigate("/overview");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+    ) {
+      navigate("/listBooking");
+      dispatch(actions.getAllBooking.getAllBookingRequest());
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
+    ) {
+      navigate("/listRoom");
+      // dispatch(actions.getAllRoom.getAllRoomRequest());
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
+    ) {
+      navigate("/listRoom");
+      // dispatch(actions.getAllRoom.getAllRoomRequest());
+    }
+  }, [navigate, dispatch]);
   const handleChange = (e, val) => {
     setValue(val);
   };

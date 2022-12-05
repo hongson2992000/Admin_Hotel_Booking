@@ -14,6 +14,10 @@ import {
   hideModalListService,
   showModalSendMessage,
   hideModalSendMessage,
+  showModalAddLocation,
+  showModalUpdateLocation,
+  hideModalAddLocation,
+  hideModalUpdateLocation,
 } from "../actions/ModalAction";
 
 const initialState = {
@@ -24,6 +28,8 @@ const initialState = {
   isShowUpdateAccount: false,
   isShowListService: false,
   isShowSendMessage: false,
+  isShowAddLocation: false,
+  isShowUpdateLocation: false,
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -101,6 +107,28 @@ export default function ModalReducer(state = initialState, action) {
       return {
         ...state,
         isShowSendMessage: false,
+      };
+    case getType(showModalAddLocation):
+      return {
+        ...state,
+        isShowAddLocation: true,
+      };
+
+    case getType(hideModalAddLocation):
+      return {
+        ...state,
+        isShowAddLocation: false,
+      };
+    case getType(showModalUpdateLocation):
+      return {
+        ...state,
+        isShowUpdateLocation: true,
+      };
+
+    case getType(hideModalUpdateLocation):
+      return {
+        ...state,
+        isShowUpdateLocation: false,
       };
     default:
       return state;

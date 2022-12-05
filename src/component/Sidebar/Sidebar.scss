@@ -15,6 +15,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        border-bottom: 1px solid #c4c4c4;
         .logo {
             font-size: 20px;
             font-weight: bold;
@@ -136,7 +137,7 @@
 }
 
 body::-webkit-scrollbar {
-    width: 5px;
+    width: 0;
     // background: #fff;
     // border-radius: 10px;
     // visibility: hidden;

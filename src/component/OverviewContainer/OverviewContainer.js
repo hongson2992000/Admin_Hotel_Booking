@@ -1,31 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./OverviewContainer.scss";
-
 import Navbar from "../Navbar/Navbar";
 import Widget from "../Widget/Widget";
 import Chart from "../Chart/Chart";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import HomeIcon from "@mui/icons-material/Home";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
-import * as bookingActions from "./../../redux/actions/BookingManageAction";
-
 import HotelIcon from "@mui/icons-material/Hotel";
-import { useDispatch, useSelector } from "react-redux";
 import { getDashBoardState$ } from "../../redux/selectors/BookingManageSelector";
-import moment from "moment";
+import { useSelector } from "react-redux";
 
 export default function OverviewContainer() {
-  const dispatch = useDispatch();
   const dashBoard = useSelector(getDashBoardState$);
-  const currentDate = moment().format("DD/MM/yyyy");
-
-  useEffect(() => {
-    dispatch(
-      bookingActions.getDashBoardOverview.getDashBoardOverviewRequest(
-        currentDate
-      )
-    );
-  }, [currentDate,dispatch]);
 
   if (!dashBoard) return;
 

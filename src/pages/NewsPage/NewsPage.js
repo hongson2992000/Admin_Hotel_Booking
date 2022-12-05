@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import Navbar from "../../component/Navbar/Navbar";
 import NewsContainer from "../../component/NewsContainer/NewsContainer";
 import "./NewsPage.scss";
+import { useNavigate } from "react-router-dom";
+import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
 export default function NewsPage() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const userLocal = localStorage.getItem(USER_LOGIN);
+    if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
+      navigate("/news");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+    ) {
+      navigate("/listRoom");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
+    ) {
+      navigate("/listRoom");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
+    ) {
+      navigate("/listRoom");
+    }
+  }, [navigate]);
   return (
      <div className="main-screenNewPage col-12">
      <div className="row">

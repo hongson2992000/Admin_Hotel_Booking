@@ -30,7 +30,6 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <hr />
           <div className="center">
             <ul>
               <li>
@@ -158,7 +157,6 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <hr />
           <div className="center" style={{height:"70%"}}>
             <ul>
               <li>
@@ -234,7 +232,6 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <hr />
           <div className="center" style={{height:"70%"}}>
             <ul>
               <li>
@@ -280,7 +277,6 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <hr />
           <div className="center" style={{width:"70%"}}>
             <ul>
               <li>

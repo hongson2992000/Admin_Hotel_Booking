@@ -1,7 +1,7 @@
 import "./ServiceContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link} from "react-router-dom";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { useCallback, useEffect, useMemo,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal, showModalUpdate } from "../../redux/actions/ModalAction";
 import { serviceManageState$ } from "../../redux/selectors/ServiceManageSelector";
@@ -9,10 +9,10 @@ import * as actions from "../../redux/actions/ServiceManageAction";
 import DialogDelete from "../DialogDelete/DialogDelete";
 const ServiceContainer = () => {
   const dispatch = useDispatch();
+  // useEffect(()=>{
+  //   dispatch(actions.getHotelService.getHotelServiceRequest());
+  // },[dispatch])
   const listHotelService = useSelector(serviceManageState$);
-  useEffect(() => {
-    dispatch(actions.getHotelService.getHotelServiceRequest());
-  }, [dispatch]);
 
   const renderArr = () => {
     let arrNew = [];
@@ -20,9 +20,9 @@ const ServiceContainer = () => {
       arrNew.push({
         id: item.id,
         name: item.name,
-        type: item.serviceCategory.name,
+        type: item.serviceCategory?.name,
         status: item.status,
-        image: item.image.map((item) => {
+        image: item.image?.map((item) => {
           return item.pictureUrl;
         }),
       });
@@ -156,9 +156,6 @@ const ServiceContainer = () => {
             >
               Cập nhật
             </div>
-            <Link to="" style={{ textDecoration: "none" }}>
-              <div className="viewButton">Xem</div>
-            </Link>
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}

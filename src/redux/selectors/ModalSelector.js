@@ -1,6 +1,12 @@
 export const modalCreateServiceState$ = (state) => state.ModalReducer.isShow;
+
 export const modalUpdateServiceState$ = (state) =>
   state.ModalReducer.isShowUpdate;
+export const modalAddLocationState$ = (state) =>
+  state.ModalReducer.isShowAddLocation;
+
+export const modalUpdateLocationState$ = (state) =>
+  state.ModalReducer.isShowUpdateLocation;
 export const modalAddUserState$ = (state) =>
   state.ModalReducer.isShowAddNewUser;
 

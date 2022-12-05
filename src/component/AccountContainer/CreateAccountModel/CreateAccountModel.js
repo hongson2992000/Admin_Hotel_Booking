@@ -8,7 +8,7 @@ import * as yup from "yup";
 import { hideCreateAccountModel } from "../../../redux/actions/ModalAction";
 import { modelCreateAccountState$ } from "../../../redux/selectors/ModalSelector";
 import { PHONE_VALID } from "../../../utils/constants/settingSystem";
-import Styles from "./CreateAccountModel.module.scss";
+import Styles from "./CreateAccountModel.scss";
 
 const CreateAccountModel = () => {
   const dispatch = useDispatch();
@@ -70,7 +70,7 @@ const CreateAccountModel = () => {
   });
 
   const body = (
-    <div className={Styles.paper} id="simple-modal-title">
+    <div className="paperCreateAccount" id="simple-modal-title">
       <h2>Thêm mới Tài Khoản</h2>
       <hr />
       <form
@@ -80,7 +80,7 @@ const CreateAccountModel = () => {
         onSubmit={formik.handleSubmit}
       >
         <div className="row">
-          <div className="col-12">
+          <div className="col-6">
             <InputLabel>Tài Khoản</InputLabel>
             <TextField
               className={classNames("col-12", Styles.title)}
@@ -91,7 +91,7 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-12">
+          <div className="col-6">
             <InputLabel>Mật Khẩu</InputLabel>
             <TextField
               type={"password"}
@@ -257,11 +257,11 @@ const CreateAccountModel = () => {
               </div>
             </div>
           </div>
-          <div className={Styles.footer}>
-            <button className={Styles.buttonSave} type="submit">
+          <div className="footer">
+            <button className="buttonSave" type="submit">
               Lưu
             </button>
-            <button className={Styles.buttonClose} onClick={onClose}>
+            <button className="buttonClose" onClick={onClose}>
               Đóng
             </button>
           </div>

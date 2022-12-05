@@ -5,12 +5,36 @@ import Navbar from "../../component/Navbar/Navbar";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import "./ListRoomPage.scss";
 import * as actions from "../../redux/actions/RoomManageAction";
+import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
+import { useNavigate } from "react-router-dom";
 
 export default function ListRoomPage() {
   const dispatch = useDispatch();
+  const navigate =useNavigate();
   useEffect(() => {
-    dispatch(actions.getAllRoom.getAllRoomRequest());
-  }, [dispatch]);
+    const userLocal = localStorage.getItem(USER_LOGIN);
+    if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
+      navigate("/overview");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+    ) {
+      navigate("/listRoom");
+      dispatch(actions.getAllRoom.getAllRoomRequest());
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
+    ) {
+      navigate("/listRoom");
+      dispatch(actions.getAllRoom.getAllRoomRequest());
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
+    ) {
+      navigate("/listRoom");
+      dispatch(actions.getAllRoom.getAllRoomRequest());
+    }
+  }, [navigate,dispatch]);
   return (
     <div className="main-screenListRoom col-12">
       <div className="row">

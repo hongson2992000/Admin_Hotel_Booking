@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { showCreateAccountModel } from "../../redux/actions/ModalAction";
 import DialogDelete from "../DialogDelete/DialogDelete";
-import "./AccountContainer.module.scss";
+import "./AccountContainer.scss";
 
 const AccountContainer = () => {
   const dispatch = useDispatch();
@@ -222,7 +222,7 @@ const AccountContainer = () => {
   );
 
   return (
-    <div className="datatableService">
+    <div className="datatableAccount">
       <div className="datatableTitle">
         Danh sách Tài Khoản
         <div onClick={handleOpenCreateModel} className="link">

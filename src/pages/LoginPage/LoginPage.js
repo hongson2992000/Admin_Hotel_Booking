@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useFormik } from "formik";
 import image from "../../assets/img/loginImage.jpg";
 import "./LoginPage.scss";
@@ -6,17 +6,33 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../redux/actions/LoginAction";
 import { useNavigate } from "react-router-dom";
 import { errState$ } from "../../redux/selectors/UserSelector";
+import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const errMessage = useSelector(errState$);
   const navigate = useNavigate();
-  // useEffect(()=>{
-  //   const userLogin = localStorage.getItem(USER_LOGIN)
-  //   if(userLogin){
-  //     navigate("/overview")
-  //   }
-  // })
+  useEffect(() => {
+    const userLocal = localStorage.getItem(USER_LOGIN);
+    if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
+      navigate("/overview");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+    ) {
+      navigate("/listRoom");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
+    ) {
+      navigate("/listRoom");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
+    ) {
+      navigate("/listRoom");
+    }
+  });
   const onSubmitFormLogin = useCallback(
     (values) => {
       dispatch(actions.login.loginRequest({ values, navigate }));
@@ -105,7 +121,9 @@ export default function LoginPage() {
           </div> */}
         </form>
       </div>
-      <div className="login-right"><img src={image} alt="" /></div>
+      <div className="login-right">
+        <img src={image} alt="" />
+      </div>
     </div>
   );
 }

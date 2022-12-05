@@ -10,6 +10,12 @@ export const hideModal = createAction("HIDE_CREATE_SERVICE_MODAL");
 export const showModalUpdate = createAction("SHOW_UPDATE_SERVICE_MODAL");
 export const hideModalUpdate = createAction("HIDE_UPDATE_SERVICE_MODAL");
 
+export const showModalAddLocation = createAction("SHOW_CREATE_LOCATION_MODAL");
+export const hideModalAddLocation = createAction("HIDE_CREATE_LOCATION_MODAL");
+
+export const showModalUpdateLocation = createAction("SHOW_UPDATE_LOCATION_MODAL");
+export const hideModalUpdateLocation = createAction("HIDE_UPDATE_LOCATION_MODAL");
+
 export const showModalAddUser = createAction("SHOW_ADD_USER_MODAL");
 export const hideModalAddUser = createAction("HIDE_ADD_USER_MODAL");
 
