@@ -7,7 +7,7 @@ import * as actions from "../../redux/actions/LoginAction";
 import { useNavigate } from "react-router-dom";
 import { errState$ } from "../../redux/selectors/UserSelector";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
-
+import img from "../../assets/img/logo.png";
 export default function LoginPage() {
   const dispatch = useDispatch();
   const errMessage = useSelector(errState$);
@@ -54,8 +54,8 @@ export default function LoginPage() {
     <div className="login-page">
       <div className="login-left">
         <div className="login-header">
-          <h1>Chào Mừng Tới 5 Men Hotel</h1>
-          <p>Vui Lòng Đăng Nhập</p>
+          <img src={img} alt="" style={{width:"70px",height:"70px",marginRight:"10px"}}/>
+          <span>5 Men Hotel</span>
         </div>
         <form
           className="login-form"
@@ -65,23 +65,25 @@ export default function LoginPage() {
         >
           <div className="login-form-item">
             <div className="form-item">
-              <label for="username">Enter Username</label>
+              {/* <label for="username">Tên đăng nhập</label> */}
               <input
                 type="text"
                 id="username"
                 name="username"
                 value={formik.values.username}
                 onChange={formik.handleChange}
+                placeholder="Tên đăng nhập"
               />
             </div>
             <div className="form-item">
-              <label for="password">Enter Password</label>
+              {/* <label for="password">Mật khẩu</label> */}
               <input
                 type="password"
                 id="password"
                 name="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
+                placeholder="Mật khẩu"
               />
               {errMessage === "INVALID USER NAME OR PASSWORD" ? (
                 <p style={{ paddingTop: "10px", color: "red" }}>
@@ -95,12 +97,12 @@ export default function LoginPage() {
               <div className="checkbox">
                 <input type="checkbox" id="rememberMeCheckbox" checked />
                 <label className="checkboxLabel" for="rememberMeCheckbox">
-                  Remember me
+                  Nhớ mật khẩu
                 </label>
               </div>
             </div>
             <button type="submit" className="buttonSignIn">
-              Sign In
+              Đăng Nhập
             </button>
           </div>
           {/* <div className="login-form-footer">
@@ -121,9 +123,9 @@ export default function LoginPage() {
           </div> */}
         </form>
       </div>
-      <div className="login-right">
+      {/* <div className="login-right">
         <img src={image} alt="" />
-      </div>
+      </div> */}
     </div>
   );
 }

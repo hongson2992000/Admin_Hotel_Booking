@@ -12,12 +12,12 @@ export default function AlarmPage() {
   useEffect(() => {
     const userLocal = localStorage.getItem(USER_LOGIN);
     if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
-      navigate("/alarm");
+      navigate("/overview");
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
     ) {
-      navigate("/listRoom");
+      navigate("/alarm");
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
