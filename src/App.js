@@ -15,6 +15,7 @@ import {
 } from "./redux/selectors/LoadingSelector";
 import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
+import * as actionImage from "./redux/actions/ImageManageAction"
 import CheckInPage from "./pages/CheckInPage/CheckInPage";
 import PopupSucess from "./component/PopupSuccess/PopupSuccess";
 import CustomerPage from "./pages/CustomerPage/CustomerPage";
@@ -28,6 +29,8 @@ import InfomationHotelPage from "./pages/InfomationHotelPage/InfomationHotelPage
 import PrivateRoute from "./pages/PrivateRoute/PrivateRoute";
 import SetupRoomPage from "./pages/SetupRoomPage/SetupRoomPage";
 import SetUpPricePage from "./pages/SetUpPricePage/SetUpPricePage";
+import InfomationCustomerPage from "./pages/InfomationCustomerPage/InfomationCustomerPage";
+import InfomationCustomerContainer from "./component/InfomationCustomerContainer/InfomationCustomerContainer";
 
 function App() {
   let isLoading = useSelector(loadingState$);
@@ -71,7 +74,9 @@ function App() {
               path="/createNewRoom"
               element={<CreateNewRoomPage />}
             />
-            <Route exact path="/listCustomer" element={<CustomerPage />} />
+            <Route exact path="/listCustomer" element={<CustomerPage />}>
+              <Route path=":customerId" element={<InfomationCustomerContainer/>} ></Route>
+            </Route>
             <Route exact path="/alarm" element={<AlarmPage />} />
 
             {/* <Route exact path="/checkCustomerInfo" element={<CustomerPage />} /> */}
@@ -90,18 +95,9 @@ function App() {
               path="/listTurnDownService"
               element={<ListTurnDownServicePage />}
             />
-            <Route
-              exact
-              path="/setUpRoom"
-              element={<SetupRoomPage />}
-            />
-            <Route
-              exact
-              path="/setUpPriceRoom"
-              element={<SetUpPricePage />}
-            />
+            <Route exact path="/setUpRoom" element={<SetupRoomPage />} />
+            <Route exact path="/setUpPriceRoom" element={<SetUpPricePage />} />
           </Route>
-          
         </Routes>
       </BrowserRouter>
     </div>

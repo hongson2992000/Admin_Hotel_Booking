@@ -5,6 +5,7 @@ import "./Navbar.scss";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
 import { useNavigate } from "react-router-dom";
+import { NotificationsNoneOutlined } from "@mui/icons-material";
 export default function Navbar() {
   const menuRef = useRef();
   const imgRef = useRef();
@@ -29,10 +30,10 @@ export default function Navbar() {
         <div></div>
         <div className="items">
           <div></div>
-          {/* <div className="item">
-            <NotificationsNoneOutlinedIcon className="icon" />
+          <div className="item">
+            <NotificationsNoneOutlined className="icon" />
             <div className="counter">1</div>
-          </div> */}
+          </div>
           <div className="item relative" onClick={() => setOpen(!open)}>
             <img
               src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"

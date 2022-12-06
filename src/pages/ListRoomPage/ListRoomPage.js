@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import ListRoomContainer from "../../component/ListRoomContainer/ListRoomContainer";
 import Navbar from "../../component/Navbar/Navbar";
 import Sidebar from "../../component/Sidebar/Sidebar";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ListRoomPage() {
   const dispatch = useDispatch();
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     const userLocal = localStorage.getItem(USER_LOGIN);
     if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
@@ -34,7 +34,7 @@ export default function ListRoomPage() {
       navigate("/listRoom");
       dispatch(actions.getAllRoom.getAllRoomRequest());
     }
-  }, [navigate,dispatch]);
+  }, [navigate, dispatch]);
   return (
     <div className="main-screenListRoom col-12">
       <div className="row">

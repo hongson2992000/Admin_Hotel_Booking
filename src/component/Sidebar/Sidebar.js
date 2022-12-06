@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
 import { USER_ROLE } from "../../utils/constants/settingSystem";
 import { ManageAccounts } from "@mui/icons-material";
+import img from "../../assets/img/logo.png";
 export default function Sidebar() {
   const navigate = useNavigate();
   const userInfo = useSelector(userState$);
@@ -32,6 +33,12 @@ export default function Sidebar() {
         <div className="sidebar">
           <div className="top">
             <Link to="/" style={{ textDecoration: "none" }}>
+              <img
+                src={img}
+                alt=""
+                style={{ width: "50px", height: "50px", marginRight: "10px" }}
+                className="animate__animated animate__flipInY"
+              />
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
@@ -94,7 +101,7 @@ export default function Sidebar() {
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <ManageAccounts className="icon" />
-                  <span>Account</span>
+                  <span>Tài khoản</span>
                 </NavLink>
               </li>
               <li>
@@ -172,6 +179,12 @@ export default function Sidebar() {
                 textDecoration: "none",
               }}
             >
+              <img
+                src={img}
+                alt=""
+                style={{ width: "50px", height: "50px", marginRight: "10px" }}
+                className="animate__animated animate__flipInY"
+              />
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
@@ -260,6 +273,12 @@ export default function Sidebar() {
                 textDecoration: "none",
               }}
             >
+              <img
+                src={img}
+                alt=""
+                style={{ width: "50px", height: "50px", marginRight: "10px" }}
+                className="animate__animated animate__flipInY"
+              />
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
@@ -318,6 +337,12 @@ export default function Sidebar() {
         <div className="sidebar" style={{ overflow: "hidden" }}>
           <div className="top">
             <Link to="/" style={{ textDecoration: "none" }}>
+              <img
+                src={img}
+                alt=""
+                style={{ width: "50px", height: "50px", marginRight: "10px" }}
+                className="animate__animated animate__flipInY"
+              />
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>

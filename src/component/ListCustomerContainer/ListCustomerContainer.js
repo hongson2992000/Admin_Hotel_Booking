@@ -2,11 +2,11 @@ import React from "react";
 import "./ListCustomerContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../data/DataTableNews";
-import { Link } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { useState } from "react";
 export default function ListCustomerContainer() {
   const [data, setData] = useState(userRows);
-
+  const params = useParams()
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
@@ -19,15 +19,12 @@ export default function ListCustomerContainer() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+            <Link
+              to={`/listCustomer/${params.row.id}`}
+              style={{ textDecoration: "none" }}
             >
-              Delete
-            </div>
+              <div className="viewButton">Xem chi tiết</div>
+            </Link>
           </div>
         );
       },
@@ -35,19 +32,13 @@ export default function ListCustomerContainer() {
   ];
   return (
     <div className="datatableCustomerContainer">
-      <div className="datatableTitle">
-        Danh sách tin tức
-        <span className="link">
-          Thêm Tin Tức
-        </span>
-      </div>
+      <div className="datatableTitle">Danh sách khách hàng</div>
       <DataGrid
         className="datagrid"
         rows={data}
         columns={userColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        checkboxSelection
       />
     </div>
   );

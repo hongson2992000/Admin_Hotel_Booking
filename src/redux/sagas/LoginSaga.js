@@ -1,7 +1,9 @@
 import * as actions from "./../actions/LoginAction";
+import * as actionImage from "./../actions/ImageManageAction"
 import {
   DISPLAY_LOADING,
   HIDE_LOADING,
+  IMAGE,
   STATUS_CODE,
   TOKEN,
   USER_LOGIN,
@@ -9,6 +11,7 @@ import {
 } from "../../utils/constants/settingSystem";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { loginService } from "../../services/LoginService";
+import { imageManage } from "../../services/ImageService";
 
 function* login(action) {
   try {
@@ -25,6 +28,13 @@ function* login(action) {
     console.log(userToken);
     if (userToken.status === STATUS_CODE.SUCCESS) {
       localStorage.setItem(TOKEN, userToken.data);
+      let listImage = yield call(() => {
+        return imageManage.getAllImage();
+      });
+      if (listImage.status === STATUS_CODE.SUCCESS) {
+        yield put(actionImage.getAllImage.getAllImageSuccess(listImage.data));
+        localStorage.setItem(IMAGE, JSON.stringify(listImage.data));
+      }
       let userInfo = yield call(() => {
         return loginService.getUserInfo();
       });

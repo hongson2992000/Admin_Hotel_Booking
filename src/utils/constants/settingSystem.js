@@ -2,6 +2,7 @@ export const DOMAIN = "https://hotelservice-v5.herokuapp.com/api";
 // export const DOMAIN = 'http://localhost:8080/api';
 export const TOKEN = "access_token";
 export const USER_LOGIN = "USER_LOGIN";
+export const IMAGE = "IMAGE";
 export const INFO_BOOKING_DETAIL = "INFO_BOOKING_DETAIL";
 export const CHECKIN = "CHECK IN";
 export const CHECKOUT = "CHECK OUT";

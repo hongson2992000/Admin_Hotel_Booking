@@ -8,6 +8,8 @@ import BookingManageReducer from "./BookingManageReducer"
 import RoomManageReducer from "./RoomManageReducer"
 import RequestServiceReducer from "./RequestServiceReducer"
 import SendMessageReducer from "./SendMessageReducer"
+import ImageManageReducer from "./ImageManageReducer";
+import NewsManageReducer from "./NewsManageReducer"
 export default combineReducers({
   LoadingReducer,
   ServiceManageReducer,
@@ -17,5 +19,8 @@ export default combineReducers({
   BookingManageReducer,
   RoomManageReducer,
   RequestServiceReducer,
-  SendMessageReducer
+  SendMessageReducer,
+  ImageManageReducer,
+  NewsManageReducer
+  
 });

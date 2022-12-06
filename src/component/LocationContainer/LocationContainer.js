@@ -8,12 +8,27 @@ import * as actions from "../../redux/actions/ModalAction";
 import { locationManageState$ } from "../../redux/selectors/LocationManageSelector";
 import AddNewLocationModal from "./AddNewLocationModal/AddNewLocationModal";
 import UpdateLocationModal from "./UpdateLocationModal/UpdateLocationModal";
+import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
 export default function LocationContainer() {
   const listLocation = useSelector(locationManageState$);
-  const [data, setData] = useState(listLocation);
   const dispatch = useDispatch();
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  // const handleDelete = (id) => {
+  //   setData(data.filter((item) => item.id !== id));
+  // };
+  const renderArr = () => {
+    let arrNew = [];
+    listLocation.forEach((item, i) => {
+      arrNew.push({
+        stt: i + 1,
+        id: item.id,
+        name: item.name,
+        openTime:item.openTime,
+        closeTime:item.closeTime,
+        status: item.status,
+        image: getImageUrlByType(`img_abstraction_${item.id}`)?.pictureUrl,
+      });
+    });
+    return arrNew;
   };
   const handleAddNewLocation = useCallback(() => {
     dispatch(actions.showModalAddLocation());
@@ -23,11 +38,11 @@ export default function LocationContainer() {
   }, [dispatch]);
   const locationColumns = [
     {
-      field: "id",
+      field: "stt",
       headerName: "STT",
       width: 100,
       renderCell: (params) => {
-        return <div className="cellWithImg">{params.row.id}</div>;
+        return <div className="cellWithImg">{params.row.stt}</div>;
       },
     },
     {
@@ -43,6 +58,13 @@ export default function LocationContainer() {
       field: "img",
       headerName: "Hình Ảnh",
       width: 250,
+      renderCell: (params) => {
+        return (
+          <div className="cellWithImg">
+            <img className="cellImg" src={params.row.image} alt="img" />
+          </div>
+        );
+      },
     },
     {
       field: "openTime",
@@ -73,11 +95,11 @@ export default function LocationContainer() {
               onClick={() => handleUpdateLocation(params.row.id)}
               style={{ textDecoration: "none" }}
             >
-              <div className="viewButton">Cập nhật</div>
+              <div className="updateButton">Cập nhật</div>
             </div>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              // onClick={() => handleDelete(params.row.id)}
             >
               Delete
             </div>
@@ -101,13 +123,13 @@ export default function LocationContainer() {
       </div>
       <DataGrid
         className="datagrid"
-        rows={listLocation}
+        rows={renderArr()}
         columns={locationColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
       />
       <AddNewLocationModal />
-      <UpdateLocationModal/>
+      <UpdateLocationModal />
     </div>
   );
 }

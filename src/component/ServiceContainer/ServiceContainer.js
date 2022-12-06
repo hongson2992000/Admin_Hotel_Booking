@@ -1,12 +1,13 @@
 import "./ServiceContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import { useCallback, useEffect, useMemo,useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal, showModalUpdate } from "../../redux/actions/ModalAction";
 import { serviceManageState$ } from "../../redux/selectors/ServiceManageSelector";
 import * as actions from "../../redux/actions/ServiceManageAction";
 import DialogDelete from "../DialogDelete/DialogDelete";
+import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
 const ServiceContainer = () => {
   const dispatch = useDispatch();
   // useEffect(()=>{
@@ -16,15 +17,14 @@ const ServiceContainer = () => {
 
   const renderArr = () => {
     let arrNew = [];
-    listHotelService.forEach((item) => {
+    listHotelService.forEach((item, i) => {
       arrNew.push({
+        stt: i + 1,
         id: item.id,
         name: item.name,
         type: item.serviceCategory?.name,
         status: item.status,
-        image: item.image?.map((item) => {
-          return item.pictureUrl;
-        }),
+        image: getImageUrlByType(`img_service_${item.id}`)?.pictureUrl,
       });
     });
     return arrNew;
@@ -66,11 +66,11 @@ const ServiceContainer = () => {
   let serviceColumns = useMemo(
     () => [
       {
-        field: "id",
-        headerName: "Mã",
+        field: "stt",
+        headerName: "STT",
         width: 100,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.id}</div>;
+          return <div className="cellWithImg">{params.row.stt}</div>;
         },
       },
       {

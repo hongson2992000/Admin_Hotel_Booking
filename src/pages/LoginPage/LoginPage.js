@@ -4,6 +4,7 @@ import image from "../../assets/img/loginImage.jpg";
 import "./LoginPage.scss";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../redux/actions/LoginAction";
+import * as actionImage from "../../redux/actions/ImageManageAction"
 import { useNavigate } from "react-router-dom";
 import { errState$ } from "../../redux/selectors/UserSelector";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
@@ -36,6 +37,7 @@ export default function LoginPage() {
   const onSubmitFormLogin = useCallback(
     (values) => {
       dispatch(actions.login.loginRequest({ values, navigate }));
+      // dispatch(actionImage.getAllImage.getAllImageRequest());
     },
     [navigate, dispatch]
   );

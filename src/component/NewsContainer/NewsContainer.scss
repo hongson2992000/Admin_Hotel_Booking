@@ -90,28 +90,26 @@
         display: flex;
         align-items: center;
         gap: 15px;
+        .updateButton {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: rgb(175, 175, 5);
+            border: 1px solid rgba(220, 207, 20, 0.6);
+            cursor: pointer;
+        }
         .viewButton {
             padding: 2px 5px;
             border-radius: 5px;
             color: darkblue;
-            border: 1px dotted rgba(0, 0, 139, 0.596);
+            border: 1px solid rgba(0, 0, 139, 0.596);
             cursor: pointer;
         }
-        .checkInButton {
-            padding: 5px 7px;
+        .deleteButton {
+            padding: 2px 5px;
             border-radius: 5px;
-            color: #AAAA;
-            background-color: #fff;
-            border: 1px solid #AAAA;
+            color: crimson;
+            border: 1px solid rgba(220, 20, 60, 0.6);
             cursor: pointer;
-            &:hover {
-                padding: 2px 5px;
-                border-radius: 5px;
-                color: white;
-                background-color: #AAAA;
-                border: 1px solid #AAAA;
-                cursor: pointer;
-            }
         }
     }
 }
