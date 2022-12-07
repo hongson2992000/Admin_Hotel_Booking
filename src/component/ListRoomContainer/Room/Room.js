@@ -34,11 +34,15 @@ export default function Room() {
   const [openNotEmpty, setOpenNotEmpty] = useState({ id: 0, display: false });
   const [openEmpty, setOpenEmpty] = useState({ id: 0, display: false });
   // const navigate = useNavigate();
-  const handleRoomNotEmpty = (menuId,bookingId) => {
+  const handleRoomNotEmpty = (menuId, bookingId) => {
     switch (menuId) {
       case 1:
         dispatch(showModalSendMessage());
-        dispatch(actionSendMessage.fillFormSendMessage.fillFormSendMessageRequest(bookingId))
+        dispatch(
+          actionSendMessage.fillFormSendMessage.fillFormSendMessageRequest(
+            bookingId
+          )
+        );
         break;
       case 2:
         console.log("YEU BE AN");
@@ -71,7 +75,7 @@ export default function Room() {
                     className="menuhover"
                     key={menu.id}
                     onClick={() => {
-                      handleRoomNotEmpty(menu.id,item.booking.id);
+                      handleRoomNotEmpty(menu.id, item.booking.id);
                     }}
                   >
                     {menu.name}
@@ -287,7 +291,7 @@ export default function Room() {
               <p>Trống</p>
             </div>
           </span>
-          <span >
+          <span>
             <div className="FillterNotEmpty">
               <p>Có Khách</p>
             </div>
@@ -296,18 +300,18 @@ export default function Room() {
 
         {listRoom &&
           listRoom.map((item, i) => {
-            if (item.booking === null) {
+            if (!item.status) {
               return (
                 <div className="RoomDetailEmpty col-4" key={i}>
                   <div className="RoomTitile">
-                    <p>{item.room?.name}</p>
+                    <p>{item.name}</p>
                   </div>
                   <div className="RoomNo">
-                    <p>{item.room?.roomNo}</p>
+                    <p>{item.roomNo}</p>
                   </div>
-                  <div className="CustomerName">
+                  {/* <div className="CustomerName">
                     <p>...........</p>
-                  </div>
+                  </div> */}
 
                   {renderMenuByRoleIsEmpty(item, i)}
                 </div>
@@ -316,10 +320,10 @@ export default function Room() {
               return (
                 <div className="RoomDetail col-4" key={i}>
                   <div className="RoomTitile">
-                    <p>{item.room.name}</p>
+                    <p>{item.name}</p>
                   </div>
                   <div className="RoomNo">
-                    <p>{item.room.roomNo}</p>
+                    <p>{item.roomNo}</p>
                   </div>
                   {/* <div className="CustomerName">
                     <p>{item.primaryCustomer}</p>

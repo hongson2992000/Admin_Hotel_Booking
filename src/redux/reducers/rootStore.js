@@ -10,6 +10,7 @@ import RequestServiceReducer from "./RequestServiceReducer"
 import SendMessageReducer from "./SendMessageReducer"
 import ImageManageReducer from "./ImageManageReducer";
 import NewsManageReducer from "./NewsManageReducer"
+import InformationHotelManageReducer from "./InformationHotelManageReducer"
 export default combineReducers({
   LoadingReducer,
   ServiceManageReducer,
@@ -21,6 +22,7 @@ export default combineReducers({
   RequestServiceReducer,
   SendMessageReducer,
   ImageManageReducer,
-  NewsManageReducer
+  NewsManageReducer,
+  InformationHotelManageReducer
   
 });

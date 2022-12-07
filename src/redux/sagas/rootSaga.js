@@ -7,7 +7,8 @@ import * as roomManageSaga from "./RoomManageSaga";
 import * as requestServiceManageSaga from "./RequestServiceManageSaga";
 import * as sendMessageSaga from "./SendMessageSaga";
 import * as imageManageSaga from "./ImageManageSaga";
-import * as newsManageSaga from "./NewsManageSaga"
+import * as newsManageSaga from "./NewsManageSaga";
+import * as informationHotelSaga from "./InfomationHotelManageSaga";
 export default function* rootSaga() {
   yield all([
     serviceManageSaga.followActionGetAllHotelService(),
@@ -32,7 +33,7 @@ export default function* rootSaga() {
     requestServiceManageSaga.followActionConfirmTurnDownService(),
     sendMessageSaga.followActionSendMessage(),
     imageManageSaga.followActionGetAllImage(),
-    newsManageSaga.followActionGetAllNews()
-
+    newsManageSaga.followActionGetAllNews(),
+    informationHotelSaga.followActionGetInfoHotel(),
   ]);
 }

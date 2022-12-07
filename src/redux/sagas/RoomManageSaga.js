@@ -16,43 +16,46 @@ function* getAllRoom(action) {
       return roomManage.getAllRoom();
     });
 
-    if (listRoom.status === STATUS_CODE.SUCCESS) {
-      let arrRoom = [];
-      let booking = yield call(() => {
-        return roomManage.getBookingCheckInByRoomId();
-      });
-      console.log(booking.data)
-      if(booking.data.length !== 0){
-        for (let i = 0; i < listRoom.data.length; i++) {
-          let newRoom;
-          for (let j = 0; j < booking?.data.length; j++) {
-            if (listRoom.data[i].id === booking?.data[j].room.id) {
-              newRoom = {
-                room: listRoom.data[i],
-                booking: booking?.data[j],
-              };
-              break;
-            } else {
-              newRoom = {
-                room: listRoom.data[i],
-                booking: null,
-              };
-            }
-          }
-          arrRoom.push(newRoom)
-        }
-      }else{
-        for (let i = 0; i < listRoom.data.length; i++){
-          let newRoom = {}
-          newRoom = {
-            room: listRoom.data[i],
-            booking: null,
-          }
-          arrRoom.push(newRoom)
-        }
-      }
+    // if (listRoom.status === STATUS_CODE.SUCCESS) {
+    //   let arrRoom = [];
+    //   let booking = yield call(() => {
+    //     return roomManage.getBookingCheckInByRoomId();
+    //   });
+    //   console.log(booking.data)
+    //   if(booking.data.length !== 0){
+    //     for (let i = 0; i < listRoom.data.length; i++) {
+    //       let newRoom;
+    //       for (let j = 0; j < booking?.data.length; j++) {
+    //         if (listRoom.data[i].id === booking?.data[j].room.id) {
+    //           newRoom = {
+    //             room: listRoom.data[i],
+    //             booking: booking?.data[j],
+    //           };
+    //           break;
+    //         } else {
+    //           newRoom = {
+    //             room: listRoom.data[i],
+    //             booking: null,
+    //           };
+    //         }
+    //       }
+    //       arrRoom.push(newRoom)
+    //     }
+    //   }else{
+    //     for (let i = 0; i < listRoom.data.length; i++){
+    //       let newRoom = {}
+    //       newRoom = {
+    //         room: listRoom.data[i],
+    //         booking: null,
+    //       }
+    //       arrRoom.push(newRoom)
+    //     }
+    //   }
 
-      yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
+    //   yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
+    // }
+    if(listRoom.status === STATUS_CODE.SUCCESS){
+      yield put(actions.getAllRoom.getAllRoomSuccess(listRoom.data))
     }
     yield put({
       type: HIDE_LOADING,

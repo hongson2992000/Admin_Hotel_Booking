@@ -3,17 +3,13 @@ import { useFormik } from "formik";
 // import moment from "moment";
 import React from "react";
 import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-import { infoUserBookingState$ } from "../../redux/selectors/BookingManageSelector";
-// import { roomValidState$ } from "../../redux/selectors/RoomManageSelector";
-// import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
 import "./InformationHotelContainer.scss";
 import image from "../../assets/img/anhthucte3.png";
+import { informationHotelManageState$ } from "../../redux/selectors/InfomationHotelManageSelector";
 export default function InfomationHotelContainer() {
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
-  const infoUser = useSelector(infoUserBookingState$);
-  console.log("InfoUser", infoUser);
+  const infoHotel = useSelector(informationHotelManageState$);
   // const roomValid = useSelector(roomValidState$);
   // const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
   // // console.log("Hello Son", infoBooking);
@@ -24,31 +20,17 @@ export default function InfomationHotelContainer() {
   const formik = useFormik({
     initialValues: {
       id: "",
-      room_Id: "",
-      name: "",
-      createDate: "",
-      numOfAdult: 0,
-      numOfChildren: 0,
-      arrivalDate: "",
-      arrivalTime: "",
-      departureDate: "",
-      departureTime: "12:00",
-      customer_Id: "",
-      phoneNumber: "",
-      email: "",
-      idNo: "",
-      gender: 1,
-      birthDate: "",
-      status: "",
-      actualArrivalDate: "",
-      actualDepartureDate: "",
-      confirmationNo: "",
-      roomPayment: "",
-      createBy: "",
-      hotel_Id: 1,
-      roomTypeId: "",
-      totalAmount: "",
-      specialNote: "",
+      fullName: infoHotel?.fullName,
+      phoneNumber: infoHotel?.phoneNumber,
+      shortName: infoHotel?.shortName,
+      email: infoHotel?.email,
+      website: infoHotel?.website,
+      address: infoHotel?.address,
+      longitude: infoHotel?.longitude,
+      latitude: infoHotel?.latitude,
+      totalRoom: infoHotel?.totalRoom,
+      checkInTime: infoHotel?.checkInTime,
+      checkOutTime: infoHotel?.checkOutTime,
     },
     onSubmit: (values, { resetForm }) => {
       //   onSubmitCheckIn(values);
@@ -80,10 +62,9 @@ export default function InfomationHotelContainer() {
                     <TextField
                       className="title"
                       required
-                      disabled
-                      id="id"
-                      name="id"
-                      value={formik.values.id || ""}
+                      id="fullName"
+                      name="fullName"
+                      value={formik.values.fullName}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -93,11 +74,10 @@ export default function InfomationHotelContainer() {
                     </InputLabel>
                     <TextField
                       className="title"
-                      disabled
                       required
-                      id="name"
-                      name="name"
-                      value={formik.values.name || ""}
+                      id="shortName"
+                      name="shortName"
+                      value={formik.values.shortName || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -105,11 +85,10 @@ export default function InfomationHotelContainer() {
                     <InputLabel className="label">Số điện thoại</InputLabel>
                     <TextField
                       className="title"
-                      disabled
                       required
-                      id="createDate"
-                      name="createDate"
-                      value={formik.values.createDate || ""}
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      value={formik.values.phoneNumber || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -117,11 +96,10 @@ export default function InfomationHotelContainer() {
                     <InputLabel className="label">Email</InputLabel>
                     <TextField
                       className="title"
-                      disabled
                       required
-                      id="numOfAdult"
-                      name="numOfAdult"
-                      value={formik.values.numOfAdult || ""}
+                      id="email"
+                      name="email"
+                      value={formik.values.email || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -129,11 +107,10 @@ export default function InfomationHotelContainer() {
                     <InputLabel className="label">Website</InputLabel>
                     <TextField
                       className="title"
-                      disabled
                       required
-                      id="numOfChildren"
-                      name="numOfChildren"
-                      value={formik.values.numOfChildren}
+                      id="website"
+                      name="website"
+                      value={formik.values.website}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -149,11 +126,10 @@ export default function InfomationHotelContainer() {
                 <InputLabel className="label">Địa chỉ</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
-                  id="name"
-                  name="name"
-                  value={formik.values.name}
+                  id="address"
+                  name="address"
+                  value={formik.values.address}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -161,11 +137,10 @@ export default function InfomationHotelContainer() {
                 <InputLabel className="label">Kinh độ</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formik.values.phoneNumber}
+                  id="longitude"
+                  name="longitude"
+                  value={formik.values.longitude}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -173,11 +148,10 @@ export default function InfomationHotelContainer() {
                 <InputLabel className="label">Vĩ độ</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
-                  id="email"
-                  name="email"
-                  value={formik.values.email}
+                  id="latitude"
+                  name="latitude"
+                  value={formik.values.latitude}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -191,11 +165,10 @@ export default function InfomationHotelContainer() {
                 <InputLabel className="label">Tổng số phòng</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
-                  id="name"
-                  name="name"
-                  value={formik.values.name}
+                  id="totalRoom"
+                  name="totalRoom"
+                  value={formik.values.totalRoom}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -203,11 +176,10 @@ export default function InfomationHotelContainer() {
                 <InputLabel className="label">Thời gian check in</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formik.values.phoneNumber}
+                  id="checkInTime"
+                  name="checkInTime"
+                  value={formik.values.checkInTime}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -215,11 +187,10 @@ export default function InfomationHotelContainer() {
                 <InputLabel className="label">Thời gian check out</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
-                  id="email"
-                  name="email"
-                  value={formik.values.email}
+                  id="checkOutTime"
+                  name="checkOutTime"
+                  value={formik.values.checkOutTime}
                   onChange={formik.handleChange}
                 />
               </div>
