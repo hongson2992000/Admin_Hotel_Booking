@@ -2,15 +2,16 @@ import { combineReducers } from "redux";
 import LoadingReducer from "./LoadingReducer";
 import ServiceManageReducer from "./ServiceManageReducer";
 import ModalReducer from "./ModalReducer";
-import LocationManageReducer from "./LocationManageReducer"
-import LoginReducer from "./LoginReducer"
-import BookingManageReducer from "./BookingManageReducer"
-import RoomManageReducer from "./RoomManageReducer"
-import RequestServiceReducer from "./RequestServiceReducer"
-import SendMessageReducer from "./SendMessageReducer"
+import LocationManageReducer from "./LocationManageReducer";
+import LoginReducer from "./LoginReducer";
+import BookingManageReducer from "./BookingManageReducer";
+import RoomManageReducer from "./RoomManageReducer";
+import RequestServiceReducer from "./RequestServiceReducer";
+import SendMessageReducer from "./SendMessageReducer";
 import ImageManageReducer from "./ImageManageReducer";
-import NewsManageReducer from "./NewsManageReducer"
-import InformationHotelManageReducer from "./InformationHotelManageReducer"
+import NewsManageReducer from "./NewsManageReducer";
+import InformationHotelManageReducer from "./InformationHotelManageReducer";
+import CustomerManageReducer from "./CustomerManageReducer";
 export default combineReducers({
   LoadingReducer,
   ServiceManageReducer,
@@ -23,6 +24,6 @@ export default combineReducers({
   SendMessageReducer,
   ImageManageReducer,
   NewsManageReducer,
-  InformationHotelManageReducer
-  
+  InformationHotelManageReducer,
+  CustomerManageReducer,
 });

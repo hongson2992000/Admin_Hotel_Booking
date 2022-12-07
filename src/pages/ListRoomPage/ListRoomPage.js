@@ -6,7 +6,7 @@ import Sidebar from "../../component/Sidebar/Sidebar";
 import "./ListRoomPage.scss";
 import * as actions from "../../redux/actions/RoomManageAction";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export default function ListRoomPage() {
   const dispatch = useDispatch();
@@ -19,19 +19,19 @@ export default function ListRoomPage() {
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
     ) {
-      navigate("/listRoom");
+      // navigate("/roomManage");
       dispatch(actions.getAllRoom.getAllRoomRequest());
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
     ) {
-      navigate("/listRoom");
+      navigate("/roomManage");
       dispatch(actions.getAllRoom.getAllRoomRequest());
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
     ) {
-      navigate("/listRoom");
+      navigate("/roomManage");
       dispatch(actions.getAllRoom.getAllRoomRequest());
     }
   }, [navigate, dispatch]);
@@ -43,7 +43,7 @@ export default function ListRoomPage() {
         </div>
         <div className="content-main col-10">
           <Navbar />
-          <ListRoomContainer />
+          <Outlet/>
         </div>
       </div>
     </div>

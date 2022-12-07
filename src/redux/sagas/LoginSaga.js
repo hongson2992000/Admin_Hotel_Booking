@@ -44,11 +44,11 @@ function* login(action) {
         if (userInfo.data.userRole === USER_ROLE.ADMIN) {
           action.payload.navigate("/overview");
         } else if (userInfo.data.userRole === USER_ROLE.HOTEL_MANAGE) {
-          action.payload.navigate("/listRoom");
+          action.payload.navigate("/roomManage");
         } else if (userInfo.data.userRole === USER_ROLE.RESTAURANT) {
-          action.payload.navigate("/listRoom");
+          action.payload.navigate("/roomManage");
         }else if (userInfo.data.userRole === USER_ROLE.HOUSEKEEPING) {
-          action.payload.navigate("/listRoom");
+          action.payload.navigate("/roomManage");
         }
       }
     }

@@ -6,6 +6,7 @@ import {
   getInfoUserBooking,
   checkInRoom,
   getDashBoardOverview,
+  getBookingByRoomId,
 } from "../actions/BookingManageAction";
 
 const initialState = {
@@ -72,6 +73,19 @@ export default function BookingManageReducer(state = initialState, action) {
       return {
         ...state,
       };
+      case getType(getBookingByRoomId.getBookingByRoomIdRequest):
+        return {
+          ...state,
+        };
+      case getType(getBookingByRoomId.getBookingByRoomIdSuccess):
+        return {
+          ...state,
+          bookingItem: action.payload,
+        };
+      case getType(getBookingByRoomId.getBookingByRoomIdFailure):
+        return {
+          ...state,
+        };
     default:
       return state;
   }

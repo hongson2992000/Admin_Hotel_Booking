@@ -5,7 +5,7 @@ import TouchAppIcon from "@mui/icons-material/TouchApp";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 // import * as actions from "../../../redux/actions/RoomManageAction";
-import * as actionSendMessage from "../../../redux/actions/SendMessageAction";
+import * as actionBooking from "../../../redux/actions/BookingManageAction";
 import { useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -18,9 +18,11 @@ import {
 // import RoomPopup from "./roomPopup";
 import { roomManageState$ } from "../../../redux/selectors/RoomManageSelector";
 import { showModalSendMessage } from "../../../redux/actions/ModalAction";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Room() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userInfo = useSelector(userState$);
   const listRoom = useSelector(roomManageState$);
   let MenusEmpty = [{ name: "Tạo đặt phòng", id: 0 }];
@@ -34,14 +36,22 @@ export default function Room() {
   const [openNotEmpty, setOpenNotEmpty] = useState({ id: 0, display: false });
   const [openEmpty, setOpenEmpty] = useState({ id: 0, display: false });
   // const navigate = useNavigate();
-  const handleRoomNotEmpty = (menuId, bookingId) => {
+  const handleRoomNotEmpty = (menuId, room_id) => {
     switch (menuId) {
+      case 0:
+        dispatch(
+          actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
+            room_id: room_id,
+          })
+        );
+        navigate("/roomManage/customerDetail")
+        break;
       case 1:
         dispatch(showModalSendMessage());
         dispatch(
-          actionSendMessage.fillFormSendMessage.fillFormSendMessageRequest(
-            bookingId
-          )
+          actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
+            room_id: room_id,
+          })
         );
         break;
       case 2:
@@ -55,6 +65,16 @@ export default function Room() {
     if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
       return (
         <div className="rowIcon">
+          <RoomServiceIcon
+            onClick={() => {
+              setOpenNotEmpty({
+                id: index,
+                display: !openNotEmpty.display,
+              });
+            }}
+            className="icon"
+            style={{ pointerEvents: "none" }}
+          />
           <TouchAppIcon
             onClick={() => {
               setOpenNotEmpty({
@@ -63,6 +83,16 @@ export default function Room() {
               });
             }}
             className="icon"
+          />
+          <CleaningServicesIcon
+            onClick={() => {
+              setOpenNotEmpty({
+                id: index,
+                display: !openNotEmpty.display,
+              });
+            }}
+            className="icon"
+            style={{ pointerEvents: "none" }}
           />
           {openNotEmpty.display && openNotEmpty.id === index && (
             <div className="dropDownTouch">
@@ -75,7 +105,7 @@ export default function Room() {
                     className="menuhover"
                     key={menu.id}
                     onClick={() => {
-                      handleRoomNotEmpty(menu.id, item.booking.id);
+                      handleRoomNotEmpty(menu.id, item.id);
                     }}
                   >
                     {menu.name}
@@ -198,9 +228,13 @@ export default function Room() {
               </div>
               <div onClick={() => setOpenEmpty({ id: index })}>
                 {MenusEmpty.map((menu) => (
-                  <span className="menuhover" key={menu.id}>
+                  <Link
+                    className="menuhover"
+                    key={menu.id}
+                    style={{ textDecoration: "none" }}
+                  >
                     {menu.name}
-                  </span>
+                  </Link>
                 ))}
               </div>
             </div>

@@ -192,7 +192,7 @@ export default function Sidebar() {
             <ul>
               <li>
                 <NavLink
-                  to="/listRoom"
+                  to="/roomManage"
                   style={{
                     textDecoration: "none",
                   }}
@@ -216,7 +216,7 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/listCustomer"
+                  to="/customerManage"
                   style={{
                     textDecoration: "none",
                   }}
@@ -286,7 +286,7 @@ export default function Sidebar() {
             <ul>
               <li>
                 <NavLink
-                  to="/listRoom"
+                  to="/roomManage"
                   style={{
                     textDecoration: "none",
                   }}
@@ -350,7 +350,7 @@ export default function Sidebar() {
             <ul>
               <li>
                 <NavLink
-                  to="/listRoom"
+                  to="/roomManage"
                   style={{
                     textDecoration: "none",
                   }}

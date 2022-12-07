@@ -1,27 +1,28 @@
-import { InputLabel, Modal, TextareaAutosize } from "@mui/material";
+import { Modal, TextareaAutosize } from "@mui/material";
 import { useFormik } from "formik";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hideModalSendMessage } from "../../../redux/actions/ModalAction";
 import { modalSendMessageState$ } from "../../../redux/selectors/ModalSelector";
-import { bookingIdToSendMessageState$ } from "../../../redux/selectors/SendMessageSelector";
 import "./PopupSendMessage.scss";
 import * as actions from "../../../redux/actions/SendMessageAction";
+import { bookingItemState$ } from "../../../redux/selectors/BookingManageSelector";
 export default function PopupSendMessage() {
   const dispatch = useDispatch();
-  const booking_id = useSelector(bookingIdToSendMessageState$);
+  const bookingItem = useSelector(bookingItemState$);
   const isShow = useSelector(modalSendMessageState$);
   const onSubmitMessage = useCallback(
     (values) => {
       dispatch(
         actions.sendMessage.sendMessageRequest({
-          booking_Id: booking_id,
+          booking_Id: bookingItem.id,
           messageContent: values.content,
           id: 0,
         })
       );
+      dispatch(hideModalSendMessage());
     },
-    [booking_id, dispatch]
+    [bookingItem, dispatch]
   );
 
   const formik = useFormik({

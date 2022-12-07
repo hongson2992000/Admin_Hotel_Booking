@@ -1,15 +1,18 @@
 import { InputLabel, TextField } from "@mui/material";
 import { useFormik } from "formik";
 // import moment from "moment";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./InformationHotelContainer.scss";
 import image from "../../assets/img/anhthucte3.png";
 import { informationHotelManageState$ } from "../../redux/selectors/InfomationHotelManageSelector";
+import { useState } from "react";
 export default function InfomationHotelContainer() {
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
   const infoHotel = useSelector(informationHotelManageState$);
+  const [dataHotel, setDataHotel] = useState({});
+  console.log("Thanh An", infoHotel);
   // const roomValid = useSelector(roomValidState$);
   // const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
   // // console.log("Hello Son", infoBooking);
@@ -17,25 +20,16 @@ export default function InfomationHotelContainer() {
   //   let currentDate = moment().format("YYYY-MM-DD");
   //   return currentDate;
   // };
+  useEffect(() => {
+    setDataHotel(infoHotel);
+  }, [infoHotel]);
   const formik = useFormik({
-    initialValues: {
-      id: "",
-      fullName: infoHotel?.fullName,
-      phoneNumber: infoHotel?.phoneNumber,
-      shortName: infoHotel?.shortName,
-      email: infoHotel?.email,
-      website: infoHotel?.website,
-      address: infoHotel?.address,
-      longitude: infoHotel?.longitude,
-      latitude: infoHotel?.latitude,
-      totalRoom: infoHotel?.totalRoom,
-      checkInTime: infoHotel?.checkInTime,
-      checkOutTime: infoHotel?.checkOutTime,
-    },
+    initialValues: dataHotel,
     onSubmit: (values, { resetForm }) => {
       //   onSubmitCheckIn(values);
       resetForm({ values: "" });
     },
+    enableReinitialize: true,
   });
   return (
     <div className="InfoHotelContainer">

@@ -40,3 +40,9 @@ export const getDashBoardOverview = createActions({
   getDashBoardOverviewSuccess: (payload) => payload,
   getDashBoardOverviewFailure: (err) => err,
 });
+
+export const getBookingByRoomId = createActions({
+  getBookingByRoomIdRequest: (payload) => payload,
+  getBookingByRoomIdSuccess: (payload) => payload,
+  getBookingByRoomIdFailure: (err) => err,
+});

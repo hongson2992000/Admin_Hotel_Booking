@@ -144,3 +144,26 @@ export function* followActionGetDashBoard() {
     getDashBoard
   );
 }
+function* getBookingByRoomId(action) {
+  console.log(action)
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let bookingItem = yield call(() => {
+      return bookingManage.getBookingByRoomId(action.payload.room_id);
+    });
+    if (bookingItem.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.getBookingByRoomId.getBookingByRoomIdSuccess(bookingItem.data));
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+  } catch (error) {
+    console.log(error);
+    yield put(actions.getBookingByRoomId.getBookingByRoomIdFailure(error));
+  }
+}
+export function* followActionGetBookingByRoomId() {
+  yield takeLatest(actions.getBookingByRoomId.getBookingByRoomIdRequest, getBookingByRoomId);
+}

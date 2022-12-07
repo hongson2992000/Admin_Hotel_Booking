@@ -32,8 +32,14 @@ import SetupRoomPage from "./pages/SetupRoomPage/SetupRoomPage";
 import SetUpPricePage from "./pages/SetUpPricePage/SetUpPricePage";
 import InfomationCustomerPage from "./pages/InfomationCustomerPage/InfomationCustomerPage";
 import InfomationCustomerContainer from "./component/InfomationCustomerContainer/InfomationCustomerContainer";
-const LazyServicePage = React.lazy(() => import("./pages/ServicePage/ServicePage"));
-const LazyListBookingPage = React.lazy(() => import("./pages/ListBookingPage/ListBookingPage"));
+import ListCustomerContainer from "./component/ListCustomerContainer/ListCustomerContainer";
+import ListRoomContainer from "./component/ListRoomContainer/ListRoomContainer";
+const LazyServicePage = React.lazy(() =>
+  import("./pages/ServicePage/ServicePage")
+);
+const LazyListBookingPage = React.lazy(() =>
+  import("./pages/ListBookingPage/ListBookingPage")
+);
 function App() {
   let isLoading = useSelector(loadingState$);
   let isSuccess = useSelector(successState$);
@@ -71,19 +77,29 @@ function App() {
             <Route path="/greeting" element={<GreetingPage />} />
             <Route path="/infomationHotel" element={<InfomationHotelPage />} />
 
-            <Route path="/listRoom" element={<ListRoomPage />} />
-            <Route path="/listBooking"  element={
+            <Route path="/roomManage" element={<ListRoomPage />}>
+            <Route
+                path="customerDetail"
+                element={<InfomationCustomerContainer />}
+              />
+              <Route index element={<ListRoomContainer />} />
+            </Route>
+            <Route
+              path="/listBooking"
+              element={
                 <React.Suspense fallback="...Loading">
                   <LazyListBookingPage />
                 </React.Suspense>
-              } />
+              }
+            />
             <Route path="/checkIn" element={<CheckInPage />} />
             <Route path="/createNewRoom" element={<CreateNewRoomPage />} />
-            <Route path="/listCustomer" element={<CustomerPage />}>
+            <Route path="/customerManage" element={<CustomerPage />}>
               <Route
                 path=":customerId"
                 element={<InfomationCustomerContainer />}
-              ></Route>
+              />
+              <Route index element={<ListCustomerContainer />} />
             </Route>
             <Route path="/alarm" element={<AlarmPage />} />
 

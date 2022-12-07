@@ -38,13 +38,13 @@ export default function ListBookingContainer() {
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
     ) {
-      navigate("/listRoom");
+      navigate("/roomManage");
       // dispatch(actions.getAllRoom.getAllRoomRequest());
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
     ) {
-      navigate("/listRoom");
+      navigate("/roomManage");
       // dispatch(actions.getAllRoom.getAllRoomRequest());
     }
   }, [navigate, dispatch]);

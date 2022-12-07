@@ -18,17 +18,17 @@ export default function InfomationHotelPage() {
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
     ) {
-      navigate("/listRoom");
+      navigate("/roomManage");
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
     ) {
-      navigate("/listRoom");
+      navigate("/roomManage");
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
     ) {
-      navigate("/listRoom");
+      navigate("/roomManage");
      
     }
   }, [navigate, dispatch]);

@@ -1,6 +1,7 @@
 import * as actions from "./../actions/SendMessageAction";
 import {
   DISPLAY_LOADING,
+  DISPLAY_POPUP_SUCCESS,
   HIDE_LOADING,
   STATUS_CODE,
 } from "../../utils/constants/settingSystem";
@@ -21,7 +22,9 @@ function* sendMessage(action) {
     yield put({
       type: HIDE_LOADING,
     });
-    // navigate("/location")
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
   } catch (error) {
     yield put(actions.sendMessage.sendMessageFailure(error));
   }
