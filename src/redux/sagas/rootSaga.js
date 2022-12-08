@@ -33,11 +33,14 @@ export default function* rootSaga() {
     requestServiceManageSaga.followActionCancelRequestService(),
     requestServiceManageSaga.followActionGetAllTurnDownService(),
     requestServiceManageSaga.followActionConfirmTurnDownService(),
+    requestServiceManageSaga.followActionConfirmRequestServiceInRoom(),
+    requestServiceManageSaga.followActionGetRequestServiceByBookingId(),
     sendMessageSaga.followActionSendMessage(),
     imageManageSaga.followActionGetAllImage(),
     newsManageSaga.followActionGetAllNews(),
     informationHotelSaga.followActionGetInfoHotel(),
     customerManageSaga.followActionGetAllPrimaryCustomer(),
+    customerManageSaga.followActionGetInfoCustomerByBookingId(),
 
   ]);
 }

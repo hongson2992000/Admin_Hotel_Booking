@@ -33,3 +33,12 @@ export const hideModalListService = createAction("HIDE_LIST_SERVICE_MODAL");
 
 export const showModalSendMessage = createAction("SHOW_SEND_MESSAGE_MODAL");
 export const hideModalSendMessage = createAction("HIDE_SEND_MESSAGE_MODAL");
+
+export const showModalRequestService = createAction("SHOW_REQUEST_SERVICE_MODAL");
+export const hideModalRequestService = createAction("HIDE_REQUEST_SERVICE_MODAL");
+
+export const showModalRequestServiceDetail = createAction("SHOW_REQUEST_SERVICE_DETAIL_MODAL");
+export const hideModalRequestServiceDetail = createAction("HIDE_REQUEST_SERVICE_DETAIL_MODAL");
+
+export const showModalTurnDown = createAction("SHOW_TURN_DOWN_MODAL");
+export const hideModalTurnDown = createAction("HIDE_TURN_DOWN_MODAL");

@@ -109,6 +109,12 @@ export default function ListBookingContainer() {
         departureDate: item.departureDate,
         status: item.status,
       });
+      console.log(
+        checkIsBefore(
+          item.arrivalDate.substring(0, 10),
+          moment().format("DD/MM/YYYY")
+        )
+      );
     });
     return arrNew;
   };
@@ -227,7 +233,7 @@ export default function ListBookingContainer() {
       {
         field: "arrivalDate",
         headerName: "Ngày Đến",
-        width: 180,
+        width: 160,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
@@ -239,7 +245,7 @@ export default function ListBookingContainer() {
       {
         field: "departureDate",
         headerName: "Ngày Đi",
-        width: 180,
+        width: 160,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
@@ -251,7 +257,7 @@ export default function ListBookingContainer() {
       {
         field: "status",
         headerName: "Trạng Thái",
-        width: 200,
+        width: 150,
         renderCell: (params) => {
           return (
             <div
@@ -521,6 +527,46 @@ export default function ListBookingContainer() {
       },
     },
   ];
+  const actionColumnAllBooking = [
+    {
+      field: "action",
+      headerName: "Hành Động",
+      width: 140,
+      renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            {checkIsBefore(
+              params.row.arrivalDate.substring(0, 10),
+              moment().format("DD/MM/YYYY")
+            ) ? (
+              <div
+                className="checkInButton"
+                style={{ pointerEvents: "none" }}
+                // onClick={() =>
+                //   handleFillInfoCheckIn(
+                //     params.row.id,
+                //     params.row.arrivalDate,
+                //     // params.row.departureDate,
+                //     // params.row.numOfPerson,
+                //     // params.row.roomTypeId
+                //   )
+                // }
+              >
+                Hủy
+              </div>
+            ) : (
+              <div
+                className="checkInButton"
+                onClick={() => handleFillInfoCheckIn(params.row)}
+              >
+                Hủy
+              </div>
+            )}
+          </div>
+        );
+      },
+    },
+  ];
   const actionColumnCheckOut = [
     {
       field: "action",
@@ -540,6 +586,14 @@ export default function ListBookingContainer() {
       },
     },
   ];
+  const checkIsBefore = (date1, date2) => {
+    let arrDate1 = date1.split("/");
+    let formatDate1 = arrDate1[2] + "-" + arrDate1[1] + "-" + arrDate1[0];
+    let arrDate2 = date2.split("/");
+    let formatDate2 = arrDate2[2] + "-" + arrDate2[1] + "-" + arrDate2[0];
+    console.log("Thanh An", formatDate1 + "////" + formatDate2);
+    return moment(formatDate1).isBefore(formatDate2);
+  };
   return (
     <div className="datatableListBooking">
       <div className="datatableTitle">Danh sách booking</div>
@@ -556,7 +610,7 @@ export default function ListBookingContainer() {
           <DataGrid
             className="datagrid"
             rows={renderArr()}
-            columns={allBooking}
+            columns={allBooking.concat(actionColumnAllBooking)}
             pageSize={9}
             rowsPerPageOptions={[9]}
           />

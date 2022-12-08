@@ -19,3 +19,9 @@ export const modalListServiceState$ = (state) =>
   state.ModalReducer.isShowListService;
 export const modalSendMessageState$ = (state) =>
   state.ModalReducer.isShowSendMessage;
+export const modalRequestServiceState$ = (state) =>
+  state.ModalReducer.isShowRequestService;
+  export const modalRequestServiceDetailState$ = (state) =>
+  state.ModalReducer.isShowRequestServiceDetail;
+export const modalTurnDownServiceState$ = (state) =>
+  state.ModalReducer.isShowTurnDownService;

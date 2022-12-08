@@ -3,22 +3,24 @@ import React, { useCallback, useMemo, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch, useSelector } from "react-redux";
-import { modalListServiceState$ } from "../../../redux/selectors/ModalSelector";
-import "./ModalListRequestService.scss";
-import { hideModalListService } from "../../../redux/actions/ModalAction";
+import { modalListServiceState$, modalRequestServiceDetailState$ } from "../../../redux/selectors/ModalSelector";
+import "./PopupDetailRequestServiceInRoom.scss";
+import { hideModalListService, hideModalRequestServiceDetail } from "../../../redux/actions/ModalAction";
 
 import { useNavigate } from "react-router-dom";
 import * as actions from "../../../redux/actions/RequestServiceManageAction";
 import { DataGrid } from "@mui/x-data-grid";
 import { requestServiceDetailManageState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import DialogDelete from "../../DialogDelete/DialogDelete";
-export default function ModalListRequestService() {
+export default function PopupDetailRequestServiceInRoom({booking_id}) {
+    console.log("Hello Bà Già", booking_id)
   const dispatch = useDispatch();
-  const isShow = useSelector(modalListServiceState$);
+  const isShow = useSelector(modalRequestServiceDetailState$);
   const navigate = useNavigate();
   const infoOderDetail = useSelector(requestServiceDetailManageState$);
+  console.log("Hello Bé An",infoOderDetail)
   const onClose = useCallback(() => {
-    dispatch(hideModalListService());
+    dispatch(hideModalRequestServiceDetail());
   }, [dispatch]);
   const [dialog, setDialog] = useState({
     message: "",
@@ -198,14 +200,15 @@ export default function ModalListRequestService() {
   );
   const handleConfirmService = useCallback(() => {
     dispatch(
-      actions.confirmRequestService.confirmRequestServiceRequest({
+      actions.confirmRequestServiceInRoom.confirmRequestServiceInRoomRequest({
         orderId: infoOderDetail.id,
         status: infoOderDetail.status,
+        booking_id : booking_id,
         navigate,
       })
     );
-    dispatch(hideModalListService());
-  }, [infoOderDetail, navigate, dispatch]);
+    dispatch(hideModalRequestServiceDetail());
+  }, [booking_id,infoOderDetail, navigate, dispatch]);
   return (
     <div>
       <Modal open={isShow} onClose={onClose}>

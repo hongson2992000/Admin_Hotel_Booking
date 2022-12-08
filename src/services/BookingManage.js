@@ -5,10 +5,10 @@ class BookingManage extends BaseServices {
     return this.get(`v1/bookings`);
   };
   getBookingByRoomId = (id) => {
-    return this.get(`v1/bookingByRoomId?room_id=${id}`);
+    return this.get(`v1/booking/bookingByRoomId?room_id=${id}`);
   };
   getBookingByCustomerId = (id) => {
-    return this.get(`v1/bookingByCustomerId?customer_id=${id}`);
+    return this.get(`v1/booking/bookingByCustomerId?customer_id=${id}`);
   };
   checkInRoom = (model) => {
     return this.post(`v1/booking/checkIn`, model);

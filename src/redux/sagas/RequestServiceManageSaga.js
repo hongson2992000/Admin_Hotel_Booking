@@ -1,5 +1,5 @@
 import * as actions from "./../actions/RequestServiceManageAction";
-import * as actionSendMessage from "./../actions/SendMessageAction"
+import * as actionSendMessage from "./../actions/SendMessageAction";
 import {
   DISPLAY_LOADING,
   DISPLAY_POPUP_SUCCESS,
@@ -10,7 +10,11 @@ import {
 import { call, put, takeLatest } from "redux-saga/effects";
 import { requestServiceManage } from "../../services/RequestServiceManage";
 import { sendMessageService } from "../../services/SendMessageService";
-import { showModalListService } from "../actions/ModalAction";
+import {
+  showModalListService,
+  showModalRequestService,
+} from "../actions/ModalAction";
+import * as actionModal from "../actions/ModalAction";
 function* getAllRequestService(action) {
   try {
     console.log("Action", action);
@@ -72,7 +76,7 @@ function* confirmRequestService(action) {
       type: HIDE_LOADING,
     });
     yield put({ type: DISPLAY_POPUP_SUCCESS });
-    yield put(showModalListService())
+    yield put(showModalListService());
   } catch (error) {
     yield put(
       actions.confirmRequestService.confirmRequestServiceFailure(error)
@@ -118,7 +122,7 @@ function* cancelRequestService(action) {
       type: HIDE_LOADING,
     });
     yield put({ type: DISPLAY_POPUP_SUCCESS });
-    yield put(showModalListService())
+    yield put(showModalListService());
   } catch (error) {
     yield put(
       actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdFailure(
@@ -135,36 +139,44 @@ export function* followActionCancelRequestService() {
     cancelRequestService
   );
 }
-// function* getRequestServiceId(action) {
-//   try {
-//     console.log("Action",action)
-//     yield put({
-//       type: DISPLAY_LOADING,
-//     });
-//     let listService = yield call(() => {
-//       return requestServiceManage.getRequestServiceById(action.payload);
-//     });
-//     console.log(listService.data);
-//     if (listService.status === STATUS_CODE.SUCCESS) {
-//       yield put(
-//         actions.getRequestServiceById.getRequestServiceByIdSuccess(listService.data)
-//       );
-//     }
-//     yield put({
-//       type: HIDE_LOADING,
-//     });
-//     // navigate("/location")
-//   } catch (error) {
-//     yield put(actions.getRequestServiceById.getRequestServiceByIdFailure(error));
-//   }
-// }
+function* getRequestServiceByBookingId(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let listService = yield call(() => {
+      return requestServiceManage.getRequestServiceByBookingId(
+        action.payload.booking_id
+      );
+    });
+    if (listService.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getRequestServiceByBookingId.getRequestServiceByBookingIdSuccess(
+          listService.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalRequestService());
+    // navigate("/location")
+  } catch (error) {
+    yield put(
+      actions.getRequestServiceByBookingId.getRequestServiceByBookingIdFailure(
+        error
+      )
+    );
+  }
+}
 
-// export function* followActionGetRequestServiceById() {
-//   yield takeLatest(
-//     actions.getRequestServiceById.getRequestServiceByIdRequest,
-//     getRequestServiceId
-//   );
-// }
+export function* followActionGetRequestServiceByBookingId() {
+  yield takeLatest(
+    actions.getRequestServiceByBookingId.getRequestServiceByBookingIdRequest,
+    getRequestServiceByBookingId
+  );
+}
 function* getAllTurnDownService(action) {
   try {
     console.log("Action", action);
@@ -183,6 +195,7 @@ function* getAllTurnDownService(action) {
     yield put({
       type: HIDE_LOADING,
     });
+
     // navigate("/location")
   } catch (error) {
     yield put(actions.getTurnDownService.getTurnDownServiceFailure(error));
@@ -222,7 +235,9 @@ function* confirmTurnDownService(action) {
         });
         if (listMessage.status === STATUS_CODE.SUCCESS) {
           yield put(
-            actionSendMessage.sendMessage.sendMessageSuccess(listMessage.formData)
+            actionSendMessage.sendMessage.sendMessageSuccess(
+              listMessage.formData
+            )
           );
         }
       }
@@ -245,5 +260,57 @@ export function* followActionConfirmTurnDownService() {
   yield takeLatest(
     actions.confirmTurnDownService.confirmTurnDownServiceRequest,
     confirmTurnDownService
+  );
+}
+function* confirmRequestServiceInRoom(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let formData = new FormData();
+    formData.append("orderId", action.payload.orderId);
+    formData.append("status", action.payload.status);
+    let service = yield call(() => {
+      return requestServiceManage.confirmRequestService(formData);
+    });
+    console.log(service.data);
+    if (service.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.confirmRequestServiceInRoom.confirmRequestServiceInRoomSuccess(
+          service.data
+        )
+      );
+      let listService = yield call(() => {
+        return requestServiceManage.getRequestServiceByBookingId(
+          action.payload.booking_id
+        );
+      });
+      if (listService.status === STATUS_CODE.SUCCESS) {
+        yield put(
+          actions.getRequestServiceByBookingId.getRequestServiceByBookingIdSuccess(
+            listService.data
+          )
+        );
+      }
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({ type: DISPLAY_POPUP_SUCCESS });
+    yield put(showModalRequestService());
+  } catch (error) {
+    yield put(
+      actions.confirmRequestServiceInRoom.confirmRequestServiceInRoomFailure(
+        error
+      )
+    );
+  }
+}
+
+export function* followActionConfirmRequestServiceInRoom() {
+  yield takeLatest(
+    actions.confirmRequestServiceInRoom.confirmRequestServiceInRoomRequest,
+    confirmRequestServiceInRoom
   );
 }

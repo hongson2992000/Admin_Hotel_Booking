@@ -1,4 +1,5 @@
 import * as actions from "./../actions/CustomerManageAction";
+import * as actionBooking from "./../actions/BookingManageAction"
 import {
   DISPLAY_LOADING,
   HIDE_LOADING,
@@ -6,7 +7,7 @@ import {
 } from "../../utils/constants/settingSystem";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { customerManage } from "../../services/CustomerManage";
-import {bookingManage} from "../../services/BookingManage"
+import {bookingManage} from "../../services/BookingManage";
 function* getAllPrimaryCustomer(action) {
   try {
     yield put({
@@ -86,3 +87,45 @@ export function* followActionGetAllPrimaryCustomer() {
 //       arrRoom.push(newRoom)
 //     }
 //   }
+function* getInfoCustomerByBookingId(action) {
+  console.log(action);
+  
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // let bookingItem = yield call(() => {
+    //   return bookingManage.getBookingByRoomId(action.payload.room_id);
+    // });
+    let listCustomer = yield call(() => {
+      return customerManage.getAllCustomerByBookingId(action.payload.booking.idBooking);
+    });
+    if (listCustomer.status === STATUS_CODE.SUCCESS) {
+      let primaryCustomer = yield call(() => {
+        return customerManage.getPrimaryCustomerByBookingId(
+          action.payload.booking.idBooking
+        );
+      });
+      let infoCustomer = {
+        booking: action.payload.booking,
+        primaryCustomer: primaryCustomer.data,
+        listCustomer: listCustomer.data,
+      };
+      yield put(
+        actionBooking.getBookingByRoomId.getBookingByRoomIdSuccess(infoCustomer)
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+  } catch (error) {
+    console.log(error);
+    yield put(actions.getInfoCustomerByBookingId.getInfoCustomerByBookingIdFailure(error));
+  }
+}
+export function* followActionGetInfoCustomerByBookingId() {
+  yield takeLatest(
+    actions.getInfoCustomerByBookingId.getInfoCustomerByBookingIdRequest,
+    getInfoCustomerByBookingId
+  );
+}

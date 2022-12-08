@@ -8,3 +8,8 @@ export const getAllPrimaryCustomer = createActions({
     getAllPrimaryCustomerSuccess: (payload) => payload,
     getAllPrimaryCustomerFailure: (err) => err,
 });
+export const getInfoCustomerByBookingId = createActions({
+  getInfoCustomerByBookingIdRequest: (payload)=>payload,
+  getInfoCustomerByBookingIdSuccess: (payload) => payload,
+  getInfoCustomerByBookingIdFailure: (err) => err,
+});

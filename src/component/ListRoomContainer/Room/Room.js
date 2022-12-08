@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import "./Room.scss";
 import RoomServiceIcon from "@mui/icons-material/RoomService";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
-// import * as actions from "../../../redux/actions/RoomManageAction";
+import * as actionRequestService from "../../../redux/actions/RequestServiceManageAction";
 import * as actionBooking from "../../../redux/actions/BookingManageAction";
 import { useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";
@@ -17,14 +17,17 @@ import {
 } from "../../../utils/constants/settingSystem";
 // import RoomPopup from "./roomPopup";
 import { roomManageState$ } from "../../../redux/selectors/RoomManageSelector";
-import { showModalSendMessage } from "../../../redux/actions/ModalAction";
+import { showModalRequestService, showModalSendMessage } from "../../../redux/actions/ModalAction";
 import { Link, useNavigate } from "react-router-dom";
+import PopupRequestService from "../PopupRequestService/PopupRequestService";
+import PopupDetailRequestServiceInRoom from "../PopupDetailRequestServiceInRoom/PopupDetailRequestServiceInRoom";
 
 export default function Room() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector(userState$);
   const listRoom = useSelector(roomManageState$);
+  let [bookingId,setBookingId] = useState(1)
   let MenusEmpty = [{ name: "Tạo đặt phòng", id: 0 }];
   let MenusNotEmptyHousekeeping = [{ name: "Xem Yêu Cầu Dịch Vụ", id: 0 }];
   let MenusNotEmptyRestaurant = [{ name: "Xem Yêu Cầu Dịch Vụ", id: 0 }];
@@ -44,7 +47,7 @@ export default function Room() {
             room_id: room_id,
           })
         );
-        navigate("/roomManage/customerDetail")
+        navigate("/roomManage/customerDetail");
         break;
       case 1:
         dispatch(showModalSendMessage());
@@ -61,20 +64,40 @@ export default function Room() {
         break;
     }
   };
+  const handleRequestService = useCallback((item)=>{
+    dispatch(actionRequestService.getRequestServiceByBookingId.getRequestServiceByBookingIdRequest({booking_id:item.booking.data.id}))
+    setBookingId(item.booking.data.id)
+  },[dispatch])
   const renderMenuByRole = (item, index) => {
     if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
+      let arrRequestService = item.booking.data?.orders.filter(
+        (item) => item.status === BOOKED || item.status === PROCESSING
+      );
+      let arrTurnDown = item.booking.data?.requestServices.filter(
+        (item) => item.status === BOOKED || item.status === PROCESSING
+      );
       return (
         <div className="rowIcon">
-          <RoomServiceIcon
-            onClick={() => {
-              setOpenNotEmpty({
-                id: index,
-                display: !openNotEmpty.display,
-              });
-            }}
-            className="icon"
-            style={{ pointerEvents: "none" }}
-          />
+          {arrRequestService?.length !== 0 ? (
+            <RoomServiceIcon
+              onClick={() => {
+                handleRequestService(item)
+              }}
+              className="icon animate__animated animate__heartBeat animate__infinite"
+              style={{ color: "red" }}
+            />
+          ) : (
+            <RoomServiceIcon
+              onClick={() => {
+                setOpenNotEmpty({
+                  id: index,
+                  display: !openNotEmpty.display,
+                });
+              }}
+              className="icon"
+              style={{ pointerEvents: "none" }}
+            />
+          )}
           <TouchAppIcon
             onClick={() => {
               setOpenNotEmpty({
@@ -84,16 +107,29 @@ export default function Room() {
             }}
             className="icon"
           />
-          <CleaningServicesIcon
-            onClick={() => {
-              setOpenNotEmpty({
-                id: index,
-                display: !openNotEmpty.display,
-              });
-            }}
-            className="icon"
-            style={{ pointerEvents: "none" }}
-          />
+          {arrTurnDown?.length !== 0 ? (
+            <CleaningServicesIcon
+              onClick={() => {
+                setOpenNotEmpty({
+                  id: index,
+                  display: !openNotEmpty.display,
+                });
+              }}
+              className="icon animate__animated animate__heartBeat animate__infinite"
+              style={{ color: "red" }}
+            />
+          ) : (
+            <CleaningServicesIcon
+              onClick={() => {
+                setOpenNotEmpty({
+                  id: index,
+                  display: !openNotEmpty.display,
+                });
+              }}
+              className="icon"
+              style={{ pointerEvents: "none" }}
+            />
+          )}
           {openNotEmpty.display && openNotEmpty.id === index && (
             <div className="dropDownTouch">
               <div>
@@ -105,7 +141,7 @@ export default function Room() {
                     className="menuhover"
                     key={menu.id}
                     onClick={() => {
-                      handleRoomNotEmpty(menu.id, item.id);
+                      handleRoomNotEmpty(menu.id, item.room.id);
                     }}
                   >
                     {menu.name}
@@ -117,7 +153,7 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
-      let arrTurnDown = item.booking.orders?.filter(
+      let arrTurnDown = item.booking?.data.orders.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
       return (
@@ -162,7 +198,7 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
-      let arrTurnDown = item.booking.requestServices?.filter(
+      let arrTurnDown = item.booking?.data.requestService.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
       return (
@@ -334,14 +370,14 @@ export default function Room() {
 
         {listRoom &&
           listRoom.map((item, i) => {
-            if (!item.status) {
+            if (!item.room.status) {
               return (
                 <div className="RoomDetailEmpty col-4" key={i}>
                   <div className="RoomTitile">
-                    <p>{item.name}</p>
+                    <p>{item.room.name}</p>
                   </div>
                   <div className="RoomNo">
-                    <p>{item.roomNo}</p>
+                    <p>{item.room.roomNo}</p>
                   </div>
                   {/* <div className="CustomerName">
                     <p>...........</p>
@@ -354,10 +390,10 @@ export default function Room() {
               return (
                 <div className="RoomDetail col-4" key={i}>
                   <div className="RoomTitile">
-                    <p>{item.name}</p>
+                    <p>{item.room.name}</p>
                   </div>
                   <div className="RoomNo">
-                    <p>{item.roomNo}</p>
+                    <p>{item.room.roomNo}</p>
                   </div>
                   {/* <div className="CustomerName">
                     <p>{item.primaryCustomer}</p>
@@ -368,6 +404,8 @@ export default function Room() {
             }
           })}
       </div>
+      <PopupDetailRequestServiceInRoom booking_id={bookingId}/>
+      <PopupRequestService/>
     </div>
   );
 }

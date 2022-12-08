@@ -1,7 +1,7 @@
 import "./ListRequestServiceContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 // import {  useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useMemo} from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showModalListService } from "../../redux/actions/ModalAction";
 import * as actions from "../../redux/actions/RequestServiceManageAction";
@@ -12,10 +12,6 @@ export default function ListRequestServiceContainer() {
   // const navigate = useNavigate();
   const listRequestService = useSelector(requestServiceManageState$);
   console.log("Hello Thanh Anh", listRequestService);
-  useEffect(() => {
-    dispatch(actions.getRequestService.getRequestServiceRequest());
-  }, [dispatch]);
-
   const renderArr = () => {
     let arrNew = [];
     listRequestService?.forEach((item) => {

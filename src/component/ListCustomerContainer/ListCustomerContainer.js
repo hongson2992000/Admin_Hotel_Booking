@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import "./ListCustomerContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../data/DataTableNews";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../redux/actions/CustomerManageAction";
@@ -11,7 +11,12 @@ import { CHECKIN, CHECKOUT } from "../../utils/constants/settingSystem";
 export default function ListCustomerContainer() {
   const [data, setData] = useState(userRows);
   const params = useParams();
+  const navigate = useNavigate()
   const dispatch = useDispatch();
+  const handleCustomerDetail = (info) =>{
+     dispatch(actions.getInfoCustomerByBookingId.getInfoCustomerByBookingIdRequest({booking:info}))
+     navigate(`/customerManage/${info.id}`)
+  }
   useEffect(() => {
     dispatch(actions.getAllPrimaryCustomer.getAllPrimaryCustomerRequest());
   }, [dispatch]);
@@ -49,6 +54,7 @@ export default function ListCustomerContainer() {
         stt: index + 1,
         id: item.customer.id,
         idBooking: item.booking.data.id,
+        orders:item.booking.data.orders,
         name:
           item.customer.firstName +
           " " +
@@ -59,6 +65,9 @@ export default function ListCustomerContainer() {
         departureDate: item.booking.data.departureDate,
         createDate: item.booking.data.createDate,
         roomType: renderTypeRoom(item.booking.data.roomTypeId),
+        roomTypeId:item.booking.data.roomTypeId,
+        numOfAdult:item.booking.data.numOfAdult,
+        numOfChildren:item.booking.data.numOfChildren,
         status: item.booking.data.status,
       });
     });
@@ -78,7 +87,7 @@ export default function ListCustomerContainer() {
       {
         field: "idBooking",
         headerName: "Mã đặt phòng",
-        width: 100,
+        width: 120,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.idBooking}</div>;
         },
@@ -172,12 +181,12 @@ export default function ListCustomerContainer() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link
-              to={`/customerManage/${params.row.id}`}
+            <div
+              onClick={()=>{handleCustomerDetail(params.row)}}
               style={{ textDecoration: "none" }}
             >
               <div className="viewButton">Xem chi tiết</div>
-            </Link>
+            </div>
           </div>
         );
       },

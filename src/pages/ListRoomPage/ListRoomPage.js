@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import ListRoomContainer from "../../component/ListRoomContainer/ListRoomContainer";
 import Navbar from "../../component/Navbar/Navbar";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import "./ListRoomPage.scss";

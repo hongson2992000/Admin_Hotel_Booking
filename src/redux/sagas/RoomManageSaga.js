@@ -6,6 +6,7 @@ import {
 } from "../../utils/constants/settingSystem";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { roomManage } from "../../services/RoomManage";
+import { bookingManage } from "../../services/BookingManage";
 function* getAllRoom(action) {
   try {
     yield put({
@@ -54,8 +55,31 @@ function* getAllRoom(action) {
 
     //   yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
     // }
-    if(listRoom.status === STATUS_CODE.SUCCESS){
-      yield put(actions.getAllRoom.getAllRoomSuccess(listRoom.data))
+    if (listRoom.status === STATUS_CODE.SUCCESS) {
+      let arrRoom = [];
+      for (let i = 0; i < listRoom.data.length; i++) {
+        if (listRoom.data[i].status === true) {
+          let booking = yield call(() => {
+            return bookingManage.getBookingByRoomId(listRoom.data[i].id);
+          });
+          if (booking.status === STATUS_CODE.SUCCESS) {
+            let newRoom = {};
+            newRoom = {
+              room: listRoom.data[i],
+              booking: booking,
+            };
+            arrRoom.push(newRoom);
+          }
+        } else {
+          let newRoom = {};
+          newRoom = {
+            room: listRoom.data[i],
+            booking: {},
+          };
+          arrRoom.push(newRoom);
+        }
+      }
+      yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
     }
     yield put({
       type: HIDE_LOADING,

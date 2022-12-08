@@ -4,3 +4,5 @@ export const requestServiceManageState$ = (state) =>
   state.RequestServiceReducer.requestServiceItem;
   export const turnDownServiceManageState$ = (state) =>
   state.RequestServiceReducer.arrTurnDownService;
+  export const requestServiceManageInRoomState$ = (state) =>
+  state.RequestServiceReducer.arrRequestServiceInRoom;

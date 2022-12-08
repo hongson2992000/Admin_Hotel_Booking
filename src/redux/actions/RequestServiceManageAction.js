@@ -8,6 +8,11 @@ export const getRequestService = createActions({
   getRequestServiceSuccess: (payload) => payload,
   getRequestServiceFailure: (err) => err,
 });
+export const getRequestServiceByBookingId = createActions({
+  getRequestServiceByBookingIdRequest: (payload) => payload,
+  getRequestServiceByBookingIdSuccess: (payload) => payload,
+  getRequestServiceByBookingIdFailure: (err) => err,
+});
 export const confirmRequestService = createActions({
   confirmRequestServiceRequest: (payload) => payload,
   confirmRequestServiceSuccess: (payload) => payload,
@@ -35,4 +40,10 @@ export const cancelTurnDownService = createActions({
   cancelTurnDownServiceRequest: (payload) => payload,
   cancelTurnDownServiceSuccess: (payload) => payload,
   cancelTurnDownServiceFailure: (err) => err,
+});
+
+export const confirmRequestServiceInRoom = createActions({
+  confirmRequestServiceInRoomRequest: (payload) => payload,
+  confirmRequestServiceInRoomSuccess: (payload) => payload,
+  confirmRequestServiceInRoomFailure: (err) => err,
 });

@@ -6,10 +6,12 @@ import {
   getType,
   cancelRequestServiceDetailById,
   confirmTurnDownService,
+  getRequestServiceByBookingId,
 } from "../actions/RequestServiceManageAction";
 
 const initialState = {
   arrRequestService: [],
+  arrRequestServiceInRoom:[],
   requestServiceItem: {},
   // bookingItem: {},
   // userInfoBooking: [],
@@ -22,9 +24,12 @@ export default function RequestServiceReducer(state = initialState, action) {
         ...state,
       };
     case getType(getRequestService.getRequestServiceSuccess):
+      let listRequestServiceNew = [];
+      listRequestServiceNew = action.payload;
+      state.arrRequestService = listRequestServiceNew;
       return {
         ...state,
-        arrRequestService: action.payload,
+        arrRequestService: action.payload
       };
     case getType(getRequestService.getRequestServiceFailure):
       return {
@@ -91,6 +96,27 @@ export default function RequestServiceReducer(state = initialState, action) {
         arrTurnDownService: action.payload,
       };
     case getType(confirmTurnDownService.confirmTurnDownServiceFailure):
+      return {
+        ...state,
+      };
+    case getType(
+      getRequestServiceByBookingId.getRequestServiceByBookingIdRequest
+    ):
+      return {
+        ...state,
+      };
+    case getType(
+      getRequestServiceByBookingId.getRequestServiceByBookingIdSuccess
+    ):
+      let arrRequestServiceNew = [];
+      arrRequestServiceNew = action.payload;
+      state.arrRequestServiceInRoom = arrRequestServiceNew;
+      return {
+        ...state,
+      };
+    case getType(
+      getRequestServiceByBookingId.getRequestServiceByBookingIdFailure
+    ):
       return {
         ...state,
       };

@@ -7,7 +7,8 @@ import {
 } from "../../utils/constants/settingSystem";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { bookingManage } from "../../services/BookingManage";
-
+import { customerManage } from "../../services/CustomerManage";
+import { roomManage } from "../../services/RoomManage";
 function* getAllBooking(action) {
   try {
     yield put({
@@ -100,7 +101,9 @@ function* checkOutRoom(action) {
   } catch (error) {
     console.log(error);
     if (error.response.status === 400) {
-      yield put(actions.checkOutRoom.checkOutRoomFailure(error.response.data.message));
+      yield put(
+        actions.checkOutRoom.checkOutRoomFailure(error.response.data.message)
+      );
     }
   }
 }
@@ -145,7 +148,7 @@ export function* followActionGetDashBoard() {
   );
 }
 function* getBookingByRoomId(action) {
-  console.log(action)
+  console.log(action);
   try {
     yield put({
       type: DISPLAY_LOADING,
@@ -154,7 +157,26 @@ function* getBookingByRoomId(action) {
       return bookingManage.getBookingByRoomId(action.payload.room_id);
     });
     if (bookingItem.status === STATUS_CODE.SUCCESS) {
-      yield put(actions.getBookingByRoomId.getBookingByRoomIdSuccess(bookingItem.data));
+      let primaryCustomer = yield call(() => {
+        return customerManage.getPrimaryCustomerByBookingId(
+          bookingItem.data.id
+        );
+      });
+      let listCustomer = yield call(() => {
+        return customerManage.getAllCustomerByBookingId(bookingItem.data.id);
+      });
+      // let room = yield call(()=>{
+      //   return roomManage.getRoomById(bookingItem.data.)
+      // })
+
+      let infoCustomer = {
+        booking: bookingItem.data,
+        primaryCustomer: primaryCustomer.data,
+        listCustomer: listCustomer.data,
+      };
+      yield put(
+        actions.getBookingByRoomId.getBookingByRoomIdSuccess(infoCustomer)
+      );
     }
     yield put({
       type: HIDE_LOADING,
@@ -165,5 +187,8 @@ function* getBookingByRoomId(action) {
   }
 }
 export function* followActionGetBookingByRoomId() {
-  yield takeLatest(actions.getBookingByRoomId.getBookingByRoomIdRequest, getBookingByRoomId);
+  yield takeLatest(
+    actions.getBookingByRoomId.getBookingByRoomIdRequest,
+    getBookingByRoomId
+  );
 }

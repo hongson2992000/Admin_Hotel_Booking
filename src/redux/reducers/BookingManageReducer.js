@@ -40,7 +40,7 @@ export default function BookingManageReducer(state = initialState, action) {
     case getType(getInfoUserBooking.getInfoUserBookingRequest):
       return {
         ...state,
-        bookingItem: action.payload,     
+        bookingItem: action.payload,
       };
     case getType(addNewUserBooking.addNewUserBookingRequest):
       let bookingItemNew = [...state.userInfoBooking];
@@ -73,19 +73,21 @@ export default function BookingManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-      case getType(getBookingByRoomId.getBookingByRoomIdRequest):
-        return {
-          ...state,
-        };
-      case getType(getBookingByRoomId.getBookingByRoomIdSuccess):
-        return {
-          ...state,
-          bookingItem: action.payload,
-        };
-      case getType(getBookingByRoomId.getBookingByRoomIdFailure):
-        return {
-          ...state,
-        };
+    case getType(getBookingByRoomId.getBookingByRoomIdRequest):
+      return {
+        ...state,
+      };
+    case getType(getBookingByRoomId.getBookingByRoomIdSuccess):
+      let bookingNew = {};
+      bookingNew = action.payload;
+      state.bookingItem = bookingNew;
+      return {
+        ...state,
+      };
+    case getType(getBookingByRoomId.getBookingByRoomIdFailure):
+      return {
+        ...state,
+      };
     default:
       return state;
   }

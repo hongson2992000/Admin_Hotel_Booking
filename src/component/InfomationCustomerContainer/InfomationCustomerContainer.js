@@ -5,28 +5,67 @@ import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./InfomationCustomerContainer.scss";
 import { showModalAddUser } from "../../redux/actions/ModalAction";
-import { infoUserBookingState$ } from "../../redux/selectors/BookingManageSelector";
+import {
+  bookingItemState$,
+  infoUserBookingState$,
+} from "../../redux/selectors/BookingManageSelector";
 import { roomValidState$ } from "../../redux/selectors/RoomManageSelector";
 import * as actions from "../../redux/actions/BookingManageAction";
 import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 export default function InfomationCustomerContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const infoUser = useSelector(infoUserBookingState$);
   const roomValid = useSelector(roomValidState$);
-  const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
+  const params = useParams();
+  const infoCustomer = useSelector(bookingItemState$);
   const renderCurrentDate = () => {
     let currentDate = moment().format("YYYY-MM-DD");
     return currentDate;
   };
-  const [data,setData] = useState()
+  const renderListCustomer = () => {
+    let arrNew = [];
+    let listCustomerNew = infoCustomer.listCustomer?.filter(
+      (item) => item.id !== infoCustomer.primaryCustomer.id
+    );
+    listCustomerNew?.forEach((item, index) => {
+      arrNew.push({
+        stt: index + 1,
+        name: item.firstName + " " + item.middleName + " " + item.lastName,
+        phoneNumber: item.phoneNumber,
+        email: item.email,
+        idNo: item.idNo,
+        gender: item.gender === 1 ? "Nam" : "Nữ",
+        birthDate: item.birthDate,
+      });
+    });
+    return arrNew;
+  };
+  const renderListOrder = () => {
+    let arrNew = [];
+    infoCustomer.booking?.orders.forEach((item, i) => {
+      item.orderDetails?.forEach((itemOder, index) => {
+        arrNew.push({
+          stt: i + 1,
+          orderDate: itemOder.orderDate.substring(0,10),
+          name: itemOder.service.name,
+          quantity: itemOder.quantity,
+          price: itemOder.service.price,
+          status: "Chưa Thanh Toán",
+        });
+      });
+    });
+    return arrNew;
+  };
+  console.log("Hello Thanh An", renderListOrder());
+  const [dataInfoCustomer, setDataInfoCustomer] = useState(infoCustomer);
   console.log(renderCurrentDate());
-  const renderTypeRoom = () => {
+  const renderTypeRoom = (roomType_id) => {
     let roomType = "";
-    switch (infoBooking.roomTypeId) {
+    switch (roomType_id) {
       case 1:
         return (roomType = "Deluxe King/ Cao cấp");
       case 2:
@@ -43,87 +82,29 @@ export default function InfomationCustomerContainer() {
         return roomType;
     }
   };
-//   const renderRoomavailability = () => {
-//     // let listRoomailAbility = roomValid.filter((item) => item.status === false);
-//     let renderMenu = roomValid?.map((item, index) => (
-//       <MenuItem value={item.id} key={index}>
-//         {item.roomNo}
-//       </MenuItem>
-//     ));
-//     return renderMenu;
-//   };
-//   const onSubmitCheckIn = useCallback(
-//     (values) => {
-//       let arrActualArrivalDate = values.actualArrivalDate.split("-");
-//       let formatDate =
-//         arrActualArrivalDate[2] +
-//         "/" +
-//         arrActualArrivalDate[1] +
-//         "/" +
-//         arrActualArrivalDate[0];
-//       let arrDateActualDepartureDate = values.actualDepartureDate.split("-");
-//       let formatActualDepartureDate =
-//         arrDateActualDepartureDate[2] +
-//         "/" +
-//         arrDateActualDepartureDate[1] +
-//         "/" +
-//         arrDateActualDepartureDate[0];
-//       let bookingRequest = {
-//         actualArrivalDate: formatDate,
-//         actualDepartureDate: formatActualDepartureDate,
-//         arrivalDate: values.arrivalDate,
-//         confirmationNo: values.confirmationNo,
-//         createBy: values.createBy,
-//         createDate: values.createDate,
-//         customer_Id: values.customer_Id,
-//         departureDate: values.departureDate,
-//         hotel_Id: values.hotel_Id,
-//         id: values.id,
-//         lastModifyBy: "",
-//         numOfAdult: values.numOfAdult,
-//         numOfChildren: values.numOfChildren,
-//         roomPayment: values.roomPayment,
-//         roomType_Id: values.roomTypeId,
-//         room_Id: values.room_Id,
-//         specialNote: values.specialNote,
-//         status: values.status,
-//         totalAmount: values.totalAmount,
-//         updateDate: "",
-//       };
-//       let newInfoCheckInWithUser = {
-//         bookingRequest: bookingRequest,
-//         customerRequests: infoUser,
-//       };
-
-//       console.log("NewCheckInFo", newInfoCheckInWithUser);
-//       dispatch(
-//         actions.checkInRoom.checkInRoomRequest({
-//           newInfoCheckInWithUser,
-//           navigate,
-//         })
-//       );
-//     },
-//     [navigate, infoUser, dispatch]
-//   );
   const formik = useFormik({
     initialValues: {
       id: "",
       room_Id: "",
-      name:
-      "",
       createDate: "",
-      numOfAdult: "",
-      numOfChildren: "",
-      arrivalDate: "",
-      arrivalTime: "",
-      departureDate: "",
-      departureTime: "12:00",
+      numOfAdult: infoCustomer.booking?.numOfAdult,
+      numOfChildren: infoCustomer.booking?.numOfChildren,
+      arrivalDate: infoCustomer.booking?.arrivalDate.substring(0, 10),
+      arrivalTime: infoCustomer.booking?.arrivalDate.substring(10),
+      departureDate: infoCustomer.booking?.departureDate.substring(0, 10),
+      departureTime: infoCustomer.booking?.departureDate.substring(10),
       customer_Id: "",
-      phoneNumber: "",
-      email: "",
-      idNo: "",
-      gender: "",
-      birthDate: "",
+      nameCustomer:
+        infoCustomer.primaryCustomer?.firstName +
+        " " +
+        infoCustomer.primaryCustomer?.middleName +
+        " " +
+        infoCustomer.primaryCustomer?.lastName,
+      phoneNumber: infoCustomer.primaryCustomer?.phoneNumber,
+      email: infoCustomer.primaryCustomer?.email,
+      idNo: infoCustomer.primaryCustomer?.idNo,
+      gender: infoCustomer.primaryCustomer?.gender === 1 ? "Nam" : "Nữ",
+      birthDate: infoCustomer.primaryCustomer?.birthDate,
       status: "",
       actualArrivalDate: "",
       actualDepartureDate: "",
@@ -131,32 +112,33 @@ export default function InfomationCustomerContainer() {
       roomPayment: "",
       createBy: "",
       hotel_Id: "",
-      roomTypeId: "",
+      roomType: renderTypeRoom(infoCustomer.booking?.roomTypeId),
       totalAmount: "",
       specialNote: "",
     },
     onSubmit: (values, { resetForm }) => {
-    //   onSubmitCheckIn(values);
+      //   onSubmitCheckIn(values);
       resetForm({ values: "" });
     },
+    enableReinitialize: true,
   });
   let handleDelete = () => {};
   let infoUserColumns = useMemo(
     () => [
       {
+        field: "stt",
+        headerName: "STT",
+        width: 100,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.stt}</div>;
+        },
+      },
+      {
         field: "name",
         headerName: "Tên Khách Hàng",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
-          return (
-            <div className="cellWithImg">
-              {params?.row.firstName +
-                " " +
-                params?.row.middleName +
-                " " +
-                params?.row.lastName}
-            </div>
-          );
+          return <div className="cellWithImg">{params.row.name}</div>;
         },
       },
       {
@@ -170,7 +152,7 @@ export default function InfomationCustomerContainer() {
       {
         field: "email",
         headerName: "Email",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.email}</div>;
         },
@@ -187,25 +169,71 @@ export default function InfomationCustomerContainer() {
       {
         field: "gender",
         headerName: "Giới Tính",
-        width: 100,
+        width: 150,
         renderCell: (params) => {
-          return (
-            <div className="cellWithImg">
-              {params.row.gender === 1 ? "Nam" : "Nữ"}
-            </div>
-          );
+          return <div className="cellWithImg">{params.row.gender}</div>;
         },
       },
       {
-        field: "primary",
-        headerName: "Đại Diện",
+        field: "birthDate",
+        headerName: "Ngày sinh",
+        width: 150,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.birthDate}</div>;
+        },
+      },
+    ],
+    []
+  );
+  let infoOrder = useMemo(
+    () => [
+      {
+        field: "stt",
+        headerName: "STT",
+        width: 100,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.stt}</div>;
+        },
+      },
+      {
+        field: "name",
+        headerName: "Tên dịch vụ",
+        width: 350,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.name}</div>;
+        },
+      },
+      {
+        field: "price",
+        headerName: "Đơn giá",
         width: 200,
         renderCell: (params) => {
-          return (
-            <div className="cellWithImg">
-              {params.row.primary === true ? "Người Đại Diện" : "Người Thường"}
-            </div>
-          );
+          return <div className="cellWithImg">{params.row.price}</div>;
+        },
+      },
+      {
+        field: "quantity",
+        headerName: "Số lượng",
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.quantity}</div>;
+        },
+      },
+
+      {
+        field: "orderDate",
+        headerName: "Ngày đặt",
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.orderDate}</div>;
+        },
+      },
+      {
+        field: "status",
+        headerName: "Trạng thái",
+        width: 150,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.status}</div>;
         },
       },
     ],
@@ -233,8 +261,13 @@ export default function InfomationCustomerContainer() {
   return (
     <div className="InfomationCustomerContainer">
       <div className="InfoRoomBooking">
-        {/* <p>Phòng: {renderTypeRoom()}</p> */}
-        <p>Ghệ Đẹp Thanh An</p>
+        <h2>
+          {infoCustomer.primaryCustomer?.firstName +
+            " " +
+            infoCustomer.primaryCustomer?.middleName +
+            " " +
+            infoCustomer.primaryCustomer?.lastName}
+        </h2>
         <form
           noValidate
           autoComplete="off"
@@ -272,8 +305,8 @@ export default function InfomationCustomerContainer() {
                 <InputLabel className="label">Giờ Đến</InputLabel>
                 <TextField
                   className="title"
+                  disabled
                   required
-                  type="time"
                   id="arrivalTime"
                   name="arrivalTime"
                   value={formik.values.arrivalTime || ""}
@@ -310,9 +343,9 @@ export default function InfomationCustomerContainer() {
                   className="title"
                   disabled
                   required
-                  id="departureTime"
-                  name="departureTime"
-                  value={formik.values.departureTime}
+                  id="roomType"
+                  name="roomType"
+                  value={formik.values.roomType}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -350,9 +383,9 @@ export default function InfomationCustomerContainer() {
                   className="title"
                   disabled
                   required
-                  id="name"
-                  name="name"
-                  value={formik.values.name || ""}
+                  id="nameCustomer"
+                  name="nameCustomer"
+                  value={formik.values.nameCustomer || ""}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -385,6 +418,7 @@ export default function InfomationCustomerContainer() {
                 <TextField
                   className="title"
                   required
+                  disabled
                   id="idNo"
                   name="idNo"
                   value={formik.values.idNo}
@@ -396,9 +430,10 @@ export default function InfomationCustomerContainer() {
                 <TextField
                   className="title"
                   required
-                  id="idNo"
-                  name="idNo"
-                  value={formik.values.idNo}
+                  disabled
+                  id="gender"
+                  name="gender"
+                  value={formik.values.gender}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -406,8 +441,8 @@ export default function InfomationCustomerContainer() {
                 <InputLabel className="label">Ngày Sinh</InputLabel>
                 <TextField
                   id="birthDate"
-                  type="date"
                   name="birthDate"
+                  disabled
                   value={formik.values.birthDate}
                   onChange={formik.handleChange}
                   // defaultValue="2022-05-24"
@@ -422,9 +457,9 @@ export default function InfomationCustomerContainer() {
                 <TextField
                   className="title"
                   required
-                  id="idNo"
-                  name="idNo"
-                  value={formik.values.idNo}
+                  id="numOfAdult"
+                  name="numOfAdult"
+                  value={formik.values.numOfAdult}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -433,9 +468,9 @@ export default function InfomationCustomerContainer() {
                 <TextField
                   className="title"
                   required
-                  id="idNo"
-                  name="idNo"
-                  value={formik.values.idNo}
+                  id="numOfChildren"
+                  name="numOfChildren"
+                  value={formik.values.numOfChildren}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -460,15 +495,28 @@ export default function InfomationCustomerContainer() {
         </form>
         <span style={{ paddingTop: "40px" }}>Khách Ở Cùng</span>
         <hr style={{ width: "20%" }} />
-        {/* <DataGrid
-          getRowId={(row) => row.id}
+        <DataGrid
+          getRowId={(row) => row.stt}
           className="datagrid"
-          rows={data}
-          columns={infoUserColumns.concat(actionColumn)}
+          rows={renderListCustomer()}
+          columns={infoUserColumns}
           pageSize={9}
           rowsPerPageOptions={[9]}
-        /> */}
-
+        />
+        <span style={{ paddingTop: "40px" }}>
+          Tiền Phòng: {infoCustomer.booking?.totalAmount}
+        </span>
+        <hr style={{ width: "20%" }} />
+        <span style={{ paddingTop: "40px" }}>Dịch Vụ Sử Dụng</span>
+        <hr style={{ width: "20%" }} />
+        <DataGrid
+          getRowId={(row) => row.stt}
+          className="datagrid"
+          rows={renderListOrder()}
+          columns={infoOrder}
+          pageSize={9}
+          rowsPerPageOptions={[9]}
+        />
         {/* <div className="buttonAddCustomer">
           {infoBooking.numOfAdult + infoBooking.numOfChildren <=
           infoUser.length ? (
