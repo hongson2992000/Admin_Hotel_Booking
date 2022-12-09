@@ -2,7 +2,7 @@ import { BaseServices } from "./BaseService";
 
 class RequestServiceManage extends BaseServices {
   getAllRequestService = () => {
-    return this.get(`v1/orderFoodAndBeverage`);
+    return this.get(`v1/order/orderFoodAndBeverage`);
   };
   getRequestServiceByBookingId = (id) => {
     return this.get(`v1/order/orderByBooking?booking_id=${id}`);
@@ -18,6 +18,9 @@ class RequestServiceManage extends BaseServices {
   };
   getAllTurnDownService = () => {
     return this.get(`v1/requestrequestServiceServices`);
+  };
+  getTurnDownServiceByBookingId = (id) => {
+    return this.get(`v1/requestService?booking_id=${id}`);
   };
   confirmTurnDownService = (model) => {
     return this.put(`v1/requestService`, model);

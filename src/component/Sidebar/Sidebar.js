@@ -126,7 +126,7 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/setupPriceRoom1"
+                  to="/setupPriceRoomByDate"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
@@ -241,7 +241,7 @@ export default function Sidebar() {
             </ul>
           </div>
 
-          <div className="bottom" style={{ paddingTop: "10px" }}>
+          <div className="bottom" style={{ paddingTop: "20px" }}>
             <hr />
             <div
               onClick={() => {

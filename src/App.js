@@ -34,6 +34,7 @@ import InfomationCustomerPage from "./pages/InfomationCustomerPage/InfomationCus
 import InfomationCustomerContainer from "./component/InfomationCustomerContainer/InfomationCustomerContainer";
 import ListCustomerContainer from "./component/ListCustomerContainer/ListCustomerContainer";
 import ListRoomContainer from "./component/ListRoomContainer/ListRoomContainer";
+import SetUpPriceRoomByDatePage from "./pages/SetUpPriceRoomByDatePage/SetUpPriceRoomByDatePage";
 const LazyServicePage = React.lazy(() =>
   import("./pages/ServicePage/ServicePage")
 );
@@ -83,6 +84,7 @@ function App() {
                 element={<InfomationCustomerContainer />}
               />
               <Route index element={<ListRoomContainer />} />
+              <Route path="createNewRoom" element={<CreateNewRoomPage />} />
             </Route>
             <Route
               path="/listBooking"
@@ -93,7 +95,7 @@ function App() {
               }
             />
             <Route path="/checkIn" element={<CheckInPage />} />
-            <Route path="/createNewRoom" element={<CreateNewRoomPage />} />
+            
             <Route path="/customerManage" element={<CustomerPage />}>
               <Route
                 path=":customerId"
@@ -118,6 +120,7 @@ function App() {
             />
             <Route path="/setUpRoom" element={<SetupRoomPage />} />
             <Route path="/setUpPriceRoom" element={<SetUpPricePage />} />
+            <Route path="/setUpPriceRoomByDate" element={<SetUpPriceRoomByDatePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

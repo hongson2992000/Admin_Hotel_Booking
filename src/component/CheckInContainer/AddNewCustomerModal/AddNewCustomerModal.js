@@ -204,7 +204,7 @@ export default function AddNewCustomerModal() {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-6 simpleModalItem">
+          {/* <div className="col-6 simpleModalItem">
             <InputLabel>Người Đại Diện</InputLabel>
             {renderListCustomerAvailability().length !== 0 ? (
               <Select
@@ -232,7 +232,7 @@ export default function AddNewCustomerModal() {
                 <MenuItem value={false}>Người Thường</MenuItem>
               </Select>
             )}
-          </div>
+          </div> */}
           <div className="footer">
             <button className="buttonSave" type="submit">
               Lưu

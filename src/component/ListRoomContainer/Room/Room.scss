@@ -72,6 +72,7 @@ body {
         color: #fff;
     }
     .RoomNo p {
+        padding-top: 25px;
         font-weight: bold;
         font-size: 25px;
     }
@@ -81,14 +82,14 @@ body {
         text-align: center;
         background-color: #4caf50;
         width: 251px;
-        height: 270px;
+        height: 250px;
         border-radius: 30px;
         .RoomTitile {
             height: 60px;
         }
         .dropDownTouch {
             height: auto;
-            margin: 20px;
+            margin: 5px;
             right: 1px;
             padding-bottom: 20px;
             position: relative;
@@ -115,7 +116,7 @@ body {
         text-align: center;
         background-color: #ffc42a;
         width: 251px;
-        height: 270px;
+        height: 250px;
         border-radius: 30px;
         .RoomTitile {
             height: 60px;

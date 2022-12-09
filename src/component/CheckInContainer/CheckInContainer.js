@@ -1,7 +1,14 @@
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
-import React, { useCallback, useMemo} from "react";
+import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./CheckInContainer.scss";
 import { showModalAddUser } from "../../redux/actions/ModalAction";
@@ -23,7 +30,13 @@ export default function CheckInContainer() {
     let currentDate = moment().format("YYYY-MM-DD");
     return currentDate;
   };
-  console.log(renderCurrentDate());
+  const [selectedValue, setSelectedValue] = React.useState(1);
+  console.log("Hello Bà Zà", selectedValue);
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  // console.log(renderCurrentDate());
   const renderTypeRoom = () => {
     let roomType = "";
     switch (infoBooking.roomTypeId) {
@@ -95,20 +108,40 @@ export default function CheckInContainer() {
         totalAmount: values.totalAmount,
         updateDate: "",
       };
+      let arrInfoUserNew = [];
+      infoUser.forEach((item) => {
+        arrInfoUserNew.push({
+          id: item.id,
+          birthDate: item.birthDate,
+          createBy: item.createBy,
+          createDate: item.createDate,
+          email: item.email,
+          firstName: item.firstName,
+          gender: item.gender,
+          phoneNumber: item.phoneNumber,
+          lastName: item.lastName,
+          middleName: item.middleName,
+          passportNo: item.passportNo,
+          idNo: item.idNo,
+          updateDate: item.updateDate,
+          lastModifyBy: item.lastModifyBy,
+          primary: item.id.toString() === selectedValue ? true : false,
+        });
+      });
       let newInfoCheckInWithUser = {
         bookingRequest: bookingRequest,
-        customerRequests: infoUser,
+        customerRequests: arrInfoUserNew,
       };
 
       console.log("NewCheckInFo", newInfoCheckInWithUser);
-      dispatch(
-        actions.checkInRoom.checkInRoomRequest({
-          newInfoCheckInWithUser,
-          navigate,
-        })
-      );
+      // dispatch(
+      //   actions.checkInRoom.checkInRoomRequest({
+      //     newInfoCheckInWithUser,
+      //     navigate,
+      //   })
+      // );
     },
-    [navigate, infoUser, dispatch]
+    [selectedValue, infoUser]
   );
   const formik = useFormik({
     initialValues: {
@@ -206,18 +239,6 @@ export default function CheckInContainer() {
           );
         },
       },
-      {
-        field: "primary",
-        headerName: "Đại Diện",
-        width: 200,
-        renderCell: (params) => {
-          return (
-            <div className="cellWithImg">
-              {params.row.primary === true ? "Người Đại Diện" : "Người Thường"}
-            </div>
-          );
-        },
-      },
     ],
     []
   );
@@ -236,6 +257,24 @@ export default function CheckInContainer() {
               Cập Nhật
             </div>
           </div>
+        );
+      },
+    },
+
+    {
+      field: "action1",
+      headerName: "Người Đại Diện",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <input
+            // checked={selectedValue === params.row.id}
+            type="radio"
+            onChange={handleChange}
+            value={params.row.id}
+            name="radio-buttons"
+            // inputProps={{ "aria-label": "A" }}
+          />
         );
       },
     },
@@ -274,7 +313,7 @@ export default function CheckInContainer() {
           <hr />
           <div className="col-12 InfoRoom">
             <div className="row">
-            <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Ngày Đến</InputLabel>
                 <TextField
                   className="title"

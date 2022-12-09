@@ -15,6 +15,7 @@ import {
   showModalRequestService,
 } from "../actions/ModalAction";
 import * as actionModal from "../actions/ModalAction";
+import { roomManage } from "../../services/RoomManage";
 function* getAllRequestService(action) {
   try {
     console.log("Action", action);
@@ -27,6 +28,18 @@ function* getAllRequestService(action) {
     });
     console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
+      let arrRequestService = [];
+      for (let i = 0; i < listService.data.length; i++) {
+        let room = yield call(() => {
+          return roomManage.getRoomByBookingId(listService.data[i].booking.id);
+        });
+        let newRoom = {};
+        newRoom = {
+          customer: listService.data[i],
+          room: room,
+        };
+        arrRequestService.push(newRoom);
+      }
       yield put(
         actions.getRequestService.getRequestServiceSuccess(listService.data)
       );
@@ -160,8 +173,7 @@ function* getRequestServiceByBookingId(action) {
     yield put({
       type: HIDE_LOADING,
     });
-    yield put(showModalRequestService());
-    // navigate("/location")
+    yield put(actionModal.showModalRequestServiceManage());
   } catch (error) {
     yield put(
       actions.getRequestServiceByBookingId.getRequestServiceByBookingIdFailure(
@@ -312,5 +324,42 @@ export function* followActionConfirmRequestServiceInRoom() {
   yield takeLatest(
     actions.confirmRequestServiceInRoom.confirmRequestServiceInRoomRequest,
     confirmRequestServiceInRoom
+  );
+}
+function* getTurnDownByBookingId(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let turnDownService = yield call(() => {
+      return requestServiceManage.getTurnDownServiceByBookingId(
+        action.payload.booking_id
+      );
+    });
+    if (turnDownService.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdSuccess(
+          turnDownService.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(actionModal.showModalTurnDown());
+  } catch (error) {
+    yield put(
+      actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdFailure(
+        error
+      )
+    );
+  }
+}
+
+export function* followActionGetTurnDownByBookingId() {
+  yield takeLatest(
+    actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdRequest,
+    getTurnDownByBookingId
   );
 }

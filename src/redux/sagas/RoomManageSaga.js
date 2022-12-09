@@ -62,21 +62,34 @@ function* getAllRoom(action) {
           let booking = yield call(() => {
             return bookingManage.getBookingByRoomId(listRoom.data[i].id);
           });
-          if (booking.status === STATUS_CODE.SUCCESS) {
+          let roomType = yield call(() => {
+            return roomManage.getRoomTypeByRoomId(listRoom.data[i].id);
+          });
+          if (
+            booking.status === STATUS_CODE.SUCCESS &&
+            roomType.status === STATUS_CODE.SUCCESS
+          ) {
             let newRoom = {};
             newRoom = {
+              roomType: roomType,
               room: listRoom.data[i],
               booking: booking,
             };
             arrRoom.push(newRoom);
           }
         } else {
-          let newRoom = {};
-          newRoom = {
-            room: listRoom.data[i],
-            booking: {},
-          };
-          arrRoom.push(newRoom);
+          let roomType = yield call(() => {
+            return roomManage.getRoomTypeByRoomId(listRoom.data[i].id);
+          });
+          if (roomType.status === STATUS_CODE.SUCCESS) {
+            let newRoom = {};
+            newRoom = {
+              roomType: roomType,
+              room: listRoom.data[i],
+              booking: {},
+            };
+            arrRoom.push(newRoom);
+          }
         }
       }
       yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
@@ -122,5 +135,32 @@ export function* followActionGetRoomAvailability() {
   yield takeLatest(
     actions.getRoomAvailability.getRoomAvailabilityRequest,
     getRoomAvailability
+  );
+}
+function* getRoomTypeById(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let roomType = yield call(() => {
+      return roomManage.getRoomTypeById(action.payload.roomTypeId);
+    });
+    if (roomType.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.getRoomTypeById.getRoomTypeByIdSuccess(roomType.data));
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    // navigate("/location")
+  } catch (error) {
+    yield put(actions.getRoomTypeById.getRoomTypeByIdFailure(error));
+  }
+}
+export function* followActionGetRoomTypeById() {
+  yield takeLatest(
+    actions.getRoomTypeById.getRoomTypeByIdRequest,
+    getRoomTypeById
   );
 }

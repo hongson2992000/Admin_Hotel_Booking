@@ -13,3 +13,8 @@ export const getRoomAvailability = createActions({
   getRoomAvailabilitySuccess: (payload) => payload,
   getRoomAvailabilityFailure: (err) => err,
 });
+export const getRoomTypeById = createActions({
+  getRoomTypeByIdRequest: (payload) => payload,
+  getRoomTypeByIdSuccess: (payload) => payload,
+  getRoomTypeByIdFailure: (err) => err,
+});

@@ -1,0 +1,117 @@
+.datatableSetUpPriceRoomContainer {
+    padding: 40px;
+    height: auto;
+    margin-top: 120px;
+    margin-left: 245px;
+    left: 0;
+    .MuiDataGrid-main {
+        padding-left: 10px;
+        .MuiDataGrid-columnHeaders {
+            padding-left: 10px;
+        }
+    }
+    .InfoRoomItem {
+        #actualArrivalDate {
+            height: 0.875rem;
+        }
+    }
+    .datagrid {
+        height: 500px;
+        width: 1220px;
+    }
+    .datatableTitle {
+        width: 100%;
+        font-size: 24px;
+        color: gray;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .link {
+            text-decoration: none;
+            color: green;
+            font-size: 16px;
+            font-weight: 400;
+            border: 1px solid green;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+    .cellWithImg {
+        display: flex;
+        align-items: center;
+        &.BOOKED {
+            padding: 5px;
+            background-color: #fff;
+            color: orange;
+            border: 0.5px solid orange;
+            border-radius: 5px;
+        }
+        &.CHECKIN {
+            padding: 5px;
+            background-color: #fff;
+            color: green;
+            border: 0.5px solid green;
+            border-radius: 5px;
+        }
+        &.CHECKOUT {
+            padding: 5px;
+            background-color: #fff;
+            color: red;
+            border: 0.5px solid red;
+            border-radius: 5px;
+        }
+        .cellImg {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+    }
+    .cellWithStatus {
+        padding: 5px;
+        border-radius: 5px;
+        &.active {
+            background-color: rgba(0, 128, 0, 0.05);
+            color: green;
+        }
+        &.pending {
+            background-color: rgba(255, 217, 0, 0.05);
+            color: goldenrod;
+        }
+        &.passive {
+            background-color: rgba(255, 0, 0, 0.05);
+            color: crimson;
+        }
+    }
+    .cellAction {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        .viewButton {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: darkblue;
+            border: 1px dotted rgba(0, 0, 139, 0.596);
+            cursor: pointer;
+        }
+        .checkInButton {
+            padding: 5px 7px;
+            border-radius: 5px;
+            color: #AAAA;
+            background-color: #fff;
+            border: 1px solid #AAAA;
+            cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: white;
+                background-color: #AAAA;
+                border: 1px solid #AAAA;
+                cursor: pointer;
+            }
+        }
+    }
+}

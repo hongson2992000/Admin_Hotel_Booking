@@ -3,30 +3,32 @@ import React, { useCallback, useMemo, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch, useSelector } from "react-redux";
-import { modalRequestServiceState$ } from "../../../redux/selectors/ModalSelector";
-import "./PopupRequestService.scss";
+import { modalRequestServiceManageState$ } from "../../../redux/selectors/ModalSelector";
+import "./PopupRequestServiceManage.scss";
 import {
-  hideModalRequestService,
+  hideModalRequestServiceManage,
   showModalRequestServiceDetail,
 } from "../../../redux/actions/ModalAction";
 import { useNavigate } from "react-router-dom";
 import * as actions from "../../../redux/actions/RequestServiceManageAction";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  requestServiceManageInRoomState$,
-} from "../../../redux/selectors/RequestServiceManageSelector";
+import { requestServiceManageInRoomState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import DialogDelete from "../../DialogDelete/DialogDelete";
 import ModalListRequestService from "../../ListRequestService/ModalListRequestService.js/ModalListRequestService";
-import { BOOKED, PROCESSING, USER_ROLE } from "../../../utils/constants/settingSystem";
+import {
+  BOOKED,
+  PROCESSING,
+  USER_ROLE,
+} from "../../../utils/constants/settingSystem";
 import { userState$ } from "../../../redux/selectors/UserSelector";
-export default function PopupRequestService() {
+export default function PopupRequestServiceManage() {
   const dispatch = useDispatch();
   let userInfo = useSelector(userState$);
-  const isShow = useSelector(modalRequestServiceState$);
+  const isShow = useSelector(modalRequestServiceManageState$);
   const navigate = useNavigate();
   const listRequestService = useSelector(requestServiceManageInRoomState$);
   const onClose = useCallback(() => {
-    dispatch(hideModalRequestService());
+    dispatch(hideModalRequestServiceManage());
   }, [dispatch]);
   const [dialog, setDialog] = useState({
     message: "",
@@ -62,10 +64,15 @@ export default function PopupRequestService() {
   //   };
   const renderArr = () => {
     let arrNew = [];
-    listRequestService?.forEach((item) => {
+    // listRequestService.forEach((item)=>{
+    //     item.orderDetails.find((itemOrder)=>)
+    // })
+    listRequestService?.forEach((item, i) => {
       arrNew.push({
+        stt: i + 1,
         id: item.id,
         roomNo: item.booking?.room?.roomNo,
+        // serviceName:item.
         totalAmount: item.totalAmount,
         createDate: item.createDate,
         customerName: item.createBy,
@@ -92,6 +99,14 @@ export default function PopupRequestService() {
   // );
   let serviceColumns = useMemo(
     () => [
+      {
+        field: "stt",
+        headerName: "STT",
+        width: 100,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.stt}</div>;
+        },
+      },
       {
         field: "id",
         headerName: "Mã Hóa Đơn",
@@ -201,7 +216,7 @@ export default function PopupRequestService() {
               <div className="cellAction">
                 <div
                   className="updateButton"
-                    onClick={() => openRequestServiceModal(params.row.id)}
+                  onClick={() => openRequestServiceModal(params.row.id)}
                 >
                   Xem Chi Tiết
                 </div>
@@ -238,7 +253,7 @@ export default function PopupRequestService() {
         //       );
         //     },
         //   },
-      ]
+      ];
     }
     return actionColumn;
   };
@@ -252,7 +267,7 @@ export default function PopupRequestService() {
           <div className="cellAction">
             <div
               className="updateButton"
-                onClick={() => openRequestServiceModal(params.row.id)}
+              onClick={() => openRequestServiceModal(params.row.id)}
             >
               Xem Chi Tiết
             </div>
@@ -274,10 +289,28 @@ export default function PopupRequestService() {
   return (
     <div>
       <Modal open={isShow} onClose={onClose}>
-        <div className="modalRequestService">
+        <div className="modalRequestServiceManage">
           <h2>Dịch vụ sử dụng</h2>
           <hr />
-
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Tên dịch vụ</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Xác nhận</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+            </tbody>
+          </table>
           <DataGrid
             className="datagrid"
             getRowId={(row) => row.id}
@@ -291,49 +324,12 @@ export default function PopupRequestService() {
               Đóng
             </button>
           </div>
-          {/* {dialog.isLoading && (
-        <DialogDelete onDialog={areUSureDelete} message={dialog.message} />
-      )} */}
-          {/* {infoOderDetail.status === "BOOKED" ? (
-            <div className="footer">
-              <button
-                className="buttonConfirm"
-                onClick={() => handleConfirmService()}
-              >
-                <CheckIcon className="icon" />
-                Xác Nhận
-              </button>
-              <button className="buttonClose" onClick={onClose}>
-                Đóng
-              </button>
-            </div>
-          ) : infoOderDetail.status === "PROCESSING" ? (
-            <div className="footer">
-              <button
-                className="buttonDone"
-                type="submit"
-                onClick={() => handleConfirmService()}
-              >
-                <CheckIcon className="icon" />
-                Hoàn Thành
-              </button>
-              <button className="buttonClose" onClick={onClose}>
-                Đóng
-              </button>
-            </div>
-          ) : (
-            <div className="footer">
-              <button className="buttonClose" onClick={onClose}>
-                Đóng
-              </button>
-            </div>
-          )} */}
         </div>
       </Modal>
       {/* {dialog.isLoading && (
         <DialogDelete onDialog={areUSureDelete} message={dialog.message} />
       )} */}
-      <ModalListRequestService/>
+      <ModalListRequestService />
     </div>
   );
 }

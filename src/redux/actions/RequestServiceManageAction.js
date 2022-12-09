@@ -1,4 +1,4 @@
-import { createActions} from "redux-actions";
+import { createActions } from "redux-actions";
 
 export const getType = (reduxAction) => {
   return reduxAction().type;
@@ -30,6 +30,11 @@ export const getTurnDownService = createActions({
   getTurnDownServiceRequest: undefined,
   getTurnDownServiceSuccess: (payload) => payload,
   getTurnDownServiceFailure: (err) => err,
+});
+export const getTurnDownServiceByBookingId = createActions({
+  getTurnDownServiceByBookingIdRequest: (payload) => payload,
+  getTurnDownServiceByBookingIdSuccess: (payload) => payload,
+  getTurnDownServiceByBookingIdFailure: (err) => err,
 });
 export const confirmTurnDownService = createActions({
   confirmTurnDownServiceRequest: (payload) => payload,
