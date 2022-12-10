@@ -164,3 +164,55 @@ export function* followActionGetRoomTypeById() {
     getRoomTypeById
   );
 }
+
+function* getAllRoomType() {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let roomType = yield call(() => {
+      return roomManage.getAllRoomType();
+    });
+    if (roomType.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.getAllRoomType.getAllRoomTypeSuccess(roomType.data));
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    // navigate("/location")
+  } catch (error) {
+    yield put(actions.getAllRoomType.getAllRoomTypeFailure(error));
+  }
+}
+export function* followActionGetAllRoomType() {
+  yield takeLatest(
+    actions.getAllRoomType.getAllRoomTypeRequest,
+    getAllRoomType
+  );
+}
+
+function* setRoomPrice(action) {
+  console.log(action);
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let roomType = yield call(() => {
+      return roomManage.setRoomPriceByDate(action.payload);
+    });
+    if (roomType.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.setRoomPrice.setRoomPriceSuccess(roomType.data));
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    // navigate("/location")
+  } catch (error) {
+    yield put(actions.setRoomPrice.setRoomPriceFailure(error));
+  }
+}
+export function* followActionSetRoomPrice() {
+  yield takeLatest(actions.setRoomPrice.setRoomPriceRequest, setRoomPrice);
+}

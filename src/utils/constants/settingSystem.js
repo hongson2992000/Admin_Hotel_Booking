@@ -1,5 +1,5 @@
 export const DOMAIN = "https://hotelservice-v5.herokuapp.com/api";
-// export const DOMAIN = 'http://localhost:8080/api';
+// export const DOMAIN = "http://localhost:8080/api";
 export const TOKEN = "access_token";
 export const USER_LOGIN = "USER_LOGIN";
 export const IMAGE = "IMAGE";
@@ -29,3 +29,41 @@ export const USER_ROLE = {
 
 export const PHONE_VALID =
   "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$";
+
+export const VIET_NAM_TIME = [
+  {
+    code: 1,
+    name: "Thứ Hai",
+    shortKey: "T2",
+  },
+  {
+    code: 2,
+    name: "Thứ Ba",
+    shortKey: "T3",
+  },
+  {
+    code: 3,
+    name: "Thứ Tư",
+    shortKey: "T4",
+  },
+  {
+    code: 4,
+    name: "Thứ Năm",
+    shortKey: "T5",
+  },
+  {
+    code: 5,
+    name: "Thứ Sáu",
+    shortKey: "T6",
+  },
+  {
+    code: 6,
+    name: "Thứ Bảy",
+    shortKey: "T7",
+  },
+  {
+    code: 0,
+    name: "Chủ Nhật",
+    shortKey: "CN",
+  },
+];

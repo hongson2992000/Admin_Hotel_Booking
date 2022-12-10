@@ -18,3 +18,15 @@ export const getRoomTypeById = createActions({
   getRoomTypeByIdSuccess: (payload) => payload,
   getRoomTypeByIdFailure: (err) => err,
 });
+
+export const getAllRoomType = createActions({
+  getAllRoomTypeRequest: undefined,
+  getAllRoomTypeSuccess: (payload) => payload,
+  getAllRoomTypeFailure: (err) => err,
+});
+
+export const setRoomPrice = createActions({
+  setRoomPriceRequest: (payload) => payload,
+  setRoomPriceSuccess: (payload) => payload,
+  setRoomPriceFailure: (err) => err,
+});

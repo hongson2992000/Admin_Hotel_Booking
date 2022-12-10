@@ -15,6 +15,10 @@ export class BaseServices {
       url: `${DOMAIN}/${url}`,
       method: "POST",
       data: model,
+      headers: {
+        "Content-Type": "application/json",
+        dataType: "json",
+      },
       // headers: {
       //   Authorization:
       //     "Bearer " +
@@ -31,7 +35,7 @@ export class BaseServices {
       // headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
     });
   };
-  get = (url,model) => {
+  get = (url, model) => {
     return axios({
       url: `${DOMAIN}/${url}`,
       method: "GET",
@@ -43,7 +47,7 @@ export class BaseServices {
     });
   };
   getAuthor = (url, model) => {
-    console.log("Token",localStorage.getItem(TOKEN))
+    console.log("Token", localStorage.getItem(TOKEN));
     return axios({
       url: `${DOMAIN}/${url}`,
       method: "GET",

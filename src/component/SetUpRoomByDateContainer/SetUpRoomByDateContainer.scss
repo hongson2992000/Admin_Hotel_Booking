@@ -1,0 +1,146 @@
+.container {
+    padding: 40px;
+    height: auto;
+    margin-top: 120px;
+    margin-left: 245px;
+    left: 0;
+
+    .subContainer {
+        font-size: 14px;
+        margin-left: 20px;
+        align-items: center;
+        width: 80vw;
+        z-index: 2;
+    }
+
+    .subContainer2 {
+        padding-top: 1.5rem;
+        font-size: 14px;
+        margin-left: 20px;
+        align-items: center;
+        width: 80vw;
+        z-index: 2;
+        justify-content: space-between;
+
+        .checkboxContainer {
+            margin-right: 0.5rem;
+        }
+
+        .dayFilter {
+            padding-top: 1rem;
+            padding-right: 1rem;
+        }
+
+        .setPriceLabel {
+            color: black;
+            margin: 0;
+            padding: 0 .5rem;
+        }
+
+
+        .applyPrice {
+            padding: .25rem 0;
+        }
+
+
+    }
+
+    .subContainer3 {
+        font-size: 14px;
+        margin-left: 20px;
+        align-items: center;
+        width: 74vw;
+        z-index: 2;
+        justify-content: end;
+    }
+
+    .subContainer4 {
+        margin-top: 1rem;
+        font-size: 14px;
+        margin-left: 20px;
+        align-items: flex-start;
+        width: 90vw;
+        z-index: 2;
+
+        .roomTypeTable {
+            border: 1px solid;
+            border-right: none;
+
+            .titleRoomTypeTable {
+                height: 51px;
+                border-bottom: 1px solid;
+            }
+
+            .contentRoomTypeTable {
+                padding: .5rem 1rem;
+                text-align: center;
+            }
+
+
+        }
+
+        .roomTypeTableRight {
+            border: 1px solid;
+
+            .rightContent {
+                border-bottom: 1px solid;
+            }
+
+            .dayContainer {
+                padding: .25rem 3.78rem;
+
+                .titleShortKey {
+                    text-align: center;
+                }
+            }
+
+            .subDayContainer {
+                height: 300px;
+            }
+
+            .tablePriceContent {
+                padding: 0.5rem 1rem;
+            }
+
+            span {
+                color: #535353;
+            }
+        }
+
+    }
+
+    p {
+        margin-bottom: .5rem;
+        padding: 0 .5rem;
+    }
+
+    input[type="date"] {
+        padding: .5rem;
+        width: 85%;
+    }
+
+    select {
+        padding: .5rem;
+    }
+
+    .button-container {
+        margin: 0 .5rem;
+
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+
+    .button {
+        background-color: #04B8F1;
+        color: white;
+        text-align: center;
+        margin: 0 .5rem;
+        padding: .5rem;
+        width: 100%;
+        border: none;
+    }
+
+
+
+}

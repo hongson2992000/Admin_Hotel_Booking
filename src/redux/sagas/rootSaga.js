@@ -9,7 +9,7 @@ import * as sendMessageSaga from "./SendMessageSaga";
 import * as imageManageSaga from "./ImageManageSaga";
 import * as newsManageSaga from "./NewsManageSaga";
 import * as informationHotelSaga from "./InfomationHotelManageSaga";
-import * as customerManageSaga from "./CustomerManageSaga"
+import * as customerManageSaga from "./CustomerManageSaga";
 export default function* rootSaga() {
   yield all([
     serviceManageSaga.followActionGetAllHotelService(),
@@ -43,6 +43,7 @@ export default function* rootSaga() {
     informationHotelSaga.followActionGetInfoHotel(),
     customerManageSaga.followActionGetAllPrimaryCustomer(),
     customerManageSaga.followActionGetInfoCustomerByBookingId(),
-
+    roomManageSaga.followActionGetAllRoomType(),
+    roomManageSaga.followActionSetRoomPrice(),
   ]);
 }
