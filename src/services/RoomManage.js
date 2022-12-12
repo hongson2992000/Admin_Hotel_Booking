@@ -19,5 +19,11 @@ class RoomManage extends BaseServices {
   getRoomTypeByRoomId = (id) => {
     return this.get(`v1/roomType/getRoomTypeByRoom?room_id=${id}`);
   };
+  getAllRoomType = () => {
+    return this.get(`v1/roomTypes`);
+  };
+  setRoomPriceByDate = (payload) => {
+    return this.post(`v1/roomPrice/setRoomPriceByDate`, payload);
+  };
 }
 export const roomManage = new RoomManage();

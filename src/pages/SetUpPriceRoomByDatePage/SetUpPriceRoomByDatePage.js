@@ -5,6 +5,7 @@ import "./SetUpPriceRoomByDatePage.scss";
 import { useNavigate } from "react-router-dom";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
 import SetUpPriceRoomByDateContainer from "../../component/SetUpPriceRoomByDateContainer/SetUpPriceRoomByDateContainer";
+import SetUpRoomByDateContainer from "../../component/SetUpRoomByDateContainer/SetUpRoomByDateContainer";
 export default function SetUpPriceRoomByDatePage() {
   const navigate = useNavigate();
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function SetUpPriceRoomByDatePage() {
         </div>
         <div className="content-main col-10">
           <Navbar />
-          <SetUpPriceRoomByDateContainer/>
+          <SetUpRoomByDateContainer />
         </div>
       </div>
     </div>

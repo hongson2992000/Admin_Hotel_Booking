@@ -53,5 +53,7 @@ export default function* rootSaga() {
     setUpRoomManageSaga.followActionGetAllRoomToSetUp(),
     setUpRoomManageSaga.followActionGetAllRoomTypeToSetUp(),
     accountManageSaga.followActionGetAllAccount(),
+    roomManageSaga.followActionGetAllRoomType(),
+    roomManageSaga.followActionSetRoomPrice(),
   ]);
 }

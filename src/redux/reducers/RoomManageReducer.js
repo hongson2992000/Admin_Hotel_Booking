@@ -4,6 +4,8 @@ import {
   getRoomAvailability,
   getRoomTypeById,
   getRoomTypeByRoomId,
+  getAllRoomType,
+  setRoomPrice,
 } from "../actions/RoomManageAction";
 
 const initialState = {
@@ -12,6 +14,8 @@ const initialState = {
   // userInfoBooking: [],
   roomAvailability: [],
   roomType: {},
+  arrRoomTypes: [],
+  roomPrice: {},
 };
 export default function RoomManageReducer(state = initialState, action) {
   switch (action.type) {
@@ -51,6 +55,32 @@ export default function RoomManageReducer(state = initialState, action) {
         roomType: action.payload,
       };
     case getType(getRoomTypeByRoomId.getRoomTypeByRoomIdFailure):
+      return {
+        ...state,
+      };
+    case getType(getAllRoomType.getAllRoomTypeRequest):
+      return {
+        ...state,
+      };
+    case getType(getAllRoomType.getAllRoomTypeSuccess):
+      return {
+        ...state,
+        arrRoomTypes: action.payload,
+      };
+    case getType(getAllRoomType.getAllRoomTypeFailure):
+      return {
+        ...state,
+      };
+    case getType(setRoomPrice.setRoomPriceRequest):
+      return {
+        ...state,
+      };
+    case getType(setRoomPrice.setRoomPriceSuccess):
+      return {
+        ...state,
+        roomPrice: action.payload,
+      };
+    case getType(setRoomPrice.setRoomPriceFailure):
       return {
         ...state,
       };
