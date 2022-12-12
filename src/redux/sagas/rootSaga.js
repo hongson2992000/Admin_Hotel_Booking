@@ -10,6 +10,8 @@ import * as imageManageSaga from "./ImageManageSaga";
 import * as newsManageSaga from "./NewsManageSaga";
 import * as informationHotelSaga from "./InfomationHotelManageSaga";
 import * as customerManageSaga from "./CustomerManageSaga";
+import * as setUpRoomManageSaga from "./SetUpRoomManageSaga";
+import * as accountManageSaga from "./AccountManageSaga";
 export default function* rootSaga() {
   yield all([
     serviceManageSaga.followActionGetAllHotelService(),
@@ -26,6 +28,7 @@ export default function* rootSaga() {
     roomManageSaga.followActionGetAllRoom(),
     roomManageSaga.followActionGetRoomAvailability(),
     roomManageSaga.followActionGetRoomTypeById(),
+    roomManageSaga.followActionGetRoomTypeByRoomId(),
     bookingManageSaga.followActionCheckIn(),
     bookingManageSaga.followActionCheckOut(),
     bookingManageSaga.followActionGetDashBoard(),
@@ -37,12 +40,19 @@ export default function* rootSaga() {
     requestServiceManageSaga.followActionConfirmRequestServiceInRoom(),
     requestServiceManageSaga.followActionGetRequestServiceByBookingId(),
     requestServiceManageSaga.followActionGetTurnDownByBookingId(),
+    requestServiceManageSaga.followActionConfirmRequestServiceByManage(),
+    requestServiceManageSaga.followActionGetRequestServiceByBookingIdStaff(),
+    requestServiceManageSaga.followActionGetTurnDownByBookingIdByStaff(),
+    requestServiceManageSaga.followActionConfirmTurnDownServiceStaff(),
     sendMessageSaga.followActionSendMessage(),
     imageManageSaga.followActionGetAllImage(),
     newsManageSaga.followActionGetAllNews(),
     informationHotelSaga.followActionGetInfoHotel(),
     customerManageSaga.followActionGetAllPrimaryCustomer(),
     customerManageSaga.followActionGetInfoCustomerByBookingId(),
+    setUpRoomManageSaga.followActionGetAllRoomToSetUp(),
+    setUpRoomManageSaga.followActionGetAllRoomTypeToSetUp(),
+    accountManageSaga.followActionGetAllAccount(),
     roomManageSaga.followActionGetAllRoomType(),
     roomManageSaga.followActionSetRoomPrice(),
   ]);

@@ -3,6 +3,7 @@ import {
   getType,
   getRoomAvailability,
   getRoomTypeById,
+  getRoomTypeByRoomId,
   getAllRoomType,
   setRoomPrice,
 } from "../actions/RoomManageAction";
@@ -44,16 +45,16 @@ export default function RoomManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-    case getType(getRoomTypeById.getRoomTypeByIdRequest):
+    case getType(getRoomTypeByRoomId.getRoomTypeByRoomIdRequest):
       return {
         ...state,
       };
-    case getType(getRoomTypeById.getRoomTypeByIdSuccess):
+    case getType(getRoomTypeByRoomId.getRoomTypeByRoomIdSuccess):
       return {
         ...state,
         roomType: action.payload,
       };
-    case getType(getRoomTypeById.getRoomTypeByIdFailure):
+    case getType(getRoomTypeByRoomId.getRoomTypeByRoomIdFailure):
       return {
         ...state,
       };

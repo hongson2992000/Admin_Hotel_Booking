@@ -16,45 +16,6 @@ function* getAllRoom(action) {
     let listRoom = yield call(() => {
       return roomManage.getAllRoom();
     });
-
-    // if (listRoom.status === STATUS_CODE.SUCCESS) {
-    //   let arrRoom = [];
-    //   let booking = yield call(() => {
-    //     return roomManage.getBookingCheckInByRoomId();
-    //   });
-    //   console.log(booking.data)
-    //   if(booking.data.length !== 0){
-    //     for (let i = 0; i < listRoom.data.length; i++) {
-    //       let newRoom;
-    //       for (let j = 0; j < booking?.data.length; j++) {
-    //         if (listRoom.data[i].id === booking?.data[j].room.id) {
-    //           newRoom = {
-    //             room: listRoom.data[i],
-    //             booking: booking?.data[j],
-    //           };
-    //           break;
-    //         } else {
-    //           newRoom = {
-    //             room: listRoom.data[i],
-    //             booking: null,
-    //           };
-    //         }
-    //       }
-    //       arrRoom.push(newRoom)
-    //     }
-    //   }else{
-    //     for (let i = 0; i < listRoom.data.length; i++){
-    //       let newRoom = {}
-    //       newRoom = {
-    //         room: listRoom.data[i],
-    //         booking: null,
-    //       }
-    //       arrRoom.push(newRoom)
-    //     }
-    //   }
-
-    //   yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
-    // }
     if (listRoom.status === STATUS_CODE.SUCCESS) {
       let arrRoom = [];
       for (let i = 0; i < listRoom.data.length; i++) {
@@ -62,41 +23,29 @@ function* getAllRoom(action) {
           let booking = yield call(() => {
             return bookingManage.getBookingByRoomId(listRoom.data[i].id);
           });
-          let roomType = yield call(() => {
-            return roomManage.getRoomTypeByRoomId(listRoom.data[i].id);
-          });
-          if (
-            booking.status === STATUS_CODE.SUCCESS &&
-            roomType.status === STATUS_CODE.SUCCESS
-          ) {
+          if (booking.status === STATUS_CODE.SUCCESS) {
             let newRoom = {};
             newRoom = {
-              roomType: roomType,
               room: listRoom.data[i],
               booking: booking,
             };
             arrRoom.push(newRoom);
           }
         } else {
-          let roomType = yield call(() => {
-            return roomManage.getRoomTypeByRoomId(listRoom.data[i].id);
-          });
-          if (roomType.status === STATUS_CODE.SUCCESS) {
-            let newRoom = {};
-            newRoom = {
-              roomType: roomType,
-              room: listRoom.data[i],
-              booking: {},
-            };
-            arrRoom.push(newRoom);
-          }
+          let newRoom = {};
+          newRoom = {
+            room: listRoom.data[i],
+            booking: {},
+          };
+          arrRoom.push(newRoom);
         }
       }
       yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
+      yield put({
+        type: HIDE_LOADING,
+      });
     }
-    yield put({
-      type: HIDE_LOADING,
-    });
+
     // navigate("/location")
   } catch (error) {
     yield put(actions.getAllRoom.getAllRoomFailure(error));
@@ -215,4 +164,35 @@ function* setRoomPrice(action) {
 }
 export function* followActionSetRoomPrice() {
   yield takeLatest(actions.setRoomPrice.setRoomPriceRequest, setRoomPrice);
+}
+function* getRoomTypeByRoomId(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let roomType = yield call(() => {
+      return roomManage.getRoomTypeByRoomId(action.payload.roomId);
+    });
+    if (roomType.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getRoomTypeByRoomId.getRoomTypeByRoomIdSuccess(roomType.data)
+      );
+      action.payload.navigate(
+        `/roomManage/createNewRoom/${action.payload.roomNo}`
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+  } catch (error) {
+    yield put(actions.getRoomTypeByRoomId.getRoomTypeByRoomIdFailure(error));
+  }
+}
+export function* followActionGetRoomTypeByRoomId() {
+  yield takeLatest(
+    actions.getRoomTypeByRoomId.getRoomTypeByRoomIdRequest,
+    getRoomTypeByRoomId
+  );
 }

@@ -1,6 +1,7 @@
 import {
   getType,
   getNews,
+  filInfoNews,
   // createNews,
   // updateNews,
   // deleteNews,
@@ -10,7 +11,7 @@ const initialState = {
   arrNews: [],
   newsItem: {},
 };
-export default function ServiceManageReducer(state = initialState, action) {
+export default function NewsManageReducer(state = initialState, action) {
   switch (action.type) {
     case getType(getNews.getNewsRequest):
       return {
@@ -53,11 +54,13 @@ export default function ServiceManageReducer(state = initialState, action) {
     //   return {
     //     ...state,
     //   };
-    // case getType(filInfoLocation.filInfoLocationRequest):
-    //   return {
-    //     ...state,
-    //     loactionItem: action.payload,
-    //   };
+    case getType(filInfoNews.filInfoNewsRequest):
+      let newsItemUpdate = {};
+      newsItemUpdate = action.payload;
+      state.newsItem = newsItemUpdate;
+      return {
+        ...state,
+      };
     default:
       return state;
   }

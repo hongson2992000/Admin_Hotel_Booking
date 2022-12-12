@@ -76,11 +76,11 @@ const CreateAccountModel = () => {
       <form
         noValidate
         autoComplete="off"
-        className={classNames("col-12", Styles.form)}
+        className="form col-12 simpleModalItem"
         onSubmit={formik.handleSubmit}
       >
         <div className="row">
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Tài Khoản</InputLabel>
             <TextField
               className={classNames("col-12", Styles.title)}
@@ -91,7 +91,7 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Mật Khẩu</InputLabel>
             <TextField
               type={"password"}
@@ -103,7 +103,7 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-4">
+          <div className="col-4 simpleModalItem">
             <InputLabel>Họ</InputLabel>
             <TextField
               className={Styles.title}
@@ -114,7 +114,7 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-4">
+          <div className="col-4 simpleModalItem">
             <InputLabel>Tên Lót</InputLabel>
             <TextField
               className={Styles.title}
@@ -124,7 +124,7 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-4">
+          <div className="col-4 simpleModalItem">
             <InputLabel>Tên</InputLabel>
             <TextField
               className={Styles.title}
@@ -135,7 +135,7 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-4">
+          <div className="col-4 simpleModalItem">
             <InputLabel>Số điện thoại</InputLabel>
             <TextField
               className={Styles.title}
@@ -146,7 +146,7 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-4">
+          <div className="col-4 simpleModalItem">
             <InputLabel>Ngày sinh</InputLabel>
             <TextField
               type={"date"}
@@ -158,7 +158,7 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-4">
+          <div className="col-4 simpleModalItem">
             <InputLabel>Giới tính</InputLabel>
             <Select
               className="title"
@@ -172,7 +172,7 @@ const CreateAccountModel = () => {
               <MenuItem value={false}>Nữ</MenuItem>
             </Select>
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Trạng Thái</InputLabel>
             <Select
               className="title"
@@ -186,7 +186,7 @@ const CreateAccountModel = () => {
               <MenuItem value={false}>Không Sử Dụng</MenuItem>
             </Select>
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Quyền Hạn</InputLabel>
             <Select
               className="title"
@@ -207,7 +207,7 @@ const CreateAccountModel = () => {
           </div>
           <div className={classNames("col-12", Styles.infoCreate)}>
             <div className="row">
-              <div className="col-6">
+              <div className="col-6 simpleModalItem">
                 <InputLabel>Ngày tạo</InputLabel>
                 <TextField
                   className="title"
@@ -219,7 +219,7 @@ const CreateAccountModel = () => {
                   disabled
                 />
               </div>
-              <div className="col-6">
+              <div className="col-6 simpleModalItem">
                 <InputLabel>Người tạo</InputLabel>
                 <TextField
                   className="title"
@@ -231,7 +231,7 @@ const CreateAccountModel = () => {
                   disabled
                 />
               </div>
-              <div className="col-6">
+              <div className="col-6 simpleModalItem">
                 <InputLabel>Ngày cập nhật</InputLabel>
                 <TextField
                   className="title"
@@ -243,7 +243,7 @@ const CreateAccountModel = () => {
                   disabled
                 />
               </div>
-              <div className="col-6">
+              <div className="col-6 simpleModalItem">
                 <InputLabel>Người cập nhật</InputLabel>
                 <TextField
                   className="title"

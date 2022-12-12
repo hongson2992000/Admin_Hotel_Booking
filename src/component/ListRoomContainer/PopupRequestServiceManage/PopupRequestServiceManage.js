@@ -21,12 +21,13 @@ import {
   USER_ROLE,
 } from "../../../utils/constants/settingSystem";
 import { userState$ } from "../../../redux/selectors/UserSelector";
-export default function PopupRequestServiceManage() {
+export default function PopupRequestServiceManage({ bookingId }) {
   const dispatch = useDispatch();
   let userInfo = useSelector(userState$);
   const isShow = useSelector(modalRequestServiceManageState$);
   const navigate = useNavigate();
   const listRequestService = useSelector(requestServiceManageInRoomState$);
+  let [dataServiceOrther, serDataServiceOrther] = useState([]);
   const onClose = useCallback(() => {
     dispatch(hideModalRequestServiceManage());
   }, [dispatch]);
@@ -64,27 +65,67 @@ export default function PopupRequestServiceManage() {
   //   };
   const renderArr = () => {
     let arrNew = [];
-    // listRequestService.forEach((item)=>{
-    //     item.orderDetails.find((itemOrder)=>)
-    // })
-    listRequestService?.forEach((item, i) => {
-      arrNew.push({
-        stt: i + 1,
-        id: item.id,
-        roomNo: item.booking?.room?.roomNo,
-        // serviceName:item.
-        totalAmount: item.totalAmount,
-        createDate: item.createDate,
-        customerName: item.createBy,
-        // listRequestService.customer.firstName +
-        // "" +
-        // listRequestService.customer.middleName +
-        // "" +
-        // listRequestService.customer.lastName,
-        status: item.status,
+    let listRequestServiceNew = [];
+    listRequestService.forEach((item) => {
+      for (let i = 0; i < item.orderDetails.length; i++) {
+        if (
+          item.orderDetails[i].service.id !== 70 &&
+          item.orderDetails[i].service.id !== 71 &&
+          item.orderDetails[i].service.id !== 57 &&
+          item.orderDetails[i].service.id !== 58
+        ) {
+          listRequestServiceNew.push(item);
+        }
+      }
+    });
+    listRequestServiceNew?.forEach((item, i) => {
+      item.orderDetails.forEach((itemOrder, i) => {
+        arrNew.push({
+          stt: i + 1,
+          id: item.id,
+          roomNo: item.booking?.room?.roomNo,
+          serviceName: itemOrder.service.name,
+          totalAmount: item.totalAmount,
+          createDate: item.createDate?.substring(0, 10),
+          customerName: item.createBy,
+          // listRequestService.customer.firstName +
+          // "" +
+          // listRequestService.customer.middleName +
+          // "" +
+          // listRequestService.customer.lastName,
+          status: item.status,
+        });
       });
     });
     return arrNew;
+  };
+  const renderArrOtherService = () => {
+    let arrNew = [];
+    let orderDetail = [];
+    listRequestService.forEach((item) => {
+      for (let i = 0; i < item.orderDetails.length; i++) {
+        if (
+          item.orderDetails[i].service.id === 70 ||
+          item.orderDetails[i].service.id === 71 ||
+          item.orderDetails[i].service.id === 57 ||
+          item.orderDetails[i].service.id === 58
+        ) {
+          arrNew.push(item);
+        }
+      }
+    });
+    arrNew.forEach((item, i) => {
+      item.orderDetails.forEach((itemOrder, i) => {
+        orderDetail.push({
+          orderDetailId: item.id,
+          name: itemOrder.service.name,
+          price: itemOrder.price,
+          quantity: itemOrder.quantity,
+          status: item.status,
+        });
+      });
+    });
+    return orderDetail;
   };
   // const handleCancelService = useCallback(
   //   (id) => {
@@ -102,7 +143,7 @@ export default function PopupRequestServiceManage() {
       {
         field: "stt",
         headerName: "STT",
-        width: 100,
+        width: 50,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.stt}</div>;
         },
@@ -113,6 +154,14 @@ export default function PopupRequestServiceManage() {
         width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.id}</div>;
+        },
+      },
+      {
+        field: "serviceName",
+        headerName: "Tên dịch vụ",
+        width: 250,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.serviceName}</div>;
         },
       },
       {
@@ -128,7 +177,7 @@ export default function PopupRequestServiceManage() {
       {
         field: "createDate",
         headerName: "Ngày Đặt",
-        width: 250,
+        width: 150,
         renderCell: (params) => {
           return (
             <div className={`cellWithStatus`}>{params.row.createDate}</div>
@@ -138,7 +187,7 @@ export default function PopupRequestServiceManage() {
       {
         field: "customerName",
         headerName: "Tên Khách",
-        width: 250,
+        width: 200,
         renderCell: (params) => {
           return (
             <div className={`cellWithStatus`}>{params.row.customerName}</div>
@@ -164,16 +213,22 @@ export default function PopupRequestServiceManage() {
     ],
     []
   );
-  //   const handleConfirmService = useCallback(() => {
-  //     dispatch(
-  //       actions.confirmRequestService.confirmRequestServiceRequest({
-  //         orderId: infoOderDetail.id,
-  //         status: infoOderDetail.status,
-  //         navigate,
-  //       })
-  //     );
-  //     dispatch(hideModalListService());
-  //   }, [infoOderDetail, navigate, dispatch]);
+  const handleConfirmService = useCallback(
+    (orderId, status) => {
+      dispatch(
+        actions.confirmRequestServiceByManager.confirmRequestServiceByManagerRequest(
+          {
+            orderId: orderId,
+            status: status,
+            bookingId: bookingId,
+            navigate,
+          }
+        )
+      );
+      dispatch(hideModalRequestServiceManage());
+    },
+    [navigate, dispatch, bookingId]
+  );
   const openRequestServiceModal = useCallback(
     (id) => {
       const service = listRequestService.find(
@@ -299,17 +354,70 @@ export default function PopupRequestServiceManage() {
                 <th scope="col">Đơn giá</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Trạng thái</th>
-                <th scope="col">Xác nhận</th>
+                <th scope="col">Hành động</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
+              {renderArrOtherService().map((item, i) => {
+                return (
+                  <tr>
+                    <td>{item.name}</td>
+                    <td>{item.price}</td>
+                    <td>{item.quantity}</td>
+                    <td className={item.status}>
+                      {item.status === BOOKED
+                        ? "Chờ xác nhận"
+                        : item.status === PROCESSING
+                        ? "Chờ xử lý"
+                        : "Hoàn thành"}
+                    </td>
+                    <td>
+                      {item.status === BOOKED ? (
+                        <button
+                          className="confirmButton"
+                          onClick={() => {
+                            handleConfirmService(
+                              item.orderDetailId,
+                              item.status
+                            );
+                          }}
+                        >
+                          Xác nhận
+                        </button>
+                      ) : item.status === PROCESSING ? (
+                        <button
+                          className="doneButton"
+                          onClick={() => {
+                            handleConfirmService(
+                              item.orderDetailId,
+                              item.status
+                            );
+                          }}
+                        >
+                          Hoàn Thành
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
+
+            {/* {renderArrOtherService().map((item, i) => {
+                return (
+                  <tr>
+                    <td>
+                      {item.status === BOOKED
+                        ? "Chờ xác nhận"
+                        : item.status === PROCESSING
+                        ? "Chờ Xử Lý"
+                        : "Hoàn thành"}
+                    </td>
+                  </tr>
+                );
+              })} */}
           </table>
           <DataGrid
             className="datagrid"

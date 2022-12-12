@@ -7,6 +7,9 @@ import {
   checkInRoom,
   getDashBoardOverview,
   getBookingByRoomId,
+  fillFormUpdateUserBooking,
+  updateNewUserBooking,
+  deleteNewUserBooking,
 } from "../actions/BookingManageAction";
 
 const initialState = {
@@ -15,6 +18,7 @@ const initialState = {
   userInfoBooking: [],
   arrCheckIn: [],
   dashboard: {},
+  userFormUpdate: {},
 };
 export default function BookingManageReducer(state = initialState, action) {
   switch (action.type) {
@@ -46,6 +50,40 @@ export default function BookingManageReducer(state = initialState, action) {
       let bookingItemNew = [...state.userInfoBooking];
       bookingItemNew.push(action.payload);
       state.userInfoBooking = bookingItemNew;
+      return { ...state };
+    case getType(fillFormUpdateUserBooking.fillFormUpdateUserBookingRequest):
+      let newUser = {};
+      newUser = action.payload;
+      state.userFormUpdate = newUser;
+      return { ...state };
+
+    case getType(updateNewUserBooking.updateNewUserBookingRequest):
+      // console.log("USERDAUPTE", action.payload)
+      let listUserUpdate = [...state.userInfoBooking];
+      let index = listUserUpdate.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      console.log("INDEX", index);
+      if (index !== -1) {
+        listUserUpdate[index].birthDate = action.payload.birthDate;
+        listUserUpdate[index].firstName = action.payload.firstName;
+        listUserUpdate[index].middleName = action.payload.middleName;
+        listUserUpdate[index].lastName = action.payload.lastName;
+        listUserUpdate[index].idNo = action.payload.idNo;
+        listUserUpdate[index].gender = action.payload.gender;
+        listUserUpdate[index].email = action.payload.email;
+        listUserUpdate[index].phoneNumber = action.payload.phoneNumber;
+      }
+
+      state.userInfoBooking = listUserUpdate;
+      return { ...state };
+    case getType(deleteNewUserBooking.deleteNewUserBookingRequest):
+      console.log("USERDAUPTE", action.payload)
+      let listUserDelete = [...state.userInfoBooking];
+      listUserDelete = listUserDelete.filter(
+        (item) => item.id !== action.payload.id
+      );
+      state.userInfoBooking = listUserDelete;
       return { ...state };
     case getType(checkInRoom.checkInRoomRequest):
       return {

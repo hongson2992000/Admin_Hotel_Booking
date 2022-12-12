@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Room.scss";
 import RoomServiceIcon from "@mui/icons-material/RoomService";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
@@ -27,12 +27,18 @@ import PopupRequestService from "../PopupRequestService/PopupRequestService";
 import PopupDetailRequestServiceInRoom from "../PopupDetailRequestServiceInRoom/PopupDetailRequestServiceInRoom";
 import PopupTurnDownService from "../PopupTurnDownService/PopupTurnDownService";
 import PopupRequestServiceManage from "../PopupRequestServiceManage/PopupRequestServiceManage";
+import PopupTurnDownManage from "../PopupTurnDownManage/PopupTurnDownManage";
 
 export default function Room() {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(actionRoom.getAllRoom.getAllRoomRequest());
+  }, [dispatch]);
+
   const navigate = useNavigate();
   const userInfo = useSelector(userState$);
   const listRoom = useSelector(roomManageState$);
+  let [dataListRoom, setDataListRoom] = useState(listRoom);
   let [bookingId, setBookingId] = useState(1);
   let MenusEmpty = [{ name: "Tạo đặt phòng", id: 0 }];
   let MenusNotEmptyHousekeeping = [{ name: "Xem Yêu Cầu Dịch Vụ", id: 0 }];
@@ -53,31 +59,52 @@ export default function Room() {
     display: false,
   });
   // const navigate = useNavigate();
-  const handleRoomNotEmpty = (menuId, room_id) => {
-    switch (menuId) {
-      case 0:
-        dispatch(
-          actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
-            room_id: room_id,
-          })
-        );
-        navigate("/roomManage/customerDetail");
-        break;
-      case 1:
-        dispatch(showModalSendMessage());
-        dispatch(
-          actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
-            room_id: room_id,
-          })
-        );
+  const handlefilterRoom = (type) => {
+    switch (type) {
+      case 3:
+        let listRoom1 = listRoom.filter((item) => item.room.status === true);
+        setDataListRoom(listRoom1);
         break;
       case 2:
-        console.log("YEU BE AN");
+        let listRoom2 = listRoom.filter((item) => item.room.status === false);
+        setDataListRoom(listRoom2);
+        break;
+      case 1:
+        setDataListRoom(listRoom);
         break;
       default:
-        break;
+        return;
     }
   };
+  const handleRoomNotEmpty = useCallback(
+    (menuId, room_id) => {
+      switch (menuId) {
+        case 0:
+          dispatch(
+            actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
+              room_id: room_id,
+            })
+          );
+          navigate("/roomManage/customerDetail");
+          break;
+        case 1:
+          dispatch(showModalSendMessage());
+          dispatch(
+            actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
+              room_id: room_id,
+            })
+          );
+          break;
+        case 2:
+          console.log("YEU BE AN");
+          break;
+        default:
+          break;
+      }
+    },
+    [dispatch, navigate]
+  );
+
   const handleRequestService = useCallback(
     (item) => {
       dispatch(
@@ -89,7 +116,18 @@ export default function Room() {
     },
     [dispatch]
   );
-  const handleTurnDownService = useCallback(
+  const handleRequestServiceByStaff = useCallback(
+    (item) => {
+      dispatch(
+        actionRequestService.getRequestServiceByBookingIdStaff.getRequestServiceByBookingIdStaffRequest(
+          { booking_id: item.booking.data.id }
+        )
+      );
+      setBookingId(item.booking.data.id);
+    },
+    [dispatch]
+  );
+  const handleTurnDownServiceManage = useCallback(
     (item) => {
       dispatch(
         actionRequestService.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdRequest(
@@ -99,13 +137,28 @@ export default function Room() {
     },
     [dispatch]
   );
+  const handleTurnDownStaff = useCallback(
+    (item) => {
+      dispatch(
+        actionRequestService.getTurnDownServiceByBookingIdByStaff.getTurnDownServiceByBookingIdByStaffRequest(
+          { booking_id: item.booking.data.id }
+        )
+      );
+      setBookingId(item.booking.data.id);
+    },
+    [dispatch]
+  );
   const handleCreateNewRoom = useCallback(
     (item) => {
       dispatch(
-        actionRoom.getRoomTypeById.getRoomTypeByIdRequest(item.room.room)
+        actionRoom.getRoomTypeByRoomId.getRoomTypeByRoomIdRequest({
+          roomId: item.room.id,
+          navigate: navigate,
+          roomNo: item.room.roomNo,
+        })
       );
     },
-    [dispatch]
+    [navigate, dispatch]
   );
   const renderMenuByRole = (item, index) => {
     if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
@@ -224,7 +277,7 @@ export default function Room() {
                     className="menuhover"
                     key={menu.id}
                     onClick={() => {
-                      handleTurnDownService(item);
+                      handleTurnDownServiceManage(item);
                     }}
                   >
                     {menu.name}
@@ -236,7 +289,20 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.RESTAURANT) {
-      let arrTurnDown = item.booking?.data.orders.filter(
+      let arrFood = [];
+      item.booking?.data.orders.forEach((item, i) => {
+        let foodItem = item.orderDetails.find(
+          (itemOrder, i) =>
+            itemOrder.service.id !== 70 &&
+            itemOrder.service.id !== 71 &&
+            itemOrder.service.id !== 57 &&
+            itemOrder.service.id !== 58
+        );
+        if (foodItem) {
+          arrFood.push(foodItem);
+        }
+      });
+      let arrTurnDown = arrFood.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
       return (
@@ -271,7 +337,13 @@ export default function Room() {
               </div>
               <div onClick={() => setOpenNotEmpty({ id: index })}>
                 {MenusNotEmptyRestaurant.map((menu) => (
-                  <span className="menuhover" key={menu.id}>
+                  <span
+                    className="menuhover"
+                    key={menu.id}
+                    onClick={() => {
+                      handleRequestServiceByStaff(item);
+                    }}
+                  >
                     {menu.name}
                   </span>
                 ))}
@@ -281,7 +353,7 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
-      let arrTurnDown = item.booking?.data.requestService.filter(
+      let arrTurnDown = item.booking.data?.requestServices.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
       return (
@@ -316,7 +388,13 @@ export default function Room() {
               </div>
               <div onClick={() => setOpenNotEmpty({ id: index })}>
                 {MenusNotEmptyHousekeeping.map((menu) => (
-                  <span className="menuhover" key={menu.id}>
+                  <span
+                    className="menuhover"
+                    key={menu.id}
+                    onClick={() => {
+                      handleTurnDownStaff(item);
+                    }}
+                  >
                     {menu.name}
                   </span>
                 ))}
@@ -352,7 +430,7 @@ export default function Room() {
                     key={menu.id}
                     style={{ textDecoration: "none" }}
                     onClick={() => {
-                      handleCreateNewRoom();
+                      handleCreateNewRoom(item);
                     }}
                   >
                     {menu.name}
@@ -435,19 +513,31 @@ export default function Room() {
 
   return (
     <div className="RoomItem col-12">
-      <div className="row">
+      <div className="row Room">
         <div className="FillterRoom">
-          <span>
+          <span
+            onClick={() => {
+              handlefilterRoom(1);
+            }}
+          >
             <div className="FillterAll">
               <p>Tất Cả</p>
             </div>
           </span>
-          <span>
+          <span
+            onClick={() => {
+              handlefilterRoom(2);
+            }}
+          >
             <div className="FillterEmpty">
               <p>Trống</p>
             </div>
           </span>
-          <span>
+          <span
+            onClick={() => {
+              handlefilterRoom(3);
+            }}
+          >
             <div className="FillterNotEmpty">
               <p>Có Khách</p>
             </div>
@@ -460,7 +550,7 @@ export default function Room() {
               return (
                 <div className="RoomDetailEmpty col-4" key={i}>
                   <div className="RoomTitile">
-                    <p>{item.roomType.data?.name}</p>
+                    <p>{item.room.description}</p>
                   </div>
                   <div className="RoomNo">
                     <p>{item.room.roomNo}</p>
@@ -476,7 +566,7 @@ export default function Room() {
               return (
                 <div className="RoomDetail col-4" key={i}>
                   <div className="RoomTitile">
-                    <p>{item.roomType.data?.name}</p>
+                    <p>{item.room.description}</p>
                   </div>
                   <div className="RoomNo">
                     <p>{item.room.roomNo}</p>
@@ -490,10 +580,11 @@ export default function Room() {
             }
           })}
       </div>
-      <PopupDetailRequestServiceInRoom booking_id={bookingId} />
+      <PopupDetailRequestServiceInRoom bookingId={bookingId} />
       <PopupRequestService />
-      <PopupTurnDownService />
-      <PopupRequestServiceManage />
+      <PopupTurnDownService bookingId={bookingId}/>
+      <PopupTurnDownManage/>
+      <PopupRequestServiceManage bookingId={bookingId} />
     </div>
   );
 }

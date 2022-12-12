@@ -1,29 +1,38 @@
 import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
-import React, { useCallback, useMemo} from "react";
+import * as Yup from "yup";
+import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./CreateNewRoomContainer.scss";
-import { showModalAddUser } from "../../redux/actions/ModalAction";
+import {
+  showModalAddUser,
+  showModalUpdateUser,
+} from "../../redux/actions/ModalAction";
 import { infoUserBookingState$ } from "../../redux/selectors/BookingManageSelector";
-import { roomValidState$ } from "../../redux/selectors/RoomManageSelector";
+import {
+  roomTypeState$,
+  roomValidState$,
+} from "../../redux/selectors/RoomManageSelector";
 import * as actions from "../../redux/actions/BookingManageAction";
 import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import AddNewCustomerModal from "../CheckInContainer/AddNewCustomerModal/AddNewCustomerModal";
+import UpdateNewCustomerModal from "../CheckInContainer/UpdateNewCustomerModal/UpdateNewCustomerModal";
 export default function CreateNewRoomContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const infoUser = useSelector(infoUserBookingState$);
-  console.log("InfoUser", infoUser);
+  const [selectedValue, setSelectedValue] = React.useState(1);
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
   const roomValid = useSelector(roomValidState$);
   const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
   // console.log("Hello Son", infoBooking);
-  const renderCurrentDate = () => {
-    let currentDate = moment().format("YYYY-MM-DD");
-    return currentDate;
-  };
-  console.log(renderCurrentDate());
+  const roomType = useSelector(roomTypeState$);
+  const params = useParams();
   const renderTypeRoom = () => {
     let roomType = "";
     switch (infoBooking?.roomTypeId) {
@@ -101,12 +110,12 @@ export default function CreateNewRoomContainer() {
       };
 
       console.log("NewCheckInFo", newInfoCheckInWithUser);
-      dispatch(
-        actions.checkInRoom.checkInRoomRequest({
-          newInfoCheckInWithUser,
-          navigate,
-        })
-      );
+      // dispatch(
+      //   actions.checkInRoom.checkInRoomRequest({
+      //     newInfoCheckInWithUser,
+      //     navigate,
+      //   })
+      // );
     },
     [navigate, infoUser, dispatch]
   );
@@ -114,10 +123,10 @@ export default function CreateNewRoomContainer() {
     initialValues: {
       id: "",
       room_Id: "",
-      name:"",
-      createDate: "",
-      numOfAdult: 0,
-      numOfChildren: 0,
+      name: "",
+      createDate: moment().format("DD/MM/YYYY"),
+      numOfAdult: roomType.maxAdult,
+      numOfChildren: roomType.maxChildren,
       arrivalDate: "",
       arrivalTime: "",
       departureDate: "",
@@ -143,9 +152,38 @@ export default function CreateNewRoomContainer() {
       onSubmitCheckIn(values);
       resetForm({ values: "" });
     },
+    validationSchema: Yup.object({
+      arrivalDate: Yup.string().required("Required"),
+      email: Yup.string()
+        .required("Required")
+        .matches(
+          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          "Vui lòng nhập đúng email"
+        ),
+    }),
   });
-  // console.log("Hello Thanh An", formik.values);
-  let handleDelete = () => {};
+  console.log("Hello Thanh An", formik.values.numOfAdult);
+  let handleUpdateInfoUser = useCallback(
+    (id) => {
+      let userUpdate = infoUser.find((item) => item.id === id);
+      dispatch(
+        actions.fillFormUpdateUserBooking.fillFormUpdateUserBookingRequest(
+          userUpdate
+        )
+      );
+      dispatch(showModalUpdateUser());
+    },
+    [infoUser, dispatch]
+  );
+  const handleDeleteInfoUser = useCallback(
+    (id) => {
+      let userDelete = infoUser.find((item) => item.id === id);
+      dispatch(
+        actions.deleteNewUserBooking.deleteNewUserBookingRequest(userDelete)
+      );
+    },
+    [dispatch, infoUser]
+  );
   let infoUserColumns = useMemo(
     () => [
       {
@@ -167,7 +205,7 @@ export default function CreateNewRoomContainer() {
       {
         field: "phoneNumber",
         headerName: "Số điện thoại",
-        width: 200,
+        width: 170,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.phoneNumber}</div>;
         },
@@ -175,7 +213,7 @@ export default function CreateNewRoomContainer() {
       {
         field: "email",
         headerName: "Email",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.email}</div>;
         },
@@ -192,23 +230,11 @@ export default function CreateNewRoomContainer() {
       {
         field: "gender",
         headerName: "Giới Tính",
-        width: 100,
+        width: 150,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
               {params.row.gender === 1 ? "Nam" : "Nữ"}
-            </div>
-          );
-        },
-      },
-      {
-        field: "primary",
-        headerName: "Đại Diện",
-        width: 200,
-        renderCell: (params) => {
-          return (
-            <div className="cellWithImg">
-              {params.row.primary === true ? "Người Đại Diện" : "Người Thường"}
             </div>
           );
         },
@@ -218,6 +244,38 @@ export default function CreateNewRoomContainer() {
   );
   const actionColumn = [
     {
+      field: "action1",
+      headerName: "Người Đại Diện",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            {params.row.id === null ? (
+              <input
+                // checked={selectedValue === params.row.id}
+                type="radio"
+                onChange={handleChange}
+                value={params.row.id}
+                name="radio-buttons"
+
+                // inputProps={{ "aria-label": "A" }}
+              />
+            ) : (
+              <input
+                // checked={selectedValue === params.row.id}
+                type="radio"
+                onChange={handleChange}
+                value={params.row.id}
+                name="radio-buttons"
+                checked
+                // inputProps={{ "aria-label": "A" }}
+              />
+            )}
+          </div>
+        );
+      },
+    },
+    {
       field: "action",
       headerName: "Chức năng",
       width: 150,
@@ -226,9 +284,15 @@ export default function CreateNewRoomContainer() {
           <div className="cellAction">
             <div
               className="updateButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleUpdateInfoUser(params.row.id)}
             >
               Cập Nhật
+            </div>
+            <div
+              className="deleteButton"
+              onClick={() => handleDeleteInfoUser(params.row.id)}
+            >
+              Xóa
             </div>
           </div>
         );
@@ -241,28 +305,15 @@ export default function CreateNewRoomContainer() {
   return (
     <div className="CreateNewRoomContainer">
       <div className="InfoRoomBooking">
-        <p>Phòng: {renderTypeRoom()}</p>
-        <form
-          noValidate
-          autoComplete="off"
-          className="form col-12"
-          onSubmit={formik.handleSubmit}
-        >
+        <p style={{ fontSize: "20px" }}>Phòng: {roomType.name}</p>
+        <form className="form col-12" onSubmit={formik.handleSubmit}>
           <div className="top-form">
             <div className="roomNo">
-              <span style={{ width: "100px" }}>Số Phòng:</span>
-              <Select
-                className="title"
-                required
-                id="room_Id"
-                name="room_Id"
-                value={formik.values.room_Id || ""}
-                onChange={formik.handleChange}
-              >
-                {renderRoomavailability()}
-              </Select>
-              <span style={{ paddingLeft: "50px" }}>
-                Tiền Phòng: {infoBooking?.totalAmount}
+              <span style={{ width: "150px", fontSize: "20px" }}>
+                Số Phòng: {params.roomNo}
+              </span>
+              <span style={{ paddingLeft: "50px", fontSize: "20px" }}>
+                Tiền Phòng: {roomType.defaultPrice}
               </span>
             </div>
           </div>
@@ -270,26 +321,71 @@ export default function CreateNewRoomContainer() {
           <div className="col-12 InfoRoom">
             <div className="row">
               <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Mã Đặt Phòng</InputLabel>
-                <TextField
+                <InputLabel className="label">Ngày Đến </InputLabel>
+                <input
                   className="title"
+                  style={{ padding: "0.875rem", borderRadius: "5px" }}
+                  type="date"
                   required
-                  disabled
-                  id="id"
-                  name="id"
-                  value={formik.values.id || ""}
+                  min={moment().format("YYYY-MM-DD")}
+                  id="arrivalDate"
+                  name="arrivalDate"
+                  value={formik.values.arrivalDate}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.arrivalDate && (
+                  <p style={{ color: "red" }}>{formik.errors.arrivalDate}</p>
+                )}
+              </div>
+              <div className="col-2 InfoRoomItem">
+                <InputLabel className="label">Ngày Đi</InputLabel>
+                <input
+                  className="title"
+                  style={{ padding: "0.875rem", borderRadius: "5px" }}
+                  type="date"
+                  required
+                  min={moment().format("YYYY-MM-DD")}
+                  id="departureDate"
+                  name="departureDate"
+                  value={formik.values.departureDate}
                   onChange={formik.handleChange}
                 />
               </div>
               <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Tên Khách Hàng</InputLabel>
+                <InputLabel className="label">Giờ Đến</InputLabel>
+                <TextField
+                  className="title"
+                  required
+                  type="time"
+                  id="arrivalTime"
+                  name="arrivalTime"
+                  value={formik.values.arrivalTime || ""}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <div className="col-2 InfoRoomItem">
+                <InputLabel className="label">Giờ Đi</InputLabel>
                 <TextField
                   className="title"
                   disabled
                   required
-                  id="name"
-                  name="name"
-                  value={formik.values.name || ""}
+                  id="departureTime"
+                  name="departureTime"
+                  value={formik.values.departureTime}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <div className="col-2 InfoRoomItem">
+                <InputLabel className="label">Ngày Đến Thực Tế</InputLabel>
+                <input
+                  className="title"
+                  style={{ padding: "0.875rem", borderRadius: "5px" }}
+                  type="date"
+                  required
+                  min={moment().format("YYYY-MM-DD")}
+                  id="actualArrivalDate"
+                  name="actualArrivalDate"
+                  value={formik.values.actualArrivalDate}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -302,6 +398,32 @@ export default function CreateNewRoomContainer() {
                   id="createDate"
                   name="createDate"
                   value={formik.values.createDate || ""}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              {/* <div className="col-2 InfoRoomItem">
+                <InputLabel className="label">Ngày Đi Thực Tế</InputLabel>
+                <input
+                  className="title"
+                  style={{ padding: "0.875rem", borderRadius: "5px" }}
+                  type="date"
+                  required
+                  min={moment().format("YYYY-MM-DD")}
+                  id="actualDepartureDate"
+                  name="actualDepartureDate"
+                  value={formik.values.actualDepartureDate}
+                  onChange={formik.handleChange}
+                />
+              </div> */}
+              <div className="col-2 InfoRoomItem">
+                <InputLabel className="label">Mã Đặt Phòng</InputLabel>
+                <TextField
+                  className="title"
+                  required
+                  disabled
+                  id="id"
+                  name="id"
+                  value={formik.values.id || ""}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -329,82 +451,6 @@ export default function CreateNewRoomContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Đến</InputLabel>
-                <TextField
-                  className="title"
-                  disabled
-                  required
-                  id="arrivalDate"
-                  name="arrivalDate"
-                  value={formik.values.arrivalDate || ""}
-                  onChange={formik.handleChange}
-                />
-              </div>
-              <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Giờ Đến</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  type="time"
-                  id="arrivalTime"
-                  name="arrivalTime"
-                  value={formik.values.arrivalTime || ""}
-                  onChange={formik.handleChange}
-                />
-              </div>
-              <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Đến Thực Tế</InputLabel>
-                <input
-                  className="title"
-                  style={{ padding: "0.875rem", borderRadius: "5px" }}
-                  type="date"
-                  required
-                  min={moment().format("YYYY-MM-DD")}
-                  id="actualArrivalDate"
-                  name="actualArrivalDate"
-                  value={formik.values.actualArrivalDate}
-                  onChange={formik.handleChange}
-                />
-              </div>
-              <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Đi</InputLabel>
-                <TextField
-                  className="title"
-                  disabled
-                  required
-                  id="departureDate"
-                  name="departureDate"
-                  value={formik.values.departureDate}
-                  onChange={formik.handleChange}
-                />
-              </div>
-              <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Đi Thực Tế</InputLabel>
-                <input
-                  className="title"
-                  style={{ padding: "0.875rem", borderRadius: "5px" }}
-                  type="date"
-                  required
-                  min={moment().format("YYYY-MM-DD")}
-                  id="actualDepartureDate"
-                  name="actualDepartureDate"
-                  value={formik.values.actualDepartureDate}
-                  onChange={formik.handleChange}
-                />
-              </div>
-              <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Giờ Đi</InputLabel>
-                <TextField
-                  className="title"
-                  disabled
-                  required
-                  id="departureTime"
-                  name="departureTime"
-                  value={formik.values.departureTime}
-                  onChange={formik.handleChange}
-                />
-              </div>
             </div>
           </div>
           <span style={{ paddingTop: "30px" }}>Thông Tin Khách Đặt</span>
@@ -415,7 +461,6 @@ export default function CreateNewRoomContainer() {
                 <InputLabel className="label">Tên Khách Hàng</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
                   id="name"
                   name="name"
@@ -427,7 +472,6 @@ export default function CreateNewRoomContainer() {
                 <InputLabel className="label">Số Điện Thoại</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
                   id="phoneNumber"
                   name="phoneNumber"
@@ -439,13 +483,15 @@ export default function CreateNewRoomContainer() {
                 <InputLabel className="label">Email</InputLabel>
                 <TextField
                   className="title"
-                  disabled
                   required
                   id="email"
                   name="email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.email && (
+                  <p style={{ color: "red" }}>{formik.errors.email}</p>
+                )}
               </div>
               <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Số Hộ Chiếu/CCCD</InputLabel>
@@ -519,7 +565,7 @@ export default function CreateNewRoomContainer() {
         />
 
         <div className="buttonAddCustomer">
-          {infoBooking?.numOfAdult + infoBooking?.numOfChildren <=
+          {formik.values.numOfAdult + formik.values.numOfChildren <=
           infoUser.length ? (
             <button
               onClick={openCreateServiceModal}
@@ -538,6 +584,8 @@ export default function CreateNewRoomContainer() {
           )}
         </div>
       </div>
+      <AddNewCustomerModal />
+      <UpdateNewCustomerModal />
     </div>
   );
 }

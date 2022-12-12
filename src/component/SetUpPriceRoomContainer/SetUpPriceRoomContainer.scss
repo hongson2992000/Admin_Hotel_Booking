@@ -90,14 +90,14 @@
         display: flex;
         align-items: center;
         gap: 15px;
-        .viewButton {
+        .updateButton {
             padding: 2px 5px;
             border-radius: 5px;
             color: darkblue;
             border: 1px dotted rgba(0, 0, 139, 0.596);
             cursor: pointer;
         }
-        .checkInButton {
+        .deleteButton {
             padding: 5px 7px;
             border-radius: 5px;
             color: #AAAA;

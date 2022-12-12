@@ -182,7 +182,7 @@ const SetUpRoomByDateContainer = () => {
   const getPrice = () => {
     const room = currentRoom();
     let latestRoomPrice = currentRoom().defaultPrice;
-    room.roomPrices.map((roomPrice) => {
+    room.roomPrices?.map((roomPrice) => {
       const currentDate = day.find(
         (d) => moment(d).format("DD/MM/yyyy") === roomPrice.date
       );

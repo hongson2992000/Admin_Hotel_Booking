@@ -6,10 +6,11 @@ import { modalAddUserState$ } from "../../../redux/selectors/ModalSelector";
 import "./AddNewCustomerModal.scss";
 import { hideModalAddUser } from "../../../redux/actions/ModalAction";
 import * as actions from "../../../redux/actions/BookingManageAction";
-
+import * as Yup from "yup";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 import moment from "moment";
 import { infoUserBookingState$ } from "../../../redux/selectors/BookingManageSelector";
+import { padding } from "@mui/system";
 export default function AddNewCustomerModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalAddUserState$);
@@ -22,7 +23,6 @@ export default function AddNewCustomerModal() {
   const onClose = useCallback(() => {
     dispatch(hideModalAddUser());
   }, [dispatch]);
-  // let dataService = formik.values
   const onSubmitInfoUser = useCallback(
     (values) => {
       let arrDate = values.birthDate.split("-");
@@ -92,11 +92,50 @@ export default function AddNewCustomerModal() {
       resetForm({ values: "" });
       renderIdRandom();
     },
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/,
+          "Vui lòng nhập đúng họ"
+        ),
+      middleName: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/,
+          "Vui lòng nhập đúng họ"
+        ),
+      lastName: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/,
+          "Vui lòng nhập đúng họ"
+        ),
+      birthDate: Yup.string().required("Yêu cầu *"),
+      email: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          "Vui lòng nhập đúng email"
+        ),
+      phoneNumber: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$/,
+          "Vui lòng nhập đúng số điện thoại"
+        ),
+      idNo: Yup.string()
+        .required("Yêu cầu *")
+        .min(9, "Vui lòng nhập đúng CMND/CCCD")
+        .max(10, "Vui lòng nhập đúng CMND/CCCD")
+        .matches(/[0-9]/, "Vui lòng nhập đúng CMND/CCCD"),
+    }),
+
     enableReinitialize: true,
   });
   console.log(formik.values);
   const body = (
-    <div className="paperAddNewService" id="simple-modal-title">
+    <div className="paperAddNewCustomer" id="simple-modal-title">
       <h2>Thêm khách</h2>
       <hr />
       <form
@@ -106,9 +145,9 @@ export default function AddNewCustomerModal() {
         onSubmit={formik.handleSubmit}
       >
         <div className="row">
-          <div className="col-12 simpleModalItem">
+          <div className="col-12 ">
             <div className="row">
-              <div className="col-4">
+              <div className="col-4 simpleModalItem">
                 <InputLabel>Họ</InputLabel>
                 <TextField
                   className="title"
@@ -118,8 +157,13 @@ export default function AddNewCustomerModal() {
                   value={formik.values.firstName || ""}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.firstName && (
+                  <span style={{ color: "red" }}>
+                    {formik.errors.firstName}
+                  </span>
+                )}
               </div>
-              <div className="col-4">
+              <div className="col-4 simpleModalItem">
                 <InputLabel>Tên Lót</InputLabel>
                 <TextField
                   className="title"
@@ -129,8 +173,13 @@ export default function AddNewCustomerModal() {
                   value={formik.values.middleName || ""}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.middleName && (
+                  <span style={{ color: "red" }}>
+                    {formik.errors.middleName}
+                  </span>
+                )}
               </div>
-              <div className="col-4">
+              <div className="col-4 simpleModalItem">
                 <InputLabel>Tên</InputLabel>
                 <TextField
                   className="title"
@@ -140,13 +189,15 @@ export default function AddNewCustomerModal() {
                   value={formik.values.lastName || ""}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.lastName && (
+                  <span style={{ color: "red" }}>{formik.errors.lastName}</span>
+                )}
               </div>
             </div>
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Số điện thoại</InputLabel>
             <TextField
-              type={"number"}
               className="title"
               required
               id="phoneNumber"
@@ -154,29 +205,42 @@ export default function AddNewCustomerModal() {
               value={formik.values.phoneNumber || ""}
               onChange={formik.handleChange}
             />
+            {formik.errors.phoneNumber && (
+              <span style={{ color: "red" }}>{formik.errors.phoneNumber}</span>
+            )}
           </div>
           <div className="col-6 simpleModalItem">
-            <InputLabel>Email</InputLabel>
-            <TextField
+            <InputLabel>Ngày Sinh</InputLabel>
+            <input
               className="title"
+              style={{ padding: "0.9rem", borderRadius: "5px" }}
+              type="date"
               required
-              id="email"
-              name="email"
-              value={formik.values.email || ""}
+              max={moment().format("YYYY-MM-DD")}
+              id="birthDate"
+              name="birthDate"
+              value={formik.values.birthDate}
               onChange={formik.handleChange}
             />
+            {formik.errors.birthDate && (
+              <span style={{ color: "red", marginBottom: "5px" }}>
+                {formik.errors.birthDate}
+              </span>
+            )}
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Số Hộ Chiếu/CCCD</InputLabel>
             <TextField
               className="title"
-              type="number"
               required
               id="idNo"
               name="idNo"
               value={formik.values.idNo || ""}
               onChange={formik.handleChange}
             />
+            {formik.errors.idNo && (
+              <span style={{ color: "red" }}>{formik.errors.idNo}</span>
+            )}
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Giới Tính</InputLabel>
@@ -192,17 +256,19 @@ export default function AddNewCustomerModal() {
               <MenuItem value={0}>Nữ</MenuItem>
             </Select>
           </div>
-          <div className="col-6 simpleModalItem">
-            <InputLabel>Ngày Sinh</InputLabel>
+          <div className="col-12 simpleModalItem">
+            <InputLabel style={{ display: "flex" }}>Email</InputLabel>
             <TextField
               className="title"
               required
-              type="date"
-              id="birthDate"
-              name="birthDate"
-              value={formik.values.birthDate || ""}
+              id="email"
+              name="email"
+              value={formik.values.email || ""}
               onChange={formik.handleChange}
             />
+            {formik.errors.email && (
+              <span style={{ color: "red" }}>{formik.errors.email}</span>
+            )}
           </div>
           {/* <div className="col-6 simpleModalItem">
             <InputLabel>Người Đại Diện</InputLabel>

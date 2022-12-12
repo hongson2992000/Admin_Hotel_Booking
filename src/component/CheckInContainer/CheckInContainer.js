@@ -9,6 +9,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
 import React, { useCallback, useMemo } from "react";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useDispatch, useSelector } from "react-redux";
 import "./CheckInContainer.scss";
 import { showModalAddUser } from "../../redux/actions/ModalAction";
@@ -18,6 +19,7 @@ import * as actions from "../../redux/actions/BookingManageAction";
 import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import UpdateNewCustomerModal from "./UpdateNewCustomerModal/UpdateNewCustomerModal";
 export default function CheckInContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -213,7 +215,7 @@ export default function CheckInContainer() {
       {
         field: "email",
         headerName: "Email",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.email}</div>;
         },
@@ -230,7 +232,7 @@ export default function CheckInContainer() {
       {
         field: "gender",
         headerName: "Giới Tính",
-        width: 100,
+        width: 150,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
@@ -243,6 +245,38 @@ export default function CheckInContainer() {
     []
   );
   const actionColumn = [
+    {
+      field: "action1",
+      headerName: "Người Đại Diện",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            {params.row.id ===null ? (
+              <input
+                // checked={selectedValue === params.row.id}
+                type="radio"
+                onChange={handleChange}
+                value={params.row.id}
+                name="radio-buttons"
+                
+                // inputProps={{ "aria-label": "A" }}
+              />
+            ) : (
+              <input
+                // checked={selectedValue === params.row.id}
+                type="radio"
+                onChange={handleChange}
+                value={params.row.id}
+                name="radio-buttons"
+                checked
+                // inputProps={{ "aria-label": "A" }}
+              />
+            )}
+          </div>
+        );
+      },
+    },
     {
       field: "action",
       headerName: "Chức năng",
@@ -257,24 +291,6 @@ export default function CheckInContainer() {
               Cập Nhật
             </div>
           </div>
-        );
-      },
-    },
-
-    {
-      field: "action1",
-      headerName: "Người Đại Diện",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <input
-            // checked={selectedValue === params.row.id}
-            type="radio"
-            onChange={handleChange}
-            value={params.row.id}
-            name="radio-buttons"
-            // inputProps={{ "aria-label": "A" }}
-          />
         );
       },
     },
@@ -375,7 +391,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              {/* <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Ngày Đi Thực Tế</InputLabel>
                 <input
                   className="title"
@@ -388,7 +404,7 @@ export default function CheckInContainer() {
                   value={formik.values.actualDepartureDate}
                   onChange={formik.handleChange}
                 />
-              </div>
+              </div> */}
               <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Mã Đặt Phòng</InputLabel>
                 <TextField
@@ -582,6 +598,7 @@ export default function CheckInContainer() {
           )}
         </div>
       </div>
+      <UpdateNewCustomerModal/>
     </div>
   );
 }

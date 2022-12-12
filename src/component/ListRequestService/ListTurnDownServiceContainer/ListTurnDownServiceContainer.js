@@ -32,9 +32,9 @@ export default function ListTurnDownServiceContainer() {
         booking_Id: item.booking.id,
         requestServiceName: item.requestServiceName,
         requestServiceType: item.requestServiceType,
-        roomNo: item.booking.room?.roomNo,
+        roomNo: "001",
         dateTime: item.dateTime.substring(0,10),
-        time: item.dateTime.substring(10),
+        time: "12:00",
         customerName:
           item.booking.customer.firstName +
           " " +

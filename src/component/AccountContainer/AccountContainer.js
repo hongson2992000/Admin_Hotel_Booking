@@ -1,68 +1,38 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useCallback, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { showCreateAccountModel } from "../../redux/actions/ModalAction";
+import {
+  showCreateAccountModel,
+  showUpdateAccountModel,
+} from "../../redux/actions/ModalAction";
+import { accountManageState$ } from "../../redux/selectors/AccountManageSelector";
 import DialogDelete from "../DialogDelete/DialogDelete";
 import "./AccountContainer.scss";
-
+import * as actions from "../../redux/actions/AccountManageAction";
 const AccountContainer = () => {
   const dispatch = useDispatch();
-
+  const listAccount = useSelector(accountManageState$);
   const handleOpenCreateModel = useCallback(() => {
     dispatch(showCreateAccountModel());
   }, [dispatch]);
 
   const renderArr = () => {
-    let arrNew = [
-      {
-        id: 1,
-        userName: "datln04",
-        firstName: "Pham",
-        middleName: "Thanh",
-        lastName: "Dat",
-        gender: true,
-        phoneNumber: "0123456789",
-        dateOfBirth: "02/02/2002",
-        role: "ROLE_MANAGER",
-        isActive: true,
-      },
-      {
-        id: 2,
-        userName: "thucCN",
-        firstName: "Nguyen",
-        middleName: "Cong",
-        lastName: "Thuc",
-        gender: false,
-        phoneNumber: "0987654321",
-        dateOfBirth: "11/04/1998",
-        role: "ROLE_HOUSEKEEPING",
-        isActive: true,
-      },
-      {
-        id: 3,
-        userName: "SonDao",
-        firstName: "Dao",
-        middleName: "Hong",
-        lastName: "Son",
-        gender: false,
-        phoneNumber: "0112233445",
-        dateOfBirth: "13/07/2000",
-        role: "ROLE_RECEPTIONIST",
-        isActive: true,
-      },
-    ];
-    // listHotelService.forEach((item) => {
-    //   arrNew.push({
-    //     id: item.id,
-    //     name: item.name,
-    //     type: item.serviceCategory.name,
-    //     status: item.status,
-    //     image: item.image.map((item) => {
-    //       return item.pictureUrl;
-    //     }),
-    //   });
-    // });
+    let arrNew = [];
+    listAccount.forEach((item, i) => {
+      arrNew.push({
+        stt: i + 1,
+        id: item?.id,
+        username: item?.username,
+        name: item?.firstName + item?.middleName + item?.lastName,
+        userRole: item?.userRole,
+        phoneNumber: item?.phoneNumber,
+        status: item?.status,
+        dateOfBirth: item?.dateOfBirth,
+        gender: item?.gender,
+        // image: getImageUrlByType(`img_abstraction_${item.id}`)?.pictureUrl,
+      });
+    });
     return arrNew;
   };
 
@@ -96,7 +66,14 @@ const AccountContainer = () => {
       handleDialog("", false);
     }
   };
-
+  const handleUpdateAccount = useCallback(
+    (id) => {
+      let accountItem = listAccount.find((item) => item.id === id);
+      dispatch(actions.filInfoAccount.filInfoAccountRequest(accountItem));
+      dispatch(showUpdateAccountModel());
+    },
+    [dispatch, listAccount]
+  );
   const actionColumn = [
     {
       field: "action",
@@ -107,13 +84,10 @@ const AccountContainer = () => {
           <div className="cellAction">
             <div
               className="updateButton"
-              // onClick={() => openUpdateServiceModal(params.row.id)}
+              onClick={() => handleUpdateAccount(params.row.id)}
             >
               Cập nhật
             </div>
-            <Link to="" style={{ textDecoration: "none" }}>
-              <div className="viewButton">Xem</div>
-            </Link>
             <div
               className="deleteButton"
               // onClick={() => handleDelete(params.row.id)}
@@ -130,45 +104,30 @@ const AccountContainer = () => {
   let serviceColumns = useMemo(
     () => [
       {
-        field: "id",
-        headerName: "Mã Tài Khoản",
-        width: 140,
+        field: "stt",
+        headerName: "STT",
+        width: 50,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.id}</div>;
+          return <div className="cellWithImg">{params.row.stt}</div>;
         },
       },
       {
-        field: "userName",
+        field: "username",
         headerName: "Tài Khoản",
-        width: 200,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.userName}</div>;
-        },
-      },
-      {
-        field: "firstName",
-        headerName: "Họ",
-        width: 100,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.firstName}</div>;
-        },
-      },
-      {
-        field: "middleName",
-        headerName: "Tên Lót",
         width: 150,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.middleName}</div>;
+          return <div className="cellWithImg">{params.row.username}</div>;
         },
       },
       {
-        field: "lastName",
-        headerName: "Tên",
-        width: 100,
+        field: "name",
+        headerName: "Họ và tên",
+        width: 200,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.lastName}</div>;
+          return <div className="cellWithImg">{params.row.name}</div>;
         },
       },
+
       {
         field: "gender",
         headerName: "Giới Tính",
@@ -176,7 +135,7 @@ const AccountContainer = () => {
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
-              {params.row.gender ? "Name" : "Nữ"}
+              {params.row.gender ? "Nam" : "Nữ"}
             </div>
           );
         },
@@ -184,7 +143,7 @@ const AccountContainer = () => {
       {
         field: "phoneNumber",
         headerName: "Số điện thoại",
-        width: 130,
+        width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.phoneNumber}</div>;
         },
@@ -198,17 +157,17 @@ const AccountContainer = () => {
         },
       },
       {
-        field: "role",
+        field: "userRole",
         headerName: "Quyền Hạn",
         width: 200,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.role}</div>;
+          return <div className="cellWithImg">{params.row.userRole}</div>;
         },
       },
       {
         field: "isActive",
         headerName: "Trạng thái",
-        width: 100,
+        width: 150,
         renderCell: (params) => {
           return (
             <div className={`cellWithStatus ${params.row.isActive}`}>
