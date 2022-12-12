@@ -17,9 +17,9 @@ export default function ListRequestServiceContainer() {
     listRequestService?.forEach((item) => {
       arrNew.push({
         id: item.id,
-        roomNo: item.booking.room?.roomNo,
+        roomNo: "001",
         totalAmount: item.totalAmount,
-        createDate: item.createDate,
+        createDate: item.createDate.substring(0,10),
         customerName: item.createBy,
         // listRequestService.customer.firstName +
         // "" +

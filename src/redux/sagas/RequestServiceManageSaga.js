@@ -28,18 +28,20 @@ function* getAllRequestService(action) {
     });
     console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
-      let arrRequestService = [];
-      for (let i = 0; i < listService.data.length; i++) {
-        let room = yield call(() => {
-          return roomManage.getRoomByBookingId(listService.data[i].booking.id);
-        });
-        let newRoom = {};
-        newRoom = {
-          customer: listService.data[i],
-          room: room,
-        };
-        arrRequestService.push(newRoom);
-      }
+      // let arrRequestService = [];
+      // for (let i = 0; i < listService.data.length; i++) {
+      //   let room = yield call(() => {
+      //     return roomManage.getRoomByBookingId(listService.data[i].booking.id);
+      //   });
+      //   if (room.status === STATUS_CODE.SUCCESS) {
+      //     let newRoom = {};
+      //     newRoom = {
+      //       customer: listService.data[i],
+      //       room: room,
+      //     };
+      //     arrRequestService.push(newRoom);
+      //   }
+      // }
       yield put(
         actions.getRequestService.getRequestServiceSuccess(listService.data)
       );
@@ -347,7 +349,7 @@ function* getTurnDownByBookingId(action) {
     yield put({
       type: HIDE_LOADING,
     });
-    yield put(actionModal.showModalTurnDown());
+    yield put(actionModal.showModalTurnDownManage());
   } catch (error) {
     yield put(
       actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdFailure(
@@ -361,5 +363,199 @@ export function* followActionGetTurnDownByBookingId() {
   yield takeLatest(
     actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdRequest,
     getTurnDownByBookingId
+  );
+}
+function* confirmRequestServiceByManage(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let formData = new FormData();
+    formData.append("orderId", action.payload.orderId);
+    formData.append("status", action.payload.status);
+    let service = yield call(() => {
+      return requestServiceManage.confirmRequestService(formData);
+    });
+    console.log(service.data);
+    if (service.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.confirmRequestServiceByManager.confirmRequestServiceByManagerSuccess(
+          service.data
+        )
+      );
+      let listService = yield call(() => {
+        return requestServiceManage.getRequestServiceByBookingId(
+          action.payload.bookingId
+        );
+      });
+      if (listService.status === STATUS_CODE.SUCCESS) {
+        yield put(
+          actions.getRequestServiceByBookingId.getRequestServiceByBookingIdSuccess(
+            listService.data
+          )
+        );
+        yield put(actionModal.showModalRequestServiceManage());
+      }
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({ type: DISPLAY_POPUP_SUCCESS });
+  } catch (error) {
+    yield put(
+      actions.confirmRequestServiceByManager.confirmRequestServiceByManagerFailure(
+        error
+      )
+    );
+  }
+}
+
+export function* followActionConfirmRequestServiceByManage() {
+  yield takeLatest(
+    actions.confirmRequestServiceByManager
+      .confirmRequestServiceByManagerRequest,
+    confirmRequestServiceByManage
+  );
+}
+function* getRequestServiceByBookingIdStaff(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let listService = yield call(() => {
+      return requestServiceManage.getRequestServiceByBookingId(
+        action.payload.booking_id
+      );
+    });
+    if (listService.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getRequestServiceByBookingIdStaff.getRequestServiceByBookingIdStaffSuccess(
+          listService.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(actionModal.showModalRequestService());
+  } catch (error) {
+    yield put(
+      actions.getRequestServiceByBookingIdStaff.getRequestServiceByBookingIdStaffFailure(
+        error
+      )
+    );
+  }
+}
+
+export function* followActionGetRequestServiceByBookingIdStaff() {
+  yield takeLatest(
+    actions.getRequestServiceByBookingIdStaff.getRequestServiceByBookingIdStaffRequest,
+    getRequestServiceByBookingIdStaff
+  );
+}
+
+function* getTurnDownByBookingIdByStaff(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let turnDownService = yield call(() => {
+      return requestServiceManage.getTurnDownServiceByBookingId(
+        action.payload.booking_id
+      );
+    });
+    if (turnDownService.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdSuccess(
+          turnDownService.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(actionModal.showModalTurnDown());
+  } catch (error) {
+    yield put(
+      actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdFailure(
+        error
+      )
+    );
+  }
+}
+
+export function* followActionGetTurnDownByBookingIdByStaff() {
+  yield takeLatest(
+    actions.getTurnDownServiceByBookingIdByStaff.getTurnDownServiceByBookingIdByStaffRequest,
+    getTurnDownByBookingIdByStaff
+  );
+}
+function* confirmTurnDownServiceStaff(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let listService = yield call(() => {
+      return requestServiceManage.confirmTurnDownService(action.payload.info);
+    });
+    console.log(listService.data);
+    if (listService.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.confirmTurnDownService.confirmTurnDownServiceSuccess(
+          listService.data
+        )
+      );
+      let turnDownService = yield call(() => {
+        return requestServiceManage.getTurnDownServiceByBookingId(
+          action.payload.bookingId
+        );
+      });
+      if (turnDownService.status === STATUS_CODE.SUCCESS) {
+        yield put(
+          actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdSuccess(
+            turnDownService.data
+          )
+        );
+      }
+      if (action.payload.status === DONE) {
+        let listMessage = yield call(() => {
+          return sendMessageService.sendMessage({
+            booking_Id: action.payload.booking_Id,
+            id: 0,
+            messageContent:
+              "Chúng tôi đã hoàn thành dịch vụ dọn phòng nhanh tại phòng của quý khách",
+          });
+        });
+        if (listMessage.status === STATUS_CODE.SUCCESS) {
+          yield put(
+            actionSendMessage.sendMessage.sendMessageSuccess(
+              listMessage.formData
+            )
+          );
+        }
+      }
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+    // navigate("/location")
+  } catch (error) {
+    yield put(
+      actions.confirmTurnDownService.confirmTurnDownServiceFailure(error)
+    );
+  }
+}
+
+export function* followActionConfirmTurnDownServiceStaff() {
+  yield takeLatest(
+    actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest,
+    confirmTurnDownServiceStaff
   );
 }

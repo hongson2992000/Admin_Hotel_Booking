@@ -8,6 +8,8 @@ import {
   confirmTurnDownService,
   getRequestServiceByBookingId,
   getTurnDownServiceByBookingId,
+  confirmRequestServiceByManager,
+  getRequestServiceByBookingIdStaff,
 } from "../actions/RequestServiceManageAction";
 
 const initialState = {
@@ -53,6 +55,26 @@ export default function RequestServiceReducer(state = initialState, action) {
         ...state,
       };
     case getType(confirmRequestService.confirmRequestServiceFailure):
+      return {
+        ...state,
+      };
+    case getType(
+      confirmRequestServiceByManager.confirmRequestServiceByManagerRequest
+    ):
+      return {
+        ...state,
+      };
+    case getType(
+      confirmRequestServiceByManager.confirmRequestServiceByManagerSuccess
+    ):
+      state.requestServiceItem = action.payload;
+      // state.arrRequestService = [];
+      return {
+        ...state,
+      };
+    case getType(
+      confirmRequestServiceByManager.confirmRequestServiceByManagerFailure
+    ):
       return {
         ...state,
       };
@@ -118,6 +140,27 @@ export default function RequestServiceReducer(state = initialState, action) {
       };
     case getType(
       getRequestServiceByBookingId.getRequestServiceByBookingIdFailure
+    ):
+      return {
+        ...state,
+      };
+    case getType(
+      getRequestServiceByBookingIdStaff.getRequestServiceByBookingIdStaffRequest
+    ):
+      return {
+        ...state,
+      };
+    case getType(
+      getRequestServiceByBookingIdStaff.getRequestServiceByBookingIdStaffSuccess
+    ):
+      let arrRequestServiceStaffNew = [];
+      arrRequestServiceStaffNew = action.payload;
+      state.arrRequestServiceInRoom = arrRequestServiceStaffNew;
+      return {
+        ...state,
+      };
+    case getType(
+      getRequestServiceByBookingIdStaff.getRequestServiceByBookingIdStaffFailure
     ):
       return {
         ...state,

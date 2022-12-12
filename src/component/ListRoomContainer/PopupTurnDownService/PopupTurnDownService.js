@@ -19,7 +19,7 @@ import {
   USER_ROLE,
 } from "../../../utils/constants/settingSystem";
 import { userState$ } from "../../../redux/selectors/UserSelector";
-export default function PopupTurnDownService() {
+export default function PopupTurnDownService({ bookingId }) {
   const dispatch = useDispatch();
   const isShow = useSelector(modalTurnDownServiceState$);
   const navigate = useNavigate();
@@ -29,15 +29,15 @@ export default function PopupTurnDownService() {
   }, [dispatch]);
   const listRequestService = useSelector(turnDownServiceInRoomState$);
   console.log("Hello Thanh Anh", listRequestService);
-  useEffect(() => {
-    dispatch(actions.getTurnDownService.getTurnDownServiceRequest());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(actions.getTurnDownService.getTurnDownServiceRequest());
+  // }, [dispatch]);
 
   const renderArr = () => {
     let arrNew = [];
-    // let listRequestServiceNew = listRequestService.filter(
-    //   (item) => item.status !== DONE
-    // );
+    let listRequestServiceNew = listRequestService.filter(
+      (item) => item.status !== DONE
+    );
     listRequestService?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
@@ -63,32 +63,38 @@ export default function PopupTurnDownService() {
   const handleConfirmturnService = useCallback(
     (item) => {
       dispatch(
-        actions.confirmTurnDownService.confirmTurnDownServiceRequest({
-          booking_Id: item.booking_Id,
-          dateTime: item.dateTime + " " + item.time,
-          id: item.id,
-          requestServiceName: item.requestServiceName,
-          requestServiceType: item.requestServiceType,
-          status: PROCESSING,
+        actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
+          info: {
+            booking_Id: item.booking_Id,
+            dateTime: item.dateTime,
+            id: item.id,
+            requestServiceName: item.requestServiceName,
+            requestServiceType: item.requestServiceType,
+            status: PROCESSING,
+          },
+          bookingId: bookingId,
         })
       );
     },
-    [dispatch]
+    [dispatch, bookingId]
   );
   const handleCompeleteturnService = useCallback(
     (item) => {
       dispatch(
-        actions.confirmTurnDownService.confirmTurnDownServiceRequest({
-          booking_Id: item.booking_Id,
-          dateTime: item.dateTime,
-          id: item.id,
-          requestServiceName: item.requestServiceName,
-          requestServiceType: item.requestServiceType,
-          status: DONE,
+        actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
+          info: {
+            booking_Id: item.booking_Id,
+            dateTime: item.dateTime,
+            id: item.id,
+            requestServiceName: item.requestServiceName,
+            requestServiceType: item.requestServiceType,
+            status: DONE,
+          },
+          bookingId: bookingId,
         })
       );
     },
-    [dispatch]
+    [dispatch, bookingId]
   );
   // Render Data of table
   const renderActionColoumn = () => {
@@ -153,22 +159,22 @@ export default function PopupTurnDownService() {
     } else {
       actionColumn = [
         {
-            field: "status",
-            headerName: "Trạng Thái",
-            width: 200,
-            renderCell: (params) => {
-              return (
-                <div className={`cellWithStatus ${params.row.status}`}>
-                  {params.row.status === "BOOKED"
-                    ? "Chờ Xác Nhận"
-                    : params.row.status === "PROCESSING"
-                    ? "Chờ Xử Lý"
-                    : "Hoàn Thành"}
-                </div>
-              );
-            },
+          field: "status",
+          headerName: "Trạng Thái",
+          width: 200,
+          renderCell: (params) => {
+            return (
+              <div className={`cellWithStatus ${params.row.status}`}>
+                {params.row.status === "BOOKED"
+                  ? "Chờ Xác Nhận"
+                  : params.row.status === "PROCESSING"
+                  ? "Chờ Xử Lý"
+                  : "Hoàn Thành"}
+              </div>
+            );
           },
-      ]
+        },
+      ];
     }
     return actionColumn;
   };

@@ -6,7 +6,6 @@ import "./ListRoomPage.scss";
 import * as actions from "../../redux/actions/RoomManageAction";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
 import { Outlet, useNavigate } from "react-router-dom";
-
 export default function ListRoomPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +18,6 @@ export default function ListRoomPage() {
       JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
     ) {
       // navigate("/roomManage");
-      dispatch(actions.getAllRoom.getAllRoomRequest());
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
@@ -42,7 +40,7 @@ export default function ListRoomPage() {
         </div>
         <div className="content-main col-10">
           <Navbar />
-          <Outlet/>
+          <Outlet />
         </div>
       </div>
     </div>

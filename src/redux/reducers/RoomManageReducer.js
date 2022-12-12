@@ -3,6 +3,7 @@ import {
   getType,
   getRoomAvailability,
   getRoomTypeById,
+  getRoomTypeByRoomId,
 } from "../actions/RoomManageAction";
 
 const initialState = {
@@ -10,7 +11,7 @@ const initialState = {
   // bookingItem: {},
   // userInfoBooking: [],
   roomAvailability: [],
-  roomType:{}
+  roomType: {},
 };
 export default function RoomManageReducer(state = initialState, action) {
   switch (action.type) {
@@ -40,16 +41,16 @@ export default function RoomManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-      case getType(getRoomTypeById.getRoomTypeByIdRequest):
+    case getType(getRoomTypeByRoomId.getRoomTypeByRoomIdRequest):
       return {
         ...state,
       };
-    case getType(getRoomTypeById.getRoomTypeByIdSuccess):
+    case getType(getRoomTypeByRoomId.getRoomTypeByRoomIdSuccess):
       return {
         ...state,
         roomType: action.payload,
       };
-    case getType(getRoomTypeById.getRoomTypeByIdFailure):
+    case getType(getRoomTypeByRoomId.getRoomTypeByRoomIdFailure):
       return {
         ...state,
       };

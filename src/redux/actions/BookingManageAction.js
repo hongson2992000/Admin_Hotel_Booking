@@ -46,3 +46,18 @@ export const getBookingByRoomId = createActions({
   getBookingByRoomIdSuccess: (payload) => payload,
   getBookingByRoomIdFailure: (err) => err,
 });
+
+export const fillFormUpdateUserBooking = createActions({
+  fillFormUpdateUserBookingRequest: (payload) => payload,
+
+});
+export const updateNewUserBooking = createActions({
+  updateNewUserBookingRequest: (payload) => payload,
+  updateNewUserBookingSuccess: (payload) => payload,
+  updateNewUserBookingFailure: (err) => err,
+});
+export const deleteNewUserBooking = createActions({
+  deleteNewUserBookingRequest: (payload) => payload,
+  deleteNewUserBookingSuccess: (payload) => payload,
+  deleteNewUserBookingFailure: (err) => err,
+});

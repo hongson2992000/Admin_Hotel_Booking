@@ -23,11 +23,14 @@ export const hideModalUpdateLocation = createAction(
 export const showModalAddUser = createAction("SHOW_ADD_USER_MODAL");
 export const hideModalAddUser = createAction("HIDE_ADD_USER_MODAL");
 
-export const showModalSuccess = createAction("SHOW_ADD_USER_MODAL");
-export const hideModalSuccess = createAction("HIDE_ADD_USER_MODAL");
+export const showModalUpdateUser = createAction("SHOW_UPDATE_USER_MODAL");
+export const hideModalUpdateUser = createAction("HIDE_UPDATE_USER_MODAL");
+
+export const showModalSuccess = createAction("SHOW_SUCCESS_MODAL");
+export const hideModalSuccess = createAction("HIDE_SUCCESS_MODAL");
 
 export const showCreateAccountModel = createAction("SHOW_CREATE_ACCOUNT_MODEL");
-export const hideCreateAccountModel = createAction("HIDE_UPDATE_ACCOUNT_MODAL");
+export const hideCreateAccountModel = createAction("HIDE_CREATE_ACCOUNT_MODAL");
 
 export const showUpdateAccountModel = createAction("SHOW_UPDATE_ACCOUNT_MODAL");
 export const hideUpdateAccountModel = createAction("HIDE_UPDATE_ACCOUNT_MODAL");
@@ -54,16 +57,23 @@ export const hideModalRequestServiceDetail = createAction(
 
 export const showModalTurnDown = createAction("SHOW_TURN_DOWN_MODAL");
 export const hideModalTurnDown = createAction("HIDE_TURN_DOWN_MODAL");
-
+//TURNDOWN ROLE MANAGE
 export const showModalRequestServiceManage = createAction(
   "SHOW_REQUEST_SERVICE_MANAGE_MODAL"
 );
 export const hideModalRequestServiceManage = createAction(
   "HIDE_REQUEST_SERVICE_MANAGE_MODAL"
 );
+
 export const showModalTurnDownManage = createAction(
   "SHOW_TURN_DOWN_MANAGE_MODAL"
 );
 export const hideModalTurnDownManage = createAction(
   "HIDE_TURN_DOWN_MANAGE_MODAL"
 );
+//MODAL NEWS MANAGE
+export const showModalAddNews = createAction("SHOW_ADD_NEWS_MODAL");
+export const hideModalAddNews = createAction("HIDE_ADD_NEWS_MODAL");
+
+export const showModalUpdateNews = createAction("SHOW_UPDATE_NEWS_MODAL");
+export const hideModalUpdateNews = createAction("HIDE_UPDATE_NEWS_MODAL");

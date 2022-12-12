@@ -5,6 +5,8 @@ import NewsContainer from "../../component/NewsContainer/NewsContainer";
 import "./NewsPage.scss";
 import { useNavigate } from "react-router-dom";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
+import AddNewsModal from "../../component/NewsContainer/AddNewsModal/AddNewsModal";
+import UpdateNewsModal from "../../component/NewsContainer/UpdateNewsModal/UpdateNewsModal";
 export default function NewsPage() {
   const navigate = useNavigate();
   useEffect(() => {
@@ -37,6 +39,8 @@ export default function NewsPage() {
        <div className="content-main col-10">
          <Navbar />
          <NewsContainer />
+         <AddNewsModal/>
+         <UpdateNewsModal/>
        </div>
      </div>
    </div>

@@ -3,10 +3,35 @@
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
-    width: 600px;
-    height: 700px;
+    width: 650px;
+    height: 750px;
     background-color: white;
     padding: 20px;
+    .simpleModalItem {
+        height: 95px;
+    }
+    .footer {
+        margin-top: 5px;
+        text-align: right;
+        .buttonSave {
+            margin: 5px;
+            padding: 10px;
+            width: 100px;
+            border: none;
+            color: white;
+            background-color: #04B8F1;
+            border-radius: 5px;
+        }
+        .buttonClose {
+            margin: 5px;
+            padding: 10px;
+            width: 100px;
+            border: none;
+            color: white;
+            background-color: #ED4646;
+            border-radius: 5px;
+        }
+    }
 }
 
 .form {
@@ -41,27 +66,4 @@
 .textarea {
     padding: 10px;
     margin-bottom: 10px;
-}
-
-.footer {
-    margin-top: 10px;
-    text-align: right;
-    .buttonSave {
-        margin: 5px;
-        padding: 10px;
-        width: 100px;
-        border: none;
-        color: white;
-        background-color: #04B8F1;
-        border-radius: 5px;
-    }
-    .buttonClose {
-        margin: 5px;
-        padding: 10px;
-        width: 100px;
-        border: none;
-        color: white;
-        background-color: #ED4646;
-        border-radius: 5px;
-    }
 }

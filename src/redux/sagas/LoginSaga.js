@@ -1,5 +1,5 @@
 import * as actions from "./../actions/LoginAction";
-import * as actionImage from "./../actions/ImageManageAction"
+import * as actionImage from "./../actions/ImageManageAction";
 import {
   DISPLAY_LOADING,
   HIDE_LOADING,
@@ -43,11 +43,11 @@ function* login(action) {
         localStorage.setItem(USER_LOGIN, JSON.stringify(userInfo.data));
         if (userInfo.data.userRole === USER_ROLE.ADMIN) {
           action.payload.navigate("/overview");
-        } else if (userInfo.data.userRole === USER_ROLE.HOTEL_MANAGE) {
-          action.payload.navigate("/roomManage");
-        } else if (userInfo.data.userRole === USER_ROLE.RESTAURANT) {
-          action.payload.navigate("/roomManage");
-        }else if (userInfo.data.userRole === USER_ROLE.HOUSEKEEPING) {
+        } else if (
+          userInfo.data.userRole === USER_ROLE.HOTEL_MANAGE ||
+          userInfo.data.userRole === USER_ROLE.RESTAURANT ||
+          userInfo.data.userRole === USER_ROLE.HOUSEKEEPING
+        ) {
           action.payload.navigate("/roomManage");
         }
       }
@@ -56,7 +56,7 @@ function* login(action) {
       type: HIDE_LOADING,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (error.response.status === 404) {
       action.payload.navigate("/");
       yield put(actions.login.loginFailure(error.response.data.message));

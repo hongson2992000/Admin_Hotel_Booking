@@ -13,6 +13,11 @@ export const getRequestServiceByBookingId = createActions({
   getRequestServiceByBookingIdSuccess: (payload) => payload,
   getRequestServiceByBookingIdFailure: (err) => err,
 });
+export const getRequestServiceByBookingIdStaff = createActions({
+  getRequestServiceByBookingIdStaffRequest: (payload) => payload,
+  getRequestServiceByBookingIdStaffSuccess: (payload) => payload,
+  getRequestServiceByBookingIdStaffFailure: (err) => err,
+});
 export const confirmRequestService = createActions({
   confirmRequestServiceRequest: (payload) => payload,
   confirmRequestServiceSuccess: (payload) => payload,
@@ -51,4 +56,19 @@ export const confirmRequestServiceInRoom = createActions({
   confirmRequestServiceInRoomRequest: (payload) => payload,
   confirmRequestServiceInRoomSuccess: (payload) => payload,
   confirmRequestServiceInRoomFailure: (err) => err,
+});
+export const confirmRequestServiceByManager = createActions({
+  confirmRequestServiceByManagerRequest: (payload) => payload,
+  confirmRequestServiceByManagerSuccess: (payload) => payload,
+  confirmRequestServiceByManagerFailure: (err) => err,
+});
+export const getTurnDownServiceByBookingIdByStaff = createActions({
+  getTurnDownServiceByBookingIdByStaffRequest: (payload) => payload,
+  getTurnDownServiceByBookingIdByStaffSuccess: (payload) => payload,
+  getTurnDownServiceByBookingIdByStaffFailure: (err) => err,
+});
+export const confirmTurnDownServiceStaff = createActions({
+  confirmTurnDownServiceStaffRequest: (payload) => payload,
+  confirmTurnDownServiceStaffSuccess: (payload) => payload,
+  confirmTurnDownServiceStaffFailure: (err) => err,
 });

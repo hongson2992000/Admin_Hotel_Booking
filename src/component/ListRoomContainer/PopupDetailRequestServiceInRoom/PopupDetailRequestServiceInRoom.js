@@ -12,8 +12,8 @@ import * as actions from "../../../redux/actions/RequestServiceManageAction";
 import { DataGrid } from "@mui/x-data-grid";
 import { requestServiceDetailManageState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import DialogDelete from "../../DialogDelete/DialogDelete";
-export default function PopupDetailRequestServiceInRoom({booking_id}) {
-    console.log("Hello Bà Già", booking_id)
+export default function PopupDetailRequestServiceInRoom({bookingId}) {
+    console.log("Hello Bà Già", bookingId)
   const dispatch = useDispatch();
   const isShow = useSelector(modalRequestServiceDetailState$);
   const navigate = useNavigate();
@@ -203,12 +203,12 @@ export default function PopupDetailRequestServiceInRoom({booking_id}) {
       actions.confirmRequestServiceInRoom.confirmRequestServiceInRoomRequest({
         orderId: infoOderDetail.id,
         status: infoOderDetail.status,
-        booking_id : booking_id,
+        booking_id : bookingId,
         navigate,
       })
     );
     dispatch(hideModalRequestServiceDetail());
-  }, [booking_id,infoOderDetail, navigate, dispatch]);
+  }, [bookingId,infoOderDetail, navigate, dispatch]);
   return (
     <div>
       <Modal open={isShow} onClose={onClose}>

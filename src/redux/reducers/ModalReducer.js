@@ -28,12 +28,19 @@ import {
   hideModalRequestServiceManage,
   showModalTurnDownManage,
   hideModalTurnDownManage,
+  showModalUpdateUser,
+  hideModalUpdateUser,
+  showModalAddNews,
+  hideModalAddNews,
+  showModalUpdateNews,
+  hideModalUpdateNews,
 } from "../actions/ModalAction";
 
 const initialState = {
   isShow: false,
   isShowUpdate: false,
   isShowAddNewUser: false,
+  isShowUpdateNewUser: false,
   isShowAddAccount: false,
   isShowUpdateAccount: false,
   isShowListService: false,
@@ -45,6 +52,8 @@ const initialState = {
   isShowRequestServiceDetail: false,
   isShowTurnDownService: false,
   isShowTurnDownServiceManage: false,
+  isShowAddNews: false,
+  isShowUpdateNews: false,
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -80,6 +89,17 @@ export default function ModalReducer(state = initialState, action) {
       return {
         ...state,
         isShowAddNewUser: false,
+      };
+    case getType(showModalUpdateUser):
+      return {
+        ...state,
+        isShowUpdateNewUser: true,
+      };
+
+    case getType(hideModalUpdateUser):
+      return {
+        ...state,
+        isShowUpdateNewUser: false,
       };
     case getType(showCreateAccountModel):
       return {
@@ -189,7 +209,7 @@ export default function ModalReducer(state = initialState, action) {
         ...state,
         isShowRequestServiceManage: false,
       };
-      case getType(showModalTurnDownManage):
+    case getType(showModalTurnDownManage):
       return {
         ...state,
         isShowTurnDownServiceManage: true,
@@ -199,6 +219,28 @@ export default function ModalReducer(state = initialState, action) {
       return {
         ...state,
         isShowTurnDownServiceManage: false,
+      };
+    case getType(showModalAddNews):
+      return {
+        ...state,
+        isShowAddNews: true,
+      };
+
+    case getType(hideModalAddNews):
+      return {
+        ...state,
+        isShowAddNews: false,
+      };
+    case getType(showModalUpdateNews):
+      return {
+        ...state,
+        isShowUpdateNews: true,
+      };
+
+    case getType(hideModalUpdateNews):
+      return {
+        ...state,
+        isShowUpdateNews: false,
       };
     default:
       return state;

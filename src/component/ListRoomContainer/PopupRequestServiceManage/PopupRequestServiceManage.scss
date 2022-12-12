@@ -8,7 +8,7 @@
     background-color: white;
     padding: 20px;
     .datagrid {
-        height: 50%;
+        height: 40%;
         .MuiDataGrid-footerContainer {
             display: none;
         }
@@ -18,8 +18,65 @@
         .cancelButton {}
     }
     .table {
-        width: 50%;
-        margin-bottom: 10px;
+        width: 70%;
+        margin-bottom: 30px;
+        .BOOKED {
+            color: red;
+        }
+        .PROCESSING {
+            color: yellow;
+        }
+        .DONE {
+            color: green;
+        }
+        .confirmButton {
+            padding: 5px;
+            width: 100px;
+            border: none;
+            color: #000000;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 0.5px solid #000000;
+            .icon {
+                color: green;
+            }
+            &:hover {
+                padding: 5px;
+                width: 100px;
+                border: none;
+                color: #fff;
+                background-color: green;
+                border-radius: 5px;
+                border: 0.5px solid green;
+                .icon {
+                    color: #fff;
+                }
+            }
+        }
+        .doneButton {
+            padding: 5px;
+            width: 110px;
+            border: none;
+            color: #000000;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 0.5px solid #000000;
+            .icon {
+                color: green;
+            }
+            &:hover {
+                padding: 5px;
+                width: 110px;
+                border: none;
+                color: #fff;
+                background-color: green;
+                border-radius: 5px;
+                border: 0.5px solid green;
+                .icon {
+                    color: #fff;
+                }
+            }
+        }
     }
     .footer {
         margin-top: 15px;
@@ -164,7 +221,6 @@
         }
         &.PROCESSING {
             background-color: rgba(255, 0, 0, 0.05);
-            ;
             color: yellow;
         }
         &.BOOKED {

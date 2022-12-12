@@ -17,7 +17,7 @@ class RequestServiceManage extends BaseServices {
     return this.delete(`v1/deleteOrderDetailService`, model);
   };
   getAllTurnDownService = () => {
-    return this.get(`v1/requestrequestServiceServices`);
+    return this.get(`v1/requestServices`);
   };
   getTurnDownServiceByBookingId = (id) => {
     return this.get(`v1/requestService?booking_id=${id}`);

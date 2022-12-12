@@ -7,3 +7,6 @@ export const infoUserBookingState$ = (state) =>
 
 export const getDashBoardState$ = (state) =>
   state.BookingManageReducer.dashboard;
+
+  export const infoUserUpdateFormState$ = (state) =>
+  state.BookingManageReducer.userFormUpdate;

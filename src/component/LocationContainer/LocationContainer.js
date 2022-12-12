@@ -4,11 +4,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../redux/actions/ModalAction";
+import * as actions from "../../redux/actions/LocationManageAction";
 import { locationManageState$ } from "../../redux/selectors/LocationManageSelector";
 import AddNewLocationModal from "./AddNewLocationModal/AddNewLocationModal";
 import UpdateLocationModal from "./UpdateLocationModal/UpdateLocationModal";
 import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
+import { showModalAddLocation, showModalUpdateLocation } from "../../redux/actions/ModalAction";
 export default function LocationContainer() {
   const listLocation = useSelector(locationManageState$);
   const dispatch = useDispatch();
@@ -22,8 +23,8 @@ export default function LocationContainer() {
         stt: i + 1,
         id: item.id,
         name: item.name,
-        openTime:item.openTime,
-        closeTime:item.closeTime,
+        openTime: item.openTime,
+        closeTime: item.closeTime,
         status: item.status,
         image: getImageUrlByType(`img_abstraction_${item.id}`)?.pictureUrl,
       });
@@ -31,11 +32,16 @@ export default function LocationContainer() {
     return arrNew;
   };
   const handleAddNewLocation = useCallback(() => {
-    dispatch(actions.showModalAddLocation());
+    dispatch(showModalAddLocation());
   }, [dispatch]);
-  const handleUpdateLocation = useCallback(() => {
-    dispatch(actions.showModalUpdateLocation());
-  }, [dispatch]);
+  const handleUpdateLocation = useCallback(
+    (id) => {
+      let locationItem = listLocation.find((item) => item.id === id);
+      dispatch(actions.filInfoLocation.filInfoLocationRequest(locationItem));
+      dispatch(showModalUpdateLocation());
+    },
+    [dispatch, listLocation]
+  );
   const locationColumns = [
     {
       field: "stt",

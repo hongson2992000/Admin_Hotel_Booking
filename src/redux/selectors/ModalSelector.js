@@ -9,7 +9,8 @@ export const modalUpdateLocationState$ = (state) =>
   state.ModalReducer.isShowUpdateLocation;
 export const modalAddUserState$ = (state) =>
   state.ModalReducer.isShowAddNewUser;
-
+export const modalUpdateUserState$ = (state) =>
+  state.ModalReducer.isShowUpdateNewUser;
 export const modelCreateAccountState$ = (state) =>
   state.ModalReducer.isShowAddAccount;
 
@@ -29,3 +30,5 @@ export const modalRequestServiceManageState$ = (state) =>
   state.ModalReducer.isShowRequestServiceManage;
 export const modalTurnDownManageState$ = (state) =>
   state.ModalReducer.isShowTurnDownServiceManage;
+export const modalAddNewsState$ = (state) => state.ModalReducer.isShowAddNews;
+export const modalUpdateNewsState$ = (state) => state.ModalReducer.isShowUpdateNews;

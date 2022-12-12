@@ -1,17 +1,20 @@
 import React, { useEffect } from "react";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import Navbar from "../../component/Navbar/Navbar";
-import NewsContainer from "../../component/NewsContainer/NewsContainer";
 import "./SetupRoomPage.scss";
 import { useNavigate } from "react-router-dom";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
 import SetUpRoomContainer from "../../component/SetUpRoomContainer/SetUpRoomContainer";
+import * as actions from "../../redux/actions/SetUpRoomManageAction"
+import { useDispatch } from "react-redux";
 export default function SetupRoomPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   useEffect(() => {
     const userLocal = localStorage.getItem(USER_LOGIN);
     if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
       navigate("/setUpRoom");
+      dispatch(actions.getAllRoomToSetUp.getAllRoomToSetUpRequest())
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import "./NewsContainer.scss";
 import * as actions from "../../redux/actions/NewsManageAction";
 import { DataGrid } from "@mui/x-data-grid";
@@ -8,6 +8,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
 import { newsManageState$ } from "../../redux/selectors/NewsManageSelector";
+import {
+  showModalAddNews,
+  showModalUpdateNews,
+} from "../../redux/actions/ModalAction";
 export default function NewsContainer() {
   const [data, setData] = useState(userRows);
   const listNews = useSelector(newsManageState$);
@@ -35,6 +39,17 @@ export default function NewsContainer() {
     });
     return arrNew;
   };
+  const handleAddNews = useCallback(() => {
+    dispatch(showModalAddNews());
+  }, [dispatch]);
+  const handleUpdateNews = useCallback(
+    (id) => {
+      let newsItem = listNews.find((item) => item.id === id);
+      dispatch(actions.filInfoNews.filInfoNewsRequest(newsItem));
+      dispatch(showModalUpdateNews());
+    },
+    [dispatch, listNews]
+  );
   const newColumns = [
     {
       field: "stt",
@@ -100,7 +115,7 @@ export default function NewsContainer() {
           <div className="cellAction">
             <div
               className="updateButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleUpdateNews(params.row.id)}
             >
               Cập nhật
             </div>
@@ -119,7 +134,14 @@ export default function NewsContainer() {
     <div className="datatableNewsContainer">
       <div className="datatableTitle">
         Danh sách tin tức
-        <span className="link">Thêm Tin Tức</span>
+        <span
+          className="link"
+          onClick={() => {
+            handleAddNews();
+          }}
+        >
+          Thêm Tin Tức
+        </span>
       </div>
       <DataGrid
         className="datagrid"

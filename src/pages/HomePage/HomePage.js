@@ -32,9 +32,9 @@ export default function HomePage() {
     ) {
       navigate("/roomManage");
     }
-    dispatch(
-      actions.getDashBoardOverview.getDashBoardOverviewRequest(currentDate)
-    );
+    // dispatch(
+    //   actions.getDashBoardOverview.getDashBoardOverviewRequest(currentDate)
+    // );
   }, [currentDate, navigate, dispatch]);
   return (
     <div className="main-screenDashBoard col-12">

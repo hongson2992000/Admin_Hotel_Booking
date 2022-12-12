@@ -25,16 +25,16 @@ import { useEffect } from "react";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import ListTurnDownServicePage from "./pages/ListTurnDownServicePage/ListTurnDownServicePage";
 import AlarmPage from "./pages/AlarmPage/AlarmPage";
-import CreateNewRoomPage from "./pages/CreateNewRoomPage/CreateNewRoomPage";
 import InfomationHotelPage from "./pages/InfomationHotelPage/InfomationHotelPage";
 import PrivateRoute from "./pages/PrivateRoute/PrivateRoute";
 import SetupRoomPage from "./pages/SetupRoomPage/SetupRoomPage";
 import SetUpPricePage from "./pages/SetUpPricePage/SetUpPricePage";
-import InfomationCustomerPage from "./pages/InfomationCustomerPage/InfomationCustomerPage";
+// import InfomationCustomerPage from "./pages/InfomationCustomerPage/InfomationCustomerPage";
 import InfomationCustomerContainer from "./component/InfomationCustomerContainer/InfomationCustomerContainer";
 import ListCustomerContainer from "./component/ListCustomerContainer/ListCustomerContainer";
 import ListRoomContainer from "./component/ListRoomContainer/ListRoomContainer";
 import SetUpPriceRoomByDatePage from "./pages/SetUpPriceRoomByDatePage/SetUpPriceRoomByDatePage";
+import CreateNewRoomContainer from "./component/CreateNewRoomContainer/CreateNewRoomContainer";
 const LazyServicePage = React.lazy(() =>
   import("./pages/ServicePage/ServicePage")
 );
@@ -84,7 +84,7 @@ function App() {
                 element={<InfomationCustomerContainer />}
               />
               <Route index element={<ListRoomContainer />} />
-              <Route path="createNewRoom" element={<CreateNewRoomPage />} />
+              <Route path="createNewRoom/:roomNo" element={<CreateNewRoomContainer />} />
             </Route>
             <Route
               path="/listBooking"

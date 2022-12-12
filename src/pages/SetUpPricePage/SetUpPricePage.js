@@ -5,12 +5,15 @@ import "./SetUpPricePage.scss";
 import { useNavigate } from "react-router-dom";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
 import SetUpPriceRoomContainer from "../../component/SetUpPriceRoomContainer/SetUpPriceRoomContainer";
+import { useDispatch } from "react-redux";
+import * as actions from "../../redux/actions/SetUpRoomManageAction"
 export default function SetUpPricePage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   useEffect(() => {
     const userLocal = localStorage.getItem(USER_LOGIN);
     if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
-      navigate("/setUpPriceRoom");
+      dispatch(actions.getAllRoomTypeToSetUp.getAllRoomTypeToSetUpRequest())
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
@@ -27,7 +30,7 @@ export default function SetUpPricePage() {
     ) {
       navigate("/roomManage");
     }
-  }, [navigate]);
+  }, [navigate,dispatch]);
   return (
     <div className="main-screenSetUpPrice col-12">
       <div className="row">

@@ -12,12 +12,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import * as actions from "../../../redux/actions/RequestServiceManageAction";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  requestServiceManageInRoomState$,
-} from "../../../redux/selectors/RequestServiceManageSelector";
+import { requestServiceManageInRoomState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import DialogDelete from "../../DialogDelete/DialogDelete";
 import ModalListRequestService from "../../ListRequestService/ModalListRequestService.js/ModalListRequestService";
-import { BOOKED, PROCESSING, USER_ROLE } from "../../../utils/constants/settingSystem";
+import {
+  BOOKED,
+  PROCESSING,
+  USER_ROLE,
+} from "../../../utils/constants/settingSystem";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 export default function PopupRequestService() {
   const dispatch = useDispatch();
@@ -62,19 +64,36 @@ export default function PopupRequestService() {
   //   };
   const renderArr = () => {
     let arrNew = [];
-    listRequestService?.forEach((item) => {
-      arrNew.push({
-        id: item.id,
-        roomNo: item.booking?.room?.roomNo,
-        totalAmount: item.totalAmount,
-        createDate: item.createDate,
-        customerName: item.createBy,
-        // listRequestService.customer.firstName +
-        // "" +
-        // listRequestService.customer.middleName +
-        // "" +
-        // listRequestService.customer.lastName,
-        status: item.status,
+    let listRequestServiceNew = [];
+    listRequestService.forEach((item) => {
+      for (let i = 0; i < item.orderDetails.length; i++) {
+        if (
+          item.orderDetails[i].service.id !== 70 &&
+          item.orderDetails[i].service.id !== 71 &&
+          item.orderDetails[i].service.id !== 57 &&
+          item.orderDetails[i].service.id !== 58
+        ) {
+          listRequestServiceNew.push(item);
+        }
+      }
+    });
+    listRequestServiceNew?.forEach((item, i) => {
+      item.orderDetails.forEach((itemOrder, i) => {
+        arrNew.push({
+          stt: i + 1,
+          id: item.id,
+          roomNo: item.booking?.room?.roomNo,
+          serviceName: itemOrder.service.name,
+          totalAmount: item.totalAmount,
+          createDate: item.createDate?.substring(0, 10),
+          customerName: item.createBy,
+          // listRequestService.customer.firstName +
+          // "" +
+          // listRequestService.customer.middleName +
+          // "" +
+          // listRequestService.customer.lastName,
+          status: item.status,
+        });
       });
     });
     return arrNew;
@@ -201,7 +220,7 @@ export default function PopupRequestService() {
               <div className="cellAction">
                 <div
                   className="updateButton"
-                    onClick={() => openRequestServiceModal(params.row.id)}
+                  onClick={() => openRequestServiceModal(params.row.id)}
                 >
                   Xem Chi Tiết
                 </div>
@@ -238,7 +257,7 @@ export default function PopupRequestService() {
         //       );
         //     },
         //   },
-      ]
+      ];
     }
     return actionColumn;
   };
@@ -252,7 +271,7 @@ export default function PopupRequestService() {
           <div className="cellAction">
             <div
               className="updateButton"
-                onClick={() => openRequestServiceModal(params.row.id)}
+              onClick={() => openRequestServiceModal(params.row.id)}
             >
               Xem Chi Tiết
             </div>
@@ -333,7 +352,7 @@ export default function PopupRequestService() {
       {/* {dialog.isLoading && (
         <DialogDelete onDialog={areUSureDelete} message={dialog.message} />
       )} */}
-      <ModalListRequestService/>
+      <ModalListRequestService />
     </div>
   );
 }
