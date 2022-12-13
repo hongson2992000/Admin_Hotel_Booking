@@ -106,36 +106,6 @@ export default function Sidebar() {
               </li>
               <li>
                 <NavLink
-                  to="/setUpRoom"
-                  style={{ textDecoration: "none" }}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <RoomPreferencesIcon className="icon" />
-                  <span>Cài đặt phòng</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/setUpPriceRoom"
-                  style={{ textDecoration: "none" }}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <SettingsSuggestIcon className="icon" />
-                  <span>Cấu hình giá</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/setupPriceRoomByDate"
-                  style={{ textDecoration: "none" }}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <EventRepeatIcon className="icon" />
-                  <span>Giá theo ngày</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
                   to="/infomationHotel"
                   style={{ textDecoration: "none" }}
                   className={({ isActive }) => (isActive ? "active" : "")}
@@ -170,6 +140,87 @@ export default function Sidebar() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
+      return (
+        <div className="sidebar">
+          <div className="top">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <img
+                src={img}
+                alt=""
+                style={{ width: "50px", height: "50px", marginRight: "10px" }}
+                className="animate__animated animate__flipInY"
+              />
+              <span className="logo">5 Men Hotel</span>
+            </Link>
+          </div>
+          <div className="center" style={{ height: "70%" }}>
+            <ul>
+              <li>
+                <NavLink
+                  to="/overview"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <DashboardIcon className="icon" />
+                  <span>Tổng Quan</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/setUpRoom"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <RoomPreferencesIcon className="icon" />
+                  <span>Cài đặt phòng</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/setUpPriceRoom"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <SettingsSuggestIcon className="icon" />
+                  <span>Cấu hình giá</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/setupPriceRoomByDate"
+                  style={{ textDecoration: "none" }}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <EventRepeatIcon className="icon" />
+                  <span>Giá theo ngày</span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bottom" style={{ paddingTop: "10px" }}>
+            <hr />
+            <div
+              onClick={() => {
+                handleLogout();
+              }}
+              className="buttonLogout"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                padding: "10px",
+              }}
+            >
+              <LogoutIcon className="icon" style={{ marginRight: "5px" }} />
+              <span>Đăng Xuất</span>
+            </div>
+          </div>
+        </div>
+      );
+    } else if (userInfo.userRole === USER_ROLE.RECEPTIONIST) {
       return (
         <div className="sidebar" style={{ overflow: "hidden" }}>
           <div className="top" style={{ height: "100px" }}>

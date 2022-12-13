@@ -15,7 +15,6 @@ export default function ListTurnDownServiceContainer() {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const listRequestService = useSelector(turnDownServiceManageState$);
-  console.log("Hello Thanh Anh", listRequestService);
   useEffect(() => {
     dispatch(actions.getTurnDownService.getTurnDownServiceRequest());
   }, [dispatch]);

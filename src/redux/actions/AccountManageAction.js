@@ -28,3 +28,6 @@ export const deleteAccount = createActions({
 export const filInfoAccount = createActions({
     filInfoAccountRequest: (payload) => payload,
 });
+export const filInfoProfile = createActions({
+    filInfoProfileRequest: (payload) => payload,
+});

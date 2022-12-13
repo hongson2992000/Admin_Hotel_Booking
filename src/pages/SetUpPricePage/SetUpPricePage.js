@@ -6,19 +6,24 @@ import { useNavigate } from "react-router-dom";
 import { USER_LOGIN, USER_ROLE } from "../../utils/constants/settingSystem";
 import SetUpPriceRoomContainer from "../../component/SetUpPriceRoomContainer/SetUpPriceRoomContainer";
 import { useDispatch } from "react-redux";
-import * as actions from "../../redux/actions/SetUpRoomManageAction"
+import * as actions from "../../redux/actions/SetUpRoomManageAction";
 export default function SetUpPricePage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     const userLocal = localStorage.getItem(USER_LOGIN);
     if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
-      dispatch(actions.getAllRoomTypeToSetUp.getAllRoomTypeToSetUpRequest())
+      navigate("/overview");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
+    ) {
+      navigate("/roomManage");
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
     ) {
-      navigate("/roomManage");
+      dispatch(actions.getAllRoomTypeToSetUp.getAllRoomTypeToSetUpRequest());
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
@@ -30,7 +35,7 @@ export default function SetUpPricePage() {
     ) {
       navigate("/roomManage");
     }
-  }, [navigate,dispatch]);
+  }, [navigate, dispatch]);
   return (
     <div className="main-screenSetUpPrice col-12">
       <div className="row">
@@ -39,7 +44,7 @@ export default function SetUpPricePage() {
         </div>
         <div className="content-main col-10">
           <Navbar />
-          <SetUpPriceRoomContainer/>
+          <SetUpPriceRoomContainer />
         </div>
       </div>
     </div>

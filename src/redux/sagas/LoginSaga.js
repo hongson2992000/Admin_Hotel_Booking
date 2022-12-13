@@ -43,8 +43,11 @@ function* login(action) {
         localStorage.setItem(USER_LOGIN, JSON.stringify(userInfo.data));
         if (userInfo.data.userRole === USER_ROLE.ADMIN) {
           action.payload.navigate("/overview");
-        } else if (
-          userInfo.data.userRole === USER_ROLE.HOTEL_MANAGE ||
+        } else if (userInfo.data.userRole === USER_ROLE.HOTEL_MANAGE) {
+          action.payload.navigate("/overview");
+        } 
+        else if (
+          userInfo.data.userRole === USER_ROLE.RECEPTIONIST ||
           userInfo.data.userRole === USER_ROLE.RESTAURANT ||
           userInfo.data.userRole === USER_ROLE.HOUSEKEEPING
         ) {

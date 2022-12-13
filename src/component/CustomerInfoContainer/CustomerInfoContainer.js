@@ -5,7 +5,6 @@ import { useFormik } from "formik";
 import { DataGrid } from "@mui/x-data-grid";
 
 export default function CustomerInfoContainer() {
-  console.log("Hello Duong");
   const formik = useFormik({
     initialValues: {
       id: 0,

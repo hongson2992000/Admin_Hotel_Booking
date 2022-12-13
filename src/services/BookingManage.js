@@ -25,5 +25,8 @@ class BookingManage extends BaseServices {
   getDashBoard = (payload) => {
     return this.get(`v1/booking/dashboard?date=${payload}`);
   };
+  checkInRoomInHotel = (model)=>{
+    return this.post(`v1/booking/checkInAtHotel`,model)
+  }
 }
 export const bookingManage = new BookingManage();

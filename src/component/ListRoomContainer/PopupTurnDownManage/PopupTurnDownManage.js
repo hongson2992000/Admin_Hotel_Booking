@@ -31,7 +31,6 @@ export default function PopupTurnDownManage() {
     dispatch(hideModalTurnDownManage());
   }, [dispatch]);
   const listRequestService = useSelector(turnDownServiceInRoomState$);
-  console.log("Hello Thanh Anh", listRequestService);
   // useEffect(() => {
   //   dispatch(actions.getTurnDownService.getTurnDownServiceRequest());
   // }, [dispatch]);

@@ -31,4 +31,6 @@ export const modalRequestServiceManageState$ = (state) =>
 export const modalTurnDownManageState$ = (state) =>
   state.ModalReducer.isShowTurnDownServiceManage;
 export const modalAddNewsState$ = (state) => state.ModalReducer.isShowAddNews;
-export const modalUpdateNewsState$ = (state) => state.ModalReducer.isShowUpdateNews;
+export const modalUpdateNewsState$ = (state) =>
+  state.ModalReducer.isShowUpdateNews;
+export const modalProfileState$ = (state) => state.ModalReducer.isShowProfile;

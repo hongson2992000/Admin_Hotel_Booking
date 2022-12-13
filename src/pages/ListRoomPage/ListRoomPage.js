@@ -15,9 +15,9 @@ export default function ListRoomPage() {
       navigate("/overview");
     } else if (
       userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+      JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
     ) {
-      // navigate("/roomManage");
+      navigate("/roomManage");
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING

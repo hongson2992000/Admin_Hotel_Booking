@@ -87,6 +87,9 @@
         }
         .datagrid {
             height: 260px;
+            .MuiDataGrid-footerContainer {
+                display: none;
+            }
         }
         .buttonAddCustomer {
             // margin-top: 10px;
@@ -142,8 +145,8 @@
                 padding: 2px 5px;
                 border-radius: 5px;
                 color: white;
-                background-color: #AAAA;
-                border: 1px solid #AAAA;
+                background-color: #aaaa;
+                border: 1px solid #aaaa;
                 cursor: pointer;
             }
         }

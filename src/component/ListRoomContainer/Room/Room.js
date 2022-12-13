@@ -28,6 +28,7 @@ import PopupDetailRequestServiceInRoom from "../PopupDetailRequestServiceInRoom/
 import PopupTurnDownService from "../PopupTurnDownService/PopupTurnDownService";
 import PopupRequestServiceManage from "../PopupRequestServiceManage/PopupRequestServiceManage";
 import PopupTurnDownManage from "../PopupTurnDownManage/PopupTurnDownManage";
+import DialogDelete from "../../DialogDelete/DialogDelete";
 
 export default function Room() {
   const dispatch = useDispatch();
@@ -58,6 +59,39 @@ export default function Room() {
     id: 0,
     display: false,
   });
+  //Handle Dialog
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
+  const [idBooking, setIdBooking] = useState({
+    id: 0,
+  });
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
+  };
+  const handleCheckOut = useCallback((id) => {
+    handleDialog("Bạn chắc chắn các dịch vụ đã được thanh toán?", true);
+    setIdBooking({
+      id: id,
+    });
+  }, []);
+  const areUSureCheckOut = (choose) => {
+    if (choose) {
+      dispatch(
+        actionBooking.checkOutRoom.checkOutRoomRequest({
+          id: idBooking.id,
+          navigate: navigate,
+        })
+      );
+      handleDialog("", false);
+    } else {
+      handleDialog("", false);
+    }
+  };
   // const navigate = useNavigate();
   const handlefilterRoom = (type) => {
     switch (type) {
@@ -77,7 +111,7 @@ export default function Room() {
     }
   };
   const handleRoomNotEmpty = useCallback(
-    (menuId, room_id) => {
+    (menuId, room_id, bookingId) => {
       switch (menuId) {
         case 0:
           dispatch(
@@ -88,21 +122,21 @@ export default function Room() {
           navigate("/roomManage/customerDetail");
           break;
         case 1:
-          dispatch(showModalSendMessage());
           dispatch(
             actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
               room_id: room_id,
             })
           );
+          dispatch(showModalSendMessage());
           break;
         case 2:
-          console.log("YEU BE AN");
+          handleCheckOut(bookingId);
           break;
         default:
           break;
       }
     },
-    [dispatch, navigate]
+    [dispatch, navigate, handleCheckOut]
   );
 
   const handleRequestService = useCallback(
@@ -161,7 +195,7 @@ export default function Room() {
     [navigate, dispatch]
   );
   const renderMenuByRole = (item, index) => {
-    if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
+    if (userInfo.userRole === USER_ROLE.RECEPTIONIST) {
       let arrRequestService = item.booking.data?.orders.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
@@ -236,7 +270,11 @@ export default function Room() {
                     className="menuhover"
                     key={menu.id}
                     onClick={() => {
-                      handleRoomNotEmpty(menu.id, item.room.id);
+                      handleRoomNotEmpty(
+                        menu.id,
+                        item.room.id,
+                        item.booking.data.id
+                      );
                     }}
                   >
                     {menu.name}
@@ -299,9 +337,10 @@ export default function Room() {
             itemOrder.service.id !== 58
         );
         if (foodItem) {
-          arrFood.push(foodItem);
+          arrFood.push(item);
         }
       });
+      console.log("food",arrFood)
       let arrTurnDown = arrFood.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
@@ -406,7 +445,7 @@ export default function Room() {
     }
   };
   const renderMenuByRoleIsEmpty = (item, index) => {
-    if (userInfo.userRole === USER_ROLE.HOTEL_MANAGE) {
+    if (userInfo.userRole === USER_ROLE.RECEPTIONIST) {
       return (
         <div className="rowIcon">
           <TouchAppIcon
@@ -582,9 +621,12 @@ export default function Room() {
       </div>
       <PopupDetailRequestServiceInRoom bookingId={bookingId} />
       <PopupRequestService />
-      <PopupTurnDownService bookingId={bookingId}/>
-      <PopupTurnDownManage/>
+      <PopupTurnDownService bookingId={bookingId} />
+      <PopupTurnDownManage />
       <PopupRequestServiceManage bookingId={bookingId} />
+      {dialog.isLoading && (
+        <DialogDelete onDialog={areUSureCheckOut} message={dialog.message} />
+      )}
     </div>
   );
 }

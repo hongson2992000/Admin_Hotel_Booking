@@ -9,10 +9,13 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
 import React, { useCallback, useMemo } from "react";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useDispatch, useSelector } from "react-redux";
 import "./CheckInContainer.scss";
-import { showModalAddUser } from "../../redux/actions/ModalAction";
+import {
+  showModalAddUser,
+  showModalUpdateUser,
+} from "../../redux/actions/ModalAction";
 import { infoUserBookingState$ } from "../../redux/selectors/BookingManageSelector";
 import { roomValidState$ } from "../../redux/selectors/RoomManageSelector";
 import * as actions from "../../redux/actions/BookingManageAction";
@@ -27,18 +30,15 @@ export default function CheckInContainer() {
   console.log("InfoUser", infoUser);
   const roomValid = useSelector(roomValidState$);
   const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
-  // console.log("Hello Son", infoBooking);
   const renderCurrentDate = () => {
     let currentDate = moment().format("YYYY-MM-DD");
     return currentDate;
   };
   const [selectedValue, setSelectedValue] = React.useState(1);
-  console.log("Hello Bà Zà", selectedValue);
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
-  // console.log(renderCurrentDate());
   const renderTypeRoom = () => {
     let roomType = "";
     switch (infoBooking.roomTypeId) {
@@ -72,6 +72,27 @@ export default function CheckInContainer() {
   //   let formatDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
   //   return formatDate;
   // };
+  let handleUpdateInfoUser = useCallback(
+    (id) => {
+      let userUpdate = infoUser.find((item) => item.id === id);
+      dispatch(
+        actions.fillFormUpdateUserBooking.fillFormUpdateUserBookingRequest(
+          userUpdate
+        )
+      );
+      dispatch(showModalUpdateUser());
+    },
+    [infoUser, dispatch]
+  );
+  const handleDeleteInfoUser = useCallback(
+    (id) => {
+      let userDelete = infoUser.find((item) => item.id === id);
+      dispatch(
+        actions.deleteNewUserBooking.deleteNewUserBookingRequest(userDelete)
+      );
+    },
+    [dispatch, infoUser]
+  );
   const onSubmitCheckIn = useCallback(
     (values) => {
       let arrActualArrivalDate = values.actualArrivalDate.split("-");
@@ -81,16 +102,9 @@ export default function CheckInContainer() {
         arrActualArrivalDate[1] +
         "/" +
         arrActualArrivalDate[0];
-      let arrDateActualDepartureDate = values.actualDepartureDate.split("-");
-      let formatActualDepartureDate =
-        arrDateActualDepartureDate[2] +
-        "/" +
-        arrDateActualDepartureDate[1] +
-        "/" +
-        arrDateActualDepartureDate[0];
       let bookingRequest = {
         actualArrivalDate: formatDate,
-        actualDepartureDate: formatActualDepartureDate,
+        actualDepartureDate: formatDate,
         arrivalDate: values.arrivalDate,
         confirmationNo: values.confirmationNo,
         createBy: values.createBy,
@@ -136,12 +150,12 @@ export default function CheckInContainer() {
       };
 
       console.log("NewCheckInFo", newInfoCheckInWithUser);
-      // dispatch(
-      //   actions.checkInRoom.checkInRoomRequest({
-      //     newInfoCheckInWithUser,
-      //     navigate,
-      //   })
-      // );
+      dispatch(
+        actions.checkInRoom.checkInRoomRequest({
+          newInfoCheckInWithUser,
+          navigate,
+        })
+      );
     },
     [selectedValue, infoUser]
   );
@@ -158,9 +172,9 @@ export default function CheckInContainer() {
       createDate: infoBooking?.createDate,
       numOfAdult: infoBooking?.numOfAdult,
       numOfChildren: infoBooking?.numOfChildren,
-      arrivalDate: infoBooking?.arrivalDate,
+      arrivalDate: infoBooking?.arrivalDate.substring(0, 10),
       arrivalTime: "",
-      departureDate: infoBooking?.departureDate,
+      departureDate: infoBooking?.departureDate.substring(0, 10),
       departureTime: "12:00",
       customer_Id: infoBooking?.customer.id,
       phoneNumber: infoBooking?.customer.phoneNumber,
@@ -184,7 +198,6 @@ export default function CheckInContainer() {
       resetForm({ values: "" });
     },
   });
-  // console.log("Hello Thanh An", formik.values);
   let handleDelete = () => {};
   let infoUserColumns = useMemo(
     () => [
@@ -207,7 +220,7 @@ export default function CheckInContainer() {
       {
         field: "phoneNumber",
         headerName: "Số điện thoại",
-        width: 200,
+        width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.phoneNumber}</div>;
         },
@@ -252,27 +265,14 @@ export default function CheckInContainer() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {params.row.id ===null ? (
-              <input
-                // checked={selectedValue === params.row.id}
-                type="radio"
-                onChange={handleChange}
-                value={params.row.id}
-                name="radio-buttons"
-                
-                // inputProps={{ "aria-label": "A" }}
-              />
-            ) : (
-              <input
-                // checked={selectedValue === params.row.id}
-                type="radio"
-                onChange={handleChange}
-                value={params.row.id}
-                name="radio-buttons"
-                checked
-                // inputProps={{ "aria-label": "A" }}
-              />
-            )}
+            <input
+              // checked={selectedValue === params.row.id}
+              type="radio"
+              onChange={handleChange}
+              value={params.row.id}
+              name="radio-buttons"
+              // inputProps={{ "aria-label": "A" }}
+            />
           </div>
         );
       },
@@ -286,9 +286,15 @@ export default function CheckInContainer() {
           <div className="cellAction">
             <div
               className="updateButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleUpdateInfoUser(params.row.id)}
             >
               Cập Nhật
+            </div>
+            <div
+              className="deleteButton"
+              onClick={() => handleDeleteInfoUser(params.row.id)}
+            >
+              Xóa
             </div>
           </div>
         );
@@ -551,7 +557,7 @@ export default function CheckInContainer() {
             </div>
           </div>
           <div className="buttonCheckIn">
-            {infoUser.length !== 0 ? (
+            {infoUser.length !== 0 && selectedValue !== 1 ? (
               <button type="submit" className="buttonCheckInItem">
                 Check In
               </button>
@@ -598,7 +604,7 @@ export default function CheckInContainer() {
           )}
         </div>
       </div>
-      <UpdateNewCustomerModal/>
+      <UpdateNewCustomerModal />
     </div>
   );
 }

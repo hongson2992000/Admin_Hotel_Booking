@@ -15,11 +15,16 @@ import {
   roomValidState$,
 } from "../../redux/selectors/RoomManageSelector";
 import * as actions from "../../redux/actions/BookingManageAction";
-import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
+import {
+  INFO_BOOKING_DETAIL,
+  USER_LOGIN,
+} from "../../utils/constants/settingSystem";
 import moment from "moment";
 import { useNavigate, useParams } from "react-router-dom";
 import AddNewCustomerModal from "../CheckInContainer/AddNewCustomerModal/AddNewCustomerModal";
 import UpdateNewCustomerModal from "../CheckInContainer/UpdateNewCustomerModal/UpdateNewCustomerModal";
+import { info } from "sass";
+import { useState } from "react";
 export default function CreateNewRoomContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,11 +33,15 @@ export default function CreateNewRoomContainer() {
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
+  console.log("HONGSON",selectedValue)
   const roomValid = useSelector(roomValidState$);
   const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
-  // console.log("Hello Son", infoBooking);
+  const userLogin = JSON.parse(localStorage.getItem(USER_LOGIN));
   const roomType = useSelector(roomTypeState$);
   const params = useParams();
+
+ 
+
   const renderTypeRoom = () => {
     let roomType = "";
     switch (infoBooking?.roomTypeId) {
@@ -66,6 +75,7 @@ export default function CreateNewRoomContainer() {
   //   let formatDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
   //   return formatDate;
   // };
+  
   const onSubmitCheckIn = useCallback(
     (values) => {
       let arrActualArrivalDate = values.actualArrivalDate.split("-");
@@ -75,59 +85,93 @@ export default function CreateNewRoomContainer() {
         arrActualArrivalDate[1] +
         "/" +
         arrActualArrivalDate[0];
-      let arrDateActualDepartureDate = values.actualDepartureDate.split("-");
-      let formatActualDepartureDate =
-        arrDateActualDepartureDate[2] +
+      let arrArrivalDate = values.arrivalDate.split("-");
+      let formatArrivalDate =
+        arrArrivalDate[2] + "/" + arrArrivalDate[1] + "/" + arrArrivalDate[0];
+      let arrDepartureDate = values.departureDate.split("-");
+      let formatDepartureDate =
+        arrDepartureDate[2] +
         "/" +
-        arrDateActualDepartureDate[1] +
+        arrDepartureDate[1] +
         "/" +
-        arrDateActualDepartureDate[0];
+        arrDepartureDate[0];
       let bookingRequest = {
         actualArrivalDate: formatDate,
-        actualDepartureDate: formatActualDepartureDate,
-        arrivalDate: values.arrivalDate,
+        actualDepartureDate: formatDate,
+        arrivalDate: formatArrivalDate,
         confirmationNo: values.confirmationNo,
-        createBy: values.createBy,
+        createBy:
+          userLogin.firstName +
+          " " +
+          userLogin.middleName +
+          " " +
+          userLogin.lastName,
         createDate: values.createDate,
         customer_Id: values.customer_Id,
-        departureDate: values.departureDate,
+        departureDate: formatDepartureDate,
         hotel_Id: values.hotel_Id,
         id: values.id,
-        lastModifyBy: "",
+        lastModifyBy:
+          userLogin.firstName +
+          " " +
+          userLogin.middleName +
+          " " +
+          userLogin.lastName,
         numOfAdult: values.numOfAdult,
         numOfChildren: values.numOfChildren,
-        roomPayment: values.roomPayment,
+        roomPayment: "N/A",
         roomType_Id: values.roomTypeId,
         room_Id: values.room_Id,
         specialNote: values.specialNote,
         status: values.status,
         totalAmount: values.totalAmount,
-        updateDate: "",
+        updateDate: moment().format("DD/MM/YYY"),
       };
+      let arrInfoUserNew = [];
+      infoUser.forEach((item) => {
+        
+        arrInfoUserNew.push({
+          id: item.id,
+          birthDate: item.birthDate,
+          createBy: item.createBy,
+          createDate: item.createDate,
+          email: item.email,
+          firstName: item.firstName,
+          gender: item.gender,
+          phoneNumber: item.phoneNumber,
+          lastName: item.lastName,
+          middleName: item.middleName,
+          passportNo: item.passportNo,
+          idNo: item.idNo,
+          updateDate: item.updateDate,
+          lastModifyBy: item.lastModifyBy,
+          primary: item.id.toString() === selectedValue ? true : false,
+        });
+      });
       let newInfoCheckInWithUser = {
         bookingRequest: bookingRequest,
-        customerRequests: infoUser,
+        customerRequests: arrInfoUserNew,
       };
 
       console.log("NewCheckInFo", newInfoCheckInWithUser);
-      // dispatch(
-      //   actions.checkInRoom.checkInRoomRequest({
-      //     newInfoCheckInWithUser,
-      //     navigate,
-      //   })
-      // );
+      dispatch(
+        actions.checkInRoomInHotel.checkInRoomInHotelRequest({
+          newInfoCheckInWithUser,
+          navigate,
+        })
+      );
     },
-    [navigate, infoUser, dispatch]
+    [navigate, infoUser, dispatch, userLogin, selectedValue]
   );
   const formik = useFormik({
     initialValues: {
-      id: "",
-      room_Id: "",
+      id: 0,
+      room_Id: parseInt(params.roomId),
       name: "",
       createDate: moment().format("DD/MM/YYYY"),
       numOfAdult: roomType.maxAdult,
       numOfChildren: roomType.maxChildren,
-      arrivalDate: "",
+      arrivalDate: moment().format("YYYY-MM-DD"),
       arrivalTime: "",
       departureDate: "",
       departureTime: "12:00",
@@ -142,10 +186,15 @@ export default function CreateNewRoomContainer() {
       actualDepartureDate: "",
       confirmationNo: "",
       roomPayment: "",
-      createBy: "",
+      createBy:
+        userLogin.firstName +
+        " " +
+        userLogin.middleName +
+        " " +
+        userLogin.lastName,
       hotel_Id: 1,
-      roomTypeId: "",
-      totalAmount: "",
+      roomTypeId: roomType.id,
+      totalAmount: roomType.defaultPrice,
       specialNote: "",
     },
     onSubmit: (values, { resetForm }) => {
@@ -162,7 +211,9 @@ export default function CreateNewRoomContainer() {
         ),
     }),
   });
-  console.log("Hello Thanh An", formik.values.numOfAdult);
+  let [date , setDate] = useState(formik.values.departureDate)
+  console.log("Ngày", date)
+  console.log("Ngày đi", formik.values.departureDate);
   let handleUpdateInfoUser = useCallback(
     (id) => {
       let userUpdate = infoUser.find((item) => item.id === id);
@@ -250,27 +301,14 @@ export default function CreateNewRoomContainer() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {params.row.id === null ? (
-              <input
-                // checked={selectedValue === params.row.id}
-                type="radio"
-                onChange={handleChange}
-                value={params.row.id}
-                name="radio-buttons"
-
-                // inputProps={{ "aria-label": "A" }}
-              />
-            ) : (
-              <input
-                // checked={selectedValue === params.row.id}
-                type="radio"
-                onChange={handleChange}
-                value={params.row.id}
-                name="radio-buttons"
-                checked
-                // inputProps={{ "aria-label": "A" }}
-              />
-            )}
+            <input
+              // checked={selectedValue === params.row.id}
+              type="radio"
+              onChange={handleChange}
+              value={params.row.id}
+              name="radio-buttons"
+              // inputProps={{ "aria-label": "A" }}
+            />
           </div>
         );
       },
@@ -313,7 +351,7 @@ export default function CreateNewRoomContainer() {
                 Số Phòng: {params.roomNo}
               </span>
               <span style={{ paddingLeft: "50px", fontSize: "20px" }}>
-                Tiền Phòng: {roomType.defaultPrice}
+                Tiền phòng/ngày: {roomType.defaultPrice}
               </span>
             </div>
           </div>
@@ -326,7 +364,7 @@ export default function CreateNewRoomContainer() {
                   className="title"
                   style={{ padding: "0.875rem", borderRadius: "5px" }}
                   type="date"
-                  required
+                  disabled
                   min={moment().format("YYYY-MM-DD")}
                   id="arrivalDate"
                   name="arrivalDate"
@@ -415,18 +453,6 @@ export default function CreateNewRoomContainer() {
                   onChange={formik.handleChange}
                 />
               </div> */}
-              <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Mã Đặt Phòng</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  disabled
-                  id="id"
-                  name="id"
-                  value={formik.values.id || ""}
-                  onChange={formik.handleChange}
-                />
-              </div>
               <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Người Lớn</InputLabel>
                 <TextField
@@ -537,9 +563,9 @@ export default function CreateNewRoomContainer() {
             </div>
           </div>
           <div className="buttonCheckIn">
-            {infoUser.length !== 0 ? (
+            {infoUser.length !== 0 && selectedValue !== 1 ? (
               <button type="submit" className="buttonCheckInItem">
-                Check In
+                Check In Tại Hotel
               </button>
             ) : (
               <button
@@ -548,7 +574,7 @@ export default function CreateNewRoomContainer() {
                 disabled
                 style={{ pointerEvents: "none" }}
               >
-                Check In
+                Check In Tại Hotel
               </button>
             )}
           </div>
