@@ -84,7 +84,7 @@ function App() {
                 element={<InfomationCustomerContainer />}
               />
               <Route index element={<ListRoomContainer />} />
-              <Route path="createNewRoom/:roomNo" element={<CreateNewRoomContainer />} />
+              <Route path="createNewRoom/:roomNo/:roomId" element={<CreateNewRoomContainer />} />
             </Route>
             <Route
               path="/listBooking"

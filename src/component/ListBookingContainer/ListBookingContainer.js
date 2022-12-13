@@ -30,7 +30,7 @@ export default function ListBookingContainer() {
       navigate("/overview");
     } else if (
       userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+      JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
     ) {
       navigate("/listBooking");
       dispatch(actions.getAllBooking.getAllBookingRequest());

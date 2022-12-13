@@ -13,12 +13,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import { requestServiceDetailManageState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import DialogDelete from "../../DialogDelete/DialogDelete";
 export default function PopupDetailRequestServiceInRoom({bookingId}) {
-    console.log("Hello Bà Già", bookingId)
   const dispatch = useDispatch();
   const isShow = useSelector(modalRequestServiceDetailState$);
   const navigate = useNavigate();
   const infoOderDetail = useSelector(requestServiceDetailManageState$);
-  console.log("Hello Bé An",infoOderDetail)
+
   const onClose = useCallback(() => {
     dispatch(hideModalRequestServiceDetail());
   }, [dispatch]);

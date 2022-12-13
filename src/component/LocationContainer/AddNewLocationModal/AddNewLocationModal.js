@@ -29,7 +29,6 @@ export default function AddNewLocationModal() {
   const onSubmitService = useCallback(
     (values) => {
       // dispatch(actions.createNewHotelService.createHotelServiceRequest(values));
-      console.log("Hello Thanh An", values)
       dispatch(hideModalAddLocation());
     },
     [dispatch]

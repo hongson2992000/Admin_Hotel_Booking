@@ -12,30 +12,35 @@ export default function HomePage() {
   const currentDate = moment().format("DD/MM/yyyy");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  useEffect(() => {
-    const userLocal = localStorage.getItem(USER_LOGIN);
-    if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
-      navigate("/overview");
-    } else if (
-      userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
-    ) {
-      navigate("/roomManage");
-    } else if (
-      userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
-    ) {
-      navigate("/roomManage");
-    } else if (
-      userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
-    ) {
-      navigate("/roomManage");
-    }
-    // dispatch(
-    //   actions.getDashBoardOverview.getDashBoardOverviewRequest(currentDate)
-    // );
-  }, [currentDate, navigate, dispatch]);
+  // useEffect(() => {
+  //   const userLocal = localStorage.getItem(USER_LOGIN);
+  //   if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
+  //     navigate("/overview");
+  //   } else if (
+  //     userLocal &&
+  //     JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+  //   ) {
+  //     navigate("/overview");
+  //   } else if (
+  //     userLocal &&
+  //     JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
+  //   ) {
+  //     navigate("/roomManage");
+  //   } else if (
+  //     userLocal &&
+  //     JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
+  //   ) {
+  //     navigate("/roomManage");
+  //   } else if (
+  //     userLocal &&
+  //     JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
+  //   ) {
+  //     navigate("/roomManage");
+  //   }
+  //   // dispatch(
+  //   //   actions.getDashBoardOverview.getDashBoardOverviewRequest(currentDate)
+  //   // );
+  // }, [currentDate, navigate, dispatch]);
   return (
     <div className="main-screenDashBoard col-12">
       <div className="row">

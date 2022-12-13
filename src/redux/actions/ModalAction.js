@@ -77,3 +77,7 @@ export const hideModalAddNews = createAction("HIDE_ADD_NEWS_MODAL");
 
 export const showModalUpdateNews = createAction("SHOW_UPDATE_NEWS_MODAL");
 export const hideModalUpdateNews = createAction("HIDE_UPDATE_NEWS_MODAL");
+
+//MODAL PROFILE
+export const showModalProfile = createAction("SHOW_PROFILE_MODAL");
+export const hideModalProfile = createAction("HIDE_PROFILE_MODAL");

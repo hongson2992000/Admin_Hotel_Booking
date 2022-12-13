@@ -93,6 +93,7 @@ export default function BookingManageReducer(state = initialState, action) {
       return {
         ...state,
         arrCheckIn: action.payload,
+        userInfoBooking: []
       };
     case getType(checkInRoom.checkInRoomFailure):
       return {

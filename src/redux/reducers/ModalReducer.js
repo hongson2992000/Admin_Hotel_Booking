@@ -34,6 +34,8 @@ import {
   hideModalAddNews,
   showModalUpdateNews,
   hideModalUpdateNews,
+  showModalProfile,
+  hideModalProfile,
 } from "../actions/ModalAction";
 
 const initialState = {
@@ -54,6 +56,7 @@ const initialState = {
   isShowTurnDownServiceManage: false,
   isShowAddNews: false,
   isShowUpdateNews: false,
+  isShowProfile:false
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -242,6 +245,17 @@ export default function ModalReducer(state = initialState, action) {
         ...state,
         isShowUpdateNews: false,
       };
+      case getType(showModalProfile):
+        return {
+          ...state,
+          isShowProfile: true,
+        };
+  
+      case getType(hideModalProfile):
+        return {
+          ...state,
+          isShowProfile: false,
+        };
     default:
       return state;
   }

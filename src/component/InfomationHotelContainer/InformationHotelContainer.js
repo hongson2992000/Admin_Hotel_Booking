@@ -15,7 +15,6 @@ export default function InfomationHotelContainer() {
   console.log("Thanh An", infoHotel);
   // const roomValid = useSelector(roomValidState$);
   // const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
-  // // console.log("Hello Son", infoBooking);
   // const renderCurrentDate = () => {
   //   let currentDate = moment().format("YYYY-MM-DD");
   //   return currentDate;

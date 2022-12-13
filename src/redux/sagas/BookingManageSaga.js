@@ -1,4 +1,5 @@
 import * as actions from "./../actions/BookingManageAction";
+import * as actionRoom from "./../actions/RoomManageAction"
 import {
   DISPLAY_LOADING,
   HIDE_LOADING,
@@ -104,6 +105,10 @@ function* checkOutRoom(action) {
       yield put(
         actions.checkOutRoom.checkOutRoomFailure(error.response.data.message)
       );
+      yield put({
+        type: HIDE_LOADING,
+      });
+      action.payload.navigate("/roomManage");
     }
   }
 }
@@ -191,4 +196,61 @@ export function* followActionGetBookingByRoomId() {
     actions.getBookingByRoomId.getBookingByRoomIdRequest,
     getBookingByRoomId
   );
+}
+function* checkInRoomInHotel(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let listBooking = yield call(() => {
+      return bookingManage.checkInRoomInHotel(action.payload.newInfoCheckInWithUser);
+    });
+    console.log(listBooking.data);
+    if (listBooking.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.checkInRoom.checkInRoomSuccess(listBooking.data));
+      let listRoom = yield call(() => {
+        return roomManage.getAllRoom();
+      });
+      if (listRoom.status === STATUS_CODE.SUCCESS) {
+        let arrRoom = [];
+        for (let i = 0; i < listRoom.data.length; i++) {
+          if (listRoom.data[i].status === true) {
+            let booking = yield call(() => {
+              return bookingManage.getBookingByRoomId(listRoom.data[i].id);
+            });
+            if (booking.status === STATUS_CODE.SUCCESS) {
+              let newRoom = {};
+              newRoom = {
+                room: listRoom.data[i],
+                booking: booking,
+              };
+              arrRoom.push(newRoom);
+            }
+          } else {
+            let newRoom = {};
+            newRoom = {
+              room: listRoom.data[i],
+              booking: {},
+            };
+            arrRoom.push(newRoom);
+          }
+        }
+        yield put(actionRoom.getAllRoom.getAllRoomSuccess(arrRoom));
+        yield put({
+          type: HIDE_LOADING,
+        });
+      }
+    }
+    action.payload.navigate("/roomManage")
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+  } catch (error) {
+    console.log(error);
+    yield put(actions.checkInRoomInHotel.checkInRoomInHotelFailure(error));
+  }
+}
+export function* followActionCheckInHotel() {
+  yield takeLatest(actions.checkInRoomInHotel.checkInRoomInHotelRequest, checkInRoomInHotel);
 }

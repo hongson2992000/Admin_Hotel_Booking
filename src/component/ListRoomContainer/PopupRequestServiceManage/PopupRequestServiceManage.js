@@ -244,7 +244,7 @@ export default function PopupRequestServiceManage({ bookingId }) {
   );
   const renderActionColoumn = () => {
     let actionColumn = [];
-    if (userInfo.userRole !== USER_ROLE.HOTEL_MANAGE) {
+    if (userInfo.userRole !== USER_ROLE.RECEPTIONIST) {
       actionColumn = [
         {
           field: "status",

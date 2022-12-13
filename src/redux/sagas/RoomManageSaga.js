@@ -180,7 +180,7 @@ function* getRoomTypeByRoomId(action) {
         actions.getRoomTypeByRoomId.getRoomTypeByRoomIdSuccess(roomType.data)
       );
       action.payload.navigate(
-        `/roomManage/createNewRoom/${action.payload.roomNo}`
+        `/roomManage/createNewRoom/${action.payload.roomNo}/${action.payload.roomId}`
       );
     }
     yield put({

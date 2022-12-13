@@ -16,9 +16,9 @@ export default function CustomerPage() {
       navigate("/overview");
     } else if (
       userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+      JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
     ) {
-      // navigate("/customerManage");
+      navigate("/customerManage");
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING

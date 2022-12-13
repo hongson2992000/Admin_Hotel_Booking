@@ -5,7 +5,6 @@ import { USER_ROLE } from "../../utils/constants/settingSystem";
 export default function PrivateRouteByRole({ roleName }) {
   const checkPrivateRole = () => {
     if (roleName === USER_ROLE.ADMIN) {
-        console.log("Hello Thanh An")
       return roleName === USER_ROLE.ADMIN ? (
         <Outlet />
       ) : (

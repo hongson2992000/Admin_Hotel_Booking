@@ -60,7 +60,6 @@ export default function InfomationCustomerContainer() {
     });
     return arrNew;
   };
-  console.log("Hello Thanh An", renderListOrder());
   const [dataInfoCustomer, setDataInfoCustomer] = useState(infoCustomer);
   console.log(renderCurrentDate());
   const renderTypeRoom = (roomType_id) => {
@@ -113,6 +112,7 @@ export default function InfomationCustomerContainer() {
       createBy: "",
       hotel_Id: "",
       roomType: renderTypeRoom(infoCustomer.booking?.roomTypeId),
+      roomNo:infoCustomer.room.roomNo,
       totalAmount: "",
       specialNote: "",
     },
@@ -285,7 +285,7 @@ export default function InfomationCustomerContainer() {
                   required
                   id="arrivalDate"
                   name="arrivalDate"
-                  value={formik.values.arrivalDate || ""}
+                  value={formik.values.arrivalDate}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -309,7 +309,7 @@ export default function InfomationCustomerContainer() {
                   required
                   id="arrivalTime"
                   name="arrivalTime"
-                  value={formik.values.arrivalTime || ""}
+                  value={formik.values.arrivalTime}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -331,9 +331,9 @@ export default function InfomationCustomerContainer() {
                   className="title"
                   disabled
                   required
-                  id="departureTime"
-                  name="departureTime"
-                  value={formik.values.departureTime}
+                  id="roomNo"
+                  name="roomNo"
+                  value={formik.values.roomNo}
                   onChange={formik.handleChange}
                 />
               </div>

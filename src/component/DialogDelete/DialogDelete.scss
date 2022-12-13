@@ -5,20 +5,27 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100000;
+    z-index: 10;
     .DialogDeleteItem {
-        // display: flex;
-        flex-direction: column;
-        // align-items: center;
-        // justify-content: center;
+        width: 400px;
+        background: #ffffff;
+        border-radius: 6px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: white;
-        padding: 20px;
-        border-radius: 5px;
-        height: 110px;
+        text-align: center;
+        padding: 0 30px 30px;
+        color: #333;
+        z-index: 100000;
+        position: fixed;
+        border: 2px solid #d64949;
+        img {
+            width: 100px;
+            margin-top: -50px;
+            border-radius: -50px;
+            // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
     }
     .buttonDialog {
         text-align: right;

@@ -29,6 +29,7 @@ export default function GreetingScreen() {
           </span>
         </div>
       </form>
+      
     </div>
   );
 }

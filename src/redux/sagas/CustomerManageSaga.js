@@ -8,6 +8,7 @@ import {
 import { call, put, takeLatest } from "redux-saga/effects";
 import { customerManage } from "../../services/CustomerManage";
 import {bookingManage} from "../../services/BookingManage";
+import { roomManage } from "../../services/RoomManage";
 function* getAllPrimaryCustomer(action) {
   try {
     yield put({
@@ -106,10 +107,14 @@ function* getInfoCustomerByBookingId(action) {
           action.payload.booking.idBooking
         );
       });
+      let room = yield call(()=>{
+        return roomManage.getRoomByBookingId(action.payload.booking.idBooking)
+      })
       let infoCustomer = {
         booking: action.payload.booking,
         primaryCustomer: primaryCustomer.data,
         listCustomer: listCustomer.data,
+        room:room.data
       };
       yield put(
         actionBooking.getBookingByRoomId.getBookingByRoomIdSuccess(infoCustomer)

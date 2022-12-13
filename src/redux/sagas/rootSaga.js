@@ -32,6 +32,7 @@ export default function* rootSaga() {
     bookingManageSaga.followActionCheckIn(),
     bookingManageSaga.followActionCheckOut(),
     bookingManageSaga.followActionGetDashBoard(),
+    bookingManageSaga.followActionCheckInHotel(),
     requestServiceManageSaga.followActionGetAllRequestService(),
     requestServiceManageSaga.followActionConfirmRequestService(),
     requestServiceManageSaga.followActionCancelRequestService(),

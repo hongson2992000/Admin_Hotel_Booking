@@ -193,24 +193,9 @@ export default function PopupRequestService() {
   );
   const renderActionColoumn = () => {
     let actionColumn = [];
-    if (userInfo.userRole !== USER_ROLE.HOTEL_MANAGE) {
+    if (userInfo.userRole !== USER_ROLE.RECEPTIONIST) {
       actionColumn = [
-        {
-          field: "status",
-          headerName: "Trạng Thái",
-          width: 150,
-          renderCell: (params) => {
-            return (
-              <div className={`cellWithStatus ${params.row.status}`}>
-                {params.row.status === "BOOKED"
-                  ? "Chờ Xác Nhận"
-                  : params.row.status === "PROCESSING"
-                  ? "Chờ Xử Lý"
-                  : "Hoàn Thành"}
-              </div>
-            );
-          },
-        },
+
         {
           field: "action",
           headerName: "Hành Động",
@@ -301,7 +286,7 @@ export default function PopupRequestService() {
             className="datagrid"
             getRowId={(row) => row.id}
             rows={renderArr()}
-            columns={serviceColumns.concat(renderActionColoumn())}
+            columns={serviceColumns.concat(actionColumn)}
             pageSize={9}
             rowsPerPageOptions={[9]}
           />

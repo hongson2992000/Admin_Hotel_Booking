@@ -28,7 +28,6 @@ export default function PopupTurnDownService({ bookingId }) {
     dispatch(hideModalTurnDown());
   }, [dispatch]);
   const listRequestService = useSelector(turnDownServiceInRoomState$);
-  console.log("Hello Thanh Anh", listRequestService);
   // useEffect(() => {
   //   dispatch(actions.getTurnDownService.getTurnDownServiceRequest());
   // }, [dispatch]);
@@ -99,7 +98,7 @@ export default function PopupTurnDownService({ bookingId }) {
   // Render Data of table
   const renderActionColoumn = () => {
     let actionColumn = [];
-    if (userInfo.userRole !== USER_ROLE.HOTEL_MANAGE) {
+    if (userInfo.userRole !== USER_ROLE.RECEPTIONIST) {
       actionColumn = [
         {
           field: "status",

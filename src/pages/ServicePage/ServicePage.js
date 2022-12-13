@@ -19,7 +19,7 @@ export default function ServicePage() {
       dispatch(actions.getHotelService.getHotelServiceRequest());
     } else if (
       userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+      JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
     ) {
       navigate("/roomManage");
     } else if (

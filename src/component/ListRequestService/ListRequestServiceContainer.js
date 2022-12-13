@@ -11,7 +11,6 @@ export default function ListRequestServiceContainer() {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const listRequestService = useSelector(requestServiceManageState$);
-  console.log("Hello Thanh Anh", listRequestService);
   const renderArr = () => {
     let arrNew = [];
     listRequestService?.forEach((item) => {

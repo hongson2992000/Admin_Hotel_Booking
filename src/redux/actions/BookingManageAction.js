@@ -61,3 +61,8 @@ export const deleteNewUserBooking = createActions({
   deleteNewUserBookingSuccess: (payload) => payload,
   deleteNewUserBookingFailure: (err) => err,
 });
+export const checkInRoomInHotel = createActions({
+  checkInRoomInHotelRequest: (payload) => payload,
+  checkInRoomInHotelSuccess: (payload) => payload,
+  checkInRoomInHotelFailure: (err) => err,
+});

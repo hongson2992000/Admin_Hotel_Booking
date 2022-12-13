@@ -15,7 +15,7 @@ export default function AlarmPage() {
       navigate("/overview");
     } else if (
       userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+      JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
     ) {
       navigate("/alarm");
     } else if (

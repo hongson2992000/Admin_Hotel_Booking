@@ -7,8 +7,7 @@ export default function GreetingContainer() {
   return (
     <div className="GreetingContainer">
       <GreetingScreen />
-      <HappyBDScreen/>
-      <WishScreen/>
+
     </div>
   );
 }
