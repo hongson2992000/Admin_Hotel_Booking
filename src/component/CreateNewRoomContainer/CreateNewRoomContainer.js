@@ -23,7 +23,7 @@ import moment from "moment";
 import { useNavigate, useParams } from "react-router-dom";
 import AddNewCustomerModal from "../CheckInContainer/AddNewCustomerModal/AddNewCustomerModal";
 import UpdateNewCustomerModal from "../CheckInContainer/UpdateNewCustomerModal/UpdateNewCustomerModal";
-import { info } from "sass";
+// import { info } from "sass";
 import { useState } from "react";
 export default function CreateNewRoomContainer() {
   const dispatch = useDispatch();

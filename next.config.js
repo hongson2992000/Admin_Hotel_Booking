@@ -1,21 +1,16 @@
-module.exports = {
-    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-        // Note: we provide webpack above so you should not `require` it
-        // Perform customizations to webpack config
-        // Important: return the modified config
-    
-        // Example using webpack option
-        //config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//))
-        config.node = {
-            fs: 'empty',
-            net: 'empty',
-            tls: 'empty'
-        }
-        return config
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    reactStrictMode: true,
+    webpack(config, { nextRuntime }) { 
+      // as of Next.js latest versions, the nextRuntime is preferred over `isServer`, because of edge-runtime
+      if (typeof nextRuntime === "undefined") {
+        const { IgnorePlugin } = require("webpack");
+        const ignoreFs = new IgnorePlugin({ resourceRegExp: /fs/ });
+        config.plugins.push(ignoreFs);
+      }
+  
+      return config;
     },
-    webpackDevMiddleware: config => {
-        // Perform customizations to webpack dev middleware config
-        // Important: return the modified config
-        return config
-    },
-    }
+  };
+  
+  module.exports = nextConfig;
