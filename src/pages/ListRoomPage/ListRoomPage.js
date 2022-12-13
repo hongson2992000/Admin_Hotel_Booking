@@ -17,7 +17,7 @@ export default function ListRoomPage() {
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
     ) {
-      navigate("/roomManage");
+      // navigate("/roomManage");
     } else if (
       userLocal &&
       JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
