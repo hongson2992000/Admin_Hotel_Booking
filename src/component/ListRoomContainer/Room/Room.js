@@ -19,16 +19,16 @@ import {
 // import RoomPopup from "./roomPopup";
 import { roomManageState$ } from "../../../redux/selectors/RoomManageSelector";
 import {
-  showModalRequestService,
   showModalSendMessage,
 } from "../../../redux/actions/ModalAction";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PopupRequestService from "../PopupRequestService/PopupRequestService";
 import PopupDetailRequestServiceInRoom from "../PopupDetailRequestServiceInRoom/PopupDetailRequestServiceInRoom";
 import PopupTurnDownService from "../PopupTurnDownService/PopupTurnDownService";
 import PopupRequestServiceManage from "../PopupRequestServiceManage/PopupRequestServiceManage";
 import PopupTurnDownManage from "../PopupTurnDownManage/PopupTurnDownManage";
 import DialogDelete from "../../DialogDelete/DialogDelete";
+import PopupSendMessage from "../PopupSendMessage/PopupSendMessage";
 
 export default function Room() {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ export default function Room() {
   const navigate = useNavigate();
   const userInfo = useSelector(userState$);
   const listRoom = useSelector(roomManageState$);
-  let [dataListRoom, setDataListRoom] = useState(listRoom);
+  // let [dataListRoom, setDataListRoom] = useState(listRoom);
   let [bookingId, setBookingId] = useState(1);
   let MenusEmpty = [{ name: "Tạo đặt phòng", id: 0 }];
   let MenusNotEmptyHousekeeping = [{ name: "Xem Yêu Cầu Dịch Vụ", id: 0 }];
@@ -93,23 +93,23 @@ export default function Room() {
     }
   };
   // const navigate = useNavigate();
-  const handlefilterRoom = (type) => {
-    switch (type) {
-      case 3:
-        let listRoom1 = listRoom.filter((item) => item.room.status === true);
-        setDataListRoom(listRoom1);
-        break;
-      case 2:
-        let listRoom2 = listRoom.filter((item) => item.room.status === false);
-        setDataListRoom(listRoom2);
-        break;
-      case 1:
-        setDataListRoom(listRoom);
-        break;
-      default:
-        return;
-    }
-  };
+  // const handlefilterRoom = (type) => {
+  //   switch (type) {
+  //     case 3:
+  //       let listRoom1 = listRoom.filter((item) => item.room.status === true);
+  //       setDataListRoom(listRoom1);
+  //       break;
+  //     case 2:
+  //       let listRoom2 = listRoom.filter((item) => item.room.status === false);
+  //       setDataListRoom(listRoom2);
+  //       break;
+  //     case 1:
+  //       setDataListRoom(listRoom);
+  //       break;
+  //     default:
+  //       return;
+  //   }
+  // };
   const handleRoomNotEmpty = useCallback(
     (menuId, room_id, bookingId) => {
       switch (menuId) {
@@ -122,11 +122,12 @@ export default function Room() {
           navigate("/roomManage/customerDetail");
           break;
         case 1:
-          dispatch(
-            actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
-              room_id: room_id,
-            })
-          );
+          // dispatch(
+          //   actionBooking.getBookingByRoomId.getBookingByRoomIdRequest({
+          //     room_id: room_id,
+          //   })
+          // );
+          setBookingId(bookingId)
           dispatch(showModalSendMessage());
           break;
         case 2:
@@ -555,27 +556,27 @@ export default function Room() {
       <div className="row Room">
         <div className="FillterRoom">
           <span
-            onClick={() => {
-              handlefilterRoom(1);
-            }}
+            // onClick={() => {
+            //   handlefilterRoom(1);
+            // }}
           >
             <div className="FillterAll">
               <p>Tất Cả</p>
             </div>
           </span>
           <span
-            onClick={() => {
-              handlefilterRoom(2);
-            }}
+            // onClick={() => {
+            //   handlefilterRoom(2);
+            // }}
           >
             <div className="FillterEmpty">
               <p>Trống</p>
             </div>
           </span>
           <span
-            onClick={() => {
-              handlefilterRoom(3);
-            }}
+            // onClick={() => {
+            //   handlefilterRoom(3);
+            // }}
           >
             <div className="FillterNotEmpty">
               <p>Có Khách</p>
@@ -624,6 +625,7 @@ export default function Room() {
       <PopupTurnDownService bookingId={bookingId} />
       <PopupTurnDownManage />
       <PopupRequestServiceManage bookingId={bookingId} />
+      <PopupSendMessage bookingId={bookingId}/>
       {dialog.isLoading && (
         <DialogDelete onDialog={areUSureCheckOut} message={dialog.message} />
       )}

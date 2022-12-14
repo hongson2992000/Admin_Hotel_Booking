@@ -1,15 +1,12 @@
 import {
   InputLabel,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   TextField,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
 import React, { useCallback, useMemo } from "react";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useDispatch, useSelector } from "react-redux";
 import "./CheckInContainer.scss";
 import {
@@ -30,10 +27,6 @@ export default function CheckInContainer() {
   console.log("InfoUser", infoUser);
   const roomValid = useSelector(roomValidState$);
   const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
-  const renderCurrentDate = () => {
-    let currentDate = moment().format("YYYY-MM-DD");
-    return currentDate;
-  };
   const [selectedValue, setSelectedValue] = React.useState(1);
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -157,7 +150,7 @@ export default function CheckInContainer() {
         })
       );
     },
-    [selectedValue, infoUser]
+    [selectedValue, infoUser, dispatch, navigate]
   );
   const formik = useFormik({
     initialValues: {
@@ -198,7 +191,6 @@ export default function CheckInContainer() {
       resetForm({ values: "" });
     },
   });
-  let handleDelete = () => {};
   let infoUserColumns = useMemo(
     () => [
       {
@@ -564,7 +556,7 @@ export default function CheckInContainer() {
             ) : (
               <button
                 type="submit"
-                className="buttonCheckInItem"
+                className="buttonCheckInItemDisable"
                 disabled
                 style={{ pointerEvents: "none" }}
               >

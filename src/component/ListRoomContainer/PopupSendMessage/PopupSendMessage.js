@@ -6,23 +6,22 @@ import { hideModalSendMessage } from "../../../redux/actions/ModalAction";
 import { modalSendMessageState$ } from "../../../redux/selectors/ModalSelector";
 import "./PopupSendMessage.scss";
 import * as actions from "../../../redux/actions/SendMessageAction";
-import { bookingItemState$ } from "../../../redux/selectors/BookingManageSelector";
-export default function PopupSendMessage() {
+export default function PopupSendMessage({bookingId}) {
   const dispatch = useDispatch();
-  const bookingItem = useSelector(bookingItemState$);
+  // const bookingItem = useSelector(bookingItemState$);
   const isShow = useSelector(modalSendMessageState$);
   const onSubmitMessage = useCallback(
     (values) => {
       dispatch(
         actions.sendMessage.sendMessageRequest({
-          booking_Id: bookingItem.id,
+          booking_Id: bookingId,
           messageContent: values.content,
           id: 0,
         })
       );
       dispatch(hideModalSendMessage());
     },
-    [bookingItem, dispatch]
+    [dispatch,bookingId]
   );
 
   const formik = useFormik({
