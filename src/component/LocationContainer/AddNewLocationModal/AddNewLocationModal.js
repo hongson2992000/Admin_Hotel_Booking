@@ -1,21 +1,13 @@
-import {
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  TextareaAutosize,
-  TextField,
-} from "@mui/material";
+import { InputLabel, Modal, TextareaAutosize, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { modalAddLocationState$ } from "../../../redux/selectors/ModalSelector";
 import "./AddNewLocationModal.scss";
 import {
-  hideModal,
   hideModalAddLocation,
 } from "../../../redux/actions/ModalAction";
-import * as actions from "../../../redux/actions/ServiceManageAction";
+import * as actions from "../../../redux/actions/LocationManageAction";
 import moment from "moment";
 import * as Yup from "yup";
 export default function AddNewLocationModal() {
@@ -28,7 +20,7 @@ export default function AddNewLocationModal() {
   // let dataService = formik.values
   const onSubmitService = useCallback(
     (values) => {
-      // dispatch(actions.createNewHotelService.createHotelServiceRequest(values));
+      dispatch(actions.createLocation.createLocationRequest(values));
       dispatch(hideModalAddLocation());
     },
     [dispatch]
@@ -40,7 +32,7 @@ export default function AddNewLocationModal() {
       address: "",
       closeTime: "",
       openTime: "",
-      hotel_Id: "",
+      hotel_Id: 1,
       latidute: "",
       longtitude: "",
       description: "",
@@ -52,11 +44,11 @@ export default function AddNewLocationModal() {
     validationSchema: Yup.object({
       name: Yup.string().required("Yêu cầu *"),
       address: Yup.string().required("Yêu cầu *"),
-      openTime:Yup.string().required("Yêu cầu *"),
-      closeTime:Yup.string().required("Yêu cầu *"),
-      longtitude:Yup.string().required("Yêu cầu *"),
-      latidute:Yup.string().required("Yêu cầu *"),
-      description:Yup.string().required("Yêu cầu *"),
+      openTime: Yup.string().required("Yêu cầu *"),
+      closeTime: Yup.string().required("Yêu cầu *"),
+      longtitude: Yup.string().required("Yêu cầu *"),
+      latidute: Yup.string().required("Yêu cầu *"),
+      description: Yup.string().required("Yêu cầu *"),
     }),
   });
   const body = (
@@ -170,7 +162,7 @@ export default function AddNewLocationModal() {
               <span style={{ color: "red" }}>{formik.errors.latidute}</span>
             )}
           </div>
-          <div className="col-12">
+          <div className="col-12" style={{height:"160px"}}>
             <InputLabel>Thông tin mô tả</InputLabel>
             <TextareaAutosize
               className="title"

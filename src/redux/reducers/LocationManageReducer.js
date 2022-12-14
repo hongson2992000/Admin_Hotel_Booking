@@ -28,27 +28,33 @@ export default function ServiceManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(createLocation.createLocationSuccess):
+      let newCreateLocation = [];
+      newCreateLocation = action.payload;
+      state.arrLocation = newCreateLocation;
       return {
         ...state,
-        arrLocation: action.payload,
       };
     case getType(createLocation.createLocationFailure):
       return {
         ...state,
       };
     case getType(updateLocation.updateLocationSuccess):
+      let newUpdateLocation = [];
+      newUpdateLocation = action.payload;
+      state.arrLocation = newUpdateLocation;
       return {
         ...state,
-        arrLocation: action.payload,
       };
     case getType(updateLocation.updateLocationFailure):
       return {
         ...state,
       };
     case getType(deleteLocation.deleteLocationSuccess):
+      let newDeleteLocation = [];
+      newDeleteLocation = action.payload;
+      state.arrLocation = newDeleteLocation;
       return {
         ...state,
-        arrLocation: action.payload,
       };
     case getType(deleteLocation.deleteLocationFailure):
       return {

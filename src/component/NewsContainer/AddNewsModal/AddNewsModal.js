@@ -1,8 +1,6 @@
 import {
   InputLabel,
-  MenuItem,
   Modal,
-  Select,
   TextareaAutosize,
   TextField,
 } from "@mui/material";
@@ -12,10 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { modalAddNewsState$ } from "../../../redux/selectors/ModalSelector";
 import "./AddNewsModal.scss";
 import {
-  hideModalAddLocation,
   hideModalAddNews,
 } from "../../../redux/actions/ModalAction";
-import * as actions from "../../../redux/actions/ServiceManageAction";
+import * as actions from "../../../redux/actions/NewsManageAction";
 import moment from "moment";
 import * as Yup from "yup";
 export default function AddNewsModal() {
@@ -28,8 +25,8 @@ export default function AddNewsModal() {
   // let dataService = formik.values
   const onSubmitService = useCallback(
     (values) => {
-      // dispatch(actions.createNewHotelService.createHotelServiceRequest(values));
-      dispatch(hideModalAddLocation());
+      dispatch(actions.createNews.createNewsRequest(values));
+      dispatch(hideModalAddNews());
     },
     [dispatch]
   );
@@ -54,7 +51,7 @@ export default function AddNewsModal() {
       resetForm({ values: "" });
     },
     validationSchema: Yup.object({
-      newsName: Yup.string().required("Yêu cầu *"),
+      newName: Yup.string().required("Yêu cầu *"),
       address: Yup.string().required("Yêu cầu *"),
       startDate: Yup.string().required("Yêu cầu *"),
       endDate: Yup.string().required("Yêu cầu *"),
@@ -81,13 +78,13 @@ export default function AddNewsModal() {
             <TextField
               className="title"
               required
-              id="newsName"
-              name="newsName"
-              value={formik.values.newsName}
+              id="newName"
+              name="newName"
+              value={formik.values.newName}
               onChange={formik.handleChange}
             />
-            {formik.errors.newsName && (
-              <span style={{ color: "red" }}>{formik.errors.newsName}</span>
+            {formik.errors.newName && (
+              <span style={{ color: "red" }}>{formik.errors.newName}</span>
             )}
           </div>
           <div className="col-6 simpleModalItem">
@@ -133,9 +130,9 @@ export default function AddNewsModal() {
               type="date"
               className="title"
               required
-              id="startDate"
-              name="startDate"
-              value={formik.values.startDate}
+              id="endDate"
+              name="endDate"
+              value={formik.values.endDate}
               onChange={formik.handleChange}
               style={{
                 height: "56px",
@@ -145,8 +142,8 @@ export default function AddNewsModal() {
               }}
               min={moment().format("YYYY-MM-DD")}
             />
-            {formik.errors.startDate && (
-              <span style={{ color: "red" }}>{formik.errors.startDate}</span>
+            {formik.errors.endDate && (
+              <span style={{ color: "red" }}>{formik.errors.endDate}</span>
             )}
           </div>
           <div className="col-6 simpleModalItem">
@@ -177,9 +174,9 @@ export default function AddNewsModal() {
               type="time"
               className="title"
               required
-              id="closeTime"
-              name="closeTime"
-              value={formik.values.closeTime}
+              id="endTime"
+              name="endTime"
+              value={formik.values.endTime}
               onChange={formik.handleChange}
               style={{
                 height: "56px",
@@ -189,8 +186,8 @@ export default function AddNewsModal() {
               }}
               // min={`${currentDate}T00:00`}
             />
-            {formik.errors.closeTime && (
-              <span style={{ color: "red" }}>{formik.errors.closeTime}</span>
+            {formik.errors.endTime && (
+              <span style={{ color: "red" }}>{formik.errors.endTime}</span>
             )}
           </div>
           <div className="col-6 simpleModalItem">

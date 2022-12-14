@@ -538,7 +538,7 @@ export default function ListBookingContainer() {
             {checkIsBefore(
               params.row.arrivalDate.substring(0, 10),
               moment().format("DD/MM/YYYY")
-            ) || params.row.status === CHECKIN ? (
+            ) || params.row.status === CHECKIN  || params.row.status === CHECKOUT ?(
               <div
                 className="cancelBookingButtonDisable"
                 style={{ pointerEvents: "none" }}

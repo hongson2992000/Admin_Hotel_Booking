@@ -27,27 +27,33 @@ function* getAllNews(action) {
     yield put(actions.getNews.getNewsFailure(error));
   }
 }
-// function* createLocation(action) {
-//   try {
-//     yield put({
-//       type: DISPLAY_LOADING,
-//     });
-//     // yield delay(1000);
-//     let location = yield call(() => {
-//       return locationManage.createLocation(action.payload);
-//     });
-//     if (location.status === STATUS_CODE.SUCCESS) {
-//       yield put(
-//         actions.createLocation.createLocationSuccess(location.data)
-//       );
-//     }
-//     yield put({
-//       type: HIDE_LOADING,
-//     });
-//   } catch (error) {
-//     yield put(actions.createLocation.createLocationFailure(error));
-//   }
-// }
+function* createNews(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let news = yield call(() => {
+      return newsManage.createNews(action.payload);
+    });
+    if (news.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.createNews.createNewsSuccess(news.data)
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+  } catch (error) {
+    yield put(actions.createNews.createNewsFailure(error));
+  }
+}
+export function* followActionCreateNews() {
+  yield takeLatest(
+    actions.createNews.createNewsRequest,
+    createNews
+  );
+}
 // function* updateLocation(action) {
 //   try {
 //     yield put({
@@ -101,12 +107,7 @@ export function* followActionGetAllNews() {
   );
 }
 
-// export function* followActionCreateLocation() {
-//   yield takeLatest(
-//     actions.createLocation.createLocationRequest,
-//     createLocation
-//   );
-// }
+
 // export function* followActionUpdateLocation() {
 //   yield takeLatest(
 //     actions.updateLocation.updateLocationRequest,
