@@ -12,6 +12,7 @@ import * as informationHotelSaga from "./InfomationHotelManageSaga";
 import * as customerManageSaga from "./CustomerManageSaga";
 import * as setUpRoomManageSaga from "./SetUpRoomManageSaga";
 import * as accountManageSaga from "./AccountManageSaga";
+
 export default function* rootSaga() {
   yield all([
     serviceManageSaga.followActionGetAllHotelService(),
@@ -56,5 +57,6 @@ export default function* rootSaga() {
     accountManageSaga.followActionGetAllAccount(),
     roomManageSaga.followActionGetAllRoomType(),
     roomManageSaga.followActionSetRoomPrice(),
+    newsManageSaga.followActionCreateNews()
   ]);
 }

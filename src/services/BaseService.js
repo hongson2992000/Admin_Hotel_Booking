@@ -24,7 +24,7 @@ export class BaseServices {
       url: `${DOMAIN}/${url}`,
       method: "DELETE",
       data: model,
-      headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
+      // headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
     });
   };
   get = (url, model) => {

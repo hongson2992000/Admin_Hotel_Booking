@@ -5,7 +5,7 @@ class NewsManage extends BaseServices {
     return this.get(`v1/news`);
   };
   createNews = (model) => {
-    return this.post(`v1/abstraction`, model);
+    return this.post(`v1/new`, model);
   };
   updateNews = (model) => {
     return this.put(`v1/abstraction`, model);

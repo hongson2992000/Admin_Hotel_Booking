@@ -80,9 +80,8 @@ function* deleteLocation(action) {
     console.log(action.payload)
     // yield delay(1000);
     let location = yield call(() => {
-      return locationManage.deleteLocation(action.payload);
+      return locationManage.deleteLocation(action.payload.id);
     });
-    console.log("Thanh An",location)
     if (location.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.deleteLocation.deleteLocationSuccess(location.data)

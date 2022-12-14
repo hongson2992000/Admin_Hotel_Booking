@@ -10,6 +10,7 @@ import AddNewLocationModal from "./AddNewLocationModal/AddNewLocationModal";
 import UpdateLocationModal from "./UpdateLocationModal/UpdateLocationModal";
 import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
 import { showModalAddLocation, showModalUpdateLocation } from "../../redux/actions/ModalAction";
+import DialogDelete from "../DialogDelete/DialogDelete";
 export default function LocationContainer() {
   const listLocation = useSelector(locationManageState$);
   const dispatch = useDispatch();
@@ -42,6 +43,39 @@ export default function LocationContainer() {
     },
     [dispatch, listLocation]
   );
+   //Handle Dialog
+   const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
+  const [idBooking, setIdBooking] = useState({
+    id: 0,
+  });
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
+  };
+  const handleDeleteLocation = useCallback((id) => {
+    handleDialog("Bạn chắc chắn muốn xóa ?", true);
+    setIdBooking({
+      id: id,
+    });
+  }, []);
+  const areUSureCheckOut = (choose) => {
+    if (choose) {
+      dispatch(
+        actions.deleteLocation.deleteLocationRequest({
+          id: idBooking.id,
+          // navigate: navigate,
+        })
+      );
+      handleDialog("", false);
+    } else {
+      handleDialog("", false);
+    }
+  };
   const locationColumns = [
     {
       field: "stt",
@@ -105,7 +139,7 @@ export default function LocationContainer() {
             </div>
             <div
               className="deleteButton"
-              // onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDeleteLocation(params.row.id)}
             >
               Delete
             </div>
@@ -136,6 +170,9 @@ export default function LocationContainer() {
       />
       <AddNewLocationModal />
       <UpdateLocationModal />
+      {dialog.isLoading && (
+        <DialogDelete onDialog={areUSureCheckOut} message={dialog.message} />
+      )}
     </div>
   );
 }

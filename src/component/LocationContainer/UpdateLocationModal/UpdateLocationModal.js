@@ -1,17 +1,15 @@
 import { InputLabel, Modal, TextareaAutosize, TextField } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import React, { useCallback} from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  modalAddLocationState$,
   modalUpdateLocationState$,
 } from "../../../redux/selectors/ModalSelector";
 import "./UpdateLocationModal.scss";
 import { hideModalUpdateLocation } from "../../../redux/actions/ModalAction";
-import * as actions from "../../../redux/actions/ServiceManageAction";
+import * as actions from "../../../redux/actions/LocationManageAction";
 import moment from "moment";
 import { locationItemManageState$ } from "../../../redux/selectors/LocationManageSelector";
-import { useEffect } from "react";
 import * as Yup from "yup"
 export default function UpdateLocationModal() {
   const dispatch = useDispatch();
@@ -25,7 +23,7 @@ export default function UpdateLocationModal() {
   // let dataService = formik.values
   const onSubmitService = useCallback(
     (values) => {
-      dispatch(actions.createNewHotelService.createHotelServiceRequest(values));
+      dispatch(actions.updateLocation.updateLocationRequest(values));
       dispatch(hideModalUpdateLocation());
     },
     [dispatch]

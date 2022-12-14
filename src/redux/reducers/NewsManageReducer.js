@@ -2,6 +2,7 @@ import {
   getType,
   getNews,
   filInfoNews,
+  createNews,
   // createNews,
   // updateNews,
   // deleteNews,
@@ -27,15 +28,17 @@ export default function NewsManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-    // case getType(createLocation.createLocationSuccess):
-    //   return {
-    //     ...state,
-    //     arrLocation: action.payload,
-    //   };
-    // case getType(createLocation.createLocationFailure):
-    //   return {
-    //     ...state,
-    //   };
+    case getType(createNews.createNewsSuccess):
+      let newsCreate = [];
+      newsCreate = action.payload;
+      state.arrNews = newsCreate;
+      return {
+        ...state,
+      };
+    case getType(createNews.createNewsFailure):
+      return {
+        ...state,
+      };
     // case getType(updateLocation.updateLocationSuccess):
     //   return {
     //     ...state,

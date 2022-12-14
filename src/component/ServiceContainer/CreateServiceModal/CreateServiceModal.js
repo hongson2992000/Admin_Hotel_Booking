@@ -103,7 +103,7 @@ export default function CreateServiceModal() {
         onSubmit={formik.handleSubmit}
       >
         <div className="row">
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Tên dịch vụ</InputLabel>
             <TextField
               className="title"
@@ -114,7 +114,7 @@ export default function CreateServiceModal() {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Giá</InputLabel>
             <TextField
               type={"number"}
@@ -126,7 +126,7 @@ export default function CreateServiceModal() {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Nhóm dịch vụ</InputLabel>
             <Select
               className="title"
@@ -140,7 +140,7 @@ export default function CreateServiceModal() {
               <MenuItem value={2}>Đồ uống</MenuItem>
             </Select>
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Nhóm</InputLabel>
             {renderMajorGroup()}
           </div>
@@ -156,7 +156,7 @@ export default function CreateServiceModal() {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="InfoCreate col-12">
+          {/* <div className="InfoCreate col-12">
             <div className="row">
               <div className="col-6">
                 <InputLabel>Ngày tạo</InputLabel>
@@ -205,7 +205,7 @@ export default function CreateServiceModal() {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="footer">
             <button className="buttonSave" type="submit">
               Lưu
