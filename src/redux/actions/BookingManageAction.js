@@ -1,4 +1,4 @@
-import { createActions} from "redux-actions";
+import { createActions } from "redux-actions";
 
 export const getType = (reduxAction) => {
   return reduxAction().type;
@@ -49,7 +49,6 @@ export const getBookingByRoomId = createActions({
 
 export const fillFormUpdateUserBooking = createActions({
   fillFormUpdateUserBookingRequest: (payload) => payload,
-
 });
 export const updateNewUserBooking = createActions({
   updateNewUserBookingRequest: (payload) => payload,
@@ -65,4 +64,9 @@ export const checkInRoomInHotel = createActions({
   checkInRoomInHotelRequest: (payload) => payload,
   checkInRoomInHotelSuccess: (payload) => payload,
   checkInRoomInHotelFailure: (err) => err,
+});
+export const getRevenueEntireDate = createActions({
+  getRevenueEntireDateRequest: (payload) => payload,
+  getRevenueEntireDateSuccess: (payload) => payload,
+  getRevenueEntireDateFailure: (err) => err,
 });

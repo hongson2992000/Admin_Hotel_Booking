@@ -38,3 +38,13 @@ export function isNumber(str) {
   if (str.match("[0-9]+")) return true;
   return false;
 }
+
+export function getFirstDateAndLastDateOfCurrentMonth() {
+  var date = new Date(),
+    y = date.getFullYear(),
+    m = date.getMonth();
+  var firstDay = new Date(y, m, 1);
+  var lastDay = new Date(y, m + 1, 0);
+
+  return { firstDay, lastDay };
+}

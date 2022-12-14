@@ -47,11 +47,19 @@ const SetUpRoomByDateContainer = () => {
   const setRoomPrice = useSelector(setRoomPriceState$);
 
   useEffect(() => {
-    dispatch(action.getAllRoomType.getAllRoomTypeRequest());
-    if (Object.keys(setRoomPrice).length !== 0) {
-      console.log(setRoomPrice);
+    if (Object.keys(setRoomPrice).length !== 0 && setRoomPrice.code === "200") {
+      alert("Add Successfully");
+      applyPriceRef.current.checked = false;
+      setApplyPrice(false);
+      setCheckedState(new Array(dayConvert.length).fill(false));
+      setCheckedStateAlterApply(new Array(dayConvert.length).fill(false));
+      priceRef.current.value = "";
+      setRoomType(roomTypes.length > 0 ? roomTypes[0].id : 1);
+      dispatch(action.setRoomPrice.removeSetRoomPrice);
+    } else {
+      dispatch(action.getAllRoomType.getAllRoomTypeRequest());
     }
-  }, [dispatch]);
+  }, [dispatch, setRoomPrice]);
 
   const renderRoomTypeDropdown = () => {
     return (
@@ -179,13 +187,11 @@ const SetUpRoomByDateContainer = () => {
     }
   };
 
-  const getPrice = () => {
+  const getPrice = (d) => {
     const room = currentRoom();
     let latestRoomPrice = currentRoom().defaultPrice;
-    room.roomPrices?.map((roomPrice) => {
-      const currentDate = day.find(
-        (d) => moment(d).format("DD/MM/yyyy") === roomPrice.date
-      );
+    room.roomPrices.map((roomPrice) => {
+      const currentDate = moment(d).format("DD/MM/yyyy") === roomPrice.date;
       if (currentDate) {
         latestRoomPrice = roomPrice.price;
       }
@@ -266,38 +272,53 @@ const SetUpRoomByDateContainer = () => {
                   {"(" + currentRoom().numOfRoom + " phòng" + ")"}
                 </div>
               </div>
-              <div className="roomTypeTableRight col-10 ">
+              <div className="roomTypeTableRight col-auto">
                 <div className=" d-flex rightContent ">
-                  {day.map((d, i) => {
+                  {day.map((d, index) => {
                     return (
-                      <div className="d-block dayContainer" key={i}>
-                        <div className="titleShortKey">
-                          {dayConvert[i].shortKey}
+                      <>
+                        <div className="d-block dayContainer" key={index}>
+                          <div className="titleShortKey">
+                            {dayConvert[index].shortKey}
+                          </div>
+                          <div className="titleAllDay">
+                            {moment(d).format("DD/MM/yyyy")}
+                          </div>
+                          {checkedStateAlterApply.map((check, i) => {
+                            if (index === i) {
+                              return (
+                                <div
+                                  className="d-block tablePriceContent"
+                                  key={i}
+                                >
+                                  <div className="text-center">
+                                    {check
+                                      ? formatPrice(
+                                          Number(price),
+                                          "vi-VN",
+                                          "VND"
+                                        )
+                                      : formatPrice(
+                                          getPrice(d),
+                                          "vi-VN",
+                                          "VND"
+                                        )}
+                                  </div>
+                                  <div>
+                                    <span>Số lượng có thể book: </span>
+                                    {Number(currentRoom().maxBookingRoom)}
+                                  </div>
+                                  <div>
+                                    <span> Hiện tại đã được book: </span>
+                                    {Number(currentRoom().numOfRoom) -
+                                      Number(currentRoom().maxBookingRoom)}
+                                  </div>
+                                </div>
+                              );
+                            }
+                          })}
                         </div>
-                        <div>{moment(d).format("DD/MM/yyyy")}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="d-flex subDayContainer">
-                  {checkedStateAlterApply.map((check, i) => {
-                    return (
-                      <div className="d-block tablePriceContent" key={i}>
-                        <div className="text-center">
-                          {check
-                            ? formatPrice(Number(price), "vi-VN", "VND")
-                            : formatPrice(getPrice(), "vi-VN", "VND")}
-                        </div>
-                        <div>
-                          <span>Số lượng có thể book: </span>
-                          {Number(currentRoom().maxBookingRoom)}
-                        </div>
-                        <div>
-                          <span> Hiện tại đã được book: </span>
-                          {Number(currentRoom().numOfRoom) -
-                            Number(currentRoom().maxBookingRoom)}
-                        </div>
-                      </div>
+                      </>
                     );
                   })}
                 </div>

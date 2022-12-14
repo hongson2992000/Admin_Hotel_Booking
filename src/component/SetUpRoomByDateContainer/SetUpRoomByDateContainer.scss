@@ -67,12 +67,12 @@
             border-right: none;
 
             .titleRoomTypeTable {
-                height: 51px;
+                height: 43px;
                 border-bottom: 1px solid;
             }
 
             .contentRoomTypeTable {
-                padding: .5rem 1rem;
+                padding: .6rem 1rem;
                 text-align: center;
             }
 
@@ -87,10 +87,14 @@
             }
 
             .dayContainer {
-                padding: .25rem 3.78rem;
 
                 .titleShortKey {
                     text-align: center;
+                }
+
+                .titleAllDay {
+                    text-align: center;
+                    border-bottom: 1px solid;
                 }
             }
 

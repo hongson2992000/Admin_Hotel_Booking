@@ -10,6 +10,7 @@ import {
   fillFormUpdateUserBooking,
   updateNewUserBooking,
   deleteNewUserBooking,
+  getRevenueEntireDate,
 } from "../actions/BookingManageAction";
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   arrCheckIn: [],
   dashboard: {},
   userFormUpdate: {},
+  revenuesEntire: [],
 };
 export default function BookingManageReducer(state = initialState, action) {
   switch (action.type) {
@@ -78,7 +80,7 @@ export default function BookingManageReducer(state = initialState, action) {
       state.userInfoBooking = listUserUpdate;
       return { ...state };
     case getType(deleteNewUserBooking.deleteNewUserBookingRequest):
-      console.log("USERDAUPTE", action.payload)
+      console.log("USERDAUPTE", action.payload);
       let listUserDelete = [...state.userInfoBooking];
       listUserDelete = listUserDelete.filter(
         (item) => item.id !== action.payload.id
@@ -93,7 +95,7 @@ export default function BookingManageReducer(state = initialState, action) {
       return {
         ...state,
         arrCheckIn: action.payload,
-        userInfoBooking: []
+        userInfoBooking: [],
       };
     case getType(checkInRoom.checkInRoomFailure):
       return {
@@ -124,6 +126,19 @@ export default function BookingManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(getBookingByRoomId.getBookingByRoomIdFailure):
+      return {
+        ...state,
+      };
+    case getType(getRevenueEntireDate.getRevenueEntireDateRequest):
+      return {
+        ...state,
+      };
+    case getType(getRevenueEntireDate.getRevenueEntireDateSuccess):
+      return {
+        ...state,
+        revenuesEntire: action.payload,
+      };
+    case getType(getRevenueEntireDate.getRevenueEntireDateFailure):
       return {
         ...state,
       };

@@ -128,7 +128,6 @@ function* getDashBoard(action) {
     let listBooking = yield call(() => {
       return bookingManage.getDashBoard(action.payload);
     });
-    console.log(listBooking.data);
     if (listBooking.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.getDashBoardOverview.getDashBoardOverviewSuccess(
@@ -170,15 +169,15 @@ function* getBookingByRoomId(action) {
       let listCustomer = yield call(() => {
         return customerManage.getAllCustomerByBookingId(bookingItem.data.id);
       });
-      let room = yield call(()=>{
-        return roomManage.getRoomByBookingId(bookingItem.data.id)
-      })
+      let room = yield call(() => {
+        return roomManage.getRoomByBookingId(bookingItem.data.id);
+      });
 
       let infoCustomer = {
         booking: bookingItem.data,
         primaryCustomer: primaryCustomer.data,
         listCustomer: listCustomer.data,
-        room:room.data
+        room: room.data,
       };
       yield put(
         actions.getBookingByRoomId.getBookingByRoomIdSuccess(infoCustomer)
@@ -258,5 +257,40 @@ export function* followActionCheckInHotel() {
   yield takeLatest(
     actions.checkInRoomInHotel.checkInRoomInHotelRequest,
     checkInRoomInHotel
+  );
+}
+
+function* getRevenueEntireDate(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+
+    let listBooking = yield call(() => {
+      // return bookingManage.getRevenueEntireDate(action.payload);
+    });
+    if (listBooking.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getRevenueEntireDate.getRevenueEntireDateSuccess(
+          listBooking.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    // yield put({
+    //   type: DISPLAY_POPUP_SUCCESS,
+    // });
+  } catch (error) {
+    yield put(actions.getRevenueEntireDate.getRevenueEntireDateFailure(error));
+  }
+}
+
+export function* followActionGetRevenueEntireDate() {
+  yield takeLatest(
+    actions.getRevenueEntireDate.getRevenueEntireDateRequest,
+    getRevenueEntireDate
   );
 }
