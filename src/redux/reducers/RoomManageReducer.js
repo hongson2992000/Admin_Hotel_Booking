@@ -84,6 +84,11 @@ export default function RoomManageReducer(state = initialState, action) {
       return {
         ...state,
       };
+    case getType(setRoomPrice.removeSetRoomPrice):
+      return {
+        ...state,
+        roomPrice: {},
+      };
     default:
       return state;
   }

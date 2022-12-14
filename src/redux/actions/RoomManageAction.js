@@ -34,4 +34,5 @@ export const setRoomPrice = createActions({
   setRoomPriceRequest: (payload) => payload,
   setRoomPriceSuccess: (payload) => payload,
   setRoomPriceFailure: (err) => err,
+  removeSetRoomPrice: undefined,
 });

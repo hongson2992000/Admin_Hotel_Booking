@@ -1,5 +1,5 @@
-import React from "react";
 import "./OverviewContainer.scss";
+import React, { useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import Widget from "../Widget/Widget";
 import Chart from "../Chart/Chart";
@@ -8,11 +8,15 @@ import HomeIcon from "@mui/icons-material/Home";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import HotelIcon from "@mui/icons-material/Hotel";
 import { getDashBoardState$ } from "../../redux/selectors/BookingManageSelector";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getFirstDateAndLastDateOfCurrentMonth } from "../../utils/util";
 
-export default function OverviewContainer() {
-  
+const OverviewContainer = () => {
   const dashBoard = useSelector(getDashBoardState$);
+  const { firstDay, lastDay } = getFirstDateAndLastDateOfCurrentMonth();
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, [dispatch]);
 
   if (!dashBoard) return;
 
@@ -84,6 +88,7 @@ export default function OverviewContainer() {
           </div>
         </div>
       </div>
+      <div className=""></div>
       <div className="charts">
         <Chart title="Doanh thu tháng" aspect={6 / 1} />
       </div>
@@ -93,4 +98,6 @@ export default function OverviewContainer() {
       </div> */}
     </div>
   );
-}
+};
+
+export default OverviewContainer;
