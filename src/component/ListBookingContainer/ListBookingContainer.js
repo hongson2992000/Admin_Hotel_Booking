@@ -304,7 +304,7 @@ export default function ListBookingContainer() {
       {
         field: "roomType",
         headerName: "Loại Phòng",
-        width: 250,
+        width: 300,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.roomType}</div>;
         },
@@ -538,9 +538,9 @@ export default function ListBookingContainer() {
             {checkIsBefore(
               params.row.arrivalDate.substring(0, 10),
               moment().format("DD/MM/YYYY")
-            ) ? (
+            ) || params.row.status === CHECKIN ? (
               <div
-                className="checkInButton"
+                className="cancelBookingButtonDisable"
                 style={{ pointerEvents: "none" }}
                 // onClick={() =>
                 //   handleFillInfoCheckIn(
@@ -556,7 +556,7 @@ export default function ListBookingContainer() {
               </div>
             ) : (
               <div
-                className="checkInButton"
+                className="cancelBookingButton"
                 onClick={() => handleFillInfoCheckIn(params.row)}
               >
                 Hủy

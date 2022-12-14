@@ -1,26 +1,14 @@
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { InputLabel, TextField } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
-import React, { useCallback, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
 import "./InfomationCustomerContainer.scss";
-import { showModalAddUser } from "../../redux/actions/ModalAction";
 import {
   bookingItemState$,
-  infoUserBookingState$,
 } from "../../redux/selectors/BookingManageSelector";
-import { roomValidState$ } from "../../redux/selectors/RoomManageSelector";
-import * as actions from "../../redux/actions/BookingManageAction";
-import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
 import moment from "moment";
-import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
 export default function InfomationCustomerContainer() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const infoUser = useSelector(infoUserBookingState$);
-  const roomValid = useSelector(roomValidState$);
-  const params = useParams();
   const infoCustomer = useSelector(bookingItemState$);
   const renderCurrentDate = () => {
     let currentDate = moment().format("YYYY-MM-DD");
@@ -60,7 +48,7 @@ export default function InfomationCustomerContainer() {
     });
     return arrNew;
   };
-  const [dataInfoCustomer, setDataInfoCustomer] = useState(infoCustomer);
+  // const [dataInfoCustomer, setDataInfoCustomer] = useState(infoCustomer);
   console.log(renderCurrentDate());
   const renderTypeRoom = (roomType_id) => {
     let roomType = "";
@@ -112,7 +100,7 @@ export default function InfomationCustomerContainer() {
       createBy: "",
       hotel_Id: "",
       roomType: renderTypeRoom(infoCustomer.booking?.roomTypeId),
-      roomNo:infoCustomer.room.roomNo,
+      roomNo:infoCustomer.room?.roomNo,
       totalAmount: "",
       specialNote: "",
     },
@@ -122,7 +110,6 @@ export default function InfomationCustomerContainer() {
     },
     enableReinitialize: true,
   });
-  let handleDelete = () => {};
   let infoUserColumns = useMemo(
     () => [
       {
@@ -239,25 +226,6 @@ export default function InfomationCustomerContainer() {
     ],
     []
   );
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Chức năng",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <div
-              className="updateButton"
-              onClick={() => handleDelete(params.row.id)}
-            >
-              Cập Nhật
-            </div>
-          </div>
-        );
-      },
-    },
-  ];
   return (
     <div className="InfomationCustomerContainer">
       <div className="InfoRoomBooking">
@@ -349,34 +317,6 @@ export default function InfomationCustomerContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              {/* <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Đến Thực Tế</InputLabel>
-                <input
-                  className="title"
-                  style={{ padding: "0.875rem", borderRadius: "5px" }}
-                  type="date"
-                  required
-                  min={moment().format("YYYY-MM-DD")}
-                  id="actualArrivalDate"
-                  name="actualArrivalDate"
-                  value={formik.values.actualArrivalDate}
-                  onChange={formik.handleChange}
-                />
-              </div>
-              <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Đi Thực Tế</InputLabel>
-                <input
-                  className="title"
-                  style={{ padding: "0.875rem", borderRadius: "5px" }}
-                  type="date"
-                  required
-                  min={moment().format("YYYY-MM-DD")}
-                  id="actualDepartureDate"
-                  name="actualDepartureDate"
-                  value={formik.values.actualDepartureDate}
-                  onChange={formik.handleChange}
-                />
-              </div> */}
               <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Tên Khách Hàng</InputLabel>
                 <TextField
@@ -476,22 +416,6 @@ export default function InfomationCustomerContainer() {
               </div>
             </div>
           </div>
-          {/* <div className="buttonCheckIn">
-            {infoUser?.length !== 0 ? (
-              <button type="submit" className="buttonCheckInItem">
-                Check In
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="buttonCheckInItem"
-                disabled
-                style={{ pointerEvents: "none" }}
-              >
-                Check In
-              </button>
-            )}
-          </div> */}
         </form>
         <span style={{ paddingTop: "40px" }}>Khách Ở Cùng</span>
         <hr style={{ width: "20%" }} />
@@ -517,25 +441,6 @@ export default function InfomationCustomerContainer() {
           pageSize={9}
           rowsPerPageOptions={[9]}
         />
-        {/* <div className="buttonAddCustomer">
-          {infoBooking.numOfAdult + infoBooking.numOfChildren <=
-          infoUser.length ? (
-            <button
-              onClick={openCreateServiceModal}
-              className="buttonAddCustomerItem"
-              disabled
-            >
-              Thêm Khách +
-            </button>
-          ) : (
-            <button
-              onClick={openCreateServiceModal}
-              className="buttonAddCustomerItem"
-            >
-              Thêm Khách +
-            </button>
-          )}
-        </div> */}
       </div>
     </div>
   );
