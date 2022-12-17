@@ -130,23 +130,32 @@
         .updateButton {
             padding: 2px 5px;
             border-radius: 5px;
-            color: darkblue;
-            border: 1px dotted rgba(0, 0, 139, 0.596);
-            cursor: pointer;
-        }
-        .deleteButton {
-            padding: 5px 7px;
-            border-radius: 5px;
             color: #fff;
-            background-color: red;
-            border: 1px solid red;
+            border: 1px solid rgba(220, 207, 20, 0.6);
+            background-color: rgba(220, 207, 20, 0.6);
             cursor: pointer;
             &:hover {
                 padding: 2px 5px;
                 border-radius: 5px;
-                color: white;
-                background-color: #aaaa;
-                border: 1px solid #aaaa;
+                background-color: #fff;
+                color: rgb(175, 175, 5);
+                border: 1px solid rgba(220, 207, 20, 0.6);
+                cursor: pointer;
+            }
+        }
+        .deleteButton {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: #fff;
+            border: 1px solid #d64949;
+            background-color: #d64949;
+            cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: #d64949;
+                border: 1px solid #d64949;
+                background-color: #fff;
                 cursor: pointer;
             }
         }

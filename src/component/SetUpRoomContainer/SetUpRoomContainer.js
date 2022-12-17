@@ -3,17 +3,22 @@ import "./SetUpRoomContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUpRoomManageState$ } from "../../redux/selectors/SetUpRoomPriceManageSelector";
 import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
+import AddNewRoomModal from "./AddNewRoomModal/AddNewRoomModal";
+import { showModalAddNewRoom } from "../../redux/actions/ModalAction";
 export default function SetUpRoomContainer() {
-
+  const dispatch = useDispatch()
   const handleDelete = (id) => {
     // setData(data.filter((item) => item.id !== id));
   };
   const handleUpdateRoom = useCallback((id)=>{
 
   })
+ const handleAddNewRoom = useCallback(()=>{
+  dispatch(showModalAddNewRoom())
+ },[dispatch])
   const listRoom = useSelector(setUpRoomManageState$)
   const renderArr = () => {
     let arrNew = [];
@@ -115,7 +120,7 @@ export default function SetUpRoomContainer() {
     <div className="datatableSetupRoomContainer">
       <div className="datatableTitle">
         Danh sách phòng
-        <span className="link">
+        <span className="link" onClick={()=>{handleAddNewRoom()}}>
           Thêm Phòng
         </span>
       </div>
@@ -127,6 +132,7 @@ export default function SetUpRoomContainer() {
         pageSize={9}
         rowsPerPageOptions={[9]}
       />
+      <AddNewRoomModal/>
     </div>
   );
 }
