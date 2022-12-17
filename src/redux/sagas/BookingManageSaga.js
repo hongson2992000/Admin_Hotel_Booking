@@ -120,8 +120,6 @@ export function* followActionCheckOut() {
 
 function* getDashBoard(action) {
   try {
-    console.log("DashBoard", action);
-
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -270,7 +268,7 @@ function* getRevenueEntireDate(action) {
     // yield delay(1000);
 
     let listBooking = yield call(() => {
-      // return bookingManage.getRevenueEntireDate(action.payload);
+      return bookingManage.getRevenueDashBoard(action.payload);
     });
     if (listBooking.status === STATUS_CODE.SUCCESS) {
       yield put(
@@ -299,9 +297,6 @@ export function* followActionGetRevenueEntireDate() {
 function* checkOutInRoom(action) {
   try {
     console.log("ActionCheckIn", action);
-    yield put({
-      type: DISPLAY_LOADING,
-    });
     // yield delay(1000);
     let formData = new FormData();
     formData.append("booking_id", action.payload.id);
@@ -357,9 +352,40 @@ function* checkOutInRoom(action) {
     }
   }
 }
-export function* followActionCheckOutInRoom() {
+function* getRevenueCancelEntireDate(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+
+    let listBooking = yield call(() => {
+      return bookingManage.getRevenueCancelDashBoard(action.payload);
+    });
+    if (listBooking.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.getRevenueCancelEntireDate.getRevenueCancelEntireDateSuccess(
+          listBooking.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    // yield put({
+    //   type: DISPLAY_POPUP_SUCCESS,
+    // });
+  } catch (error) {
+    yield put(
+      actions.getRevenueCancelEntireDate.getRevenueCancelEntireDateFailure(
+        error
+      )
+    );
+  }
+}
+
+export function* followActionGetRevenueCancelEntireDate() {
   yield takeLatest(
-    actions.checkOutInRoom.checkOutInRoomRequest,
-    checkOutInRoom
+    actions.getRevenueCancelEntireDate.getRevenueCancelEntireDateRequest,
+    getRevenueCancelEntireDate
   );
 }

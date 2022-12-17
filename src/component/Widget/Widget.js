@@ -1,4 +1,5 @@
 import React from "react";
+import { formatPrice } from "../../utils/util";
 import "./Widget.scss";
 // import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 export default function Widget({ type, amount, diff }) {
@@ -16,7 +17,7 @@ export default function Widget({ type, amount, diff }) {
   switch (type) {
     case "dat_hom_nay":
       data = {
-        title: "Đặt hôm nay",
+        title: "Số lượng phòng đã đặt",
         isMoney: false,
       };
       break;
@@ -34,7 +35,7 @@ export default function Widget({ type, amount, diff }) {
       break;
     case "huy_hom_nay":
       data = {
-        title: "Huỷ hôm nay",
+        title: "Số lượng hủy đặt phòng hoặc khách không đến",
         isMoney: false,
       };
       break;
@@ -47,7 +48,7 @@ export default function Widget({ type, amount, diff }) {
     case "doanh_thu_huy_luy_ke":
       data = {
         title: "Doanh thu huỷ luỹ kế",
-        isMoney: false,
+        isMoney: true,
       };
       break;
     default:
@@ -59,7 +60,11 @@ export default function Widget({ type, amount, diff }) {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {amount === "" ? 0 : amount} {data.isMoney && " đ"}
+          {amount === "0" || amount === ""
+            ? 0
+            : data.isMoney
+            ? formatPrice(Number(amount), "vi-VN", "VND")
+            : amount}
         </span>
         <span className="link">{data.link}</span>
       </div>

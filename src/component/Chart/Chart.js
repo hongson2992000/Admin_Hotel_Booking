@@ -1,56 +1,70 @@
 import React from "react";
-import "./Chart.scss";
 import {
-  AreaChart,
-  Area,
-  XAxis,
+  Bar,
+  BarChart,
   CartesianGrid,
-  Tooltip,
+  Legend,
   ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
-export default function Chart({ aspect, title }) {
-  const data = [
-    { name: "Tháng 1", Total: 0 },
-    { name: "Tháng 2", Total: 0 },
-    { name: "Tháng 3", Total: 90 },
-    { name: "Tháng 4", Total: 0 },
-    { name: "Tháng 5", Total: 50 },
-    { name: "Tháng 6", Total: 0 },
-    { name: "Tháng 7", Total: 0 },
-    { name: "Tháng 8", Total: 0 },
-    { name: "Tháng 9", Total: 0 },
-    { name: "Tháng 10", Total: 100 },
-    { name: "Tháng 11", Total: 200 },
-    { name: "Tháng 12", Total: 500 },
-  ];
+import { numberWithCommas } from "../../utils/util";
+import "./Chart.scss";
+export default function Chart({ aspect, title, data, isFeedback }) {
   return (
     <div className="chart">
       <div className="title">{title}</div>
-      <ResponsiveContainer width="100%" aspect={aspect}>
-        <AreaChart
-          width={730}
-          height={250}
-          data={data}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
-          <defs>
-            <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <XAxis dataKey="name" stroke="gray" />
-          <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
-          <Tooltip />
-          <Area
-            type="monotone"
-            dataKey="Total"
-            stroke="#8884d8"
-            fillOpacity={1}
-            fill="url(#total)"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      {isFeedback ? (
+        <ResponsiveContainer width="100%" aspect={aspect}>
+          <BarChart
+            width={550}
+            height={600}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 30,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="Dịch vụ" />
+            <YAxis domain={[0, 5]} />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="Đánh giá" fill="#8884d8" barSize={30} />
+          </BarChart>
+        </ResponsiveContainer>
+      ) : (
+        <ResponsiveContainer width="100%" aspect={aspect}>
+          <BarChart
+            width={550}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 50,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis
+              tickFormatter={(tick) => {
+                return numberWithCommas(tick);
+              }}
+            />
+            <Tooltip
+              formatter={(value) => new Intl.NumberFormat("en").format(value)}
+            />
+            <Legend />
+            <Bar dataKey="Doanh thu" fill="#8884d8" barSize={30} />
+            <Bar dataKey="Doanh thu hủy" fill="#82ca9d" barSize={30} />
+          </BarChart>
+        </ResponsiveContainer>
+      )}
     </div>
   );
 }
