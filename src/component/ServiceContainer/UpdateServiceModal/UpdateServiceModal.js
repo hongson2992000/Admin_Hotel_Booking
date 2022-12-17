@@ -6,7 +6,7 @@ import {
   TextareaAutosize,
   TextField,
 } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { modalUpdateServiceState$ } from "../../../redux/selectors/ModalSelector";
@@ -14,10 +14,13 @@ import "./UpdateServiceModal.scss";
 import { hideModalUpdate } from "../../../redux/actions/ModalAction";
 import * as actions from "../../../redux/actions/ServiceManageAction";
 import { serviceItemManageState$ } from "../../../redux/selectors/ServiceManageSelector";
+import { USER_LOGIN } from "../../../utils/constants/settingSystem";
+import * as Yup from "yup";
 export default function UpdateServiceModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalUpdateServiceState$);
   const serviceInfo = useSelector(serviceItemManageState$);
+  const userInfo = JSON.parse(localStorage.getItem(USER_LOGIN));
   const getCurrentDate = () => {
     let showDate = new Date();
     let displayDate =
@@ -28,44 +31,6 @@ export default function UpdateServiceModal() {
       showDate.getFullYear();
     return displayDate;
   };
-  useEffect(() => {
-    setDataService({
-      id: serviceInfo.id,
-      name: serviceInfo.name,
-      price: serviceInfo.price,
-      majorGroup: serviceInfo.majorGroup,
-      description: serviceInfo.description,
-      createDate: serviceInfo.createDate,
-      createBy: serviceInfo.createBy,
-      updateDate: getCurrentDate(),
-      updateBy: "hongson2992000",
-      status: serviceInfo.status,
-      serviceCategory_Id: serviceInfo.serviceCategory_Id,
-    });
-  }, [
-    serviceInfo.id,
-    serviceInfo.name,
-    serviceInfo.price,
-    serviceInfo.majorGroup,
-    serviceInfo.description,
-    serviceInfo.createDate,
-    serviceInfo.createBy,
-    serviceInfo.status,
-    serviceInfo.serviceCategory_Id,
-  ]);
-  const [dataService, setDataService] = useState({
-    id: serviceInfo.id,
-    name: serviceInfo.name,
-    price: serviceInfo.price,
-    majorGroup: serviceInfo.majorGroup,
-    description: serviceInfo.description,
-    createDate: serviceInfo.createDate,
-    createBy: serviceInfo.createBy,
-    updateDate: getCurrentDate(),
-    updateBy: "hongson2992000",
-    status: serviceInfo.status,
-    serviceCategory_Id: serviceInfo.serviceCategory_Id,
-  });
 
   const onClose = useCallback(() => {
     dispatch(hideModalUpdate());
@@ -114,11 +79,35 @@ export default function UpdateServiceModal() {
     [dispatch]
   );
   const formik = useFormik({
-    initialValues: dataService,
+    initialValues: {
+      id: serviceInfo.id,
+      name: serviceInfo.name,
+      price: serviceInfo.price,
+      majorGroup: serviceInfo.majorGroup,
+      description: serviceInfo.description,
+      createDate: serviceInfo.createDate,
+      createBy: serviceInfo.createBy,
+      updateDate: getCurrentDate(),
+      updateBy:
+        userInfo.firstName +
+        " " +
+        userInfo.middleName +
+        " " +
+        userInfo.lastName,
+      status: serviceInfo.status,
+      serviceCategory_Id: serviceInfo.serviceCategory_Id,
+    },
     onSubmit: (values, { resetForm }) => {
       onSubmitService(values);
       resetForm({ values: "" });
     },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Yêu cầu *"),
+      price: Yup.string().required("Yêu cầu *"),
+      majorGroup: Yup.string().required("Yêu cầu *"),
+      serviceCategory_Id: Yup.string().required("Yêu cầu *"),
+      description: Yup.string().required("Yêu cầu *"),
+    }),
     enableReinitialize: true,
   });
   const body = (
@@ -133,7 +122,7 @@ export default function UpdateServiceModal() {
         onReset={formik.handleReset}
       >
         <div className="row">
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Tên dịch vụ</InputLabel>
             <TextField
               className="title"
@@ -143,8 +132,11 @@ export default function UpdateServiceModal() {
               value={formik.values.name || ""}
               onChange={formik.handleChange}
             />
+            {formik.errors.name && (
+              <span style={{ color: "red" }}>{formik.errors.name}</span>
+            )}
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Giá</InputLabel>
             <TextField
               type={"number"}
@@ -155,8 +147,11 @@ export default function UpdateServiceModal() {
               value={formik.values.price || ""}
               onChange={formik.handleChange}
             />
+            {formik.errors.price && (
+              <span style={{ color: "red" }}>{formik.errors.price}</span>
+            )}
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Nhóm dịch vụ</InputLabel>
             <Select
               className="title"
@@ -169,12 +164,18 @@ export default function UpdateServiceModal() {
               <MenuItem value={1}>Thức ăn</MenuItem>
               <MenuItem value={2}>Đồ uống</MenuItem>
             </Select>
+            {formik.errors.serviceCategory_Id && (
+              <span style={{ color: "red" }}>{formik.errors.serviceCategory_Id}</span>
+            )}
           </div>
-          <div className="col-6">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Nhóm</InputLabel>
             {renderMajorGroup()}
+            {formik.errors.name && (
+              <span style={{ color: "red" }}>{formik.errors.name}</span>
+            )}
           </div>
-          <div className="col-12">
+          <div className="col-12" style={{height:"180px"}}>
             <InputLabel>Thông tin mô tả</InputLabel>
             <TextareaAutosize
               className="title"
@@ -185,56 +186,9 @@ export default function UpdateServiceModal() {
               value={formik.values.description || ""}
               onChange={formik.handleChange}
             />
-          </div>
-          <div className="InfoCreate col-12">
-            <div className="row">
-              <div className="col-6">
-                <InputLabel>Ngày tạo</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="createDate"
-                  name="createDate"
-                  value={formik.values.createDate || ""}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-              <div className="col-6">
-                <InputLabel>Người tạo</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="createBy"
-                  name="createBy"
-                  value={formik.values.createBy || ""}
-                  onChange={formik.handleChange}
-                />
-              </div>
-              <div className="col-6">
-                <InputLabel>Ngày cập nhật</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="updateDate"
-                  name="updateDate"
-                  value={formik.values.updateDate || ""}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-              <div className="col-6">
-                <InputLabel>Người cập nhật</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="updateBy"
-                  name="updateBy"
-                  value={formik.values.updateBy || ""}
-                  onChange={formik.handleChange}
-                />
-              </div>
-            </div>
+            {formik.errors.description && (
+              <span style={{ color: "red" }}>{formik.errors.description}</span>
+            )}
           </div>
           <div className="footer">
             <button className="buttonSave" type="submit">

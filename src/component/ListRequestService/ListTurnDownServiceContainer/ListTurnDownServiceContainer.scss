@@ -118,9 +118,18 @@
         .doneButton {
             padding: 2px 5px;
             border-radius: 5px;
-            color: darkblue;
+            color: #fff;
             border: 1px solid rgba(0, 0, 139, 0.596);
+            background-color: rgba(0, 0, 139, 0.596);
             cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: darkblue;
+                border: 1px solid rgba(0, 0, 139, 0.596);
+                background-color: #fff;
+                cursor: pointer;
+            }
         }
         .confirmButton {
             padding: 2px 5px;

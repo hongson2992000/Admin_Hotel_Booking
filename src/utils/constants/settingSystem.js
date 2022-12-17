@@ -7,6 +7,7 @@ export const INFO_BOOKING_DETAIL = "INFO_BOOKING_DETAIL";
 export const CHECKIN = "CHECK IN";
 export const CHECKOUT = "CHECK OUT";
 export const BOOKED = "BOOKED";
+export const NOTSHOW = "NOT SHOW";
 export const PROCESSING = "PROCESSING";
 export const DONE = "DONE";
 export const STATUS_CODE = {

@@ -73,7 +73,7 @@
     .cellWithStatus {
         padding: 5px;
         border-radius: 5px;
-        &.active {
+        &.true {
             background-color: rgba(0, 128, 0, 0.05);
             color: green;
         }
@@ -81,7 +81,7 @@
             background-color: rgba(255, 217, 0, 0.05);
             color: goldenrod;
         }
-        &.passive {
+        &.false {
             background-color: rgba(255, 0, 0, 0.05);
             color: crimson;
         }
@@ -93,23 +93,34 @@
         .updateButton {
             padding: 2px 5px;
             border-radius: 5px;
-            color: rgb(175, 175, 5);
+            color: #fff;
             border: 1px solid rgba(220, 207, 20, 0.6);
+            background-color: rgba(220, 207, 20, 0.6);
             cursor: pointer;
-        }
-        .viewButton {
-            padding: 2px 5px;
-            border-radius: 5px;
-            color: darkblue;
-            border: 1px solid rgba(0, 0, 139, 0.596);
-            cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                background-color: #fff;
+                color: rgb(175, 175, 5);
+                border: 1px solid rgba(220, 207, 20, 0.6);
+                cursor: pointer;
+            }
         }
         .deleteButton {
             padding: 2px 5px;
             border-radius: 5px;
-            color: crimson;
-            border: 1px solid rgba(220, 20, 60, 0.6);
+            color: #fff;
+            border: 1px solid #d64949;
+            background-color: #d64949;
             cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: #d64949;
+                border: 1px solid #d64949;
+                background-color: #fff;
+                cursor: pointer;
+            }
         }
     }
 }

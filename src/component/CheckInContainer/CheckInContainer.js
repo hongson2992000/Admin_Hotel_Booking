@@ -1,9 +1,4 @@
-import {
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFormik } from "formik";
 import React, { useCallback, useMemo } from "react";
@@ -20,6 +15,8 @@ import { INFO_BOOKING_DETAIL } from "../../utils/constants/settingSystem";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import UpdateNewCustomerModal from "./UpdateNewCustomerModal/UpdateNewCustomerModal";
+import AddNewCustomerModal from "./AddNewCustomerModal/AddNewCustomerModal";
+import * as Yup from "yup";
 export default function CheckInContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -155,7 +152,7 @@ export default function CheckInContainer() {
   const formik = useFormik({
     initialValues: {
       id: infoBooking?.id,
-      room_Id: infoBooking?.room_Id,
+      room_Id: "",
       name:
         infoBooking?.customer.firstName +
         " " +
@@ -174,7 +171,7 @@ export default function CheckInContainer() {
       email: infoBooking?.customer.email,
       idNo: infoBooking?.customer.idNo,
       gender: infoBooking?.customer.gender,
-      birthDate: infoBooking?.customer.birthDate,
+      birthDate: "",
       status: infoBooking?.status,
       actualArrivalDate: "",
       actualDepartureDate: "",
@@ -190,6 +187,13 @@ export default function CheckInContainer() {
       onSubmitCheckIn(values);
       resetForm({ values: "" });
     },
+    validationSchema: Yup.object({
+      room_Id: Yup.number().required("Yêu cầu *"),
+      arrivalTime: Yup.string().required("Yêu cầu *"),
+      actualArrivalDate: Yup.string().required("Yêu cầu *"),
+      idNo: Yup.string().required("Yêu cầu *").min(9, "Vui lòng nhập đúng định dạng").max(12,"Vui lòng nhâp đúng định dạng"),
+      birthDate: Yup.string().required("Yêu cầu *"),
+    }),
   });
   let infoUserColumns = useMemo(
     () => [
@@ -299,7 +303,7 @@ export default function CheckInContainer() {
   return (
     <div className="CheckInContainer">
       <div className="InfoRoomBooking">
-        <p>Phòng: {renderTypeRoom()}</p>
+        <p style={{ fontSize: "30px" }}>Phòng: {renderTypeRoom()}</p>
         <form
           noValidate
           autoComplete="off"
@@ -319,15 +323,18 @@ export default function CheckInContainer() {
               >
                 {renderRoomavailability()}
               </Select>
+              {formik.errors.room_Id && (
+                <span style={{ color: "red" }}>{formik.errors.room_Id}</span>
+              )}
               <span style={{ paddingLeft: "50px" }}>
-                Tiền Phòng: {infoBooking?.totalAmount}
+                Tiền Phòng: {infoBooking?.roomPayment}
               </span>
             </div>
           </div>
           <hr />
           <div className="col-12 InfoRoom">
             <div className="row">
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Ngày Đến</InputLabel>
                 <TextField
                   className="title"
@@ -339,7 +346,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Ngày Đi</InputLabel>
                 <TextField
                   className="title"
@@ -351,7 +358,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Giờ Đến</InputLabel>
                 <TextField
                   className="title"
@@ -362,8 +369,13 @@ export default function CheckInContainer() {
                   value={formik.values.arrivalTime || ""}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.arrivalTime && (
+                  <span style={{ color: "red" }}>
+                    {formik.errors.arrivalTime}
+                  </span>
+                )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Giờ Đi</InputLabel>
                 <TextField
                   className="title"
@@ -375,7 +387,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Ngày Đến Thực Tế</InputLabel>
                 <input
                   className="title"
@@ -388,6 +400,11 @@ export default function CheckInContainer() {
                   value={formik.values.actualArrivalDate}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.actualArrivalDate && (
+                  <span style={{ color: "red" }}>
+                    {formik.errors.actualArrivalDate}
+                  </span>
+                )}
               </div>
               {/* <div className="col-2 InfoRoomItem">
                 <InputLabel className="label">Ngày Đi Thực Tế</InputLabel>
@@ -403,7 +420,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div> */}
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Mã Đặt Phòng</InputLabel>
                 <TextField
                   className="title"
@@ -415,7 +432,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Tên Khách Hàng</InputLabel>
                 <TextField
                   className="title"
@@ -427,7 +444,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Ngày Đặt</InputLabel>
                 <TextField
                   className="title"
@@ -439,7 +456,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Người Lớn</InputLabel>
                 <TextField
                   className="title"
@@ -451,7 +468,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Trẻ Em</InputLabel>
                 <TextField
                   className="title"
@@ -469,7 +486,7 @@ export default function CheckInContainer() {
           <hr style={{ width: "20%" }} />
           <div className="col-12 InfoRoom">
             <div className="row" style={{ paddingBottom: "20px" }}>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Tên Khách Hàng</InputLabel>
                 <TextField
                   className="title"
@@ -481,7 +498,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Số Điện Thoại</InputLabel>
                 <TextField
                   className="title"
@@ -493,7 +510,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Email</InputLabel>
                 <TextField
                   className="title"
@@ -505,7 +522,7 @@ export default function CheckInContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Số Hộ Chiếu/CCCD</InputLabel>
                 <TextField
                   className="title"
@@ -515,8 +532,11 @@ export default function CheckInContainer() {
                   value={formik.values.idNo}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.idNo && (
+                  <span style={{ color: "red" }}>{formik.errors.idNo}</span>
+                )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel>Giới Tính</InputLabel>
                 <Select
                   className="title"
@@ -530,21 +550,24 @@ export default function CheckInContainer() {
                   <MenuItem value={0}>Nữ</MenuItem>
                 </Select>
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 InfoRoomItem simpleModalItem">
                 <InputLabel className="label">Ngày Sinh</InputLabel>
-
-                <TextField
-                  id="birthDate"
+                <input
+                  className="title"
+                  style={{ padding: "0.875rem", borderRadius: "5px" }}
                   type="date"
+                  required
+                  max={moment().format("YYYY-MM-DD")}
+                  id="birthDate"
                   name="birthDate"
                   value={formik.values.birthDate}
                   onChange={formik.handleChange}
-                  // defaultValue="2022-05-24"
-                  style={{ width: "100%" }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
                 />
+                {formik.errors.birthDate && (
+                  <span style={{ color: "red" }}>
+                    {formik.errors.birthDate}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -581,7 +604,7 @@ export default function CheckInContainer() {
           infoUser.length ? (
             <button
               onClick={openCreateServiceModal}
-              className="buttonAddCustomerItem"
+              className="buttonAddCustomerItemDisable"
               disabled
             >
               Thêm Khách +
@@ -596,6 +619,7 @@ export default function CheckInContainer() {
           )}
         </div>
       </div>
+      <AddNewCustomerModal />
       <UpdateNewCustomerModal />
     </div>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import "./DialogDelete.scss";
-import image from "../../assets/img/question.png";
+import image from "../../assets/img/error.png";
 export default function DialogDelete({ onDialog, message }) {
   return (
     <div
@@ -10,13 +10,29 @@ export default function DialogDelete({ onDialog, message }) {
       }}
     >
       <div className="DialogDeleteItem" onClick={(e) => e.stopPropagation()}>
-      <img src={image} alt="" />
-        <h4 stlye={{ color: "#111", fontSize: "10px" }}>{message}</h4>
-        <div style={{ display: "flex", justifyContent: "end",marginTop:"10px" }}>
-          <button className="buttonDialog" onClick={() => onDialog(true)}>
+        {/* <img src={image} alt="" /> */}
+        <div
+          className="top-modal"
+          style={{ textAlign: "center", padding: "10px" }}
+        >
+          <span>Xác Nhận</span>
+        </div>
+
+        <div className="center-modal" style={{ textAlign: "center", padding: "10px" }}>
+          <span stlye={{ color: "#111", fontSize: "10px" }}>{message}</span>
+        </div>
+        <div
+          style={{ display: "flex",justifyContent:"center",padding:"10px"}}
+        >
+          <button className="buttonDialogAccept" onClick={() => onDialog(true)}>
             Đồng ý
           </button>
-          <button className="buttonDialog" onClick={() => onDialog(false)}>Hủy</button>
+          <button
+            className="buttonDialogCancel"
+            onClick={() => onDialog(false)}
+          >
+            Hủy
+          </button>
         </div>
       </div>
     </div>

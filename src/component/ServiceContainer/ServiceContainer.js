@@ -17,7 +17,8 @@ const ServiceContainer = () => {
 
   const renderArr = () => {
     let arrNew = [];
-    listHotelService.forEach((item, i) => {
+    let listHotelServiceNew = listHotelService.filter((item)=>item.status === true)
+    listHotelServiceNew.forEach((item, i) => {
       arrNew.push({
         stt: i + 1,
         id: item.id,
@@ -84,7 +85,7 @@ const ServiceContainer = () => {
       {
         field: "type",
         headerName: "Loại",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.type}</div>;
         },

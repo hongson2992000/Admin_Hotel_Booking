@@ -19,6 +19,14 @@
                 width: 20%;
             }
         }
+        .cellWithImg {
+            &.NOTPAYMENT {
+                color: red;
+            }
+            &.PAYMENT {
+                color: green;
+            }
+        }
         .buttonCheckIn {
             width: 100%;
             padding-bottom: 5px;
@@ -91,6 +99,9 @@
         .datagrid {
             height: 260px;
             margin-bottom: 40px;
+            .MuiDataGrid-footerContainer {
+                display: none;
+            }
         }
         .buttonAddCustomer {
             // margin-top: 10px;

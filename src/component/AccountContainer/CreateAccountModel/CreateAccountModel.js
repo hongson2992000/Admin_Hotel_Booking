@@ -1,5 +1,4 @@
 import { InputLabel, MenuItem, Modal, Select, TextField } from "@mui/material";
-import classNames from "classnames";
 import { useFormik } from "formik";
 import moment from "moment/moment";
 import React, { useCallback } from "react";
@@ -7,9 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { hideCreateAccountModel } from "../../../redux/actions/ModalAction";
 import { modelCreateAccountState$ } from "../../../redux/selectors/ModalSelector";
-import { PHONE_VALID } from "../../../utils/constants/settingSystem";
-import Styles from "./CreateAccountModel.scss";
-
+import {
+  PHONE_VALID,
+  USER_LOGIN,
+} from "../../../utils/constants/settingSystem";
+import * as actions from "../../../redux/actions/AccountManageAction";
+import "./CreateAccountModel.scss";
 const CreateAccountModel = () => {
   const dispatch = useDispatch();
   const isShow = useSelector(modelCreateAccountState$);
@@ -17,14 +19,51 @@ const CreateAccountModel = () => {
   const onClose = useCallback(() => {
     dispatch(hideCreateAccountModel());
   }, [dispatch]);
+  const userInfo = JSON.parse(localStorage.getItem(USER_LOGIN));
+  const handleAddAccount = useCallback(
+    (values) => {
+      let arrBirthDate = values.dateOfBirth.split("-");
+      let formatDate =
+        arrBirthDate[2] + "/" + arrBirthDate[1] + "/" + arrBirthDate[0];
+      let account = {
+        createBy:
+          userInfo.firstName +
+          " " +
+          userInfo.middleName +
+          " " +
+          userInfo.lastName,
+        createDate: moment().format("DD/MM/YYYY").substring(0, 10),
+        dateOfBirth: formatDate,
+        firstName: values.firstName,
+        gender: values.gender,
+        hotelId: 1,
+        id: 0,
+        lastModifyBy:
+          userInfo.firstName +
+          " " +
+          userInfo.middleName +
+          " " +
+          userInfo.lastName,
+        lastName: values.lastName,
+        middleName: values.middleName,
+        password: values.password,
+        phoneNumber: values.phoneNumber,
+        role: values.role,
+        status: true,
+        updateDate: moment().format("DD/MM/YYYY").substring(0, 10),
+        username: values.username,
+      };
 
-  const handleAddAccount = useCallback((values) => {}, []);
-
-  const SignupSchema = yup.object().shape({
-    phoneNumber: yup.string().matches(PHONE_VALID, "Phone incorrect"),
-  });
+      dispatch(actions.createAccount.createAccountRequest(account));
+    },
+    [userInfo, dispatch]
+  );
 
   const mockRole = [
+    {
+      id: 2,
+      name: "ROLE_MANAGER",
+    },
     {
       id: 2,
       name: "ROLE_MANAGER",
@@ -39,34 +78,33 @@ const CreateAccountModel = () => {
     },
     {
       id: 5,
-      name: "ROLE_FOOD_AND_BEVERAGE",
+      name: "ROLE_RESTAURANT",
     },
   ];
 
   const formik = useFormik({
     initialValues: {
-      id: 0,
-      userName: "",
-      password: "",
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      gender: false,
-      phoneNumber: "",
-      dateOfBirth: "",
-      role: mockRole[0].id,
-      isActive: true,
-      hotelId: 1,
-      createDate: moment(new Date()).format("DD/MM/yyyy HH:mm:ss"),
       createBy: "",
-      updateDate: "",
-      updateBy: "",
+      createDate: moment().format("DD/MM/YYYY").substring(0, 10),
+      dateOfBirth: "",
+      firstName: "",
+      gender: true,
+      hotelId: 0,
+      id: 0,
+      lastModifyBy: "",
+      lastName: "",
+      middleName: "",
+      password: "",
+      phoneNumber: "",
+      role: "",
+      status: "",
+      updateDate: moment().format("DD/MM/YYYY").substring(0, 10),
+      username: "",
     },
     onSubmit: (values, { resetForm }) => {
       handleAddAccount(values);
       resetForm({ values: "" });
     },
-    validationSchema: { SignupSchema },
   });
 
   const body = (
@@ -83,11 +121,11 @@ const CreateAccountModel = () => {
           <div className="col-6 simpleModalItem">
             <InputLabel>Tài Khoản</InputLabel>
             <TextField
-              className={classNames("col-12", Styles.title)}
+              className="title"
               required
-              id="userName"
-              name="userName"
-              value={formik.values.userName}
+              id="username"
+              name="username"
+              value={formik.values.username}
               onChange={formik.handleChange}
             />
           </div>
@@ -95,7 +133,7 @@ const CreateAccountModel = () => {
             <InputLabel>Mật Khẩu</InputLabel>
             <TextField
               type={"password"}
-              className={classNames("col-12", Styles.title)}
+              className="title"
               required
               id="password"
               name="password"
@@ -106,7 +144,7 @@ const CreateAccountModel = () => {
           <div className="col-4 simpleModalItem">
             <InputLabel>Họ</InputLabel>
             <TextField
-              className={Styles.title}
+              className="title"
               required
               id="firstName"
               name="firstName"
@@ -117,7 +155,7 @@ const CreateAccountModel = () => {
           <div className="col-4 simpleModalItem">
             <InputLabel>Tên Lót</InputLabel>
             <TextField
-              className={Styles.title}
+              className="title"
               id="middleName"
               name="middleName"
               value={formik.values.middleName}
@@ -127,7 +165,7 @@ const CreateAccountModel = () => {
           <div className="col-4 simpleModalItem">
             <InputLabel>Tên</InputLabel>
             <TextField
-              className={Styles.title}
+              className="title"
               required
               id="lastName"
               name="lastName"
@@ -135,10 +173,10 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-4 simpleModalItem">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Số điện thoại</InputLabel>
             <TextField
-              className={Styles.title}
+              className="title"
               required
               id="phoneNumber"
               name="phoneNumber"
@@ -146,19 +184,26 @@ const CreateAccountModel = () => {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="col-4 simpleModalItem">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Ngày sinh</InputLabel>
-            <TextField
-              type={"date"}
+            <input
+              type="date"
               className="title"
               required
               id="dateOfBirth"
               name="dateOfBirth"
               value={formik.values.dateOfBirth}
               onChange={formik.handleChange}
+              style={{
+                height: "60px",
+                borderRadius: "5px",
+                border: "1px solid #c4c4c4",
+                padding: "5px",
+              }}
+              max={moment().format("YYYY-MM-DD")}
             />
           </div>
-          <div className="col-4 simpleModalItem">
+          <div className="col-6 simpleModalItem">
             <InputLabel>Giới tính</InputLabel>
             <Select
               className="title"
@@ -173,20 +218,6 @@ const CreateAccountModel = () => {
             </Select>
           </div>
           <div className="col-6 simpleModalItem">
-            <InputLabel>Trạng Thái</InputLabel>
-            <Select
-              className="title"
-              required
-              id="isActive"
-              name="isActive"
-              value={formik.values.isActive}
-              onChange={formik.handleChange}
-            >
-              <MenuItem value={true}>Đang Sử Dụng</MenuItem>
-              <MenuItem value={false}>Không Sử Dụng</MenuItem>
-            </Select>
-          </div>
-          <div className="col-6 simpleModalItem">
             <InputLabel>Quyền Hạn</InputLabel>
             <Select
               className="title"
@@ -198,64 +229,12 @@ const CreateAccountModel = () => {
             >
               {mockRole.map((role, index) => {
                 return (
-                  <MenuItem key={index} value={role.id}>
+                  <MenuItem key={index} value={role.name}>
                     {role.name}
                   </MenuItem>
                 );
               })}
             </Select>
-          </div>
-          <div className={classNames("col-12", Styles.infoCreate)}>
-            <div className="row">
-              <div className="col-6 simpleModalItem">
-                <InputLabel>Ngày tạo</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="createDate"
-                  name="createDate"
-                  value={formik.values.createDate}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-              <div className="col-6 simpleModalItem">
-                <InputLabel>Người tạo</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="createBy"
-                  name="createBy"
-                  value={formik.values.createBy}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-              <div className="col-6 simpleModalItem">
-                <InputLabel>Ngày cập nhật</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="updateDate"
-                  name="updateDate"
-                  value={formik.values.updateDate}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-              <div className="col-6 simpleModalItem">
-                <InputLabel>Người cập nhật</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="updateBy"
-                  name="updateBy"
-                  value={formik.values.updateBy}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-            </div>
           </div>
           <div className="footer">
             <button className="buttonSave" type="submit">

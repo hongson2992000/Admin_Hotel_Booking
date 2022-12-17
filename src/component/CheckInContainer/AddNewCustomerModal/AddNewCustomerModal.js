@@ -20,6 +20,7 @@ export default function AddNewCustomerModal() {
     let newList = listCustomer.filter((item) => item.primary === true);
     return newList;
   };
+  let [duplicateName, setDuplicateName] = useState("");
   const onClose = useCallback(() => {
     dispatch(hideModalAddUser());
   }, [dispatch]);
@@ -44,13 +45,24 @@ export default function AddNewCustomerModal() {
         lastModifyBy: values.lastModifyBy,
         primary: values.primary,
       };
-      dispatch(
-        actions.addNewUserBooking.addNewUserBookingRequest(infoUserCheckIn)
+      let duplicateName = listCustomer.filter(
+        (item) =>
+          item.firstName + " " + item.middleName + " " + item.lastName ===
+          values.firstName + " " + values.middleName + " " + values.lastName
       );
-      dispatch(hideModalAddUser());
+
+      if (duplicateName.length !== 0) {
+        setDuplicateName("Tên này đã được sử dụng");
+      } else {
+        dispatch(
+          actions.addNewUserBooking.addNewUserBookingRequest(infoUserCheckIn)
+        );
+        dispatch(hideModalAddUser());
+      }
+
       // navigate("/checkIn");
     },
-    [dispatch]
+    [dispatch,listCustomer]
   );
   const renderIdRandom = () => {
     let id = new Date().getTime();
@@ -133,7 +145,9 @@ export default function AddNewCustomerModal() {
 
     enableReinitialize: true,
   });
-  console.log(formik.values);
+  const handleChangeName = () => {
+    setDuplicateName("");
+  };
   const body = (
     <div className="paperAddNewCustomer" id="simple-modal-title">
       <h2>Thêm khách</h2>
@@ -156,7 +170,11 @@ export default function AddNewCustomerModal() {
                   name="firstName"
                   value={formik.values.firstName || ""}
                   onChange={formik.handleChange}
+                  onClick={() => {
+                    handleChangeName();
+                  }}
                 />
+                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.firstName && (
                   <span style={{ color: "red" }}>
                     {formik.errors.firstName}
@@ -164,7 +182,7 @@ export default function AddNewCustomerModal() {
                 )}
               </div>
               <div className="col-4 simpleModalItem">
-                <InputLabel>Tên Lót</InputLabel>
+                <InputLabel>Tên lót</InputLabel>
                 <TextField
                   className="title"
                   required
@@ -172,7 +190,11 @@ export default function AddNewCustomerModal() {
                   name="middleName"
                   value={formik.values.middleName || ""}
                   onChange={formik.handleChange}
+                  onClick={() => {
+                    handleChangeName();
+                  }}
                 />
+                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.middleName && (
                   <span style={{ color: "red" }}>
                     {formik.errors.middleName}
@@ -188,7 +210,11 @@ export default function AddNewCustomerModal() {
                   name="lastName"
                   value={formik.values.lastName || ""}
                   onChange={formik.handleChange}
+                  onClick={() => {
+                    handleChangeName();
+                  }}
                 />
+                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.lastName && (
                   <span style={{ color: "red" }}>{formik.errors.lastName}</span>
                 )}
@@ -210,7 +236,7 @@ export default function AddNewCustomerModal() {
             )}
           </div>
           <div className="col-6 simpleModalItem">
-            <InputLabel>Ngày Sinh</InputLabel>
+            <InputLabel>Ngày sinh</InputLabel>
             <input
               className="title"
               style={{ padding: "0.9rem", borderRadius: "5px" }}
@@ -229,7 +255,7 @@ export default function AddNewCustomerModal() {
             )}
           </div>
           <div className="col-6 simpleModalItem">
-            <InputLabel>Số Hộ Chiếu/CCCD</InputLabel>
+            <InputLabel>Số hộ chiếu/CCCD</InputLabel>
             <TextField
               className="title"
               required
@@ -243,7 +269,7 @@ export default function AddNewCustomerModal() {
             )}
           </div>
           <div className="col-6 simpleModalItem">
-            <InputLabel>Giới Tính</InputLabel>
+            <InputLabel>Giới tính</InputLabel>
             <Select
               className="title"
               required

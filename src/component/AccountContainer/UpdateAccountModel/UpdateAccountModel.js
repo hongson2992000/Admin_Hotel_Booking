@@ -90,7 +90,7 @@ const UpdateAccountModel = () => {
   });
 
   const body = (
-    <div className="paperCreateAccount" id="simple-modal-title">
+    <div className="paperUpdateAccount" id="simple-modal-title">
       <h2>Chỉnh sửa tài khoản</h2>
       <hr />
       <form
@@ -225,58 +225,6 @@ const UpdateAccountModel = () => {
                 );
               })}
             </Select>
-          </div>
-          <div className={classNames("col-12", Styles.infoCreate)}>
-            <div className="row">
-              <div className="col-6 simpleModalItem">
-                <InputLabel>Ngày tạo</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="createDate"
-                  name="createDate"
-                  value={formik.values.createDate}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-              <div className="col-6 simpleModalItem">
-                <InputLabel>Người tạo</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="createBy"
-                  name="createBy"
-                  value={formik.values.createBy}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-              <div className="col-6 simpleModalItem">
-                <InputLabel>Ngày cập nhật</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="updateDate"
-                  name="updateDate"
-                  value={formik.values.updateDate}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-              <div className="col-6 simpleModalItem">
-                <InputLabel>Người cập nhật</InputLabel>
-                <TextField
-                  className="title"
-                  required
-                  id="updateBy"
-                  name="updateBy"
-                  value={formik.values.updateBy}
-                  onChange={formik.handleChange}
-                  disabled
-                />
-              </div>
-            </div>
           </div>
           <div className="footer">
             <button className="buttonSave" type="submit">

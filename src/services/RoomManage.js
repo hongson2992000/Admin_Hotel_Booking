@@ -10,6 +10,9 @@ class RoomManage extends BaseServices {
   getRoomByBookingId = (id) => {
     return this.get(`v1/room/getRoomWithBookingId?booking_id=${id}`);
   };
+  getRoomByOrderId = (id) => {
+    return this.get(`v1/room/getRoomWithOrderId?order_id=${id}`);
+  };
   getRoomAvailability = (model) => {
     return this.post(`v1/room/checkAvaiblebilityAndType`, model);
   };

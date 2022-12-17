@@ -61,6 +61,7 @@ export default function AddNewsModal() {
       numberOfView: Yup.string().required("Yêu cầu *"),
       ticketInformation: Yup.string().required("Yêu cầu *"),
     }),
+    enableReinitialize:true
   });
   const body = (
     <div className="paperAddNews" id="simple-modal-title">
@@ -218,7 +219,7 @@ export default function AddNewsModal() {
               <span style={{ color: "red" }}>{formik.errors.ticketInformation}</span>
             )}
           </div>
-          <div className="col-12" style={{height:"170px"}}>
+          <div className="col-12" style={{height:"150px"}}>
             <InputLabel>Thông tin mô tả</InputLabel>
             <TextareaAutosize
               className="title"

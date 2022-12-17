@@ -36,6 +36,12 @@ import {
   hideModalUpdateNews,
   showModalProfile,
   hideModalProfile,
+  showModalError,
+  hideModalError,
+  showModalCheckOutError,
+  hideModalCheckOutError,
+  showModalCheckOutService,
+  hideModalCheckOutService,
 } from "../actions/ModalAction";
 
 const initialState = {
@@ -56,7 +62,10 @@ const initialState = {
   isShowTurnDownServiceManage: false,
   isShowAddNews: false,
   isShowUpdateNews: false,
-  isShowProfile:false
+  isShowProfile: false,
+  isShowError: false,
+  isShowCheckOutErr: false,
+  isShowCheckOutService: false,
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -245,17 +254,51 @@ export default function ModalReducer(state = initialState, action) {
         ...state,
         isShowUpdateNews: false,
       };
-      case getType(showModalProfile):
-        return {
-          ...state,
-          isShowProfile: true,
-        };
-  
-      case getType(hideModalProfile):
-        return {
-          ...state,
-          isShowProfile: false,
-        };
+    case getType(showModalProfile):
+      return {
+        ...state,
+        isShowProfile: true,
+      };
+
+    case getType(hideModalProfile):
+      return {
+        ...state,
+        isShowProfile: false,
+      };
+    case getType(showModalError):
+      return {
+        ...state,
+        isShowError: true,
+      };
+
+    case getType(hideModalError):
+      return {
+        ...state,
+        isShowError: false,
+      };
+
+    case getType(showModalCheckOutError):
+      return {
+        ...state,
+        isShowCheckOutErr: true,
+      };
+
+    case getType(hideModalCheckOutError):
+      return {
+        ...state,
+        isShowCheckOutErr: false,
+      };
+    case getType(showModalCheckOutService):
+      return {
+        ...state,
+        isShowCheckOutService: true,
+      };
+
+    case getType(hideModalCheckOutService):
+      return {
+        ...state,
+        isShowCheckOutService: false,
+      };
     default:
       return state;
   }

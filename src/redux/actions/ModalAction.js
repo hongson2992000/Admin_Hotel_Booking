@@ -29,6 +29,9 @@ export const hideModalUpdateUser = createAction("HIDE_UPDATE_USER_MODAL");
 export const showModalSuccess = createAction("SHOW_SUCCESS_MODAL");
 export const hideModalSuccess = createAction("HIDE_SUCCESS_MODAL");
 
+export const showModalError = createAction("SHOW_ERROR_MODAL");
+export const hideModalError = createAction("HIDE_ERROR_MODAL");
+
 export const showCreateAccountModel = createAction("SHOW_CREATE_ACCOUNT_MODEL");
 export const hideCreateAccountModel = createAction("HIDE_CREATE_ACCOUNT_MODAL");
 
@@ -81,3 +84,12 @@ export const hideModalUpdateNews = createAction("HIDE_UPDATE_NEWS_MODAL");
 //MODAL PROFILE
 export const showModalProfile = createAction("SHOW_PROFILE_MODAL");
 export const hideModalProfile = createAction("HIDE_PROFILE_MODAL");
+
+//MODAL CHECKOUT ERRR
+
+export const showModalCheckOutError = createAction("SHOW_MODAL_CHECKOUT");
+export const hideModalCheckOutError = createAction("HIDE_MODAL_CHECKOUT");
+
+//MODAL CHECKOUT SERVICE
+export const showModalCheckOutService = createAction("SHOW_MODAL_CHECKOUT_SERVICE");
+export const hideModalCheckOutService = createAction("HIDE_MODAL_CHECKOUT_SERVICE");

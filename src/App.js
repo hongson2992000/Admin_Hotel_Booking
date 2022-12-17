@@ -17,7 +17,6 @@ import {
 import { USER_LOGIN, USER_ROLE } from "./utils/constants/settingSystem";
 import * as actions from "./redux/actions/LoginAction";
 import * as actionImage from "./redux/actions/ImageManageAction";
-import CheckInPage from "./pages/CheckInPage/CheckInPage";
 import PopupSucess from "./component/PopupSuccess/PopupSuccess";
 import CustomerPage from "./pages/CustomerPage/CustomerPage";
 import ListRequestServicePage from "./pages/ListRequestServicePage/ListRequestServicePage";
@@ -35,15 +34,21 @@ import ListCustomerContainer from "./component/ListCustomerContainer/ListCustome
 import ListRoomContainer from "./component/ListRoomContainer/ListRoomContainer";
 import SetUpPriceRoomByDatePage from "./pages/SetUpPriceRoomByDatePage/SetUpPriceRoomByDatePage";
 import CreateNewRoomContainer from "./component/CreateNewRoomContainer/CreateNewRoomContainer";
-const LazyServicePage = React.lazy(() =>
-  import("./pages/ServicePage/ServicePage")
-);
-const LazyListBookingPage = React.lazy(() =>
-  import("./pages/ListBookingPage/ListBookingPage")
-);
+import {
+  modalCheckOutErrorState$,
+  modalErrorState$,
+} from "./redux/selectors/ModalSelector";
+import PopupError from "./component/PopupError/PopupError";
+import ServicePage from "./pages/ServicePage/ServicePage";
+import ListBookingPage from "./pages/ListBookingPage/ListBookingPage";
+import ListBookingContainer from "./component/ListBookingContainer/ListBookingContainer";
+import CheckInContainer from "./component/CheckInContainer/CheckInContainer";
+import PopupCheckOutError from "./component/PopupCheckOutError/PopupCheckOutError";
 function App() {
   let isLoading = useSelector(loadingState$);
   let isSuccess = useSelector(successState$);
+  let isError = useSelector(modalErrorState$);
+  let isCheckOutErr = useSelector(modalCheckOutErrorState$);
   const dispatch = useDispatch();
   const userLocal = localStorage.getItem(USER_LOGIN);
   const userInfo = JSON.parse(userLocal);
@@ -59,43 +64,36 @@ function App() {
     <div className="App">
       {isLoading ? <Loading /> : ""}
       {isSuccess ? <PopupSucess /> : ""}
+      {isError ? <PopupError /> : ""}
+      {isCheckOutErr ? <PopupCheckOutError /> : ""}
       <BrowserRouter>
         <Routes>
           <Route index path="/" element={<LoginPage />} />
           <Route element={<PrivateRoute isLogged={userLocal} />}>
             <Route path="/account" element={<AccountPage />} />
             <Route path="/overview" element={<HomePage />} />
-            <Route
-              path="/service"
-              element={
-                <React.Suspense fallback="...Loading">
-                  <LazyServicePage />
-                </React.Suspense>
-              }
-            />
+            <Route path="/service" element={<ServicePage />} />
             <Route path="/location" element={<LocationPage />} />
             <Route path="/news" element={<NewsPage />} />
             <Route path="/greeting" element={<GreetingPage />} />
             <Route path="/infomationHotel" element={<InfomationHotelPage />} />
 
             <Route path="/roomManage" element={<ListRoomPage />}>
-            <Route
+              <Route
                 path="customerDetail"
                 element={<InfomationCustomerContainer />}
               />
               <Route index element={<ListRoomContainer />} />
-              <Route path="createNewRoom/:roomNo/:roomId" element={<CreateNewRoomContainer />} />
+              <Route
+                path="createNewRoom/:roomNo/:roomId"
+                element={<CreateNewRoomContainer />}
+              />
             </Route>
-            <Route
-              path="/listBooking"
-              element={
-                <React.Suspense fallback="...Loading">
-                  <LazyListBookingPage />
-                </React.Suspense>
-              }
-            />
-            <Route path="/checkIn" element={<CheckInPage />} />
-            
+            <Route path="/listBooking" element={<ListBookingPage />}>
+              <Route path="checkIn" element={<CheckInContainer />} />
+              <Route index element={<ListBookingContainer />} />
+            </Route>
+
             <Route path="/customerManage" element={<CustomerPage />}>
               <Route
                 path=":customerId"
@@ -120,7 +118,10 @@ function App() {
             />
             <Route path="/setUpRoom" element={<SetupRoomPage />} />
             <Route path="/setUpPriceRoom" element={<SetUpPricePage />} />
-            <Route path="/setUpPriceRoomByDate" element={<SetUpPriceRoomByDatePage />} />
+            <Route
+              path="/setUpPriceRoomByDate"
+              element={<SetUpPriceRoomByDatePage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

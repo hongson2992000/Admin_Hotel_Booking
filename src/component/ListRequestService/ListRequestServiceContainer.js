@@ -15,17 +15,17 @@ export default function ListRequestServiceContainer() {
     let arrNew = [];
     listRequestService?.forEach((item) => {
       arrNew.push({
-        id: item.id,
-        roomNo: "001",
-        totalAmount: item.totalAmount,
-        createDate: item.createDate.substring(0,10),
-        customerName: item.createBy,
+        id: item.orders.id,
+        roomNo: item.room?.data.roomNo,
+        totalAmount: item.orders.totalAmount,
+        createDate: item.orders.createDate.substring(0,10),
+        customerName: item.orders.createBy,
         // listRequestService.customer.firstName +
         // "" +
         // listRequestService.customer.middleName +
         // "" +
         // listRequestService.customer.lastName,
-        status: item.status,
+        status: item.orders.status,
       });
     });
     return arrNew;
@@ -134,8 +134,9 @@ export default function ListRequestServiceContainer() {
   const openRequestServiceModal = useCallback(
     (id) => {
       const service = listRequestService.find(
-        (serviceItem) => serviceItem.id === id
+        (serviceItem) => serviceItem.orders.id === id
       );
+      console.log("HELLO BE SON", service)
       //  let newService = service
       dispatch(
         actions.getRequestServiceById.getRequestServiceByIdRequest(service)

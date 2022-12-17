@@ -10,13 +10,18 @@ import HotelIcon from "@mui/icons-material/Hotel";
 import { getDashBoardState$ } from "../../redux/selectors/BookingManageSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { getFirstDateAndLastDateOfCurrentMonth } from "../../utils/util";
-
+import * as actions from "../../redux/actions/BookingManageAction"
+import moment from "moment";
 const OverviewContainer = () => {
   const dashBoard = useSelector(getDashBoardState$);
   const { firstDay, lastDay } = getFirstDateAndLastDateOfCurrentMonth();
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [dispatch]);
+  useEffect(() => {
+        dispatch(
+      actions.getDashBoardOverview.getDashBoardOverviewRequest(moment().format("DD/MM/YYYY"))
+    );
+  }, [dispatch]);
 
   if (!dashBoard) return;
 

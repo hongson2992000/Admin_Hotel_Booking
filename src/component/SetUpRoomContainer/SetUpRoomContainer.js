@@ -23,9 +23,9 @@ export default function SetUpRoomContainer() {
         id: item.room.id,
         roomType:item.roomType.data.name,
         description:item.roomType.data.description,
+        maxAdult:item.roomType.data.maxAdult,
+        maxChildren:item.roomType.data.maxChildren,
         maxOccupancy:item.roomType.data.maxOccupancy,
-        // name: item.name,
-        // status: item.status,
         image: getImageUrlByType(`img_room_${item.room.id}`)?.pictureUrl,
       });
     });
@@ -49,7 +49,7 @@ export default function SetUpRoomContainer() {
               className="deleteButton"
               // onClick={() => handleDelete(params.row.id)}
             >
-              Delete
+              Xóa
             </div>
           </div>
         );
@@ -87,11 +87,19 @@ export default function SetUpRoomContainer() {
       },
     },
     {
-      field: "description",
-      headerName: "Mô tả",
-      width: 300,
+      field: "maxAdult",
+      headerName: "Người lớn tối da",
+      width: 150,
       renderCell: (params) => {
-        return <div className="cellWithImg">{params.row.description}</div>;
+        return <div className="cellWithImg">{params.row.maxAdult}</div>;
+      },
+    },
+    {
+      field: "maxChildren",
+      headerName: "Trẻ em tối da",
+      width: 150,
+      renderCell: (params) => {
+        return <div className="cellWithImg">{params.row.maxChildren}</div>;
       },
     },
     {

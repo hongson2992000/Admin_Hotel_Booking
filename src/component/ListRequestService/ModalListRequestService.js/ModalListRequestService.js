@@ -54,7 +54,7 @@ export default function ModalListRequestService() {
   };
   const renderArr = () => {
     let arrNew = [];
-    infoOderDetail.orderDetails?.forEach((item) => {
+    infoOderDetail.orders?.orderDetails.forEach((item) => {
       arrNew.push({
         id: item.id,
         name: item.service.name,
@@ -68,7 +68,7 @@ export default function ModalListRequestService() {
         //   infoOderDetail.booking.customer.middleName +
         //   " " +
         //   infoOderDetail.booking.customer.lastName,
-        status: infoOderDetail.status,
+        status: infoOderDetail.orders.status,
       });
     });
     return arrNew;

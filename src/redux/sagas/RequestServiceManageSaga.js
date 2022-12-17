@@ -6,6 +6,8 @@ import {
   HIDE_LOADING,
   STATUS_CODE,
   DONE,
+  BOOKED,
+  PROCESSING,
 } from "../../utils/constants/settingSystem";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { requestServiceManage } from "../../services/RequestServiceManage";
@@ -18,32 +20,29 @@ import * as actionModal from "../actions/ModalAction";
 import { roomManage } from "../../services/RoomManage";
 function* getAllRequestService(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
-    // yield delay(1000);
     let listService = yield call(() => {
       return requestServiceManage.getAllRequestService();
     });
-    console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
-      // let arrRequestService = [];
-      // for (let i = 0; i < listService.data.length; i++) {
-      //   let room = yield call(() => {
-      //     return roomManage.getRoomByBookingId(listService.data[i].booking.id);
-      //   });
-      //   if (room.status === STATUS_CODE.SUCCESS) {
-      //     let newRoom = {};
-      //     newRoom = {
-      //       customer: listService.data[i],
-      //       room: room,
-      //     };
-      //     arrRequestService.push(newRoom);
-      //   }
-      // }
+      let arrRequestService = [];
+      for (let i = 0; i < listService.data.length; i++) {
+        let room = yield call(() => {
+          return roomManage.getRoomByOrderId(listService.data[i].id);
+        });
+        if (room.status === STATUS_CODE.SUCCESS) {
+          let newRoom = {};
+          newRoom = {
+            orders: listService.data[i],
+            room: room,
+          };
+          arrRequestService.push(newRoom);
+        }
+      }
       yield put(
-        actions.getRequestService.getRequestServiceSuccess(listService.data)
+        actions.getRequestService.getRequestServiceSuccess(arrRequestService)
       );
     }
     yield put({
@@ -202,8 +201,22 @@ function* getAllTurnDownService(action) {
     });
     console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
+      let arrRequestService = [];
+      for (let i = 0; i < listService.data.length; i++) {
+        let room = yield call(() => {
+          return roomManage.getRoomByBookingId(listService.data[i].booking.id);
+        });
+        if (room.status === STATUS_CODE.SUCCESS) {
+          let newRoom = {};
+          newRoom = {
+            orders: listService.data[i],
+            room: room,
+          };
+          arrRequestService.push(newRoom);
+        }
+      }
       yield put(
-        actions.getTurnDownService.getTurnDownServiceSuccess(listService.data)
+        actions.getTurnDownService.getTurnDownServiceSuccess(arrRequestService)
       );
     }
     yield put({
@@ -451,7 +464,8 @@ function* getRequestServiceByBookingIdStaff(action) {
 
 export function* followActionGetRequestServiceByBookingIdStaff() {
   yield takeLatest(
-    actions.getRequestServiceByBookingIdStaff.getRequestServiceByBookingIdStaffRequest,
+    actions.getRequestServiceByBookingIdStaff
+      .getRequestServiceByBookingIdStaffRequest,
     getRequestServiceByBookingIdStaff
   );
 }
@@ -489,7 +503,8 @@ function* getTurnDownByBookingIdByStaff(action) {
 
 export function* followActionGetTurnDownByBookingIdByStaff() {
   yield takeLatest(
-    actions.getTurnDownServiceByBookingIdByStaff.getTurnDownServiceByBookingIdByStaffRequest,
+    actions.getTurnDownServiceByBookingIdByStaff
+      .getTurnDownServiceByBookingIdByStaffRequest,
     getTurnDownByBookingIdByStaff
   );
 }

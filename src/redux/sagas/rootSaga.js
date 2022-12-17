@@ -57,6 +57,9 @@ export default function* rootSaga() {
     accountManageSaga.followActionGetAllAccount(),
     roomManageSaga.followActionGetAllRoomType(),
     roomManageSaga.followActionSetRoomPrice(),
-    newsManageSaga.followActionCreateNews()
+    newsManageSaga.followActionCreateNews(),
+    accountManageSaga.followActionCreateAccount(),
+    informationHotelSaga.followActionUpdateInfoHotel(),
+    bookingManageSaga.followActionCheckOutInRoom()
   ]);
 }

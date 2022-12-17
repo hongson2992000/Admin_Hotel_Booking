@@ -10,6 +10,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { bookingManage } from "../../services/BookingManage";
 import { customerManage } from "../../services/CustomerManage";
 import { roomManage } from "../../services/RoomManage";
+import { showModalCheckOutError, showModalError } from "../actions/ModalAction";
 function* getAllBooking(action) {
   try {
     yield put({
@@ -90,15 +91,15 @@ function* checkOutRoom(action) {
       });
       if (list.status === STATUS_CODE.SUCCESS) {
         yield put(actions.getAllBooking.getAllBookingSuccess(list.data));
+        yield put({
+          type: DISPLAY_POPUP_SUCCESS,
+        });
       }
     }
     yield put({
       type: HIDE_LOADING,
     });
-    action.payload.navigate("/listBooking");
-    yield put({
-      type: DISPLAY_POPUP_SUCCESS,
-    });
+    // action.payload.navigate("/listBooking");
   } catch (error) {
     console.log(error);
     if (error.response.status === 400) {
@@ -108,7 +109,8 @@ function* checkOutRoom(action) {
       yield put({
         type: HIDE_LOADING,
       });
-      action.payload.navigate("/roomManage");
+      yield put(showModalCheckOutError());
+      // action.payload.navigate("/roomManage");
     }
   }
 }
@@ -292,5 +294,72 @@ export function* followActionGetRevenueEntireDate() {
   yield takeLatest(
     actions.getRevenueEntireDate.getRevenueEntireDateRequest,
     getRevenueEntireDate
+  );
+}
+function* checkOutInRoom(action) {
+  try {
+    console.log("ActionCheckIn", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let formData = new FormData();
+    formData.append("booking_id", action.payload.id);
+    let listBooking = yield call(() => {
+      return bookingManage.checkOutRoom(formData);
+    });
+    console.log(listBooking.data);
+    if (listBooking.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.checkOutRoom.checkOutRoomSuccess(listBooking.data));
+      let listRoom = yield call(() => {
+        return roomManage.getAllRoom();
+      });
+      if (listRoom.status === STATUS_CODE.SUCCESS) {
+        let arrRoom = [];
+        for (let i = 0; i < listRoom.data.length; i++) {
+          if (listRoom.data[i].status === true) {
+            let booking = yield call(() => {
+              return bookingManage.getBookingByRoomId(listRoom.data[i].id);
+            });
+            if (booking.status === STATUS_CODE.SUCCESS) {
+              let newRoom = {};
+              newRoom = {
+                room: listRoom.data[i],
+                booking: booking,
+              };
+              arrRoom.push(newRoom);
+            }
+          } else {
+            let newRoom = {};
+            newRoom = {
+              room: listRoom.data[i],
+              booking: {},
+            };
+            arrRoom.push(newRoom);
+          }
+        }
+        yield put(actionRoom.getAllRoom.getAllRoomSuccess(arrRoom));
+        yield put({
+          type: HIDE_LOADING,
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    if (error.response.status === 400) {
+      yield put(
+        actions.checkOutRoom.checkOutRoomFailure(error.response.data.message)
+      );
+      yield put({
+        type: HIDE_LOADING,
+      });
+      yield put(showModalCheckOutError());
+    }
+  }
+}
+export function* followActionCheckOutInRoom() {
+  yield takeLatest(
+    actions.checkOutInRoom.checkOutInRoomRequest,
+    checkOutInRoom
   );
 }

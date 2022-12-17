@@ -1,26 +1,16 @@
 import { Modal } from "@mui/material";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
+import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { modalTurnDownManageState$ } from "../../../redux/selectors/ModalSelector";
 import "./PopupTurnDownManage.scss";
-import {
-  hideModalTurnDown,
-  hideModalTurnDownManage,
-} from "../../../redux/actions/ModalAction";
+import { hideModalTurnDownManage } from "../../../redux/actions/ModalAction";
 import { useNavigate } from "react-router-dom";
 import * as actions from "../../../redux/actions/RequestServiceManageAction";
 import { DataGrid } from "@mui/x-data-grid";
 import { turnDownServiceInRoomState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import DialogDelete from "../../DialogDelete/DialogDelete";
 import ModalListRequestService from "../../ListRequestService/ModalListRequestService.js/ModalListRequestService";
-import {
-  BOOKED,
-  DONE,
-  PROCESSING,
-  USER_ROLE,
-} from "../../../utils/constants/settingSystem";
+import { DONE, PROCESSING } from "../../../utils/constants/settingSystem";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 export default function PopupTurnDownManage() {
   const dispatch = useDispatch();

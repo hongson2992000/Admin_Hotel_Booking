@@ -13,14 +13,13 @@ import { useSelector } from "react-redux";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 import {
   BOOKED,
+  CHECKOUT,
   PROCESSING,
   USER_ROLE,
 } from "../../../utils/constants/settingSystem";
 // import RoomPopup from "./roomPopup";
 import { roomManageState$ } from "../../../redux/selectors/RoomManageSelector";
-import {
-  showModalSendMessage,
-} from "../../../redux/actions/ModalAction";
+import { showModalSendMessage } from "../../../redux/actions/ModalAction";
 import { useNavigate } from "react-router-dom";
 import PopupRequestService from "../PopupRequestService/PopupRequestService";
 import PopupDetailRequestServiceInRoom from "../PopupDetailRequestServiceInRoom/PopupDetailRequestServiceInRoom";
@@ -32,13 +31,18 @@ import PopupSendMessage from "../PopupSendMessage/PopupSendMessage";
 
 export default function Room() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(actionRoom.getAllRoom.getAllRoomRequest());
-  }, [dispatch]);
-
   const navigate = useNavigate();
   const userInfo = useSelector(userState$);
   const listRoom = useSelector(roomManageState$);
+  useEffect(() => {
+    dispatch(actionRoom.getAllRoom.getAllRoomRequest());
+    if (userInfo.userRole === USER_ROLE.RECEPTIONIST) {
+      dispatch(
+        actionRequestService.getTurnDownService.getTurnDownServiceRequest()
+      );
+    }
+  }, [dispatch]);
+
   // let [dataListRoom, setDataListRoom] = useState(listRoom);
   let [bookingId, setBookingId] = useState(1);
   let MenusEmpty = [{ name: "Tạo đặt phòng", id: 0 }];
@@ -82,7 +86,7 @@ export default function Room() {
   const areUSureCheckOut = (choose) => {
     if (choose) {
       dispatch(
-        actionBooking.checkOutRoom.checkOutRoomRequest({
+        actionBooking.checkOutInRoom.checkOutInRoomRequest({
           id: idBooking.id,
           navigate: navigate,
         })
@@ -127,7 +131,7 @@ export default function Room() {
           //     room_id: room_id,
           //   })
           // );
-          setBookingId(bookingId)
+          setBookingId(bookingId);
           dispatch(showModalSendMessage());
           break;
         case 2:
@@ -341,7 +345,6 @@ export default function Room() {
           arrFood.push(item);
         }
       });
-      console.log("food",arrFood)
       let arrTurnDown = arrFood.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
@@ -393,12 +396,20 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
-      let arrTurnDown = item.booking.data?.requestServices.filter(
+      let arrCheckOut = [];
+      item.booking?.data.requestServices.forEach(
+        (item, i) => {
+          if(item.requestServiceType !== CHECKOUT){
+            arrCheckOut.push(item);
+          }
+        }
+      );
+      let arrCheckOutNew = arrCheckOut.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
       return (
         <div className="rowIcon">
-          {arrTurnDown?.length !== 0 ? (
+          {arrCheckOutNew?.length !== 0 ? (
             <CleaningServicesIcon
               onClick={() => {
                 setOpenNotEmpty({
@@ -556,27 +567,27 @@ export default function Room() {
       <div className="row Room">
         <div className="FillterRoom">
           <span
-            // onClick={() => {
-            //   handlefilterRoom(1);
-            // }}
+          // onClick={() => {
+          //   handlefilterRoom(1);
+          // }}
           >
             <div className="FillterAll">
               <p>Tất Cả</p>
             </div>
           </span>
           <span
-            // onClick={() => {
-            //   handlefilterRoom(2);
-            // }}
+          // onClick={() => {
+          //   handlefilterRoom(2);
+          // }}
           >
             <div className="FillterEmpty">
               <p>Trống</p>
             </div>
           </span>
           <span
-            // onClick={() => {
-            //   handlefilterRoom(3);
-            // }}
+          // onClick={() => {
+          //   handlefilterRoom(3);
+          // }}
           >
             <div className="FillterNotEmpty">
               <p>Có Khách</p>
@@ -625,7 +636,7 @@ export default function Room() {
       <PopupTurnDownService bookingId={bookingId} />
       <PopupTurnDownManage />
       <PopupRequestServiceManage bookingId={bookingId} />
-      <PopupSendMessage bookingId={bookingId}/>
+      <PopupSendMessage bookingId={bookingId} />
       {dialog.isLoading && (
         <DialogDelete onDialog={areUSureCheckOut} message={dialog.message} />
       )}

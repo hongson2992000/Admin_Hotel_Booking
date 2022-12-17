@@ -84,7 +84,7 @@ export default function Sidebar() {
                   <span>Tin Tức</span>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/greeting"
                   style={{ textDecoration: "none" }}
@@ -93,7 +93,7 @@ export default function Sidebar() {
                   <EmojiPeopleIcon className="icon" />
                   <span>Lời Chào</span>
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink
                   to="/account"
@@ -333,7 +333,7 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <div className="center" style={{ height: "70%" }}>
+          <div className="center" style={{ height: "72%" }}>
             <ul>
               <li>
                 <NavLink
@@ -397,7 +397,7 @@ export default function Sidebar() {
               <span className="logo">5 Men Hotel</span>
             </Link>
           </div>
-          <div className="center" style={{ height: "70%" }}>
+          <div className="center" style={{ height: "72%" }}>
             <ul>
               <li>
                 <NavLink

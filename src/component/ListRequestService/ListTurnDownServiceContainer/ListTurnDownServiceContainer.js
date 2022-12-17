@@ -8,6 +8,7 @@ import * as actions from "../../../redux/actions/RequestServiceManageAction";
 import { turnDownServiceManageState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import {
   BOOKED,
+  CHECKOUT,
   DONE,
   PROCESSING,
 } from "../../../utils/constants/settingSystem";
@@ -22,25 +23,25 @@ export default function ListTurnDownServiceContainer() {
   const renderArr = () => {
     let arrNew = [];
     let listRequestServiceNew = listRequestService.filter(
-      (item) => item.status !== DONE
+      (item) => item.orders.requestServiceType !== CHECKOUT
     );
     listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
-        id: item.id,
-        booking_Id: item.booking.id,
-        requestServiceName: item.requestServiceName,
+        id: item.orders.id,
+        booking_Id: item.orders.booking.id,
+        requestServiceName: item.orders.requestServiceName,
         requestServiceType: item.requestServiceType,
-        roomNo: "001",
-        dateTime: item.dateTime.substring(0,10),
+        roomNo: item.room.data.roomNo,
+        dateTime: item.orders.dateTime.substring(0,10),
         time: "12:00",
         customerName:
-          item.booking.customer.firstName +
+          item.orders.booking.customer.firstName +
           " " +
-          item.booking.customer.middleName +
+          item.orders.booking.customer.middleName +
           " " +
-          item.booking.customer.lastName,
-        status: item.status,
+          item.orders.booking.customer.lastName,
+        status: item.orders.status,
       });
     });
     return arrNew;
@@ -110,9 +111,17 @@ export default function ListTurnDownServiceContainer() {
   let serviceColumns = useMemo(
     () => [
       {
+        field: "stt",
+        headerName: "STT",
+        width: 100,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row?.stt}</div>;
+        },
+      },
+      {
         field: "roomNo",
         headerName: "Phòng",
-        width: 150,
+        width: 100,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row?.roomNo}</div>;
         },
@@ -228,7 +237,15 @@ export default function ListTurnDownServiceContainer() {
                 </div>
               </div>
             ) : (
-              ""
+              <div className="cellAction">
+              <div
+                className="doneButton"
+                onClick={() => handleCompeleteturnService(params.row)}
+                style={{pointerEvents:"none"}}
+              >
+                Hoàn Thành
+              </div>
+            </div>
             )}
           </div>
         );

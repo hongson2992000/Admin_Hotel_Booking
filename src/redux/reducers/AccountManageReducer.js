@@ -3,6 +3,7 @@ import {
   getAccount,
   filInfoAccount,
   filInfoProfile,
+  createAccount,
   // createNews,
   // updateNews,
   // deleteNews,
@@ -29,15 +30,17 @@ export default function AccountManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-    // case getType(createLocation.createLocationSuccess):
-    //   return {
-    //     ...state,
-    //     arrLocation: action.payload,
-    //   };
-    // case getType(createLocation.createLocationFailure):
-    //   return {
-    //     ...state,
-    //   };
+    case getType(createAccount.createAccountSuccess):
+      let accountCreate = [];
+      accountCreate = action.payload;
+      state.arrAccount = accountCreate;
+      return {
+        ...state,
+      };
+    case getType(createAccount.createAccountFailure):
+      return {
+        ...state,
+      };
     // case getType(updateLocation.updateLocationSuccess):
     //   return {
     //     ...state,

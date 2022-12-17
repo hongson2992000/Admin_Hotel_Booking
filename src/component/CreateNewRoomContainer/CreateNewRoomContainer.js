@@ -75,7 +75,17 @@ export default function CreateNewRoomContainer() {
   //   let formatDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
   //   return formatDate;
   // };
-  
+  const today =(i)=>
+    {
+        let today = new Date();
+        let dd = today.getDate()+1;
+        let mm = today.getMonth()+1;
+        let yyyy = today.getFullYear();
+
+        today = yyyy+'-'+mm+'-'+dd;
+
+        return today;   
+    }
   const onSubmitCheckIn = useCallback(
     (values) => {
       let arrActualArrivalDate = values.actualArrivalDate.split("-");
@@ -168,12 +178,12 @@ export default function CreateNewRoomContainer() {
       id: 0,
       room_Id: parseInt(params.roomId),
       name: "",
-      createDate: moment().format("DD/MM/YYYY"),
+      createDate: moment().format("MM/DD/YYYY"),
       numOfAdult: roomType.maxAdult,
       numOfChildren: roomType.maxChildren,
       arrivalDate: moment().format("YYYY-MM-DD"),
       arrivalTime: "",
-      departureDate: "",
+      departureDate: today(),
       departureTime: "12:00",
       customer_Id: "",
       phoneNumber: "",
@@ -382,11 +392,11 @@ export default function CreateNewRoomContainer() {
                   style={{ padding: "0.875rem", borderRadius: "5px" }}
                   type="date"
                   required
-                  min={moment().format("YYYY-MM-DD")}
                   id="departureDate"
                   name="departureDate"
                   value={formik.values.departureDate}
                   onChange={formik.handleChange}
+                  min={today()}
                 />
               </div>
               <div className="col-2 InfoRoomItem">

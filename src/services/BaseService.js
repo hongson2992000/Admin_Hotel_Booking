@@ -7,7 +7,7 @@ export class BaseServices {
       url: `${DOMAIN}/${url}`,
       method: "PUT",
       data: model,
-      headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
+      // headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN) },
     });
   };
   postAuthor = (url, model) => {

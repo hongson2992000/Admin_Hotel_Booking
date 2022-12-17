@@ -13,10 +13,16 @@ import { modalCreateServiceState$ } from "../../../redux/selectors/ModalSelector
 import "./CreateServiceModal.scss";
 import { hideModal } from "../../../redux/actions/ModalAction";
 import * as actions from "../../../redux/actions/ServiceManageAction";
+import { serviceManageState$ } from "../../../redux/selectors/ServiceManageSelector";
+import { useState } from "react";
+import * as Yup from "yup";
+import moment from "moment/moment";
+import { USER_LOGIN } from "../../../utils/constants/settingSystem";
 export default function CreateServiceModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalCreateServiceState$);
-
+  const listHotelService = useSelector(serviceManageState$);
+  const userInfo = JSON.parse(localStorage.getItem(USER_LOGIN));
   const getCurrentDate = () => {
     let showDate = new Date();
     let displayDate =
@@ -29,6 +35,7 @@ export default function CreateServiceModal() {
   };
   const onClose = useCallback(() => {
     dispatch(hideModal());
+    setDuplicateName("");
   }, [dispatch]);
   const renderMajorGroup = () => {
     if (formik.values.serviceCategory_Id === 1) {
@@ -66,13 +73,28 @@ export default function CreateServiceModal() {
     }
   };
   // let dataService = formik.values
+  let [duplicateName, setDuplicateName] = useState("");
   const onSubmitService = useCallback(
     (values) => {
-      dispatch(actions.createNewHotelService.createHotelServiceRequest(values));
-      dispatch(hideModal());
+      let arrName = listHotelService.filter(
+        (item) =>
+          item.name.toUpperCase().trim() === values.name.toUpperCase().trim()
+      );
+      console.log("ARRRR", arrName);
+      if (arrName.length !== 0) {
+        setDuplicateName("Tên dịch vụ đã tồn tại");
+      } else {
+        // dispatch(
+        //   actions.createNewHotelService.createHotelServiceRequest(values)
+        // );
+        dispatch(hideModal());
+      }
     },
-    [dispatch]
+    [dispatch, listHotelService]
   );
+  const handleChangeName = (e) => {
+    setDuplicateName("");
+  };
   const formik = useFormik({
     initialValues: {
       id: 0,
@@ -80,17 +102,34 @@ export default function CreateServiceModal() {
       price: 0,
       majorGroup: "",
       description: "",
-      createDate: getCurrentDate(),
-      createBy: "hongson2992000",
-      updateDate: getCurrentDate(),
+      createDate: moment().format("DD/MM/YYYY"),
+      createBy:
+        userInfo.firstName +
+        " " +
+        userInfo.middleName +
+        " " +
+        userInfo.lastName,
+      updateDate: moment().format("DD/MM/YYYY"),
       updateBy: "hongson2992000",
-      status: true,
+      status:
+        userInfo.firstName +
+        " " +
+        userInfo.middleName +
+        " " +
+        userInfo.lastName,
       serviceCategory_Id: 1,
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitService(values);
       resetForm({ values: "" });
     },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Yêu cầu *"),
+      price: Yup.string().required("Yêu cầu *"),
+      majorGroup: Yup.string().required("Yêu cầu *"),
+      serviceCategory_Id: Yup.string().required("Yêu cầu *"),
+      description: Yup.string().required("Yêu cầu *"),
+    }),
   });
   const body = (
     <div className="paper" id="simple-modal-title">
@@ -112,12 +151,19 @@ export default function CreateServiceModal() {
               name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
+              onClick={() => {
+                handleChangeName();
+              }}
             />
+            {formik.errors.name && (
+              <span style={{ color: "red" }}>{formik.errors.name}</span>
+            )}
+            <p>{duplicateName}</p>
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Giá</InputLabel>
             <TextField
-              type={"number"}
+              type="number"
               className="title"
               required
               id="price"
@@ -125,6 +171,9 @@ export default function CreateServiceModal() {
               value={formik.values.price}
               onChange={formik.handleChange}
             />
+            {formik.errors.price && (
+              <span style={{ color: "red" }}>{formik.errors.price}</span>
+            )}
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Nhóm dịch vụ</InputLabel>
@@ -139,12 +188,18 @@ export default function CreateServiceModal() {
               <MenuItem value={1}>Thức ăn</MenuItem>
               <MenuItem value={2}>Đồ uống</MenuItem>
             </Select>
+            {formik.errors.serviceCategory_Id && (
+              <span style={{ color: "red" }}>{formik.errors.serviceCategory_Id}</span>
+            )}
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Nhóm</InputLabel>
             {renderMajorGroup()}
+            {formik.errors.majorGroup && (
+              <span style={{ color: "red" }}>{formik.errors.majorGroup}</span>
+            )}
           </div>
-          <div className="col-12">
+          <div className="col-12" style={{height:"170px"}}>
             <InputLabel>Thông tin mô tả</InputLabel>
             <TextareaAutosize
               className="title"
@@ -155,6 +210,9 @@ export default function CreateServiceModal() {
               value={formik.values.description}
               onChange={formik.handleChange}
             />
+            {formik.errors.description && (
+              <span style={{ color: "red" }}>{formik.errors.description}</span>
+            )}
           </div>
           {/* <div className="InfoCreate col-12">
             <div className="row">

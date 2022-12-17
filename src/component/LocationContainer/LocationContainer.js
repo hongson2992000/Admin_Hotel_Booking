@@ -101,7 +101,7 @@ export default function LocationContainer() {
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
-            <img className="cellImg" src={params.row.image} alt="img" />
+            <img className="cellImg" src={params.row.image} alt="" />
           </div>
         );
       },
@@ -141,7 +141,7 @@ export default function LocationContainer() {
               className="deleteButton"
               onClick={() => handleDeleteLocation(params.row.id)}
             >
-              Delete
+              Xóa
             </div>
           </div>
         );

@@ -34,3 +34,8 @@ export const modalAddNewsState$ = (state) => state.ModalReducer.isShowAddNews;
 export const modalUpdateNewsState$ = (state) =>
   state.ModalReducer.isShowUpdateNews;
 export const modalProfileState$ = (state) => state.ModalReducer.isShowProfile;
+export const modalErrorState$ = (state) => state.ModalReducer.isShowError;
+export const modalCheckOutErrorState$ = (state) =>
+  state.ModalReducer.isShowCheckOutErr;
+export const modalCheckOutServiceState$ = (state) =>
+  state.ModalReducer.isShowCheckOutService;

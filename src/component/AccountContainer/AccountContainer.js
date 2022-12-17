@@ -19,12 +19,15 @@ const AccountContainer = () => {
 
   const renderArr = () => {
     let arrNew = [];
-    listAccount.forEach((item, i) => {
+    let listAccountNew = listAccount?.filter(
+      (item) => item.userRole !== "ROLE_USER" && item.userRole !== "ROLE_ADMIN"
+    );
+    listAccountNew.forEach((item, i) => {
       arrNew.push({
         stt: i + 1,
         id: item?.id,
         username: item?.username,
-        name: item?.firstName + item?.middleName + item?.lastName,
+        name: item?.firstName + " " + item?.middleName + " " + item?.lastName,
         userRole: item?.userRole,
         phoneNumber: item?.phoneNumber,
         status: item?.status,
@@ -106,7 +109,7 @@ const AccountContainer = () => {
       {
         field: "stt",
         headerName: "STT",
-        width: 50,
+        width: 100,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.stt}</div>;
         },
@@ -159,7 +162,7 @@ const AccountContainer = () => {
       {
         field: "userRole",
         headerName: "Quyền Hạn",
-        width: 200,
+        width: 170,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.userRole}</div>;
         },
@@ -167,11 +170,11 @@ const AccountContainer = () => {
       {
         field: "isActive",
         headerName: "Trạng thái",
-        width: 150,
+        width: 120,
         renderCell: (params) => {
           return (
-            <div className={`cellWithStatus ${params.row.isActive}`}>
-              {params.row.isActive ? "Đang hiện" : "Đang ẩn"}
+            <div className={`cellWithStatus ${params.row.status}`}>
+              {params.row.status ? "Đang hiện" : "Đang ẩn"}
             </div>
           );
         },

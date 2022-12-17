@@ -155,17 +155,18 @@
         padding: 5px;
         border-radius: 5px;
         &.DONE {
-            background-color: rgba(0, 128, 0, 0.05);
+            // background-color: rgba(0, 128, 0, 0.05);
             color: green;
-        }
-        &.PROCESSING {
-            background-color: rgba(255, 0, 0, 0.05);
-            ;
-            color: yellow;
+            border: 1px solid green;
         }
         &.BOOKED {
-            background-color: rgba(255, 0, 0, 0.05);
+            // background-color: rgba(255, 0, 0, 0.05);
             color: red;
+            border: 1px solid red;
+        }
+        &.PROCESSING {
+            color: rgb(175, 175, 5);
+            border: 1px solid rgb(175, 175, 5);
         }
     }
 }
