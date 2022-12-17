@@ -8,5 +8,11 @@ export const infoUserBookingState$ = (state) =>
 export const getDashBoardState$ = (state) =>
   state.BookingManageReducer.dashboard;
 
-  export const infoUserUpdateFormState$ = (state) =>
+export const getRevenuesEntireState$ = (state) =>
+  state.BookingManageReducer.revenuesEntire;
+
+export const getRevenuesCancelEntireState$ = (state) =>
+  state.BookingManageReducer.revenuesCancelEntire;
+
+export const infoUserUpdateFormState$ = (state) =>
   state.BookingManageReducer.userFormUpdate;

@@ -16,17 +16,23 @@ class BookingManage extends BaseServices {
   checkOutRoom = (model) => {
     return this.post(`v1/booking/checkOut`, model);
   };
-  //   updateService = (model) => {
-  //     return this.put(`v1/service`, model);
-  //   };
-  //   deleteService = (id) => {
-  //     return this.delete(`v1/service/${id}`);
-  //   };
   getDashBoard = (payload) => {
-    return this.get(`v1/booking/dashboard?date=${payload}`);
+    return this.get(
+      `v1/booking/dashboardBetween?startDate=${payload.startDate}&endDate=${payload.endDate}`
+    );
   };
-  checkInRoomInHotel = (model)=>{
-    return this.post(`v1/booking/checkInAtHotel`,model)
-  }
+  getRevenueDashBoard = (payload) => {
+    return this.get(
+      `v1/booking/revenuesEntire?dateEnd=${payload.endDate}&dateStart=${payload.startDate}`
+    );
+  };
+  getRevenueCancelDashBoard = (payload) => {
+    return this.get(
+      `v1/booking/revenuesCancelEntire?dateEnd=${payload.endDate}&dateStart=${payload.startDate}`
+    );
+  };
+  checkInRoomInHotel = (model) => {
+    return this.post(`v1/booking/checkInAtHotel`, model);
+  };
 }
 export const bookingManage = new BookingManage();

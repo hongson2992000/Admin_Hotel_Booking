@@ -75,3 +75,9 @@ export const checkOutInRoom = createActions({
   checkOutInRoomSuccess: (payload) => payload,
   checkOutInRoomFailure: (err) => err,
 });
+
+export const getRevenueCancelEntireDate = createActions({
+  getRevenueCancelEntireDateRequest: (payload) => payload,
+  getRevenueCancelEntireDateSuccess: (payload) => payload,
+  getRevenueCancelEntireDateFailure: (err) => err,
+});
