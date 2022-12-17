@@ -1,29 +1,41 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "./Navbar.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { userState$ } from "../../redux/selectors/UserSelector";
+import { turnDownServiceManageState$ } from "../../redux/selectors/RequestServiceManageSelector";
 import { useNavigate } from "react-router-dom";
 import { NotificationsNoneOutlined } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HelpIcon from "@mui/icons-material/Help";
 import BadgeIcon from "@mui/icons-material/Badge";
 import ModalProfile from "../ModalProfile/ModalProfile";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { showModalProfile } from "../../redux/actions/ModalAction";
+import {
+  showModalCheckOutService,
+  showModalProfile,
+} from "../../redux/actions/ModalAction";
 import * as actions from "../../redux/actions/AccountManageAction";
-import { USER_LOGIN } from "../../utils/constants/settingSystem";
+import * as actionRequestService from "../../redux/actions/RequestServiceManageAction";
+import {
+  BOOKED,
+  CHECKOUT,
+  DONE,
+  PROCESSING,
+  USER_LOGIN,
+  USER_ROLE,
+} from "../../utils/constants/settingSystem";
+import ModalAllRequestService from "./ModalAllRequestService/ModalAllRequestService";
 export default function Navbar() {
   const menuRef = useRef();
   const imgRef = useRef();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
   const Menus = ["Đăng Xuất"];
   // const userInfo = useSelector(userState$);
   const navigate = useNavigate();
   const userLocal = localStorage.getItem(USER_LOGIN);
   const userInfo = JSON.parse(userLocal);
+  const listRequestService = useSelector(turnDownServiceManageState$);
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
@@ -39,49 +51,116 @@ export default function Navbar() {
         phoneNumber: userInfo.phoneNumber,
         username: userInfo.username,
         password: userInfo.password,
+        userRole: userInfo.userRole,
       })
     );
     dispatch(showModalProfile());
   }, [dispatch, userInfo]);
   let subMenu = document.getElementById("subMenu");
+  let subMenuNotifi = document.getElementById("subMenuNotifi");
   const toggleMenu = () => {
+    subMenuNotifi.classList.remove("open-menu-notifi");
     subMenu.classList.toggle("open-menu");
   };
+  const toggleMenuNotifi = () => {
+    subMenu.classList.remove("open-menu");
+    subMenuNotifi.classList.toggle("open-menu-notifi");
+  };
+  const renderArr = () => {
+    let arrNew = [];
+    let listServiceNew = [];
+    listServiceNew = listRequestService.filter(
+      (item, i) =>
+        item.orders.requestServiceType === CHECKOUT ||
+        item.orders.status !== DONE
+    );
+    listServiceNew.forEach((item, i) => {
+      arrNew.push({
+        name: item.orders.requestServiceName,
+        roomNo: item.room.data.roomNo,
+      });
+    });
+    return arrNew;
+  };
+  const handleViewAllNotifi = useCallback(() => {
+    dispatch(showModalCheckOutService());
+  }, [dispatch]);
   return (
     <div className="navbar">
       <div className="wrapper">
         <div></div>
-        <div className="items">
-          <div></div>
-          <div className="item">
+        <div className="items relati">
+          <div
+            className="item"
+            onClick={() => {
+              toggleMenuNotifi();
+            }}
+          >
             <NotificationsNoneOutlined className="icon" />
-            <div className="counter">1</div>
+            {userInfo.userRole === USER_ROLE.RECEPTIONIST &&
+            renderArr().length !== 0 ? (
+              <div className="counter animate__animated animate__heartBeat animate__infinite">
+                {renderArr().length}
+              </div>
+            ) : (
+              <div className="counter">0</div>
+            )}
           </div>
-          {/* <div className="item relative" onClick={() => setOpen(!open)}>
-          <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="avatar"
-            />
-            <span ref={imgRef} className="username">
-              {userInfo.lastName} {userInfo.firstName}
-            </span>
-            <KeyboardArrowDownIcon className="text-gray-400 text-14" />
-          </div> */}
-
-          {/* {open && (
-            <div ref={menuRef} className="menu shadow-lg">
-              {Menus.map((menu) => (
-                <span
-                  onClick={() => handleLogout()}
-                  className="p-2 text-lg cursor-pointer rounded"
-                  key={menu}
-                >
-                  <LogoutIcon className="text-gray-400 text-14" /> {menu}
-                </span>
-              ))}
+          <div className="sub-menu-notifi" id="subMenuNotifi">
+            <div className="sub-menu">
+              {userInfo.userRole === USER_ROLE.RECEPTIONIST ? (
+                <div className="sub-menu-top">
+                  {renderArr().map((item, index) => (
+                    <div className="sub-menu-item">
+                      <p style={{ fontSize: "15px" }}>
+                        <LogoutIcon
+                          className="icon"
+                          style={{ paddingRight: "5px" }}
+                        />
+                        Phòng {item.roomNo} bạn có yêu cầu "{item.name}"
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : userInfo.userRole === USER_ROLE.RECEPTIONIST &&
+                renderArr().length === 0 ? (
+                <div className="sub-menu-top">
+                  <div className="sub-menu-item notifi">
+                    <p>Bạn chưa có thông báo</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="sub-menu-top">
+                  <div className="sub-menu-item notifi">
+                    <p>Bạn chưa có thông báo</p>
+                  </div>
+                </div>
+              )}
+              <div className="sub-menu-footer">
+                {userInfo.userRole === USER_ROLE.RECEPTIONIST &&
+                renderArr().length !== 0 ? (
+                  <div
+                    className="buttonViewAll"
+                    onClick={() => {
+                      handleViewAllNotifi();
+                    }}
+                  >
+                    <p>Xem tất cả</p>
+                  </div>
+                ) : (
+                  <div
+                    className="buttonViewAll"
+                    style={{pointerEvents:"none"}}
+                    onClick={() => {
+                      handleViewAllNotifi();
+                    }}
+                  >
+                    <p>Xem tất cả</p>
+                  </div>
+                )}
+              </div>
             </div>
-          )} */}
+          </div>
           <div
             className="item relative"
             onClick={() => {
@@ -106,7 +185,9 @@ export default function Navbar() {
                   alt=""
                   className="avatar"
                 />
-                <h5>{userInfo.lastName} {userInfo.firstName}</h5>
+                <h5>
+                  {userInfo.lastName} {userInfo.firstName}
+                </h5>
               </div>
               <hr />
               <div
@@ -120,7 +201,7 @@ export default function Navbar() {
                 </p>
                 <p>Chỉnh sửa thông tin</p>
               </div>
-              <div className="sub-menu-link">
+              {/* <div className="sub-menu-link">
                 <p>
                   <SettingsIcon className="icon" />
                 </p>
@@ -131,7 +212,7 @@ export default function Navbar() {
                   <HelpIcon className="icon" />
                 </p>
                 <p>Hỗ trợ</p>
-              </div>
+              </div> */}
               <div
                 className="sub-menu-link"
                 onClick={() => {
@@ -148,6 +229,7 @@ export default function Navbar() {
         </div>
       </div>
       <ModalProfile />
+      <ModalAllRequestService />
     </div>
   );
 }

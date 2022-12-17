@@ -80,7 +80,7 @@ import { newsItemManageState$ } from "../../../redux/selectors/NewsManageSelecto
       enableReinitialize:true
     });
     const body = (
-      <div className="paperAddNews" id="simple-modal-title">
+      <div className="paperUpdateNews" id="simple-modal-title">
         <h2>Chỉnh sửa tin tức</h2>
         <hr />
         <form
@@ -234,7 +234,7 @@ import { newsItemManageState$ } from "../../../redux/selectors/NewsManageSelecto
                 <span style={{ color: "red" }}>{formik.errors.ticketInformation}</span>
               )}
             </div>
-            <div className="col-12" style={{height:"170px"}}>
+            <div className="col-12" style={{height:"160px"}}>
               <InputLabel>Thông tin mô tả</InputLabel>
               <TextareaAutosize
                 className="title"

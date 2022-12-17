@@ -89,7 +89,7 @@ export default function LoginPage() {
               />
               {errMessage === "INVALID USER NAME OR PASSWORD" ? (
                 <p style={{ paddingTop: "10px", color: "red" }}>
-                  Tài Khoản Và Mật Khẩu Không Đúng
+                  Tài khoản hoặc mật khẩu không đúng
                 </p>
               ) : (
                 ""

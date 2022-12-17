@@ -25,29 +25,8 @@ export default function ListBookingContainer() {
 
   const listBooking = useSelector(bookingManageState$);
   useEffect(() => {
-    const userLocal = localStorage.getItem(USER_LOGIN);
-    if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
-      navigate("/overview");
-    } else if (
-      userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.RECEPTIONIST
-    ) {
-      navigate("/listBooking");
-      dispatch(actions.getAllBooking.getAllBookingRequest());
-    } else if (
-      userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
-    ) {
-      navigate("/roomManage");
-      // dispatch(actions.getAllRoom.getAllRoomRequest());
-    } else if (
-      userLocal &&
-      JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
-    ) {
-      navigate("/roomManage");
-      // dispatch(actions.getAllRoom.getAllRoomRequest());
-    }
-  }, [navigate, dispatch]);
+    dispatch(actions.getAllBooking.getAllBookingRequest());
+  }, [dispatch]);
   const handleChange = (e, val) => {
     setValue(val);
   };
@@ -63,7 +42,7 @@ export default function ListBookingContainer() {
           booking_id: item.id,
         })
       );
-      navigate("/checkIn");
+      navigate("/listBooking/checkIn");
     },
     [navigate, listBooking, dispatch]
   );
@@ -266,14 +245,18 @@ export default function ListBookingContainer() {
                   ? "CHECKIN"
                   : params.row.status === CHECKOUT
                   ? "CHECKOUT"
-                  : "BOOKED"
+                  : params.row.status === BOOKED
+                  ? "BOOKED"
+                  : "NOTSHOW"
               }`}
             >
               {params.row.status === BOOKED
                 ? "Đã đặt phòng"
                 : params.row.status === CHECKIN
                 ? "Đang Ở"
-                : "Đã rời khỏi"}
+                : params.row.status === CHECKOUT
+                ? "Đã rời khỏi"
+                : "Không đến"}
             </div>
           );
         },
@@ -538,7 +521,9 @@ export default function ListBookingContainer() {
             {checkIsBefore(
               params.row.arrivalDate.substring(0, 10),
               moment().format("DD/MM/YYYY")
-            ) || params.row.status === CHECKIN  || params.row.status === CHECKOUT ?(
+            ) ||
+            params.row.status === CHECKIN ||
+            params.row.status === CHECKOUT ? (
               <div
                 className="cancelBookingButtonDisable"
                 style={{ pointerEvents: "none" }}
@@ -591,7 +576,6 @@ export default function ListBookingContainer() {
     let formatDate1 = arrDate1[2] + "-" + arrDate1[1] + "-" + arrDate1[0];
     let arrDate2 = date2.split("/");
     let formatDate2 = arrDate2[2] + "-" + arrDate2[1] + "-" + arrDate2[0];
-    console.log("Thanh An", formatDate1 + "////" + formatDate2);
     return moment(formatDate1).isBefore(formatDate2);
   };
   return (

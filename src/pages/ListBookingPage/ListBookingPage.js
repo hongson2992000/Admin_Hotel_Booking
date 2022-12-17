@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import ListBookingContainer from "../../component/ListBookingContainer/ListBookingContainer";
 import Navbar from "../../component/Navbar/Navbar";
 import Sidebar from "../../component/Sidebar/Sidebar";
@@ -33,30 +33,28 @@ export default function ListBookingPage() {
   //   // }
   //   dispatch(actions.getAllBooking.getAllBookingRequest());
   // }, [navigate, dispatch]);
-  // useEffect(() => {
-  //   const userLocal = localStorage.getItem(USER_LOGIN);
-  //   if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
-  //     navigate("/overview");
-  //   } else if (
-  //     userLocal &&
-  //     JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
-  //   ) {
-  //     navigate("/listBooking");
-  //     // dispatch(actions.getAllBooking.getAllBookingRequest());
-  //   } else if (
-  //     userLocal &&
-  //     JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
-  //   ) {
-  //     navigate("/listRoom");
-  //     // dispatch(actions.getAllRoom.getAllRoomRequest());
-  //   } else if (
-  //     userLocal &&
-  //     JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
-  //   ) {
-  //     navigate("/listRoom");
-  //     // dispatch(actions.getAllRoom.getAllRoomRequest());
-  //   }
-  // }, [navigate, dispatch]);
+  useEffect(() => {
+    const userLocal = localStorage.getItem(USER_LOGIN);
+    if (userLocal && JSON.parse(userLocal).userRole === USER_ROLE.ADMIN) {
+      navigate("/overview");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOTEL_MANAGE
+    ) {
+      navigate("/overview");
+      // dispatch(actions.getAllBooking.getAllBookingRequest());
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.HOUSEKEEPING
+    ) {
+      navigate("/listRoom");
+    } else if (
+      userLocal &&
+      JSON.parse(userLocal).userRole === USER_ROLE.RESTAURANT
+    ) {
+      navigate("/listRoom");
+    }
+  }, [navigate, dispatch]);
   return (
     <div className="main-screenListBookingPage col-12">
       <div className="row">
@@ -65,7 +63,7 @@ export default function ListBookingPage() {
         </div>
         <div className="content-main col-10">
           <Navbar />
-          <ListBookingContainer />
+          <Outlet/>
         </div>
       </div>
     </div>

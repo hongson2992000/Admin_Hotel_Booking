@@ -70,3 +70,8 @@ export const getRevenueEntireDate = createActions({
   getRevenueEntireDateSuccess: (payload) => payload,
   getRevenueEntireDateFailure: (err) => err,
 });
+export const checkOutInRoom = createActions({
+  checkOutInRoomRequest: (payload) => payload,
+  checkOutInRoomSuccess: (payload) => payload,
+  checkOutInRoomFailure: (err) => err,
+});

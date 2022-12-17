@@ -3,12 +3,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
-    width: 720px;
+    width: 650px;
     height: 750px;
     background-color: white;
     padding: 20px;
     .footer {
-        margin-top: 2px;
         text-align: right;
         .buttonSave {
             margin: 5px;
@@ -66,21 +65,18 @@
             }
         }
         .simpleModalItem {
-            height: 100px;
+            height: 105px;
         }
     }
-}
-
-.header {
-    margin: 0 0 10px 0;
-}
-
-.title {
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.textarea {
-    padding: 10px;
-    margin-bottom: 10px;
+    .header {
+        margin: 0 0 10px 0;
+    }
+    .title {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .textarea {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
 }

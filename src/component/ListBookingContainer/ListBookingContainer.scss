@@ -77,6 +77,13 @@
             border: 0.5px solid red;
             border-radius: 5px;
         }
+        &.NOTSHOW {
+            padding: 5px;
+            background-color: #fff;
+            color: rgb(0, 17, 255);
+            border: 0.5px solid rgb(0, 17, 255);
+            border-radius: 5px;
+        }
         .cellImg {
             width: 32px;
             height: 32px;

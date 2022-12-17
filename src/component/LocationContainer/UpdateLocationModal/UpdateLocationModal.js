@@ -166,10 +166,10 @@ export default function UpdateLocationModal() {
               <span style={{ color: "red" }}>{formik.errors.latidute}</span>
             )}
           </div>
-          <div className="col-12">
+          <div className="col-12" style={{height:"170px"}}>
             <InputLabel>Thông tin mô tả</InputLabel>
             <TextareaAutosize
-              className="title"
+              className="title" 
               minRows={5}
               maxRows={10}
               id="description"

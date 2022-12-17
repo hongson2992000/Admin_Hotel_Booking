@@ -4,27 +4,46 @@
     transform: translate(-50%, -50%);
     position: absolute;
     width: 600px;
-    height: 720px;
+    height: 590px;
     background-color: white;
     padding: 20px;
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-    padding-top: 10px;
-    border-radius: 5px;
-    .InfoCreate {
-        width: 100%;
-        background-color: #c4c4c4;
-        height: 220px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .title {
-            background-color: white;
-            border: 0.5px solid grey;
+    .footer {
+        text-align: right;
+        .buttonSave {
+            margin: 5px;
+            padding: 10px;
+            width: 100px;
+            border: 1px solid #c4c4c4;
+            color: #c4c4c4;
+            background-color: #fff;
             border-radius: 5px;
+            &:hover {
+                margin: 5px;
+                padding: 10px;
+                width: 100px;
+                border: 1px solid #c4c4c4;
+                color: #fff;
+                background-color: #c4c4c4;
+                border-radius: 5px;
+            }
+        }
+        .buttonClose {
+            margin: 5px;
+            padding: 10px;
+            width: 100px;
+            border: 1px solid #ED4646;
+            color: #ED4646;
+            background-color: #fff;
+            border-radius: 5px;
+            &:hover {
+                margin: 5px;
+                padding: 10px;
+                width: 100px;
+                border: 1px solid #ED4646;
+                color: #fff;
+                background-color: #ED4646;
+                border-radius: 5px;
+            }
         }
     }
 }
@@ -41,27 +60,4 @@
 .textarea {
     padding: 10px;
     margin-bottom: 10px;
-}
-
-.footer {
-    margin-top: 10px;
-    text-align: right;
-    .buttonSave {
-        margin: 5px;
-        padding: 10px;
-        width: 100px;
-        border: none;
-        color: white;
-        background-color: #04B8F1;
-        border-radius: 5px;
-    }
-    .buttonClose {
-        margin: 5px;
-        padding: 10px;
-        width: 100px;
-        border: none;
-        color: white;
-        background-color: #ED4646;
-        border-radius: 5px;
-    }
 }

@@ -7,7 +7,10 @@ import {
 const initialState = {
   infoHotel: {},
 };
-export default function InformationHotelManageReducer(state = initialState, action) {
+export default function InformationHotelManageReducer(
+  state = initialState,
+  action
+) {
   switch (action.type) {
     case getType(getInformationHotel.getInformationHotelRequest):
       return {
@@ -31,15 +34,17 @@ export default function InformationHotelManageReducer(state = initialState, acti
     //   return {
     //     ...state,
     //   };
-    // case getType(updateLocation.updateLocationSuccess):
-    //   return {
-    //     ...state,
-    //     arrLocation: action.payload,
-    //   };
-    // case getType(updateLocation.updateLocationFailure):
-    //   return {
-    //     ...state,
-    //   };
+    case getType(updateInformationHotel.updateInformationHotelSuccess):
+      let infoHotelUpdate = {};
+      infoHotelUpdate = action.payload;
+      state.infoHotel = infoHotelUpdate;
+      return {
+        ...state,
+      };
+    case getType(updateInformationHotel.updateInformationHotelFailure):
+      return {
+        ...state,
+      };
     // case getType(deleteLocation.deleteLocationSuccess):
     //   return {
     //     ...state,

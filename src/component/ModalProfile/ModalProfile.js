@@ -33,7 +33,6 @@ export default function ModalProfile() {
         birthDate: formatedDate,
         createBy: values.createBy,
         createDate: values.createDate,
-        email: values.email,
         firstName: values.firstName,
         gender: 1,
         phoneNumber: values.phoneNumber,
@@ -83,7 +82,6 @@ export default function ModalProfile() {
         " " +
         infoUser.lastName,
       createDate: currentDate,
-      email: infoUser.email,
       firstName: infoUser.firstName,
       gender: infoUser.gender,
       phoneNumber: infoUser.phoneNumber,
@@ -144,6 +142,7 @@ export default function ModalProfile() {
 
     enableReinitialize: true,
   });
+  console.log("ALLLL", formik.values.userRole)
   const body = (
     <div className="ModalProfile" id="simple-modal-title">
       <div className="row" style={{ display: "flex" }}>
@@ -253,6 +252,7 @@ export default function ModalProfile() {
             <TextField
               className="title"
               required
+              disabled
               id="username"
               name="username"
               value={formik.values.username || ""}
@@ -295,27 +295,14 @@ export default function ModalProfile() {
             <TextField
               className="title"
               required
+              disabled
               id="userRole"
               name="userRole"
-              value={formik.values.userRole || ""}
+              value={formik.values.userRole}
               onChange={formik.handleChange}
             />
             {formik.errors.userRole && (
               <span style={{ color: "red" }}>{formik.errors.userRole}</span>
-            )}
-          </div>
-          <div className="col-12 simpleModalItem">
-            <InputLabel style={{ display: "flex" }}>Email</InputLabel>
-            <TextField
-              className="title"
-              required
-              id="email"
-              name="email"
-              value={formik.values.email || ""}
-              onChange={formik.handleChange}
-            />
-            {formik.errors.email && (
-              <span style={{ color: "red" }}>{formik.errors.email}</span>
             )}
           </div>
           <div className="footer">

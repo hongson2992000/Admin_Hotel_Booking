@@ -4,9 +4,7 @@ import { useFormik } from "formik";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import "./InfomationCustomerContainer.scss";
-import {
-  bookingItemState$,
-} from "../../redux/selectors/BookingManageSelector";
+import { bookingItemState$ } from "../../redux/selectors/BookingManageSelector";
 import moment from "moment";
 export default function InfomationCustomerContainer() {
   const infoCustomer = useSelector(bookingItemState$);
@@ -38,11 +36,14 @@ export default function InfomationCustomerContainer() {
       item.orderDetails?.forEach((itemOder, index) => {
         arrNew.push({
           stt: i + 1,
-          orderDate: itemOder.orderDate.substring(0,10),
+          orderDate: itemOder.orderDate.substring(0, 10),
           name: itemOder.service.name,
           quantity: itemOder.quantity,
           price: itemOder.service.price,
-          status: "Chưa Thanh Toán",
+          status:
+            item.orderPayment === null
+              ? "Chưa thanh toán"
+              : "Đã thanh toán",
         });
       });
     });
@@ -100,7 +101,7 @@ export default function InfomationCustomerContainer() {
       createBy: "",
       hotel_Id: "",
       roomType: renderTypeRoom(infoCustomer.booking?.roomTypeId),
-      roomNo:infoCustomer.room?.roomNo,
+      roomNo: infoCustomer.room?.roomNo,
       totalAmount: "",
       specialNote: "",
     },
@@ -220,7 +221,7 @@ export default function InfomationCustomerContainer() {
         headerName: "Trạng thái",
         width: 150,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.status}</div>;
+          return <div className={`cellWithImg ${params.row.status === "Chưa thanh toán" ? "NOTPAYMENT" : "PAYMENT" }`}>{params.row.status}</div>;
         },
       },
     ],
@@ -229,13 +230,13 @@ export default function InfomationCustomerContainer() {
   return (
     <div className="InfomationCustomerContainer">
       <div className="InfoRoomBooking">
-        <h2>
+        <span style={{fontSize:"30px"}}>
           {infoCustomer.primaryCustomer?.firstName +
             " " +
             infoCustomer.primaryCustomer?.middleName +
             " " +
             infoCustomer.primaryCustomer?.lastName}
-        </h2>
+        </span>
         <form
           noValidate
           autoComplete="off"
@@ -385,7 +386,6 @@ export default function InfomationCustomerContainer() {
                   disabled
                   value={formik.values.birthDate}
                   onChange={formik.handleChange}
-                  // defaultValue="2022-05-24"
                   style={{ width: "100%" }}
                   InputLabelProps={{
                     shrink: true,
@@ -397,6 +397,7 @@ export default function InfomationCustomerContainer() {
                 <TextField
                   className="title"
                   required
+                  disabled
                   id="numOfAdult"
                   name="numOfAdult"
                   value={formik.values.numOfAdult}
@@ -408,6 +409,7 @@ export default function InfomationCustomerContainer() {
                 <TextField
                   className="title"
                   required
+                  disabled
                   id="numOfChildren"
                   name="numOfChildren"
                   value={formik.values.numOfChildren}
