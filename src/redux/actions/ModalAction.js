@@ -93,3 +93,7 @@ export const hideModalCheckOutError = createAction("HIDE_MODAL_CHECKOUT");
 //MODAL CHECKOUT SERVICE
 export const showModalCheckOutService = createAction("SHOW_MODAL_CHECKOUT_SERVICE");
 export const hideModalCheckOutService = createAction("HIDE_MODAL_CHECKOUT_SERVICE");
+
+//MODAL SET UP ROOM
+export const showModalAddNewRoom = createAction("SHOW_MODAL_ADD_ROOM");
+export const hideModalAddNewRoom = createAction("HIDE_MODAL_ADD_ROOM");

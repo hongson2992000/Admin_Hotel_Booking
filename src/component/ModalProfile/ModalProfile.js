@@ -34,7 +34,7 @@ export default function ModalProfile() {
         createBy: values.createBy,
         createDate: values.createDate,
         firstName: values.firstName,
-        gender: 1,
+        gender: values.gender,
         phoneNumber: values.phoneNumber,
         lastName: values.lastName,
         middleName: values.middleName,

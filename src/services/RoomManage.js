@@ -28,5 +28,14 @@ class RoomManage extends BaseServices {
   setRoomPriceByDate = (payload) => {
     return this.post(`v1/roomPrice/setRoomPriceByDate`, payload);
   };
+  createRoom = (model) => {
+    return this.post(`v1/room`, model);
+  };
+  updateRoom = (model) => {
+    return this.put(`v1/room`, model);
+  };
+  deleteRoom = (id) => {
+    return this.delete(`v1/room/${id}`);
+  };
 }
 export const roomManage = new RoomManage();
