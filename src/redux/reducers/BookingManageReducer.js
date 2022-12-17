@@ -11,6 +11,7 @@ import {
   updateNewUserBooking,
   deleteNewUserBooking,
   getRevenueEntireDate,
+  getRevenueCancelEntireDate,
 } from "../actions/BookingManageAction";
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   dashboard: {},
   userFormUpdate: {},
   revenuesEntire: [],
+  revenuesCancelEntire: [],
 };
 export default function BookingManageReducer(state = initialState, action) {
   switch (action.type) {
@@ -139,6 +141,19 @@ export default function BookingManageReducer(state = initialState, action) {
         revenuesEntire: action.payload,
       };
     case getType(getRevenueEntireDate.getRevenueEntireDateFailure):
+      return {
+        ...state,
+      };
+    case getType(getRevenueCancelEntireDate.getRevenueCancelEntireDateRequest):
+      return {
+        ...state,
+      };
+    case getType(getRevenueCancelEntireDate.getRevenueCancelEntireDateSuccess):
+      return {
+        ...state,
+        revenuesCancelEntire: action.payload,
+      };
+    case getType(getRevenueCancelEntireDate.getRevenueCancelEntireDateFailure):
       return {
         ...state,
       };

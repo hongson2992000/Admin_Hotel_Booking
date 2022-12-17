@@ -34,6 +34,8 @@ export default function* rootSaga() {
     bookingManageSaga.followActionCheckOut(),
     bookingManageSaga.followActionGetDashBoard(),
     bookingManageSaga.followActionCheckInHotel(),
+    bookingManageSaga.followActionGetRevenueEntireDate(),
+    bookingManageSaga.followActionGetRevenueCancelEntireDate(),
     requestServiceManageSaga.followActionGetAllRequestService(),
     requestServiceManageSaga.followActionConfirmRequestService(),
     requestServiceManageSaga.followActionCancelRequestService(),
@@ -52,6 +54,7 @@ export default function* rootSaga() {
     informationHotelSaga.followActionGetInfoHotel(),
     customerManageSaga.followActionGetAllPrimaryCustomer(),
     customerManageSaga.followActionGetInfoCustomerByBookingId(),
+    customerManageSaga.followActionGetCustomerFeedbackByBetween(),
     setUpRoomManageSaga.followActionGetAllRoomToSetUp(),
     setUpRoomManageSaga.followActionGetAllRoomTypeToSetUp(),
     accountManageSaga.followActionGetAllAccount(),
@@ -60,6 +63,6 @@ export default function* rootSaga() {
     newsManageSaga.followActionCreateNews(),
     accountManageSaga.followActionCreateAccount(),
     informationHotelSaga.followActionUpdateInfoHotel(),
-    bookingManageSaga.followActionCheckOutInRoom()
+    bookingManageSaga.followActionCheckOut(),
   ]);
 }
