@@ -22,6 +22,10 @@ class BookingManage extends BaseServices {
     );
   };
   getRevenueDashBoard = (payload) => {
+    console.log(
+      "dash-board: ",
+      `v1/booking/revenuesEntire?dateEnd=${payload.endDate}&dateStart=${payload.startDate}`
+    );
     return this.get(
       `v1/booking/revenuesEntire?dateEnd=${payload.endDate}&dateStart=${payload.startDate}`
     );

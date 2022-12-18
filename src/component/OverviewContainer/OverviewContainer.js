@@ -24,6 +24,7 @@ import moment from "moment";
 import * as actions from "../../redux/actions/BookingManageAction";
 import * as customerActions from "../../redux/actions/CustomerManageAction";
 import { customerFeedbackState$ } from "../../redux/selectors/CuatomerManageSelector";
+import image from "../../../src/assets/img/loading13.gif";
 
 const OverviewContainer = () => {
   const dashBoard = useSelector(getDashBoardState$);
@@ -39,41 +40,45 @@ const OverviewContainer = () => {
   const endDateRef = useRef();
 
   useEffect(() => {
-    dispatch(
-      actions.getDashBoardOverview.getDashBoardOverviewRequest({
-        startDate: firstDay,
-        endDate: currentDate,
-      })
-    );
-    dispatch(
-      actions.getRevenueEntireDate.getRevenueEntireDateRequest({
-        startDate: firstDay,
-        endDate: currentDate,
-      })
-    );
-    dispatch(
-      actions.getRevenueCancelEntireDate.getRevenueCancelEntireDateRequest({
-        startDate: firstDay,
-        endDate: currentDate,
-      })
-    );
-    dispatch(
-      customerActions.getCustomerFeedbackByBetween.getCustomerFeedbackByBetweenRequest(
-        {
+    if (
+      Object.keys(dashBoard).length === 0 &&
+      revenueData.length === 0 &&
+      revenueCancelData.length === 0 &&
+      feedbackData.length === 0
+    ) {
+      dispatch(
+        actions.getDashBoardOverview.getDashBoardOverviewRequest({
           startDate: firstDay,
           endDate: currentDate,
-        }
-      )
-    );
+        })
+      );
+      dispatch(
+        actions.getRevenueEntireDate.getRevenueEntireDateRequest({
+          startDate: firstDay,
+          endDate: currentDate,
+        })
+      );
+      dispatch(
+        actions.getRevenueCancelEntireDate.getRevenueCancelEntireDateRequest({
+          startDate: firstDay,
+          endDate: currentDate,
+        })
+      );
+      dispatch(
+        customerActions.getCustomerFeedbackByBetween.getCustomerFeedbackByBetweenRequest(
+          {
+            startDate: firstDay,
+            endDate: currentDate,
+          }
+        )
+      );
+    }
   }, [dispatch]);
 
   useEffect(() => {
     let newArr = [];
-    const revenuesDataAlterMerge = removeDuplicateInArray(revenueData);
-    const revenuesCancelDataAlterMerge =
-      removeDuplicateInArray(revenueCancelData);
-    revenuesDataAlterMerge.map((r) => {
-      const cancelInSameDay = revenuesCancelDataAlterMerge.find(
+    revenueData.map((r) => {
+      const cancelInSameDay = revenueCancelData.find(
         (rc) => rc.date === r.date
       );
       if (cancelInSameDay) {
@@ -90,8 +95,8 @@ const OverviewContainer = () => {
         });
       }
     });
-    revenuesCancelDataAlterMerge.map((rc) => {
-      const sameDay = revenuesDataAlterMerge.find((r) => r.date === rc.date);
+    revenueCancelData.map((rc) => {
+      const sameDay = revenueData.find((r) => r.date === rc.date);
       if (!sameDay) {
         newArr.push({
           date: rc.date,
@@ -224,7 +229,7 @@ const OverviewContainer = () => {
           Tra cứu
         </div>
       </div>
-      {Object.keys(dashBoard).length !== 0 && (
+      {Object.keys(dashBoard).length !== 0 ? (
         <>
           <div className="widgets">
             <Widget type="dat_hom_nay" amount={dashBoard.bookedToday} />
@@ -297,6 +302,10 @@ const OverviewContainer = () => {
             </div>
           </div>
         </>
+      ) : (
+        <div className="d-flex justify-content-center">
+          <img src={image} alt="" />
+        </div>
       )}
       <div className=""></div>
       {dataChart && dataChart.length > 0 && (
