@@ -187,6 +187,7 @@ const OverviewContainer = () => {
   return (
     <div className="homeContainer">
       <Navbar />
+
       <div className="d-flex justify-content-start searchContainer">
         <div className="d-flex searchBox align-items-center justify-content-between">
           <label>Từ Ngày: </label>
@@ -223,71 +224,80 @@ const OverviewContainer = () => {
           Tra cứu
         </div>
       </div>
-      <div className="widgets">
-        <Widget type="dat_hom_nay" amount={dashBoard.bookedToday} />
-        <Widget type="doanh_thu" amount={dashBoard.revenue} />
-        <Widget type="doanh_thu_luy_ke" amount={dashBoard.accumulateRevenue} />
-      </div>
-      <div className="widgets">
-        <Widget type="huy_hom_nay" amount={dashBoard.canceledToday} />
-        <Widget type="doanh_thu_huy" amount={dashBoard.cancelRevenue} />
-        <Widget
-          type="doanh_thu_huy_luy_ke"
-          amount={dashBoard.cancelAccumulateRevenue}
-        />
-      </div>
-
-      <div className="widgetHotel">
-        <div className="widgethotel">
-          <div className="left">
-            <span className="counter">{dashBoard.actualArriveToday}</span>
-            <span className="title">Phòng đến trong ngày</span>
+      {Object.keys(dashBoard).length !== 0 && (
+        <>
+          <div className="widgets">
+            <Widget type="dat_hom_nay" amount={dashBoard.bookedToday} />
+            <Widget type="doanh_thu" amount={dashBoard.revenue} />
+            <Widget
+              type="doanh_thu_luy_ke"
+              amount={dashBoard.accumulateRevenue}
+            />
           </div>
-          <div className="right">
-            <div className="percentage positive">
-              <HomeIcon />
-              <DirectionsRunIcon />
+          <div className="widgets">
+            <Widget type="huy_hom_nay" amount={dashBoard.canceledToday} />
+            <Widget type="doanh_thu_huy" amount={dashBoard.cancelRevenue} />
+            <Widget
+              type="doanh_thu_huy_luy_ke"
+              amount={dashBoard.cancelAccumulateRevenue}
+            />
+          </div>
+
+          <div className="widgetHotel">
+            <div className="widgethotel">
+              <div className="left">
+                <span className="counter">{dashBoard.actualArriveToday}</span>
+                <span className="title">Phòng đến trong ngày</span>
+              </div>
+              <div className="right">
+                <div className="percentage positive">
+                  <HomeIcon />
+                  <DirectionsRunIcon />
+                </div>
+              </div>
+            </div>
+
+            <div className="widgethotel">
+              <div className="left">
+                <span className="counter">
+                  {dashBoard.actualDepartureToday}
+                </span>
+                <span className="title">Phòng đi trong ngày</span>
+              </div>
+              <div className="right">
+                <div className="percentage positive">
+                  <DirectionsRunIcon />
+                  <HomeIcon />
+                </div>
+              </div>
+            </div>
+
+            <div className="widgethotel">
+              <div className="left">
+                <span className="counter">{dashBoard.roomBusy}</span>
+                <span className="title">Phòng có khách</span>
+              </div>
+              <div className="right">
+                <div className="percentage positive">
+                  <HotelIcon />
+                </div>
+              </div>
+            </div>
+
+            <div className="widgethotel">
+              <div className="left">
+                <span className="counter">{dashBoard.numOfStay}</span>
+                <span className="title">Số khách ở</span>
+              </div>
+              <div className="right">
+                <div className="percentage positive">
+                  <SupervisorAccountIcon />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="widgethotel">
-          <div className="left">
-            <span className="counter">{dashBoard.actualDepartureToday}</span>
-            <span className="title">Phòng đi trong ngày</span>
-          </div>
-          <div className="right">
-            <div className="percentage positive">
-              <DirectionsRunIcon />
-              <HomeIcon />
-            </div>
-          </div>
-        </div>
-
-        <div className="widgethotel">
-          <div className="left">
-            <span className="counter">{dashBoard.roomBusy}</span>
-            <span className="title">Phòng có khách</span>
-          </div>
-          <div className="right">
-            <div className="percentage positive">
-              <HotelIcon />
-            </div>
-          </div>
-        </div>
-
-        <div className="widgethotel">
-          <div className="left">
-            <span className="counter">{dashBoard.numOfStay}</span>
-            <span className="title">Số khách ở</span>
-          </div>
-          <div className="right">
-            <div className="percentage positive">
-              <SupervisorAccountIcon />
-            </div>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
       <div className=""></div>
       {dataChart && dataChart.length > 0 && (
         <div className="charts">
