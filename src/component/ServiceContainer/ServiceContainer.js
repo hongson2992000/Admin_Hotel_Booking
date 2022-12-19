@@ -17,7 +17,7 @@ const ServiceContainer = () => {
 
   const renderArr = () => {
     let arrNew = [];
-    let listHotelServiceNew = listHotelService.filter((item)=>item.status === true)
+    let listHotelServiceNew = listHotelService?.filter((item)=>item.status === true)
     listHotelServiceNew.forEach((item, i) => {
       arrNew.push({
         stt: i + 1,

@@ -5,7 +5,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch, useSelector } from "react-redux";
 import { modalListServiceState$, modalRequestServiceDetailState$ } from "../../../redux/selectors/ModalSelector";
 import "./PopupDetailRequestServiceInRoom.scss";
-import { hideModalListService, hideModalRequestServiceDetail } from "../../../redux/actions/ModalAction";
+import { hideModalListService, hideModalRequestService, hideModalRequestServiceDetail } from "../../../redux/actions/ModalAction";
 
 import { useNavigate } from "react-router-dom";
 import * as actions from "../../../redux/actions/RequestServiceManageAction";
@@ -21,6 +21,10 @@ export default function PopupDetailRequestServiceInRoom({bookingId}) {
   const onClose = useCallback(() => {
     dispatch(hideModalRequestServiceDetail());
   }, [dispatch]);
+  const formatNumber = (number) =>{
+    let numFormatted = number.toLocaleString('de-DE')
+    return numFormatted
+  }
   const [dialog, setDialog] = useState({
     message: "",
     isLoading: false,
@@ -147,7 +151,7 @@ export default function PopupDetailRequestServiceInRoom({bookingId}) {
         headerName: "Đơn Giá",
         width: 150,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.price}</div>;
+          return <div className="cellWithImg">{formatNumber(params.row.price)}</div>;
         },
       },
       {
@@ -186,10 +190,10 @@ export default function PopupDetailRequestServiceInRoom({bookingId}) {
           return (
             <div className={`cellWithStatus ${params.row.status}`}>
               {params.row.status === "BOOKED"
-                ? "Chờ Xử Lý"
+                ? "Chờ xác nhận"
                 : params.row.status === "PROCESSING"
-                ? "Chờ Xử Lý"
-                : "Hoàn Thành"}
+                ? "Chờ xử lý"
+                : "Hoàn thành"}
             </div>
           );
         },
@@ -207,6 +211,7 @@ export default function PopupDetailRequestServiceInRoom({bookingId}) {
       })
     );
     dispatch(hideModalRequestServiceDetail());
+    dispatch(hideModalRequestService())
   }, [bookingId,infoOderDetail, navigate, dispatch]);
   return (
     <div>

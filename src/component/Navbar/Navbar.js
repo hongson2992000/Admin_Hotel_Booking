@@ -44,6 +44,7 @@ export default function Navbar() {
   const handleProfile = useCallback(() => {
     dispatch(
       actions.filInfoProfile.filInfoProfileRequest({
+        id:userInfo.id,
         firstName: userInfo.firstName,
         middleName: userInfo.middleName,
         lastName: userInfo.lastName,
@@ -72,18 +73,17 @@ export default function Navbar() {
     let listServiceNew = [];
     listServiceNew = listRequestService?.filter(
       (item, i) =>
-        item.orders.requestServiceType === CHECKOUT ||
-        item.orders.status !== DONE
+        item.orders?.requestServiceType === CHECKOUT &&
+        item.orders?.status !== DONE
     );
     listServiceNew.forEach((item, i) => {
       arrNew.push({
-        name: item.orders.requestServiceName,
-        roomNo: item.room.data.roomNo,
+        name: item.orders?.requestServiceName,
+        roomNo: item.room?.data.roomNo,
       });
     });
     return arrNew;
   };
-  console.log("ANNNNN", renderArr().length);
   const handleViewAllNotifi = useCallback(() => {
     dispatch(showModalCheckOutService());
   }, [dispatch]);

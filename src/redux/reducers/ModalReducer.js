@@ -44,6 +44,8 @@ import {
   hideModalCheckOutService,
   showModalAddNewRoom,
   hideModalAddNewRoom,
+  showModalUpdateRoom,
+  hideModalUpdateRoom,
 } from "../actions/ModalAction";
 
 const initialState = {
@@ -68,7 +70,8 @@ const initialState = {
   isShowError: false,
   isShowCheckOutErr: false,
   isShowCheckOutService: false,
-  isShowAddNewRoom:false
+  isShowAddNewRoom:false,
+  isShowUpdateRoom:false
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -313,6 +316,17 @@ export default function ModalReducer(state = initialState, action) {
         ...state,
         isShowAddNewRoom: false,
       };
+      case getType(showModalUpdateRoom):
+        return {
+          ...state,
+          isShowUpdateRoom: true,
+        };
+  
+      case getType(hideModalUpdateRoom):
+        return {
+          ...state,
+          isShowUpdateRoom: false,
+        };
     default:
       return state;
   }

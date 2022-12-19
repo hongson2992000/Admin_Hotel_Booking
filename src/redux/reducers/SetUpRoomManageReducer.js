@@ -1,8 +1,13 @@
-import { getType, getAllRoomToSetUp, getAllRoomTypeToSetUp } from "../actions/SetUpRoomManageAction";
-
+import {
+  getType,
+  getAllRoomToSetUp,
+  getAllRoomTypeToSetUp,
+} from "../actions/SetUpRoomManageAction";
+import { createRoom, filInfoRoom } from "../actions/RoomManageAction";
 const initialState = {
   arrRoom: [],
   arrRoomType: [],
+  roomItem:{}
 };
 export default function SetUpRoomPriceManageReducer(
   state = initialState,
@@ -22,7 +27,7 @@ export default function SetUpRoomPriceManageReducer(
       return {
         ...state,
       };
-      case getType(getAllRoomTypeToSetUp.getAllRoomTypeToSetUpRequest):
+    case getType(getAllRoomTypeToSetUp.getAllRoomTypeToSetUpRequest):
       return {
         ...state,
       };
@@ -32,6 +37,26 @@ export default function SetUpRoomPriceManageReducer(
         arrRoomType: action.payload,
       };
     case getType(getAllRoomTypeToSetUp.getAllRoomTypeToSetUpFailure):
+      return {
+        ...state,
+      };
+      case getType(createRoom.createRoomRequest):
+      return {
+        ...state,
+      };
+    case getType(createRoom.createRoomSuccess):
+      return {
+        ...state,
+        arrRoomType: action.payload,
+      };
+    case getType(createRoom.createRoomFailure):
+      return {
+        ...state,
+      };
+    case getType(filInfoRoom.filInfoRoomRequest):
+      let roomItemNew = {};
+      roomItemNew = action.payload;
+      state.roomItem = roomItemNew;
       return {
         ...state,
       };

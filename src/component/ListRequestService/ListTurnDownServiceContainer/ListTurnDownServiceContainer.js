@@ -23,25 +23,26 @@ export default function ListTurnDownServiceContainer() {
   const renderArr = () => {
     let arrNew = [];
     let listRequestServiceNew = listRequestService.filter(
-      (item) => item.orders.requestServiceType !== CHECKOUT
+      (item) => item.orders?.requestServiceType !== CHECKOUT
     );
-    listRequestServiceNew?.forEach((item, index) => {
+    console.log("JJJJJ", listRequestServiceNew);
+    listRequestServiceNew.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
         id: item.orders.id,
-        booking_Id: item.orders.booking.id,
-        requestServiceName: item.orders.requestServiceName,
-        requestServiceType: item.requestServiceType,
-        roomNo: item.room.data.roomNo,
-        dateTime: item.orders.dateTime.substring(0,10),
+        booking_Id: item.orders?.booking.id,
+        requestServiceName: item.orders?.requestServiceName,
+        requestServiceType: item.orders?.requestServiceType,
+        roomNo: item.room?.data.roomNo,
+        dateTime: item.orders?.dateTime.substring(0,10),
         time: "12:00",
         customerName:
-          item.orders.booking.customer.firstName +
+          item.primaryCustomer?.data.firstName +
           " " +
-          item.orders.booking.customer.middleName +
+          item.primaryCustomer?.data.middleName +
           " " +
-          item.orders.booking.customer.lastName,
-        status: item.orders.status,
+          item.primaryCustomer?.data.lastName,
+        status: item.orders?.status,
       });
     });
     return arrNew;

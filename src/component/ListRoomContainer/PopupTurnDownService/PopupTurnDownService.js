@@ -34,10 +34,10 @@ export default function PopupTurnDownService({ bookingId }) {
 
   const renderArr = () => {
     let arrNew = [];
-    let listRequestServiceNew = listRequestService.filter(
-      (item) => item.status !== DONE
-    );
-    listRequestService?.forEach((item, index) => {
+    // let listRequestServiceNew = listRequestService.filter(
+    //   (item) => item.status !== DONE
+    // );
+    listRequestService?.turnDownService?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
         id: item.id,
@@ -48,11 +48,11 @@ export default function PopupTurnDownService({ bookingId }) {
         dateTime: item.dateTime.substring(0, 10),
         time: item.dateTime.substring(10),
         customerName:
-          item.booking.customer.firstName +
+          listRequestService.primaryCustomer?.firstName +
           " " +
-          item.booking.customer.middleName +
+          listRequestService.primaryCustomer?.middleName +
           " " +
-          item.booking.customer.lastName,
+          listRequestService.primaryCustomer?.lastName,
         status: item.status,
       });
     });

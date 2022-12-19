@@ -30,7 +30,7 @@ const AccountContainer = () => {
         name: item?.firstName + " " + item?.middleName + " " + item?.lastName,
         userRole: item?.userRole,
         phoneNumber: item?.phoneNumber,
-        status: item?.status,
+        active: item?.active,
         dateOfBirth: item?.dateOfBirth,
         gender: item?.gender,
         // image: getImageUrlByType(`img_abstraction_${item.id}`)?.pictureUrl,
@@ -170,11 +170,11 @@ const AccountContainer = () => {
       {
         field: "isActive",
         headerName: "Trạng thái",
-        width: 120,
+        width: 150,
         renderCell: (params) => {
           return (
-            <div className={`cellWithStatus ${params.row.status}`}>
-              {params.row.status ? "Đang hiện" : "Đang ẩn"}
+            <div className={`cellWithStatus ${params.row.active}`}>
+              {params.row.active ? "Đang hoạt động" : "Đang ẩn"}
             </div>
           );
         },

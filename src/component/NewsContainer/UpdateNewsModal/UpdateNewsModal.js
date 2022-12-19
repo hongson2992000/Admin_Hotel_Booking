@@ -9,14 +9,12 @@ import {
   import React, { useCallback } from "react";
   import { useFormik } from "formik";
   import { useDispatch, useSelector } from "react-redux";
-  import { modalAddNewsState$, modalUpdateNewsState$ } from "../../../redux/selectors/ModalSelector";
+  import {modalUpdateNewsState$ } from "../../../redux/selectors/ModalSelector";
   import "./UpdateNewsModal.scss";
   import {
-    hideModalAddLocation,
-    hideModalAddNews,
     hideModalUpdateNews,
   } from "../../../redux/actions/ModalAction";
-  import * as actions from "../../../redux/actions/ServiceManageAction";
+  import * as actions from "../../../redux/actions/NewsManageAction";
   import moment from "moment";
   import * as Yup from "yup";
 import { newsItemManageState$ } from "../../../redux/selectors/NewsManageSelector";
@@ -31,8 +29,9 @@ import { newsItemManageState$ } from "../../../redux/selectors/NewsManageSelecto
     // let dataService = formik.values
     const onSubmitService = useCallback(
       (values) => {
-        // dispatch(actions.createNewHotelService.createHotelServiceRequest(values));
-        dispatch(hideModalAddLocation());
+        dispatch(actions.updateNews.updateNewsRequest(values));
+        dispatch(hideModalUpdateNews());
+
       },
       [dispatch]
     );
@@ -67,7 +66,7 @@ import { newsItemManageState$ } from "../../../redux/selectors/NewsManageSelecto
         resetForm({ values: "" });
       },
       validationSchema: Yup.object({
-        newsName: Yup.string().required("Yêu cầu *"),
+        newName: Yup.string().required("Yêu cầu *"),
         address: Yup.string().required("Yêu cầu *"),
         startDate: Yup.string().required("Yêu cầu *"),
         endDate: Yup.string().required("Yêu cầu *"),

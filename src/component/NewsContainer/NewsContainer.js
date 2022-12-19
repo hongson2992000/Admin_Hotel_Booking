@@ -12,19 +12,18 @@ import {
   showModalAddNews,
   showModalUpdateNews,
 } from "../../redux/actions/ModalAction";
+import DialogDelete from "../DialogDelete/DialogDelete";
 export default function NewsContainer() {
   const [data, setData] = useState(userRows);
   const listNews = useSelector(newsManageState$);
   const dispatch = useDispatch();
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
   useEffect(() => {
     dispatch(actions.getNews.getNewsRequest());
   }, [dispatch]);
   const renderArr = () => {
     let arrNew = [];
-    listNews?.forEach((item, i) => {
+    let list = listNews.filter((item)=>item.status !== false)
+    list?.forEach((item, i) => {
       arrNew.push({
         stt: i + 1,
         id: item.id,
@@ -50,6 +49,39 @@ export default function NewsContainer() {
     },
     [dispatch, listNews]
   );
+   //Handle Dialog
+   const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
+  const [idBooking, setIdBooking] = useState({
+    id: 0,
+  });
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
+  };
+  const handleDeleteNews = useCallback((id) => {
+    handleDialog("Bạn chắc chắn muốn xóa ?", true);
+    setIdBooking({
+      id: id,
+    });
+  }, []);
+  const areUSureCheckOut = (choose) => {
+    if (choose) {
+      dispatch(
+        actions.deleteNews.deleteNewsRequest({
+          id: idBooking.id,
+          // navigate: navigate,
+        })
+      );
+      handleDialog("", false);
+    } else {
+      handleDialog("", false);
+    }
+  };
   const newColumns = [
     {
       field: "stt",
@@ -121,7 +153,7 @@ export default function NewsContainer() {
             </div>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDeleteNews(params.row.id)}
             >
               Xóa
             </div>
@@ -150,6 +182,9 @@ export default function NewsContainer() {
         pageSize={9}
         rowsPerPageOptions={[9]}
       />
+      {dialog.isLoading && (
+        <DialogDelete onDialog={areUSureCheckOut} message={dialog.message} />
+      )}
     </div>
   );
 }

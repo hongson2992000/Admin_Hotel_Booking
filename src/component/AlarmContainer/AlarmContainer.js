@@ -14,7 +14,6 @@ export default function AlarmContainer() {
     },
     enableReinitialize: true,
   });
-  console.log(formik.values)
   const option = [
     { value: 1, label: "Phòng 1" },
     { value: 2, label: "Phòng 2" },

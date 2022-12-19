@@ -54,22 +54,24 @@
             }
         }
         .doneButton {
-            width: 110px;
+            // padding: 5px;
+            width: 100px;
             border: none;
-            color: #000000;
-            background-color: #fff;
+            color: #fff;
+            background-color: green;
             border-radius: 5px;
-            border: 0.5px solid #000000;
+            border: 0.5px solid green;
             .icon {
                 color: green;
             }
             &:hover {
-                width: 110px;
+                // padding: 5px;
+                width: 100px;
                 border: none;
-                color: #fff;
-                background-color: green;
+                color: #000000;
+                background-color: #fff;
                 border-radius: 5px;
-                border: 0.5px solid green;
+                border: 0.5px solid #000000;
                 .icon {
                     color: #fff;
                 }

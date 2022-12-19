@@ -134,9 +134,18 @@
         .confirmButton {
             padding: 2px 5px;
             border-radius: 5px;
-            color: rgba(23, 220, 20, 0.6);
-            border: 1px solid rgba(23, 220, 20, 0.6);
+            color: #fff;
+            border: 1px solid green;
+            background-color: green;
             cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: green;
+                border: 1px solid green;
+                background-color: #fff;
+                cursor: pointer;
+            }
         }
     }
 }

@@ -12,6 +12,10 @@ export default function SetUpPriceRoomContainer() {
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
+  const formatNumber = (number) =>{
+    let numFormatted = number.toLocaleString('de-DE')
+    return numFormatted
+  }
   const handleUpdateRoom = useCallback(() => {});
   const listRoom = useSelector(setUpRoomTypeManageState$);
   const renderArr = () => {
@@ -34,7 +38,7 @@ export default function SetUpPriceRoomContainer() {
   const actionColumn = [
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Hành động",
       width: 200,
       renderCell: (params) => {
         return (
@@ -45,12 +49,6 @@ export default function SetUpPriceRoomContainer() {
             >
               <div className="updateButton">Cập nhật</div>
             </div>
-            <div
-              className="deleteButton"
-              // onClick={() => handleDelete(params.row.id)}
-            >
-              Delete
-            </div>
           </div>
         );
       },
@@ -60,7 +58,7 @@ export default function SetUpPriceRoomContainer() {
     {
       field: "stt",
       headerName: "STT",
-      width: 5,
+      width: 100,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.stt}</div>;
       },
@@ -83,16 +81,16 @@ export default function SetUpPriceRoomContainer() {
     },
     {
       field: "defaultPrice",
-      headerName: "Giá/1 ngày",
+      headerName: "Giá / Ngày",
       width: 150,
       renderCell: (params) => {
-        return <div className="cellWithImg">{params.row.defaultPrice}</div>;
+        return <div className="cellWithImg">{formatNumber(params.row.defaultPrice)}</div>;
       },
     },
     {
       field: "description",
       headerName: "Mô tả",
-      width: 350,
+      width: 400,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.description}</div>;
       },

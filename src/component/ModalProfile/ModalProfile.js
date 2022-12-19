@@ -26,29 +26,32 @@ export default function ModalProfile() {
   }, [dispatch]);
   const onSubmitInfoUser = useCallback(
     (values) => {
-      let arrDate = values.birthDate.split("-");
+      let arrDate = values.dateOfBirth.split("-");
       let formatedDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
       let infoUserCheckIn = {
-        id: values.id,
-        birthDate: formatedDate,
         createBy: values.createBy,
-        createDate: values.createDate,
+        createDate: moment().format("DD/MM/YYYY"),
+        dateOfBirth: formatedDate,
         firstName: values.firstName,
         gender: values.gender,
-        phoneNumber: values.phoneNumber,
+        hotelId: 1,
+        id: values.id,
+        lastModifyBy: values.lastModifyBy,
         lastName: values.lastName,
         middleName: values.middleName,
-        passportNo: values.passportNo,
-        idNo: values.idNo,
-        updateDate: values.updateDate,
-        lastModifyBy: values.lastModifyBy,
-        primary: values.primary,
+        password: values.password,
+        phoneNumber: values.phoneNumber,
+        role: values.userRole,
+        status: true,
+        updateDate: moment().format("DD/MM/YYYY"),
+        username: values.username,
       };
-      dispatch(
-        actions.updateNewUserBooking.updateNewUserBookingRequest(
-          infoUserCheckIn
-        )
-      );
+      // dispatch(
+      //   actions.updateNewUserBooking.updateNewUserBookingRequest(
+      //     infoUserCheckIn
+      //   )
+      // );
+      console.log("HOANG DUONG", infoUserCheckIn);
       dispatch(hideModalUpdateUser());
       // navigate("/checkIn");
     },
@@ -120,29 +123,17 @@ export default function ModalProfile() {
           /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/,
           "Vui lòng nhập đúng họ"
         ),
-      birthDate: Yup.string().required("Yêu cầu *"),
-      email: Yup.string()
-        .required("Yêu cầu *")
-        .matches(
-          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-          "Vui lòng nhập đúng email"
-        ),
+      dateOfBirth: Yup.string().required("Yêu cầu *"),
       phoneNumber: Yup.string()
         .required("Yêu cầu *")
         .matches(
           /^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$/,
           "Vui lòng nhập đúng số điện thoại"
         ),
-      idNo: Yup.string()
-        .required("Yêu cầu *")
-        .min(9, "Vui lòng nhập đúng CMND/CCCD")
-        .max(10, "Vui lòng nhập đúng CMND/CCCD")
-        .matches(/[0-9]/, "Vui lòng nhập đúng CMND/CCCD"),
     }),
 
     enableReinitialize: true,
   });
-  console.log("ALLLL", formik.values.userRole)
   const body = (
     <div className="ModalProfile" id="simple-modal-title">
       <div className="row" style={{ display: "flex" }}>

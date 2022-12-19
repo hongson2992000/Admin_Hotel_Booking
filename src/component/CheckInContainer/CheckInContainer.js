@@ -21,7 +21,6 @@ export default function CheckInContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const infoUser = useSelector(infoUserBookingState$);
-  console.log("InfoUser", infoUser);
   const roomValid = useSelector(roomValidState$);
   const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
   const [selectedValue, setSelectedValue] = React.useState(1);
@@ -139,7 +138,7 @@ export default function CheckInContainer() {
         customerRequests: arrInfoUserNew,
       };
 
-      console.log("NewCheckInFo", newInfoCheckInWithUser);
+
       dispatch(
         actions.checkInRoom.checkInRoomRequest({
           newInfoCheckInWithUser,

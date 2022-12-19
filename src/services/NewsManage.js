@@ -8,10 +8,10 @@ class NewsManage extends BaseServices {
     return this.post(`v1/new`, model);
   };
   updateNews = (model) => {
-    return this.put(`v1/abstraction`, model);
+    return this.put(`v1/new`, model);
   };
   deleteNews = (id) => {
-    return this.delete(`v1/abstraction/${id}`);
+    return this.delete(`v1/new/${id}`);
   };
 }
 export const newsManage = new NewsManage();

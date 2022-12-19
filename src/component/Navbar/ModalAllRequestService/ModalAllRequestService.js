@@ -32,25 +32,25 @@ export default function ModalAllRequestService() {
   const renderArr = () => {
     let arrNew = [];
     let listRequestServiceNew = listRequestService.filter(
-      (item) => item.orders.requestServiceType === CHECKOUT || item.orders.status !== DONE
+      (item) => item.orders?.requestServiceType === CHECKOUT && item.orders?.status !== DONE
     );
     listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
-        id: item.room.data.id,
-        booking_Id: item.orders.booking.id,
-        requestServiceName: item.orders.requestServiceName,
-        requestServiceType: item.orders.requestServiceType,
-        roomNo: item.room.data.roomNo,
-        dateTime: item.orders.dateTime.substring(0, 10),
-        time: item.orders.dateTime.substring(10),
+        id: item.room?.data.id,
+        booking_Id: item.orders?.booking.id,
+        requestServiceName: item.orders?.requestServiceName,
+        requestServiceType: item.orders?.requestServiceType,
+        roomNo: item.room?.data.roomNo,
+        dateTime: item.orders?.dateTime.substring(0, 10),
+        time: item.orders?.dateTime.substring(10),
         customerName:
-          item.orders.booking.customer.firstName +
+          item.primaryCustomer.data.firstName +
           " " +
-          item.orders.booking.customer.middleName +
+          item.primaryCustomer.data.middleName +
           " " +
-          item.orders.booking.customer.lastName,
-        status: item.orders.status,
+          item.primaryCustomer.data.lastName,
+        status: item.orders?.status,
       });
     });
     return arrNew;
@@ -78,9 +78,17 @@ export default function ModalAllRequestService() {
       {
         field: "stt",
         headerName: "STT",
-        width: 150,
+        width: 100,
         renderCell: (params) => {
           return <div className={`cellWithStatus`}>{params.row.stt}</div>;
+        },
+      },
+      {
+        field: "roomNo",
+        headerName: "Phòng",
+        width: 100,
+        renderCell: (params) => {
+          return <div className={`cellWithStatus`}>{params.row.roomNo}</div>;
         },
       },
       {
