@@ -3,11 +3,11 @@ import {
   getAllRoomToSetUp,
   getAllRoomTypeToSetUp,
 } from "../actions/SetUpRoomManageAction";
-import { createRoom, filInfoRoom } from "../actions/RoomManageAction";
+import { createRoom, filInfoRoom, updateRoom } from "../actions/RoomManageAction";
 const initialState = {
   arrRoom: [],
   arrRoomType: [],
-  roomItem:{}
+  roomItem: {},
 };
 export default function SetUpRoomPriceManageReducer(
   state = initialState,
@@ -40,19 +40,36 @@ export default function SetUpRoomPriceManageReducer(
       return {
         ...state,
       };
-      case getType(createRoom.createRoomRequest):
+    case getType(createRoom.createRoomRequest):
       return {
         ...state,
       };
     case getType(createRoom.createRoomSuccess):
+      let newRoomCreate = [...state.arrRoom];
+      newRoomCreate.push(action.payload);
+      state.arrRoom = newRoomCreate;
       return {
         ...state,
-        arrRoomType: action.payload,
       };
     case getType(createRoom.createRoomFailure):
       return {
         ...state,
       };
+    //   case getType(updateRoom.createRoomRequest):
+    //   return {
+    //     ...state,
+    //   };
+    // case getType(updateRoom.createRoomSuccess):
+    //   let newRoomUpdate = [...state.arrRoom];
+    //   newRoomUpdate.push(action.payload);
+    //   state.arrRoom = newRoomCreate;
+    //   return {
+    //     ...state,
+    //   };
+    // case getType(createRoom.createRoomFailure):
+    //   return {
+    //     ...state,
+    //   };
     case getType(filInfoRoom.filInfoRoomRequest):
       let roomItemNew = {};
       roomItemNew = action.payload;

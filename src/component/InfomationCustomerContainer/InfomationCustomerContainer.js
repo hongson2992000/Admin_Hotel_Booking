@@ -20,6 +20,7 @@ export default function InfomationCustomerContainer() {
     listCustomerNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
+        id:item.id,
         name: item.firstName + " " + item.middleName + " " + item.lastName,
         phoneNumber: item.phoneNumber,
         email: item.email,
@@ -36,6 +37,7 @@ export default function InfomationCustomerContainer() {
       item.orderDetails?.forEach((itemOder, index) => {
         arrNew.push({
           stt: i + 1,
+          id: itemOder.service.id,
           orderDate: itemOder.orderDate.substring(0, 10),
           name: itemOder.service.name,
           quantity: itemOder.quantity,
@@ -422,7 +424,7 @@ export default function InfomationCustomerContainer() {
         <span style={{ paddingTop: "40px" }}>Khách Ở Cùng</span>
         <hr style={{ width: "20%" }} />
         <DataGrid
-          getRowId={(row) => row.stt}
+          getRowId={(row) => row.id}
           className="datagrid"
           rows={renderListCustomer()}
           columns={infoUserColumns}
@@ -436,7 +438,7 @@ export default function InfomationCustomerContainer() {
         <span style={{ paddingTop: "40px" }}>Dịch Vụ Sử Dụng</span>
         <hr style={{ width: "20%" }} />
         <DataGrid
-          getRowId={(row) => row.stt}
+          getRowId={(row) => row.id}
           className="datagrid"
           rows={renderListOrder()}
           columns={infoOrder}

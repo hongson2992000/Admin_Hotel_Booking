@@ -6,6 +6,7 @@ export const IMAGE = "IMAGE";
 export const INFO_BOOKING_DETAIL = "INFO_BOOKING_DETAIL";
 export const CHECKIN = "CHECK IN";
 export const CHECKOUT = "CHECK OUT";
+export const TURNDOWN = "TURN DOWN";
 export const BOOKED = "BOOKED";
 export const NOTSHOW = "NOT SHOW";
 export const PROCESSING = "PROCESSING";

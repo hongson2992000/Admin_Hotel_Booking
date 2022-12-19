@@ -59,7 +59,6 @@ export function* followActionGetAllRoom() {
 
 function* getRoomAvailability(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -90,7 +89,6 @@ export function* followActionGetRoomAvailability() {
 }
 function* getRoomTypeById(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -144,7 +142,6 @@ export function* followActionGetAllRoomType() {
 }
 
 function* setRoomPrice(action) {
-  console.log(action);
   try {
     yield put({
       type: DISPLAY_LOADING,
@@ -169,7 +166,6 @@ export function* followActionSetRoomPrice() {
 }
 function* getRoomTypeByRoomId(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -261,7 +257,6 @@ function* deleteRoom(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    console.log(action.payload);
     // yield delay(1000);
     let room = yield call(() => {
       return roomManage.deleteRoom(action.payload.id);

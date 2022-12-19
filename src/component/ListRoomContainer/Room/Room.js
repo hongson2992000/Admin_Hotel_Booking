@@ -15,6 +15,7 @@ import {
   BOOKED,
   CHECKOUT,
   PROCESSING,
+  TURNDOWN,
   USER_LOGIN,
   USER_ROLE,
 } from "../../../utils/constants/settingSystem";
@@ -205,6 +206,13 @@ export default function Room() {
       let arrRequestService = item.booking.data?.orders.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
+      let arrTurnDownNew = []
+      item.booking.data?.requestServices.forEach((item)=>{
+        if(item.requestServiceType !== CHECKOUT){
+          arrTurnDownNew.push(item)
+        }
+      })
+      console.log("ARRR1",arrTurnDownNew)
       let arrTurnDown = item.booking.data?.requestServices.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
@@ -397,20 +405,20 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
-      let arrCheckOut = [];
-      item.booking?.data.requestServices.forEach(
-        (item, i) => {
-          if(item.requestServiceType !== CHECKOUT){
-            arrCheckOut.push(item);
-          }
-        }
+      let arrTurnDown = [];
+      let index = item.booking?.data.requestServices.findIndex(
+        (item) => item.requestServiceType === TURNDOWN && (item.status === BOOKED || item.status === PROCESSING)
       );
-      let arrCheckOutNew = arrCheckOut.filter(
-        (item) => item.status === BOOKED || item.status === PROCESSING
-      );
+      // if (turnDownItem) {
+      //   arrTurnDown.push(turnDownItem);
+      // }
+      console.log("LISTTURNDOWN",index)
+      // let arrTurnDownNew = arrTurnDown.filter(
+      //   (item) => 
+      // );
       return (
         <div className="rowIcon">
-          {arrCheckOutNew?.length !== 0 ? (
+          {index !== -1 ? (
             <CleaningServicesIcon
               onClick={() => {
                 setOpenNotEmpty({

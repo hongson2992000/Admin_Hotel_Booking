@@ -35,7 +35,7 @@ export default function ListTurnDownServiceContainer() {
         requestServiceType: item.orders?.requestServiceType,
         roomNo: item.room?.data.roomNo,
         dateTime: item.orders?.dateTime.substring(0,10),
-        time: "12:00",
+        time: item.orders?.dateTime.substring(10),
         customerName:
           item.primaryCustomer?.data.firstName +
           " " +
@@ -83,7 +83,7 @@ export default function ListTurnDownServiceContainer() {
       dispatch(
         actions.confirmTurnDownService.confirmTurnDownServiceRequest({
           booking_Id: item.booking_Id,
-          dateTime: item.dateTime,
+          dateTime: item.dateTime + "" + item.time,
           id: item.id,
           requestServiceName: item.requestServiceName,
           requestServiceType: item.requestServiceType,
@@ -98,7 +98,7 @@ export default function ListTurnDownServiceContainer() {
       dispatch(
         actions.confirmTurnDownService.confirmTurnDownServiceRequest({
           booking_Id: item.booking_Id,
-          dateTime: item.dateTime,
+          dateTime: item.dateTime + "" + item.time,
           id: item.id,
           requestServiceName: item.requestServiceName,
           requestServiceType: item.requestServiceType,

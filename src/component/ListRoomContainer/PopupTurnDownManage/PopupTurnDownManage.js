@@ -10,7 +10,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { turnDownServiceInRoomState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import DialogDelete from "../../DialogDelete/DialogDelete";
 import ModalListRequestService from "../../ListRequestService/ModalListRequestService.js/ModalListRequestService";
-import { DONE, PROCESSING } from "../../../utils/constants/settingSystem";
+import { CHECKOUT, DONE, PROCESSING } from "../../../utils/constants/settingSystem";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 export default function PopupTurnDownManage() {
   const dispatch = useDispatch();
@@ -27,10 +27,10 @@ export default function PopupTurnDownManage() {
 
   const renderArr = () => {
     let arrNew = [];
-    // let listRequestServiceNew = listRequestService.turnDownService?.filter(
-    //   (item) => item.status !== DONE
-    // );
-    listRequestService?.turnDownService?.forEach((item, index) => {
+    let listRequestServiceNew = listRequestService.turnDownService?.filter(
+      (item) => item.requestServiceType !== CHECKOUT
+    );
+    listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
         id: item.id,

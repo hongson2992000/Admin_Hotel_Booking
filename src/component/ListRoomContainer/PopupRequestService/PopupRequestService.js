@@ -76,7 +76,6 @@ export default function PopupRequestService() {
         }
  
     });
-    console.log("HELLO THANH AN" , listRequestServiceNew);
     listRequestServiceNew?.forEach((item, i) => {
         arrNew.push({
           stt: i + 1,

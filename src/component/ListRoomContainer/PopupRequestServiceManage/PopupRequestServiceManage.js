@@ -76,7 +76,6 @@ export default function PopupRequestServiceManage({ bookingId }) {
         listRequestServiceNew.push(item);
       }
     });
-    console.log("HELLO THANH AN" , listRequestServiceNew);
     listRequestServiceNew?.forEach((item, i) => {
       item.orderDetails.forEach((itemOrder, index) => {
         arrNew.push({
