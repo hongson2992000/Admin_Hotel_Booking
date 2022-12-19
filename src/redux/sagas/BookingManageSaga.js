@@ -280,6 +280,7 @@ function* getRevenueEntireDate(action) {
     let listBooking = yield call(() => {
       return bookingManage.getRevenueDashBoard(action.payload);
     });
+    console.log(listBooking.data);
     if (listBooking.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.getRevenueEntireDate.getRevenueEntireDateSuccess(
