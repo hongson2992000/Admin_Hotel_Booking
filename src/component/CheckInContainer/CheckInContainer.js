@@ -32,17 +32,17 @@ export default function CheckInContainer() {
     let roomType = "";
     switch (infoBooking.roomTypeId) {
       case 1:
-        return (roomType = "Deluxe King/ Cao cấp");
+        return ({roomType : "Deluxe King/ Cao cấp",maxPeople:6});
       case 2:
-        return (roomType = "Deluxe Twin/ Cao cấp");
+        return ({roomType : "Deluxe Twin/ Cao cấp",maxPeople:6});
       case 3:
-        return (roomType = "Superior King/ Phòng thường");
+        return ({roomType : "Superior King/ Phòng thường",maxPeople:4});
       case 4:
-        return (roomType = "Superior Twin/ Phòng thường");
+        return ({roomType : "Superior Twin/ Phòng thường",maxPeople:3});
       case 5:
-        return (roomType = "Standard King/ Phòng thường");
+        return ({roomType : "Standard King/ Phòng thường",maxPeople:4});
       case 6:
-        return (roomType = "Standard Twin/ Phòng thường");
+        return ({roomType : "Standard Twin/ Phòng thường",maxPeople:4});
       default:
         return roomType;
     }
@@ -302,7 +302,7 @@ export default function CheckInContainer() {
   return (
     <div className="CheckInContainer">
       <div className="InfoRoomBooking">
-        <p style={{ fontSize: "30px" }}>Phòng: {renderTypeRoom()}</p>
+        <p style={{ fontSize: "30px" }}>Phòng: {renderTypeRoom().roomType}</p>
         <form
           noValidate
           autoComplete="off"
@@ -599,7 +599,7 @@ export default function CheckInContainer() {
         />
 
         <div className="buttonAddCustomer">
-          {infoBooking.numOfAdult + infoBooking.numOfChildren <=
+          {renderTypeRoom().maxPeople <=
           infoUser.length ? (
             <button
               onClick={openCreateServiceModal}

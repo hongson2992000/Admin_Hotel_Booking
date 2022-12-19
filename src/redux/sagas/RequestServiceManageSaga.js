@@ -73,7 +73,6 @@ function* confirmRequestService(action) {
     let service = yield call(() => {
       return requestServiceManage.confirmRequestService(formData);
     });
-    console.log("HOANG HA", service.data);
     if (service.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.confirmRequestService.confirmRequestServiceSuccess(service.data)
@@ -162,7 +161,9 @@ function* cancelRequestService(action) {
         yield put(
           actions.getRequestService.getRequestServiceSuccess(arrRequestService)
         );
-        let requestService = arrRequestService.finf((item)=>item.orders.id === service.data.id)
+        let requestService = arrRequestService.finf(
+          (item) => item.orders.id === service.data.id
+        );
         yield put(
           actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdSuccess(
             requestService
@@ -328,6 +329,7 @@ function* confirmTurnDownService(action) {
       if (listTurnDown.status === STATUS_CODE.SUCCESS) {
         let arrRequestService = [];
         for (let i = 0; i < listTurnDown.data.length; i++) {
+          console.log("TURNDOWN")
           let room = yield call(() => {
             return roomManage.getRoomByBookingId(
               listTurnDown.data[i].booking.id
@@ -335,7 +337,7 @@ function* confirmTurnDownService(action) {
           });
           let primaryCustomer = yield call(() => {
             return customerManage.getPrimaryCustomerByBookingId(
-              listService.data[i].booking.id
+              listTurnDown.data[i].booking.id
             );
           });
           if (
@@ -352,7 +354,7 @@ function* confirmTurnDownService(action) {
           }
         }
         yield put(
-          actions.confirmTurnDownService.confirmTurnDownServiceSuccess(
+          actions.getTurnDownService.getTurnDownServiceSuccess(
             arrRequestService
           )
         );
@@ -369,6 +371,10 @@ function* confirmTurnDownService(action) {
     yield put(
       actions.confirmTurnDownService.confirmTurnDownServiceFailure(error)
     );
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(actionModal.showModalError());
   }
 }
 
@@ -402,10 +408,28 @@ function* confirmRequestServiceInRoom(action) {
           action.payload.booking_id
         );
       });
-      if (listService.status === STATUS_CODE.SUCCESS) {
+      let primaryCustomer = yield call(() => {
+        return customerManage.getPrimaryCustomerByBookingId(
+          action.payload.booking_id
+        );
+      });
+      if (
+        listService.status === STATUS_CODE.SUCCESS &&
+        primaryCustomer.status === STATUS_CODE.SUCCESS
+      ) {
+        let requestServiceInRoom = {};
+        requestServiceInRoom = {
+          requestService: listService.data,
+          primaryCustomer: primaryCustomer.data,
+        };
         yield put(
           actions.getRequestServiceByBookingId.getRequestServiceByBookingIdSuccess(
-            listService.data
+            requestServiceInRoom
+          )
+        );
+        yield put(
+          actions.confirmRequestServiceInRoom.confirmRequestServiceInRoomSuccess(
+            requestServiceInRoom
           )
         );
       }
@@ -421,6 +445,10 @@ function* confirmRequestServiceInRoom(action) {
         error
       )
     );
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(actionModal.showModalError())
   }
 }
 
@@ -494,28 +522,41 @@ function* confirmRequestServiceByManage(action) {
     });
     console.log(service.data);
     if (service.status === STATUS_CODE.SUCCESS) {
-      yield put(
-        actions.confirmRequestServiceByManager.confirmRequestServiceByManagerSuccess(
-          service.data
-        )
-      );
       let listService = yield call(() => {
         return requestServiceManage.getRequestServiceByBookingId(
           action.payload.bookingId
         );
       });
-      if (listService.status === STATUS_CODE.SUCCESS) {
+      let primaryCustomer = yield call(() => {
+        return customerManage.getPrimaryCustomerByBookingId(
+          action.payload.bookingId
+        );
+      });
+      if (
+        listService.status === STATUS_CODE.SUCCESS &&
+        primaryCustomer.status === STATUS_CODE.SUCCESS
+      ) {
+        let requestServiceInRoom = {};
+        requestServiceInRoom = {
+          requestService: listService.data,
+          primaryCustomer: primaryCustomer.data,
+        };
         yield put(
           actions.getRequestServiceByBookingId.getRequestServiceByBookingIdSuccess(
-            listService.data
+            requestServiceInRoom
           )
         );
-        yield put(actionModal.showModalRequestServiceManage());
+        yield put(
+          actions.confirmRequestServiceByManager.confirmRequestServiceByManagerSuccess(
+            requestServiceInRoom
+          )
+        );
       }
     }
     yield put({
       type: HIDE_LOADING,
     });
+    yield put(actionModal.showModalRequestServiceManage());
     yield put({ type: DISPLAY_POPUP_SUCCESS });
   } catch (error) {
     yield put(
@@ -638,7 +679,6 @@ export function* followActionGetTurnDownByBookingIdByStaff() {
 }
 function* confirmTurnDownServiceStaff(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -654,13 +694,31 @@ function* confirmTurnDownServiceStaff(action) {
       );
       let turnDownService = yield call(() => {
         return requestServiceManage.getTurnDownServiceByBookingId(
-          action.payload.bookingId
+          action.payload.booking_id
         );
       });
-      if (turnDownService.status === STATUS_CODE.SUCCESS) {
+      let primaryCustomer = yield call(() => {
+        return customerManage.getPrimaryCustomerByBookingId(
+          action.payload.booking_id
+        );
+      });
+      if (
+        turnDownService.status === STATUS_CODE.SUCCESS &&
+        primaryCustomer.status === STATUS_CODE.SUCCESS
+      ) {
+        let turnDownServiceInRoom = {};
+        turnDownServiceInRoom = {
+          turnDownService: turnDownService.data,
+          primaryCustomer: primaryCustomer.data,
+        };
         yield put(
           actions.getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdSuccess(
-            turnDownService.data
+            turnDownServiceInRoom
+          )
+        );
+        yield put(
+          actions.confirmTurnDownService.confirmTurnDownServiceSuccess(
+            turnDownServiceInRoom
           )
         );
       }

@@ -65,7 +65,7 @@ export default function PopupTurnDownService({ bookingId }) {
         actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
           info: {
             booking_Id: item.booking_Id,
-            dateTime: item.dateTime,
+            dateTime: item.dateTime + " " + item.time,
             id: item.id,
             requestServiceName: item.requestServiceName,
             requestServiceType: item.requestServiceType,
@@ -83,7 +83,7 @@ export default function PopupTurnDownService({ bookingId }) {
         actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
           info: {
             booking_Id: item.booking_Id,
-            dateTime: item.dateTime,
+            dateTime: item.dateTime + " " + item.time,
             id: item.id,
             requestServiceName: item.requestServiceName,
             requestServiceType: item.requestServiceType,

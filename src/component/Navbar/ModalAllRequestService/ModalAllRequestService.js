@@ -38,7 +38,8 @@ export default function ModalAllRequestService() {
       arrNew.push({
         stt: index + 1,
         id: item.room?.data.id,
-        booking_Id: item.orders?.booking.id,
+        idOrder:item.orders.id,
+        booking_id: item.orders?.booking.id,
         requestServiceName: item.orders?.requestServiceName,
         requestServiceType: item.orders?.requestServiceType,
         roomNo: item.room?.data.roomNo,
@@ -55,11 +56,47 @@ export default function ModalAllRequestService() {
     });
     return arrNew;
   };
+  const handleConfirmturnService = useCallback(
+    (item) => {
+      dispatch(
+        actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
+          info: {
+            booking_Id: item.booking_id,
+            dateTime: item.dateTime + "" + item.time,
+            id: item.idOrder,
+            requestServiceName: item.requestServiceName,
+            requestServiceType: item.requestServiceType,
+            status: PROCESSING,
+          },
+          // bookingId: bookingId,
+        })
+      );
+    },
+    [dispatch]
+  );
+  const handleCompeleteturnService = useCallback(
+    (item) => {
+      dispatch(
+        actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
+          info: {
+            booking_Id: item.booking_id,
+            dateTime: item.dateTime + "" + item.time,
+            id: item.idOrder,
+            requestServiceName: item.requestServiceName,
+            requestServiceType: item.requestServiceType,
+            status: DONE,
+          },
+          // bookingId: bookingId,
+        })
+      );
+    },
+    [dispatch]
+  );
   const actionColumn = [
     {
       field: "status",
       headerName: "Trạng Thái",
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
@@ -72,13 +109,59 @@ export default function ModalAllRequestService() {
         );
       },
     },
+    {
+      field: "action",
+      headerName: "Hành Động",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.row.status === BOOKED ? (
+              <div className="cellAction">
+                <div
+                  className="confirmButton"
+                  onClick={() => handleConfirmturnService(params.row)}
+                >
+                  Xác Nhận
+                </div>
+                {/* <div
+                  className="cancelButton"
+                  //   onClick={() => openRequestServiceModal(params.row.id)}
+                >
+                  Hủy
+                </div> */}
+              </div>
+            ) : params.row.status === PROCESSING ? (
+              <div className="cellAction">
+                <div
+                  className="doneButton"
+                  onClick={() => handleCompeleteturnService(params.row)}
+                >
+                  Hoàn Thành
+                </div>
+              </div>
+            ) : (
+              <div className="cellAction">
+              <div
+                className="doneButton"
+                onClick={() => handleCompeleteturnService(params.row)}
+                style={{pointerEvents:"none"}}
+              >
+                Hoàn Thành
+              </div>
+            </div>
+            )}
+          </div>
+        );
+      },
+    },
   ];
   let serviceColumns = useMemo(
     () => [
       {
         field: "stt",
         headerName: "STT",
-        width: 100,
+        width: 50,
         renderCell: (params) => {
           return <div className={`cellWithStatus`}>{params.row.stt}</div>;
         },
@@ -104,7 +187,7 @@ export default function ModalAllRequestService() {
       {
         field: "requestServiceName",
         headerName: "Tên Dịch Vụ",
-        width: 250,
+        width: 200,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">{params.row.requestServiceName}</div>
@@ -114,7 +197,7 @@ export default function ModalAllRequestService() {
       {
         field: "dateTime",
         headerName: "Ngày Đặt",
-        width: 200,
+        width: 150,
         renderCell: (params) => {
           return <div className={`cellWithStatus`}>{params.row.dateTime}</div>;
         },
@@ -144,7 +227,7 @@ export default function ModalAllRequestService() {
     <div>
       <Modal open={isShow} onClose={onClose}>
         <div className="modalTurnDownService">
-          <h2>Dịch vụ sử dụng</h2>
+          <h2>Dịch vụ check out</h2>
           <hr />
           <DataGrid
             className="datagrid"

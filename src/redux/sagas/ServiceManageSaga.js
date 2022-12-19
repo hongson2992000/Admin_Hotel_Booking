@@ -11,7 +11,6 @@ import { showModalError } from "../actions/ModalAction";
 
 function* getAllHotelService(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -19,7 +18,6 @@ function* getAllHotelService(action) {
     let listService = yield call(() => {
       return serviceManage.getAllHotelService();
     });
-    console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.getHotelService.getHotelServiceSuccess(listService.data)
@@ -95,7 +93,6 @@ function* deleteService(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
-    console.log(action.payload);
     // yield delay(1000);
     let service = yield call(() => {
       return serviceManage.deleteService(action.payload);
