@@ -104,7 +104,7 @@ export default function RequestServiceReducer(state = initialState, action) {
     case getType(getTurnDownService.getTurnDownServiceSuccess):
       return {
         ...state,
-        arrTurnDownService: action.payload,
+        arrTurnDownService : action.payload
       };
     case getType(getTurnDownService.getTurnDownServiceFailure):
       return {
@@ -115,9 +115,11 @@ export default function RequestServiceReducer(state = initialState, action) {
         ...state,
       };
     case getType(confirmTurnDownService.confirmTurnDownServiceSuccess):
+      let turnDownGet = [];
+      turnDownGet = action.payload;
+      state.arrTurnDownService = turnDownGet;
       return {
         ...state,
-        arrTurnDownService: action.payload,
       };
     case getType(confirmTurnDownService.confirmTurnDownServiceFailure):
       return {

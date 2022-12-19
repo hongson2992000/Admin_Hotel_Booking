@@ -11,7 +11,7 @@ import {setUpRoomItemManageState$} from "../../../redux/selectors/SetUpRoomPrice
 import * as actions from "../../../redux/actions/LocationManageAction";
 import moment from "moment";
 import * as Yup from "yup";
-export default function UdpateRoomModal() {
+export default function UpdateRoomPrice() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalUpdateRoomState$);
   const roomItem =useSelector(setUpRoomItemManageState$)

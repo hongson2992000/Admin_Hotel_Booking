@@ -24,9 +24,11 @@ export default function RoomManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(getAllRoom.getAllRoomSuccess):
+      let arrRoomGet = [];
+      arrRoomGet = action.payload;
+      state.arrRoom = arrRoomGet;
       return {
         ...state,
-        arrRoom: action.payload,
       };
     case getType(getAllRoom.getAllRoomFailure):
       return {

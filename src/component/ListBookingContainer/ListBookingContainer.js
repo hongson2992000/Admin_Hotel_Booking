@@ -88,12 +88,6 @@ export default function ListBookingContainer() {
         departureDate: item.departureDate,
         status: item.status,
       });
-      console.log(
-        checkIsBefore(
-          item.arrivalDate.substring(0, 10),
-          moment().format("DD/MM/YYYY")
-        )
-      );
     });
     return arrNew;
   };

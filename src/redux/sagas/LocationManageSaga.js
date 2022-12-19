@@ -44,12 +44,16 @@ function* createLocation(action) {
     yield put({
       type: HIDE_LOADING,
     });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
   } catch (error) {
     yield put(actions.createLocation.createLocationFailure(error));
     yield put(showModalError());
     yield put({
       type: HIDE_LOADING,
     });
+    yield put(showModalError());
   }
 }
 function* updateLocation(action) {
@@ -68,11 +72,15 @@ function* updateLocation(action) {
     yield put({
       type: HIDE_LOADING,
     });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
   } catch (error) {
     yield put(actions.updateLocation.updateLocationFailure(error));
     yield put({
       type: HIDE_LOADING,
     });
+    yield put(showModalError());
   }
 }
 

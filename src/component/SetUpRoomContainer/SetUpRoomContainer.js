@@ -7,30 +7,71 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUpRoomManageState$ } from "../../redux/selectors/SetUpRoomPriceManageSelector";
 import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
 import AddNewRoomModal from "./AddNewRoomModal/AddNewRoomModal";
-import { showModalAddNewRoom } from "../../redux/actions/ModalAction";
+import UpdateRoomModal from "./UpdateRoomModal/UpdateRoomModal";
+import {
+  showModalAddNewRoom,
+  showModalUpdateRoom,
+} from "../../redux/actions/ModalAction";
+import * as actions from "../../redux/actions/RoomManageAction";
+import DialogDelete from "../DialogDelete/DialogDelete";
 export default function SetUpRoomContainer() {
-  const dispatch = useDispatch()
-  const handleDelete = (id) => {
-    // setData(data.filter((item) => item.id !== id));
+  const dispatch = useDispatch();
+  const listRoom = useSelector(setUpRoomManageState$);
+  const handleAddNewRoom = useCallback(() => {
+    dispatch(showModalAddNewRoom());
+  }, [dispatch]);
+  const handleUpdateRoom = useCallback(
+    (id) => {
+      let roomItem = listRoom.find((item) => item.room.id === id);
+      dispatch(actions.filInfoRoom.filInfoRoomRequest(roomItem));
+      dispatch(showModalUpdateRoom());
+    },
+    [dispatch, listRoom]
+  );
+  //Handle Dialog
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
+  const [idBooking, setIdBooking] = useState({
+    id: 0,
+  });
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
   };
-  const handleUpdateRoom = useCallback((id)=>{
-
-  })
- const handleAddNewRoom = useCallback(()=>{
-  dispatch(showModalAddNewRoom())
- },[dispatch])
-  const listRoom = useSelector(setUpRoomManageState$)
+  const handleDeleteRoom = useCallback((id) => {
+    handleDialog("Bạn chắc chắn muốn xóa ?", true);
+    setIdBooking({
+      id: id,
+    });
+  }, []);
+  const areUSureCheckOut = (choose) => {
+    if (choose) {
+      // dispatch(
+      //   actions.deleteLocation.deleteLocationRequest({
+      //     id: idBooking.id,
+      //     // navigate: navigate,
+      //   })
+      // );
+      handleDialog("", false);
+    } else {
+      handleDialog("", false);
+    }
+  };
   const renderArr = () => {
     let arrNew = [];
     listRoom.forEach((item, i) => {
       arrNew.push({
         stt: i + 1,
         id: item.room.id,
-        roomType:item.roomType.data.name,
-        description:item.roomType.data.description,
-        maxAdult:item.roomType.data.maxAdult,
-        maxChildren:item.roomType.data.maxChildren,
-        maxOccupancy:item.roomType.data.maxOccupancy,
+        roomType: item.roomType.data.name,
+        description: item.roomType.data.description,
+        maxAdult: item.roomType.data.maxAdult,
+        maxChildren: item.roomType.data.maxChildren,
+        maxOccupancy: item.roomType.data.maxOccupancy,
         image: getImageUrlByType(`img_room_${item.room.id}`)?.pictureUrl,
       });
     });
@@ -52,7 +93,7 @@ export default function SetUpRoomContainer() {
             </div>
             <div
               className="deleteButton"
-              // onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDeleteRoom(params.row.id)}
             >
               Xóa
             </div>
@@ -120,7 +161,12 @@ export default function SetUpRoomContainer() {
     <div className="datatableSetupRoomContainer">
       <div className="datatableTitle">
         Danh sách phòng
-        <span className="link" onClick={()=>{handleAddNewRoom()}}>
+        <span
+          className="link"
+          onClick={() => {
+            handleAddNewRoom();
+          }}
+        >
           Thêm Phòng
         </span>
       </div>
@@ -132,7 +178,11 @@ export default function SetUpRoomContainer() {
         pageSize={9}
         rowsPerPageOptions={[9]}
       />
-      <AddNewRoomModal/>
+      <AddNewRoomModal />
+      <UpdateRoomModal />
+      {dialog.isLoading && (
+        <DialogDelete onDialog={areUSureCheckOut} message={dialog.message} />
+      )}
     </div>
   );
 }

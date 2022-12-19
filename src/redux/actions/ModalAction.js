@@ -97,3 +97,12 @@ export const hideModalCheckOutService = createAction("HIDE_MODAL_CHECKOUT_SERVIC
 //MODAL SET UP ROOM
 export const showModalAddNewRoom = createAction("SHOW_MODAL_ADD_ROOM");
 export const hideModalAddNewRoom = createAction("HIDE_MODAL_ADD_ROOM");
+
+
+export const showModalUpdateRoom = createAction("SHOW_MODAL_UPDATE_ROOM");
+export const hideModalUpdateRoom = createAction("HIDE_MODAL_UPDATE_ROOM");
+
+//MODAL Update Room Type
+
+export const showModalUpdateRoomType = createAction("SHOW_MODAL_UPDATE_ROOMTYPE");
+export const hideModalUpdateRoomType = createAction("HIDE_MODAL_UPDATE_ROOMTYPE");

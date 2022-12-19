@@ -4,4 +4,22 @@
     .title {
         height: 40px;
     }
+    .footer {
+        .buttonSave {
+            background-color: #c4c4c4;
+            color: #fff;
+            padding: 15px;
+            width: 100px;
+            border-radius: 5px;
+            border: 1px solid #c4c4c4;
+            &:hover {
+                background-color: #fff;
+                color: #c4c4c4;
+                padding: 15px;
+                width: 100px;
+                border-radius: 5px;
+                border: 1px solid #c4c4c4;
+            }
+        }
+    }
 }

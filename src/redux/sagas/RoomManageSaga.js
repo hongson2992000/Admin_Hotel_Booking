@@ -43,11 +43,11 @@ function* getAllRoom(action) {
         }
       }
       yield put(actions.getAllRoom.getAllRoomSuccess(arrRoom));
-      yield put({
-        type: HIDE_LOADING,
-      });
     }
-
+    
+    yield put({
+      type: HIDE_LOADING,
+    });
     // navigate("/location")
   } catch (error) {
     yield put(actions.getAllRoom.getAllRoomFailure(error));

@@ -15,6 +15,7 @@ import {
   BOOKED,
   CHECKOUT,
   PROCESSING,
+  USER_LOGIN,
   USER_ROLE,
 } from "../../../utils/constants/settingSystem";
 // import RoomPopup from "./roomPopup";
@@ -32,7 +33,7 @@ import PopupSendMessage from "../PopupSendMessage/PopupSendMessage";
 export default function Room() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userInfo = useSelector(userState$);
+  const userInfo = JSON.parse(localStorage.getItem(USER_LOGIN));
   const listRoom = useSelector(roomManageState$);
   useEffect(() => {
     dispatch(actionRoom.getAllRoom.getAllRoomRequest());

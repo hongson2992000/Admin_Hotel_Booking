@@ -27,6 +27,10 @@ export default function ModalListRequestService() {
   const [idService, setIdService] = useState({
     id: 0,
   });
+  const formatNumber = (number) => {
+    let numFormatted = number.toLocaleString("de-DE");
+    return numFormatted;
+  };
   const handleDialog = (message, isLoading) => {
     setDialog({
       message,
@@ -43,7 +47,7 @@ export default function ModalListRequestService() {
     if (choose) {
       dispatch(
         actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdRequest(
-          { orderDetailId: idService, orderId: infoOderDetail.id }
+          { orderDetailId: idService, orderId: infoOderDetail.orders.id }
         )
       );
       dispatch(hideModalListService())
@@ -68,7 +72,7 @@ export default function ModalListRequestService() {
         //   infoOderDetail.booking.customer.middleName +
         //   " " +
         //   infoOderDetail.booking.customer.lastName,
-        status: infoOderDetail.orders.status,
+        status: infoOderDetail.orders?.status,
       });
     });
     return arrNew;
@@ -92,7 +96,7 @@ export default function ModalListRequestService() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {infoOderDetail.status === "BOOKED" ? (
+            {infoOderDetail.orders?.status === "BOOKED" ? (
               <div
                 className="cancelButton"
                 onClick={() => handleCancelService(params.row.id)}
@@ -146,7 +150,7 @@ export default function ModalListRequestService() {
         headerName: "Đơn Giá",
         width: 150,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.price}</div>;
+          return <div className="cellWithImg">{formatNumber(params.row.price)}</div>;
         },
       },
       {
@@ -154,7 +158,7 @@ export default function ModalListRequestService() {
         headerName: "Thành Tiền",
         width: 150,
         renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.amount}</div>;
+          return <div className="cellWithImg">{formatNumber(params.row.amount)}</div>;
         },
       },
       {
@@ -199,8 +203,8 @@ export default function ModalListRequestService() {
   const handleConfirmService = useCallback(() => {
     dispatch(
       actions.confirmRequestService.confirmRequestServiceRequest({
-        orderId: infoOderDetail.id,
-        status: infoOderDetail.status,
+        orderId: infoOderDetail.orders.id,
+        status: infoOderDetail.orders?.status,
         navigate,
       })
     );
@@ -221,7 +225,7 @@ export default function ModalListRequestService() {
           {/* {dialog.isLoading && (
         <DialogDelete onDialog={areUSureDelete} message={dialog.message} />
       )} */}
-          {infoOderDetail.status === "BOOKED" ? (
+          {infoOderDetail.orders?.status === "BOOKED" ? (
             <div className="footer">
               <button
                 className="buttonConfirm"
@@ -234,7 +238,7 @@ export default function ModalListRequestService() {
                 Đóng
               </button>
             </div>
-          ) : infoOderDetail.status === "PROCESSING" ? (
+          ) : infoOderDetail.orders?.status === "PROCESSING" ? (
             <div className="footer">
               <button
                 className="buttonDone"

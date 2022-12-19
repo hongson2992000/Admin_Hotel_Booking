@@ -39,5 +39,7 @@ export const modalCheckOutErrorState$ = (state) =>
   state.ModalReducer.isShowCheckOutErr;
 export const modalCheckOutServiceState$ = (state) =>
   state.ModalReducer.isShowCheckOutService;
-  export const modalAddNewRoomState$ = (state) =>
+export const modalAddNewRoomState$ = (state) =>
   state.ModalReducer.isShowAddNewRoom;
+export const modalUpdateRoomState$ = (state) =>
+  state.ModalReducer.isShowUpdateRoom;

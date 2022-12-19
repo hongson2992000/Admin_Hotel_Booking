@@ -65,36 +65,32 @@ export default function PopupRequestService() {
   const renderArr = () => {
     let arrNew = [];
     let listRequestServiceNew = [];
-    listRequestService.forEach((item) => {
-      for (let i = 0; i < item.orderDetails.length; i++) {
+    listRequestService.requestService?.forEach((item,i) => {
         if (
-          item.orderDetails[i].service.id !== 70 &&
-          item.orderDetails[i].service.id !== 71 &&
-          item.orderDetails[i].service.id !== 57 &&
-          item.orderDetails[i].service.id !== 58
+          item.orderDetails[0].service?.id !== 70 &&
+          item.orderDetails[0].service?.id !== 71 &&
+          item.orderDetails[0].service?.id !== 57 &&
+          item.orderDetails[0].service?.id !== 58
         ) {
           listRequestServiceNew.push(item);
         }
-      }
+ 
     });
+    console.log("HELLO THANH AN" , listRequestServiceNew);
     listRequestServiceNew?.forEach((item, i) => {
-      item.orderDetails.forEach((itemOrder, i) => {
         arrNew.push({
           stt: i + 1,
           id: item.id,
-          roomNo: item.booking?.room?.roomNo,
-          serviceName: itemOrder.service.name,
           totalAmount: item.totalAmount,
           createDate: item.createDate?.substring(0, 10),
-          customerName: item.createBy,
-          // listRequestService.customer.firstName +
-          // "" +
-          // listRequestService.customer.middleName +
-          // "" +
-          // listRequestService.customer.lastName,
+          customerName:
+            listRequestService.primaryCustomer?.firstName +
+            " " +
+            listRequestService.primaryCustomer?.middleName +
+            " " +
+            listRequestService.primaryCustomer?.lastName,
           status: item.status,
         });
-      });
     });
     return arrNew;
   };
@@ -180,7 +176,7 @@ export default function PopupRequestService() {
   //   }, [infoOderDetail, navigate, dispatch]);
   const openRequestServiceModal = useCallback(
     (id) => {
-      const service = listRequestService.find(
+      const service = listRequestService.requestService.find(
         (serviceItem) => serviceItem.id === id
       );
       //  let newService = service

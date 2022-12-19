@@ -63,6 +63,8 @@ export default function* rootSaga() {
     newsManageSaga.followActionCreateNews(),
     accountManageSaga.followActionCreateAccount(),
     informationHotelSaga.followActionUpdateInfoHotel(),
-    bookingManageSaga.followActionCheckOut(),
+    bookingManageSaga.followActionCheckOutInRoom(),
+    newsManageSaga.followActionUpdateNews(),
+    newsManageSaga.followActionDeleteNews()
   ]);
 }

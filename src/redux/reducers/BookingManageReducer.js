@@ -31,9 +31,11 @@ export default function BookingManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(getAllBooking.getAllBookingSuccess):
+      let arrBookingGet = [];
+      arrBookingGet = action.payload;
+      state.arrBooking = arrBookingGet;
       return {
         ...state,
-        arrBooking: action.payload,
       };
     case getType(getAllBooking.getAllBookingFailure):
       return {

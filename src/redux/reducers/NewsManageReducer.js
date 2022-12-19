@@ -3,9 +3,10 @@ import {
   getNews,
   filInfoNews,
   createNews,
+  updateNews,
   // createNews,
   // updateNews,
-  // deleteNews,
+  deleteNews,
 } from "../actions/NewsManageAction";
 
 const initialState = {
@@ -29,9 +30,9 @@ export default function NewsManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(createNews.createNewsSuccess):
-      let newsCreate = [];
-      newsCreate = action.payload;
-      state.arrNews = newsCreate;
+      let newsCreateNews = [...state.arrNews];
+      newsCreateNews.push(action.payload);
+      state.arrNews = newsCreateNews;
       return {
         ...state,
       };
@@ -39,24 +40,39 @@ export default function NewsManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-    // case getType(updateLocation.updateLocationSuccess):
-    //   return {
-    //     ...state,
-    //     arrLocation: action.payload,
-    //   };
-    // case getType(updateLocation.updateLocationFailure):
-    //   return {
-    //     ...state,
-    //   };
-    // case getType(deleteLocation.deleteLocationSuccess):
-    //   return {
-    //     ...state,
-    //     arrLocation: action.payload,
-    //   };
-    // case getType(deleteLocation.deleteLocationFailure):
-    //   return {
-    //     ...state,
-    //   };
+    case getType(updateNews.updateNewsSuccess):
+      let arrUpdateNews = [...state.arrNews];
+      let indexUpdate = arrUpdateNews.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (indexUpdate !== -1) {
+        arrUpdateNews[indexUpdate] = action.payload;
+      }
+      state.arrNews = arrUpdateNews;
+      return {
+        ...state,
+      };
+    case getType(updateNews.updateNewsFailure):
+      return {
+        ...state,
+      };
+    case getType(deleteNews.deleteNewsSuccess):
+      let arrDeleteNews = [...state.arrNews];
+      let indexDelete = arrDeleteNews.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (indexDelete !== -1) {
+        arrDeleteNews[indexDelete] = action.payload;
+      }
+      state.arrNews = arrDeleteNews;
+      return {
+        ...state
+
+      };
+    case getType(deleteNews.deleteNewsFailure):
+      return {
+        ...state,
+      };
     case getType(filInfoNews.filInfoNewsRequest):
       let newsItemUpdate = {};
       newsItemUpdate = action.payload;
