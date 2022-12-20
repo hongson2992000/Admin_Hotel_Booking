@@ -50,12 +50,12 @@ export default function SetUpRoomContainer() {
   }, []);
   const areUSureCheckOut = (choose) => {
     if (choose) {
-      // dispatch(
-      //   actions.deleteLocation.deleteLocationRequest({
-      //     id: idBooking.id,
-      //     // navigate: navigate,
-      //   })
-      // );
+      dispatch(
+        actions.deleteRoom.deleteRoomRequest({
+          id: idBooking.id,
+          // navigate: navigate,
+        })
+      );
       handleDialog("", false);
     } else {
       handleDialog("", false);
@@ -67,9 +67,11 @@ export default function SetUpRoomContainer() {
       arrNew.push({
         stt: i + 1,
         id: item.room.id,
+        roomName:item.room.name,
+        roomNo:item.room.roomNo,
         roomType: item.roomType.data.name,
         description: item.roomType.data.description,
-        maxAdult: item.roomType.data.maxAdult,
+        maxOccupancy: item.roomType.data.maxOccupancy,
         maxChildren: item.roomType.data.maxChildren,
         maxOccupancy: item.roomType.data.maxOccupancy,
         image: getImageUrlByType(`img_room_${item.room.id}`)?.pictureUrl,
@@ -112,6 +114,22 @@ export default function SetUpRoomContainer() {
       },
     },
     {
+      field: "roomName",
+      headerName: "Tên phòng",
+      width: 150,
+      renderCell: (params) => {
+        return <div className="cellWithImg">{params.row.roomName}</div>;
+      },
+    },
+    {
+      field: "roomNo",
+      headerName: "Số phòng",
+      width: 150,
+      renderCell: (params) => {
+        return <div className="cellWithImg">{params.row.roomNo}</div>;
+      },
+    },
+    {
       field: "roomType",
       headerName: "Loại phòng",
       width: 300,
@@ -133,24 +151,8 @@ export default function SetUpRoomContainer() {
       },
     },
     {
-      field: "maxAdult",
-      headerName: "Người lớn tối da",
-      width: 150,
-      renderCell: (params) => {
-        return <div className="cellWithImg">{params.row.maxAdult}</div>;
-      },
-    },
-    {
-      field: "maxChildren",
-      headerName: "Trẻ em tối da",
-      width: 150,
-      renderCell: (params) => {
-        return <div className="cellWithImg">{params.row.maxChildren}</div>;
-      },
-    },
-    {
       field: "maxOccupancy",
-      headerName: "Số khách tối da",
+      headerName: "Người lớn tối da",
       width: 150,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.maxOccupancy}</div>;

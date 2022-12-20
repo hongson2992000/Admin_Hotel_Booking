@@ -43,3 +43,7 @@ export const modalAddNewRoomState$ = (state) =>
   state.ModalReducer.isShowAddNewRoom;
 export const modalUpdateRoomState$ = (state) =>
   state.ModalReducer.isShowUpdateRoom;
+export const modalUpdateRoomTypeState$ = (state) =>
+  state.ModalReducer.isShowUpdateRoomType;
+  export const modalUpdateAlarmState$ = (state) =>
+  state.ModalReducer.isShowUpdateAlarm;

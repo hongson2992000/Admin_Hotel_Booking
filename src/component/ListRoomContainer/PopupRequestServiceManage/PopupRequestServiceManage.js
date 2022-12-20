@@ -83,7 +83,7 @@ export default function PopupRequestServiceManage({ bookingId }) {
           id: itemOrder.id,
           roomNo: item.booking?.room?.roomNo,
           serviceName: itemOrder.service.name,
-          totalAmount: item.totalAmount,
+          totalAmount: itemOrder.amount,
           createDate: item.createDate?.substring(0, 10),
           customerName:
             listRequestService.primaryCustomer?.firstName +
@@ -143,14 +143,14 @@ export default function PopupRequestServiceManage({ bookingId }) {
   // );
   let serviceColumns = useMemo(
     () => [
-      {
-        field: "stt",
-        headerName: "STT",
-        width: 50,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.stt}</div>;
-        },
-      },
+      // {
+      //   field: "stt",
+      //   headerName: "STT",
+      //   width: 50,
+      //   renderCell: (params) => {
+      //     return <div className="cellWithImg">{params.row.stt}</div>;
+      //   },
+      // },
       {
         field: "id",
         headerName: "Mã dịch vụ",
@@ -190,7 +190,7 @@ export default function PopupRequestServiceManage({ bookingId }) {
       {
         field: "customerName",
         headerName: "Tên Khách",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return (
             <div className={`cellWithStatus`}>{params.row.customerName}</div>

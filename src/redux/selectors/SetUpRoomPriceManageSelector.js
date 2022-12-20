@@ -5,3 +5,5 @@ export const setUpRoomManageState$ = (state) =>
 //Roomtype
 export const setUpRoomTypeManageState$ = (state) =>
   state.SetUpRoomPriceManageReducer.arrRoomType;
+  export const setUpRoomTypeItemManageState$ = (state) =>
+  state.SetUpRoomPriceManageReducer.roomTypeItem;

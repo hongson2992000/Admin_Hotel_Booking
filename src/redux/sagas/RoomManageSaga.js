@@ -9,6 +9,8 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { roomManage } from "../../services/RoomManage";
 import { bookingManage } from "../../services/BookingManage";
 import { showModalError } from "../actions/ModalAction";
+import * as actionSetUpRoom from "./../actions/SetUpRoomManageAction"
+import { setUpRoomManage } from "../../services/SetpUpRoomManage";
 function* getAllRoom(action) {
   try {
     yield put({
@@ -203,7 +205,29 @@ function* createRoom(action) {
       return roomManage.createRoom(action.payload);
     });
     if (room.status === STATUS_CODE.SUCCESS) {
-      yield put(actions.createRoom.createRoomSuccess(room.data));
+      // yield put(actions.createRoom.createRoomSuccess(room.data));
+      let listRoom = yield call(() => {
+        return setUpRoomManage.getAllRoom();
+      });
+      if (listRoom.status === STATUS_CODE.SUCCESS) {
+        let arrRoom = [];
+        for (let i = 0; i < listRoom.data.length; i++) {
+          let roomType = yield call(() => {
+            return roomManage.getRoomTypeByRoomId(listRoom.data[i].id);
+          });
+          if (roomType.status === STATUS_CODE.SUCCESS) {
+            let newRoom = {};
+            newRoom = {
+              room: listRoom.data[i],
+              roomType: roomType,
+            };
+            arrRoom.push(newRoom);
+          }
+        }
+        yield put(
+          actionSetUpRoom.getAllRoomToSetUp.getAllRoomToSetUpSuccess(arrRoom)
+        );
+      }
       yield put({ type: DISPLAY_POPUP_SUCCESS });
     }
     yield put({
@@ -232,12 +256,34 @@ function* updateRoom(action) {
       return roomManage.updateRoom(action.payload);
     });
     if (room.status === STATUS_CODE.SUCCESS) {
-      yield put(actions.updateRoom.updateRoomSuccess(room.data));
-      yield put({ type: DISPLAY_POPUP_SUCCESS });
+      // yield put(actions.updateRoom.updateRoomSuccess(room.data));
+      let listRoom = yield call(() => {
+        return setUpRoomManage.getAllRoom();
+      });
+      if (listRoom.status === STATUS_CODE.SUCCESS) {
+        let arrRoom = [];
+        for (let i = 0; i < listRoom.data.length; i++) {
+          let roomType = yield call(() => {
+            return roomManage.getRoomTypeByRoomId(listRoom.data[i].id);
+          });
+          if (roomType.status === STATUS_CODE.SUCCESS) {
+            let newRoom = {};
+            newRoom = {
+              room: listRoom.data[i],
+              roomType: roomType,
+            };
+            arrRoom.push(newRoom);
+          }
+        }
+        yield put(
+          actionSetUpRoom.getAllRoomToSetUp.getAllRoomToSetUpSuccess(arrRoom)
+        );
+      }
     }
     yield put({
       type: HIDE_LOADING,
     });
+    yield put({ type: DISPLAY_POPUP_SUCCESS });
   } catch (error) {
     yield put(actions.updateRoom.updateRoomFailure(error));
     yield put(showModalError());

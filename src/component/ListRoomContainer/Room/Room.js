@@ -212,7 +212,7 @@ export default function Room() {
           arrTurnDownNew.push(item)
         }
       })
-      console.log("ARRR1",arrTurnDownNew)
+      console.log("ARRRTURNDOWN", arrTurnDownNew);
       let arrTurnDown = item.booking.data?.requestServices.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
@@ -405,9 +405,14 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
-      let arrTurnDown = [];
-      let index = item.booking?.data.requestServices.findIndex(
-        (item) => item.requestServiceType === TURNDOWN && (item.status === BOOKED || item.status === PROCESSING)
+      let arrTurnDownNew = []
+      item.booking.data?.requestServices.forEach((item)=>{
+        if(item.requestServiceType !== CHECKOUT){
+          arrTurnDownNew.push(item)
+        }
+      })
+      let arrTurnDown = arrTurnDownNew.filter(
+        (item) => item.status === BOOKED || item.status === PROCESSING
       );
       // if (turnDownItem) {
       //   arrTurnDown.push(turnDownItem);
@@ -418,7 +423,7 @@ export default function Room() {
       // );
       return (
         <div className="rowIcon">
-          {index !== -1 ? (
+          {arrTurnDown.length !== 0? (
             <CleaningServicesIcon
               onClick={() => {
                 setOpenNotEmpty({

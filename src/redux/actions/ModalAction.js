@@ -106,3 +106,7 @@ export const hideModalUpdateRoom = createAction("HIDE_MODAL_UPDATE_ROOM");
 
 export const showModalUpdateRoomType = createAction("SHOW_MODAL_UPDATE_ROOMTYPE");
 export const hideModalUpdateRoomType = createAction("HIDE_MODAL_UPDATE_ROOMTYPE");
+
+// MODAL UPDATE ALARM
+export const showModalUpdateAlarm = createAction("SHOW_MODAL_UPDATE_ALARM");
+export const hideModalUpdateAlarm = createAction("HIDE_MODAL_UPDATE_ALARM");

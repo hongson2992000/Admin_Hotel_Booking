@@ -237,17 +237,7 @@ export default function ListTurnDownServiceContainer() {
                   Hoàn Thành
                 </div>
               </div>
-            ) : (
-              <div className="cellAction">
-              <div
-                className="doneButton"
-                onClick={() => handleCompeleteturnService(params.row)}
-                style={{pointerEvents:"none"}}
-              >
-                Hoàn Thành
-              </div>
-            </div>
-            )}
+            ) : ""}
           </div>
         );
       },

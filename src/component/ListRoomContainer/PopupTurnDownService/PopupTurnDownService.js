@@ -14,6 +14,7 @@ import DialogDelete from "../../DialogDelete/DialogDelete";
 import ModalListRequestService from "../../ListRequestService/ModalListRequestService.js/ModalListRequestService";
 import {
   BOOKED,
+  CHECKOUT,
   DONE,
   PROCESSING,
   USER_ROLE,
@@ -34,17 +35,18 @@ export default function PopupTurnDownService({ bookingId }) {
 
   const renderArr = () => {
     let arrNew = [];
-    // let listRequestServiceNew = listRequestService.filter(
-    //   (item) => item.status !== DONE
-    // );
-    listRequestService?.turnDownService?.forEach((item, index) => {
+    let listRequestServiceNew = listRequestService.turnDownService?.filter(
+      (item) => item.requestServiceType !== CHECKOUT
+    );
+    console.log("KIM NGAN", listRequestServiceNew);
+    listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
         id: item.id,
-        booking_Id: item.booking.id,
+        booking_Id: item.booking?.id,
         requestServiceName: item.requestServiceName,
         requestServiceType: item.requestServiceType,
-        roomNo: item.booking.room?.roomNo,
+        roomNo: item.booking?.room?.roomNo,
         dateTime: item.dateTime.substring(0, 10),
         time: item.dateTime.substring(10),
         customerName:
