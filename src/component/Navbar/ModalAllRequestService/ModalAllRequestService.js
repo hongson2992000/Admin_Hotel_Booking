@@ -59,7 +59,7 @@ export default function ModalAllRequestService() {
   const handleConfirmturnService = useCallback(
     (item) => {
       dispatch(
-        actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
+        actions.confirmCheckOutService.confirmCheckOutServiceRequest({
           info: {
             booking_Id: item.booking_id,
             dateTime: item.dateTime + "" + item.time,
@@ -71,13 +71,14 @@ export default function ModalAllRequestService() {
           // bookingId: bookingId,
         })
       );
+      dispatch(hideModalCheckOutService())
     },
     [dispatch]
   );
   const handleCompeleteturnService = useCallback(
     (item) => {
       dispatch(
-        actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
+        actions.confirmCheckOutService.confirmCheckOutServiceRequest({
           info: {
             booking_Id: item.booking_id,
             dateTime: item.dateTime + "" + item.time,
@@ -89,6 +90,7 @@ export default function ModalAllRequestService() {
           // bookingId: bookingId,
         })
       );
+      dispatch(hideModalCheckOutService())
     },
     [dispatch]
   );

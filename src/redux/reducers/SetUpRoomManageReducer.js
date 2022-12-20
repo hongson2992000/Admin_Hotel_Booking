@@ -2,12 +2,18 @@ import {
   getType,
   getAllRoomToSetUp,
   getAllRoomTypeToSetUp,
+  filInfoRoomType,
 } from "../actions/SetUpRoomManageAction";
-import { createRoom, filInfoRoom, updateRoom } from "../actions/RoomManageAction";
+import {
+  createRoom,
+  filInfoRoom,
+  updateRoom,
+} from "../actions/RoomManageAction";
 const initialState = {
   arrRoom: [],
   arrRoomType: [],
   roomItem: {},
+  roomTypeItem:{}
 };
 export default function SetUpRoomPriceManageReducer(
   state = initialState,
@@ -55,21 +61,27 @@ export default function SetUpRoomPriceManageReducer(
       return {
         ...state,
       };
-    //   case getType(updateRoom.createRoomRequest):
-    //   return {
-    //     ...state,
-    //   };
-    // case getType(updateRoom.createRoomSuccess):
-    //   let newRoomUpdate = [...state.arrRoom];
-    //   newRoomUpdate.push(action.payload);
-    //   state.arrRoom = newRoomCreate;
-    //   return {
-    //     ...state,
-    //   };
-    // case getType(createRoom.createRoomFailure):
-    //   return {
-    //     ...state,
-    //   };
+    case getType(updateRoom.updateRoomRequest):
+      return {
+        ...state,
+      };
+    case getType(updateRoom.updateRoomSuccess):
+      let newRoomUpdate = [...state.arrRoom];
+      let indexUpdate = newRoomUpdate.findIndex(
+        (item) => item.room.id === action.payload.id
+      );
+      console.log("INDEXUPDATE",indexUpdate)
+      if (indexUpdate !== -1) {
+        newRoomUpdate[indexUpdate] = action.payload;
+      }
+      state.arrRoom = newRoomUpdate;
+      return {
+        ...state,
+      };
+    case getType(updateRoom.updateRoomFailure):
+      return {
+        ...state,
+      };
     case getType(filInfoRoom.filInfoRoomRequest):
       let roomItemNew = {};
       roomItemNew = action.payload;
@@ -77,6 +89,13 @@ export default function SetUpRoomPriceManageReducer(
       return {
         ...state,
       };
+      case getType(filInfoRoomType.filInfoRoomTypeRequest):
+        let roomTypeItemNew = {};
+        roomTypeItemNew = action.payload;
+        state.roomTypeItem = roomTypeItemNew;
+        return {
+          ...state,
+        };
     default:
       return state;
   }

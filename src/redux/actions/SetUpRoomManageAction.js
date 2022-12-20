@@ -34,3 +34,6 @@ export const getAllRoomTypeToSetUp = createActions({
   getAllRoomTypeToSetUpSuccess: (payload) => payload,
   getAllRoomTypeToSetUpFailure: (err) => err,
 });
+export const filInfoRoomType = createActions({
+  filInfoRoomTypeRequest: (payload) => payload,
+});

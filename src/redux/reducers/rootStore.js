@@ -14,6 +14,7 @@ import InformationHotelManageReducer from "./InformationHotelManageReducer";
 import CustomerManageReducer from "./CustomerManageReducer";
 import SetUpRoomPriceManageReducer from "./SetUpRoomManageReducer";
 import AccountManageReducer from "./AccountManageReducer";
+import AlarmManageReducer from "./AlarmManageReducer";
 export default combineReducers({
   LoadingReducer,
   ServiceManageReducer,
@@ -29,5 +30,7 @@ export default combineReducers({
   InformationHotelManageReducer,
   CustomerManageReducer,
   SetUpRoomPriceManageReducer,
-  AccountManageReducer
+  AccountManageReducer,
+  AlarmManageReducer
+  
 });

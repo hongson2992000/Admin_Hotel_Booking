@@ -15,6 +15,7 @@ import { sendMessageService } from "../../services/SendMessageService";
 import {
   showModalListService,
   showModalRequestService,
+  showModalCheckOutService,
 } from "../actions/ModalAction";
 import * as actionModal from "../actions/ModalAction";
 import { roomManage } from "../../services/RoomManage";
@@ -298,6 +299,8 @@ export function* followActionGetAllTurnDownService() {
 function* confirmTurnDownService(action) {
   try {
     console.log("Action", action);
+    const d = new Date();
+    let time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -311,8 +314,7 @@ function* confirmTurnDownService(action) {
           return sendMessageService.sendMessage({
             booking_Id: action.payload.booking_Id,
             id: 0,
-            messageContent:
-              "Chúng tôi đã hoàn thành dịch vụ dọn phòng nhanh tại phòng của quý khách",
+            messageContent: `Phòng của quý khách đã được dọn dẹp vào ${time} ! Cảm ơn quý khách đã sử dụng dịch vụ`,
           });
         });
         if (listMessage.status === STATUS_CODE.SUCCESS) {
@@ -329,7 +331,7 @@ function* confirmTurnDownService(action) {
       if (listTurnDown.status === STATUS_CODE.SUCCESS) {
         let arrRequestService = [];
         for (let i = 0; i < listTurnDown.data.length; i++) {
-          console.log("TURNDOWN")
+          console.log("TURNDOWN");
           let room = yield call(() => {
             return roomManage.getRoomByBookingId(
               listTurnDown.data[i].booking.id
@@ -448,7 +450,7 @@ function* confirmRequestServiceInRoom(action) {
     yield put({
       type: HIDE_LOADING,
     });
-    yield put(actionModal.showModalError())
+    yield put(actionModal.showModalError());
   }
 }
 
@@ -758,5 +760,77 @@ export function* followActionConfirmTurnDownServiceStaff() {
   yield takeLatest(
     actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest,
     confirmTurnDownServiceStaff
+  );
+}
+
+function* confirmCheckOutService(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let listService = yield call(() => {
+      return requestServiceManage.confirmTurnDownService(action.payload.info);
+    });
+    if (listService.status === STATUS_CODE.SUCCESS) {
+      let listTurnDown = yield call(() => {
+        return requestServiceManage.getAllTurnDownService();
+      });
+      if (listTurnDown.status === STATUS_CODE.SUCCESS) {
+        let arrRequestService = [];
+        for (let i = 0; i < listTurnDown.data.length; i++) {
+          let room = yield call(() => {
+            return roomManage.getRoomByBookingId(
+              listTurnDown.data[i].booking.id
+            );
+          });
+          let primaryCustomer = yield call(() => {
+            return customerManage.getPrimaryCustomerByBookingId(
+              listTurnDown.data[i].booking.id
+            );
+          });
+          if (
+            room.status === STATUS_CODE.SUCCESS &&
+            primaryCustomer.status === STATUS_CODE.SUCCESS
+          ) {
+            let newRoom = {};
+            newRoom = {
+              orders: listTurnDown.data[i],
+              room: room,
+              primaryCustomer: primaryCustomer,
+            };
+            arrRequestService.push(newRoom);
+          }
+        }
+        yield put(
+          actions.getTurnDownService.getTurnDownServiceSuccess(
+            arrRequestService
+          )
+        );
+      }
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+    yield put(showModalCheckOutService());
+    // navigate("/location")
+  } catch (error) {
+    yield put(
+      actions.confirmCheckOutService.confirmCheckOutServiceFailure(error)
+    );
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(actionModal.showModalError());
+  }
+}
+
+export function* followActionConfirmCheckOutService() {
+  yield takeLatest(
+    actions.confirmCheckOutService.confirmCheckOutServiceRequest,
+    confirmCheckOutService
   );
 }

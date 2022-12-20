@@ -23,7 +23,7 @@ export default function ListRequestServiceContainer() {
         roomNo: item.room?.data.roomNo,
         totalAmount: item.orders?.totalAmount,
         createDate: item.orders?.createDate.substring(0, 10),
-        customerName: item.orders?.createBy,
+        customerName: item.orders?.lastModifyBy,
         // listRequestService.customer.firstName +
         // "" +
         // listRequestService.customer.middleName +

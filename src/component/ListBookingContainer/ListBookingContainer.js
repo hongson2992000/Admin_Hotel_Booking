@@ -71,8 +71,31 @@ export default function ListBookingContainer() {
         return roomType;
     }
   };
+  const haveRequestService = (item) => {
+    if (item?.orders.length > 0) {
+      const existItem = item.orders.find(
+        (itemOrder) =>
+          itemOrder.orderDetails[0].service.id === 70 ||
+          itemOrder.orderDetails[0].service.id === 71 ||
+          itemOrder.orderDetails[0].service.id === 57 ||
+          itemOrder.orderDetails[0].service.id === 58
+      );
+
+      if (existItem) {
+        return "Đưa đón sân bay";
+      }
+      else {
+        return "Không có";
+      }
+    } else {
+      return "Không có";
+    }
+  };
+  console.log("NNNN", haveRequestService());
   const renderArr = () => {
     let arrNew = [];
+    let arrPlan = [];
+
     listBooking.forEach((item) => {
       arrNew.push({
         id: item.id,
@@ -83,7 +106,7 @@ export default function ListBookingContainer() {
           " " +
           item.customer?.lastName,
         roomType: renderTypeRoom(item.roomTypeId),
-        requestService: "Đưa Đón Sân Bay",
+        requestService: haveRequestService(item),
         arrivalDate: item.arrivalDate,
         departureDate: item.departureDate,
         status: item.status,
@@ -195,14 +218,14 @@ export default function ListBookingContainer() {
           return <div className="cellWithImg">{params.row.roomType}</div>;
         },
       },
-      // {
-      //   field: "requestService",
-      //   headerName: "Dịch Vụ Đi Kèm",
-      //   width: 200,
-      //   renderCell: (params) => {
-      //     return <div className="cellWithImg">{params.row.requestService}</div>;
-      //   },
-      // },
+      {
+        field: "requestService",
+        headerName: "Dịch Vụ Đi Kèm",
+        width: 200,
+        renderCell: (params) => {
+          return <div className="cellWithImg">{params.row.requestService}</div>;
+        },
+      },
       {
         field: "arrivalDate",
         headerName: "Ngày Đến",

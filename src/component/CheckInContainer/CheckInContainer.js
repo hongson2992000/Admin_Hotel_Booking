@@ -92,14 +92,14 @@ export default function CheckInContainer() {
         "/" +
         arrActualArrivalDate[0];
       let bookingRequest = {
-        actualArrivalDate: formatDate,
+        actualArrivalDate: formatDate ,
         actualDepartureDate: formatDate,
-        arrivalDate: values.arrivalDate,
+        arrivalDate: values.arrivalDate +" "+values.arrivalTime,
         confirmationNo: values.confirmationNo,
         createBy: values.createBy,
         createDate: values.createDate,
         customer_Id: values.customer_Id,
-        departureDate: values.departureDate,
+        departureDate: values.departureDate+" "+values.departureTime,
         hotel_Id: values.hotel_Id,
         id: values.id,
         lastModifyBy: "",

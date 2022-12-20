@@ -5,15 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { modalAddNewRoomState$ } from "../../../redux/selectors/ModalSelector";
 import "./AddNewRoomModal.scss";
 import {
-  hideModalAddLocation, hideModalAddNewRoom,
+ hideModalAddNewRoom,
 } from "../../../redux/actions/ModalAction";
-import * as actions from "../../../redux/actions/LocationManageAction";
+import * as actions from "../../../redux/actions/RoomManageAction";
 import moment from "moment";
 import * as Yup from "yup";
+import { USER_LOGIN } from "../../../utils/constants/settingSystem";
 export default function AddNewRoomModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalAddNewRoomState$);
   let currentDate = moment().format("YYYY-MM-DD");
+  const userInfo = JSON.parse(localStorage.getItem(USER_LOGIN))
   const onClose = useCallback(() => {
     dispatch(hideModalAddNewRoom());
   }, [dispatch]);
@@ -27,24 +29,24 @@ export default function AddNewRoomModal() {
   ]
   const onSubmitService = useCallback(
     (values) => {
-      dispatch(actions.createLocation.createLocationRequest(values));
-      dispatch(hideModalAddLocation());
+      dispatch(actions.createRoom.createRoomRequest(values));
+      dispatch(hideModalAddNewRoom());
     },
     [dispatch]
   );
   const formik = useFormik({
     initialValues: {
-        createBy: "",
-        createDate: "",
+        createBy: userInfo.firstName + " " + userInfo.middleName + " " +userInfo.lastName,
+        createDate: moment().format("DD/MM/YYYY"),
         description: "",
         hotel_Id: 1,
         id: 0,
-        lastModifyBy: "",
+        lastModifyBy: userInfo.firstName + " " + userInfo.middleName + " " +userInfo.lastName,
         name: "",
         roomNo: "",
         roomType_Id: 1,
-        status: true,
-        updateDate: ""
+        status: false,
+        updateDate: moment().format("DD/MM/YYYY")
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitService(values);
