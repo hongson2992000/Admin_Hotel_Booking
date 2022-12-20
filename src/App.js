@@ -44,6 +44,8 @@ import ListBookingPage from "./pages/ListBookingPage/ListBookingPage";
 import ListBookingContainer from "./component/ListBookingContainer/ListBookingContainer";
 import CheckInContainer from "./component/CheckInContainer/CheckInContainer";
 import PopupCheckOutError from "./component/PopupCheckOutError/PopupCheckOutError";
+import FirebaseTest from "./firebase/FirebaseTest";
+
 function App() {
   let isLoading = useSelector(loadingState$);
   let isSuccess = useSelector(successState$);
@@ -123,6 +125,7 @@ function App() {
               element={<SetUpPriceRoomByDatePage />}
             />
           </Route>
+          <Route path="/uploadImage" element={<FirebaseTest />} />
         </Routes>
       </BrowserRouter>
     </div>
