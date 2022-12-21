@@ -112,7 +112,7 @@ export default function CreateNewRoomContainer() {
         createDate: values.createDate,
         customer_Id: values.customer_Id,
         departureDate: formatDepartureDate,
-        hotel_Id: values.hotel_Id,
+        hotel_Id: 1,
         id: values.id,
         lastModifyBy:
           userLogin.firstName +

@@ -151,7 +151,7 @@ export default function LocationContainer() {
   return (
     <div className="datatableLocation">
       <div className="datatableTitle">
-        Danh sách địa điểm
+        Danh Sách Địa Điểm
         <div
           onClick={() => {
             handleAddNewLocation();

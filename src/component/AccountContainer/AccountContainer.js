@@ -190,7 +190,7 @@ const AccountContainer = () => {
   return (
     <div className="datatableAccount">
       <div className="datatableTitle">
-        Danh sách Tài Khoản
+        Danh Sách Tài Khoản
         <div onClick={handleOpenCreateModel} className="link">
           Thêm Tài Khoản
         </div>

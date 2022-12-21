@@ -93,15 +93,15 @@
             padding: 2px 5px;
             border-radius: 5px;
             color: #fff;
-            background-color: rgba(0, 0, 139, 0.596);
-            border: 1px solid rgba(0, 0, 139, 0.596);
+            border: 1px solid rgba(220, 207, 20, 0.6);
+            background-color: rgba(220, 207, 20, 0.6);
             cursor: pointer;
             &:hover {
                 padding: 2px 5px;
                 border-radius: 5px;
-                color: rgba(0, 0, 139, 0.596);
                 background-color: #fff;
-                border: 1px solid rgba(0, 0, 139, 0.596);
+                color: rgb(175, 175, 5);
+                border: 1px solid rgba(220, 207, 20, 0.6);
                 cursor: pointer;
             }
         }
