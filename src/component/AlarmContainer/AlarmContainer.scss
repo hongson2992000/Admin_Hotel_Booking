@@ -1,7 +1,133 @@
 .AlarmContainer {
     padding: 20px;
     margin-top: 100px;
+    .buttonDiv {
+        padding-top: 20px;
+        .buttonSave {
+            background-color: #c4c4c4;
+            color: #fff;
+            padding: 10px;
+            width: 100px;
+            border-radius: 5px;
+            border: 1px solid #c4c4c4;
+            &:hover {
+                background-color: #fff;
+                color: #c4c4c4;
+                padding: 10px;
+                width: 100px;
+                border-radius: 5px;
+                border: 1px solid #c4c4c4;
+            }
+        }
+    }
     .title {
         height: 40px;
+    }
+    .datagrid {
+        height: 470px;
+    }
+    .datatableTitle {
+        width: 100%;
+        font-size: 24px;
+        color: gray;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .link {
+            text-decoration: none;
+            color: green;
+            font-size: 16px;
+            font-weight: 400;
+            border: 1px solid green;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+    .cellWithImg {
+        display: flex;
+        align-items: center;
+        &.BOOKED {
+            padding: 5px;
+            background-color: #fff;
+            color: orange;
+            border: 0.5px solid orange;
+            border-radius: 5px;
+        }
+        &.CHECKIN {
+            padding: 5px;
+            background-color: #fff;
+            color: green;
+            border: 0.5px solid green;
+            border-radius: 5px;
+        }
+        &.CHECKOUT {
+            padding: 5px;
+            background-color: #fff;
+            color: red;
+            border: 0.5px solid red;
+            border-radius: 5px;
+        }
+        .cellImg {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+    }
+    .cellWithStatus {
+        padding: 5px;
+        border-radius: 5px;
+        &.true {
+            background-color: rgba(0, 128, 0, 0.05);
+            color: green;
+        }
+        &.pending {
+            background-color: rgba(255, 217, 0, 0.05);
+            color: goldenrod;
+        }
+        &.false {
+            background-color: rgba(255, 0, 0, 0.05);
+            color: crimson;
+        }
+    }
+    .cellAction {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        .updateButton {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: #fff;
+            border: 1px solid rgba(220, 207, 20, 0.6);
+            background-color: rgba(220, 207, 20, 0.6);
+            cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                background-color: #fff;
+                color: rgb(175, 175, 5);
+                border: 1px solid rgba(220, 207, 20, 0.6);
+                cursor: pointer;
+            }
+        }
+        .deleteButton {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: #fff;
+            border: 1px solid #d64949;
+            background-color: #d64949;
+            cursor: pointer;
+            &:hover {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: #d64949;
+                border: 1px solid #d64949;
+                background-color: #fff;
+                cursor: pointer;
+            }
+        }
     }
 }

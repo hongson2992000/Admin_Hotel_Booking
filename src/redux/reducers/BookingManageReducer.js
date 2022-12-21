@@ -12,6 +12,7 @@ import {
   deleteNewUserBooking,
   getRevenueEntireDate,
   getRevenueCancelEntireDate,
+  cancelBooking,
 } from "../actions/BookingManageAction";
 
 const initialState = {
@@ -31,9 +32,11 @@ export default function BookingManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(getAllBooking.getAllBookingSuccess):
+      let arrBookingGet = [];
+      arrBookingGet = action.payload;
+      state.arrBooking = arrBookingGet;
       return {
         ...state,
-        arrBooking: action.payload,
       };
     case getType(getAllBooking.getAllBookingFailure):
       return {
@@ -154,6 +157,20 @@ export default function BookingManageReducer(state = initialState, action) {
         revenuesCancelEntire: action.payload,
       };
     case getType(getRevenueCancelEntireDate.getRevenueCancelEntireDateFailure):
+      return {
+        ...state,
+      };
+      case getType(cancelBooking.cancelBookingSuccess):
+        let arrCancelBooking = [...state.arrBooking]
+        let indexCancelBooking = arrCancelBooking.findIndex((item)=>item.id === action.payload.id)
+        if(indexCancelBooking !==-1){
+          arrCancelBooking[indexCancelBooking] = action.payload
+        }
+        state.arrBooking = arrCancelBooking
+      return {
+        ...state
+      };
+    case getType(cancelBooking.cancelBookingFailure):
       return {
         ...state,
       };

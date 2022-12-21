@@ -12,7 +12,7 @@ import * as informationHotelSaga from "./InfomationHotelManageSaga";
 import * as customerManageSaga from "./CustomerManageSaga";
 import * as setUpRoomManageSaga from "./SetUpRoomManageSaga";
 import * as accountManageSaga from "./AccountManageSaga";
-
+import * as alarmManageSaga from "./AlarmManageSaga"
 export default function* rootSaga() {
   yield all([
     serviceManageSaga.followActionGetAllHotelService(),
@@ -63,6 +63,19 @@ export default function* rootSaga() {
     newsManageSaga.followActionCreateNews(),
     accountManageSaga.followActionCreateAccount(),
     informationHotelSaga.followActionUpdateInfoHotel(),
-    bookingManageSaga.followActionCheckOut(),
+    bookingManageSaga.followActionCheckOutInRoom(),
+    newsManageSaga.followActionUpdateNews(),
+    newsManageSaga.followActionDeleteNews(),
+    requestServiceManageSaga.followActionConfirmCheckOutService(),
+    roomManageSaga.followActionCreateRoom(),
+    roomManageSaga.followActionUpdateRoom(),
+    alarmManageSaga.followActionGetAllRoomAlarm(),
+    alarmManageSaga.followActionCreateNewAlarm(),
+    alarmManageSaga.followActionUpdateAlarm(),
+    alarmManageSaga.followActionDeleteAlarm(),
+    setUpRoomManageSaga.followActionUpdateRoomType(),
+    roomManageSaga.followActionDeleteRoom(),
+    accountManageSaga.followActionUpdateAccount(),
+    bookingManageSaga.followActionCancelBooing()
   ]);
 }

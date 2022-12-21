@@ -28,8 +28,8 @@ export default function ServiceManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(createLocation.createLocationSuccess):
-      let newCreateLocation = [];
-      newCreateLocation = action.payload;
+      let newCreateLocation = [...state.arrLocation];
+      newCreateLocation.push(action.payload);
       state.arrLocation = newCreateLocation;
       return {
         ...state,
@@ -39,8 +39,13 @@ export default function ServiceManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(updateLocation.updateLocationSuccess):
-      let newUpdateLocation = [];
-      newUpdateLocation = action.payload;
+      let newUpdateLocation = [...state.arrLocation];
+      let index = newUpdateLocation.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (index !== -1) {
+        newUpdateLocation[index] = action.payload;
+      }
       state.arrLocation = newUpdateLocation;
       return {
         ...state,
@@ -50,9 +55,12 @@ export default function ServiceManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(deleteLocation.deleteLocationSuccess):
-      let newDeleteLocation = [];
-      newDeleteLocation = action.payload;
-      state.arrLocation = newDeleteLocation;
+      let newDeleteLocation = [...state.arrLocation];
+      let indexDelete = newDeleteLocation.findIndex((item)=>item.id === action.payload.id);
+      if(index !==-1){
+        newDeleteLocation[indexDelete] = action.payload
+      }
+      state.arrLocation = newDeleteLocation
       return {
         ...state,
       };

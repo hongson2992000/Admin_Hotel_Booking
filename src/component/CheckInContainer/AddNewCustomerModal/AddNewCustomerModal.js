@@ -275,7 +275,7 @@ export default function AddNewCustomerModal() {
               required
               id="gender"
               name="gender"
-              value={formik.values.gender || ""}
+              value={formik.values.gender}
               onChange={formik.handleChange}
             >
               <MenuItem value={1}>Nam</MenuItem>

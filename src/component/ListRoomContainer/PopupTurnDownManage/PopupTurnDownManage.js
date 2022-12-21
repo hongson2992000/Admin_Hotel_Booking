@@ -10,7 +10,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { turnDownServiceInRoomState$ } from "../../../redux/selectors/RequestServiceManageSelector";
 import DialogDelete from "../../DialogDelete/DialogDelete";
 import ModalListRequestService from "../../ListRequestService/ModalListRequestService.js/ModalListRequestService";
-import { DONE, PROCESSING } from "../../../utils/constants/settingSystem";
+import { CHECKOUT, DONE, PROCESSING } from "../../../utils/constants/settingSystem";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 export default function PopupTurnDownManage() {
   const dispatch = useDispatch();
@@ -27,25 +27,26 @@ export default function PopupTurnDownManage() {
 
   const renderArr = () => {
     let arrNew = [];
-    let listRequestServiceNew = listRequestService.filter(
-      (item) => item.status !== DONE
+    let listRequestServiceNew = listRequestService.turnDownService?.filter(
+      (item) => item.requestServiceType !== CHECKOUT
     );
-    listRequestService?.forEach((item, index) => {
+    console.log("AAAAA" ,listRequestServiceNew)
+    listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
-        id: item.id,
-        booking_Id: item.booking.id,
+        id: item?.id,
+        booking_Id: item.booking?.id,
         requestServiceName: item.requestServiceName,
         requestServiceType: item.requestServiceType,
-        roomNo: item.booking.room?.roomNo,
+        roomNo: item.booking?.room?.roomNo,
         dateTime: item.dateTime.substring(0, 10),
         time: item.dateTime.substring(10),
         customerName:
-          item.booking.customer.firstName +
+          listRequestService.primaryCustomer?.firstName +
           " " +
-          item.booking.customer.middleName +
+          listRequestService.primaryCustomer?.middleName +
           " " +
-          item.booking.customer.lastName,
+          listRequestService.primaryCustomer?.lastName,
         status: item.status,
       });
     });
@@ -82,70 +83,6 @@ export default function PopupTurnDownManage() {
     },
     [dispatch]
   );
-  // Render Data of table
-  //   const renderActionColoumn = () => {
-  //     let actionColumn = [];
-  //     if (userInfo.userRole !== USER_ROLE.HOTEL_MANAGE) {
-  //       actionColumn = [
-  //         {
-  //           field: "status",
-  //           headerName: "Trạng Thái",
-  //           width: 150,
-  //           renderCell: (params) => {
-  //             return (
-  //               <div className={`cellWithStatus ${params.row.status}`}>
-  //                 {params.row.status === "BOOKED"
-  //                   ? "Chờ Xác Nhận"
-  //                   : params.row.status === "PROCESSING"
-  //                   ? "Chờ Xử Lý"
-  //                   : "Hoàn Thành"}
-  //               </div>
-  //             );
-  //           },
-  //         },
-  //         {
-  //           field: "action",
-  //           headerName: "Hành Động",
-  //           width: 150,
-  //           renderCell: (params) => {
-  //             return (
-  //               <div>
-  //                 {params.row.status === BOOKED ? (
-  //                   <div className="cellAction">
-  //                     <div
-  //                       className="confirmButton"
-  //                       onClick={() => handleConfirmturnService(params.row)}
-  //                     >
-  //                       Xác Nhận
-  //                     </div>
-  //                     {/* <div
-  //                             className="cancelButton"
-  //                             //   onClick={() => openRequestServiceModal(params.row.id)}
-  //                           >
-  //                             Hủy
-  //                           </div> */}
-  //                   </div>
-  //                 ) : params.row.status === PROCESSING ? (
-  //                   <div className="cellAction">
-  //                     <div
-  //                       className="doneButton"
-  //                       onClick={() => handleCompeleteturnService(params.row)}
-  //                     >
-  //                       Hoàn Thành
-  //                     </div>
-  //                   </div>
-  //                 ) : (
-  //                   ""
-  //                 )}
-  //               </div>
-  //             );
-  //           },
-  //         },
-  //       ];
-  //     } else {
-  //     }
-  //     return actionColumn;
-  //   };
   const actionColumn = [
     {
       field: "status",
@@ -164,17 +101,6 @@ export default function PopupTurnDownManage() {
       },
     },
   ];
-  // const handleCancelService = useCallback(
-  //   (id) => {
-  //     dispatch(
-  //       actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdRequest(
-  //         { orderDetailId: id, orderId: infoOderDetail.id }
-  //       )
-  //     );
-  //     dispatch(hideModalListService())
-  //   },
-  //   [infoOderDetail, dispatch]
-  // );
   let serviceColumns = useMemo(
     () => [
       {

@@ -84,6 +84,13 @@
             border: 0.5px solid rgb(0, 17, 255);
             border-radius: 5px;
         }
+        &.CANCEL {
+            padding: 5px;
+            background-color: #fff;
+            color: rgb(255, 0, 0);
+            border: 0.5px solid rgb(255, 0, 0);
+            border-radius: 5px;
+        }
         .cellImg {
             width: 32px;
             height: 32px;

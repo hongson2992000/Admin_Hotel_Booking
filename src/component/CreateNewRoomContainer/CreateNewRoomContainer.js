@@ -25,6 +25,7 @@ import AddNewCustomerModal from "../CheckInContainer/AddNewCustomerModal/AddNewC
 import UpdateNewCustomerModal from "../CheckInContainer/UpdateNewCustomerModal/UpdateNewCustomerModal";
 // import { info } from "sass";
 import { useState } from "react";
+import { getDayInRange, removeDuplicateInArray } from "../../utils/util";
 export default function CreateNewRoomContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,15 +34,16 @@ export default function CreateNewRoomContainer() {
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
-  console.log("HONGSON",selectedValue)
   const roomValid = useSelector(roomValidState$);
   const infoBooking = JSON.parse(localStorage.getItem(INFO_BOOKING_DETAIL));
   const userLogin = JSON.parse(localStorage.getItem(USER_LOGIN));
   const roomType = useSelector(roomTypeState$);
   const params = useParams();
 
- 
-
+  const formatNumber = (number) => {
+    let numFormatted = number.toLocaleString("de-DE");
+    return numFormatted;
+  };
   const renderTypeRoom = () => {
     let roomType = "";
     switch (infoBooking?.roomTypeId) {
@@ -61,31 +63,22 @@ export default function CreateNewRoomContainer() {
         return roomType;
     }
   };
-  const renderRoomavailability = () => {
-    // let listRoomailAbility = roomValid.filter((item) => item.status === false);
-    let renderMenu = roomValid?.map((item, index) => (
-      <MenuItem value={item.id} key={index}>
-        {item.roomNo}
-      </MenuItem>
-    ));
-    return renderMenu;
-  };
+  let [totalPrice, setTotalPrice] = useState(0);
   // const renderFormatDate = (date) => {
   //   let arrDate = date.split("-");
   //   let formatDate = arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0];
   //   return formatDate;
   // };
-  const today =(i)=>
-    {
-        let today = new Date();
-        let dd = today.getDate()+1;
-        let mm = today.getMonth()+1;
-        let yyyy = today.getFullYear();
+  const today = (i) => {
+    let today = new Date();
+    let dd = today.getDate() + 1;
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
 
-        today = yyyy+'-'+mm+'-'+dd;
+    today = yyyy + "-" + mm + "-" + dd;
 
-        return today;   
-    }
+    return today;
+  };
   const onSubmitCheckIn = useCallback(
     (values) => {
       let arrActualArrivalDate = values.actualArrivalDate.split("-");
@@ -139,7 +132,6 @@ export default function CreateNewRoomContainer() {
       };
       let arrInfoUserNew = [];
       infoUser.forEach((item) => {
-        
         arrInfoUserNew.push({
           id: item.id,
           birthDate: item.birthDate,
@@ -163,7 +155,6 @@ export default function CreateNewRoomContainer() {
         customerRequests: arrInfoUserNew,
       };
 
-      console.log("NewCheckInFo", newInfoCheckInWithUser);
       dispatch(
         actions.checkInRoomInHotel.checkInRoomInHotelRequest({
           newInfoCheckInWithUser,
@@ -221,9 +212,45 @@ export default function CreateNewRoomContainer() {
         ),
     }),
   });
-  let [date , setDate] = useState(formik.values.departureDate)
-  console.log("Ngày", date)
-  console.log("Ngày đi", formik.values.departureDate);
+  console.log("NGAY DIIII", formik.values.departureDate);
+  let [depatureDate, setDepartureDate] = useState();
+  const getTotalPrice = useCallback(() => {
+    let price = 0;
+    // const dayGap = moment(formik.values.departureDate).diff(moment(formik.values.arrivalDate), "days");
+    // listRoomAvailability.map((roomType) => {
+    // const currentRoomSelect = roomSelect.find((x) => x.id === roomType.id);
+    // if (currentRoomSelect) {
+    const cleanRoomPrices = removeDuplicateInArray(roomType.roomPrices);
+    console.log("Ngay Den", formik.values.arrivalDate);
+    console.log("Ngay Den", formik.values.departureDate);
+    const dateRange = getDayInRange(
+      formik.values.arrivalDate,
+      formik.values.departureDate
+    );
+    dateRange.map((range, index) => {
+      if (index < dateRange.length - 1) {
+        const isFoundPriceForDate = cleanRoomPrices.find(
+          (x) => x.date === moment(range).format("DD/MM/yyyy")
+        );
+        if (isFoundPriceForDate) {
+          price += isFoundPriceForDate.price;
+        } else {
+          price += roomType.defaultPrice;
+        }
+      }
+    });
+    // }
+    // );
+    // if (arrayCheckedAirport.id !== 0) {
+    //   const airPortPrice = airportShuttleList.find(
+    //     (airPort) => airPort.id === arrayCheckedAirport.id
+    //   );
+    //   price += airPortPrice.price * roomSelect.length;
+    // }
+    setTotalPrice(price);
+  }, [formik]);
+  console.log("TOTAL PRICE", totalPrice);
+  // console.log("DATE", moment(new Date(formik.values.arrivalDate)) +" " + moment(new Date(formik.values.departureDate)))
   let handleUpdateInfoUser = useCallback(
     (id) => {
       let userUpdate = infoUser.find((item) => item.id === id);
@@ -360,9 +387,17 @@ export default function CreateNewRoomContainer() {
               <span style={{ width: "150px", fontSize: "20px" }}>
                 Số Phòng: {params.roomNo}
               </span>
-              <span style={{ paddingLeft: "50px", fontSize: "20px" }}>
-                Tiền phòng/ngày: {roomType.defaultPrice}
+              <span style={{ paddingLeft: "50px", fontSize: "20px" ,width:"300px"}}>
+                Tiền phòng: {formatNumber(totalPrice)}
               </span>
+              <div
+                className="resetPriceButton"
+                onClick={() => {
+                  getTotalPrice();
+                }}
+              >
+                Xem giá
+              </div>
             </div>
           </div>
           <hr />

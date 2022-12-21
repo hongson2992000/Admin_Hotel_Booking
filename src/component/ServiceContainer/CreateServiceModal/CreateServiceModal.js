@@ -80,13 +80,12 @@ export default function CreateServiceModal() {
         (item) =>
           item.name.toUpperCase().trim() === values.name.toUpperCase().trim()
       );
-      console.log("ARRRR", arrName);
       if (arrName.length !== 0) {
         setDuplicateName("Tên dịch vụ đã tồn tại");
       } else {
-        // dispatch(
-        //   actions.createNewHotelService.createHotelServiceRequest(values)
-        // );
+        dispatch(
+          actions.createNewHotelService.createHotelServiceRequest(values)
+        );
         dispatch(hideModal());
       }
     },
@@ -110,13 +109,13 @@ export default function CreateServiceModal() {
         " " +
         userInfo.lastName,
       updateDate: moment().format("DD/MM/YYYY"),
-      updateBy: "hongson2992000",
-      status:
+      updateBy:
         userInfo.firstName +
         " " +
         userInfo.middleName +
         " " +
         userInfo.lastName,
+      status: true,
       serviceCategory_Id: 1,
     },
     onSubmit: (values, { resetForm }) => {
@@ -189,7 +188,9 @@ export default function CreateServiceModal() {
               <MenuItem value={2}>Đồ uống</MenuItem>
             </Select>
             {formik.errors.serviceCategory_Id && (
-              <span style={{ color: "red" }}>{formik.errors.serviceCategory_Id}</span>
+              <span style={{ color: "red" }}>
+                {formik.errors.serviceCategory_Id}
+              </span>
             )}
           </div>
           <div className="col-6 simpleModalItem">
@@ -199,7 +200,7 @@ export default function CreateServiceModal() {
               <span style={{ color: "red" }}>{formik.errors.majorGroup}</span>
             )}
           </div>
-          <div className="col-12" style={{height:"170px"}}>
+          <div className="col-12" style={{ height: "170px" }}>
             <InputLabel>Thông tin mô tả</InputLabel>
             <TextareaAutosize
               className="title"

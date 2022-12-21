@@ -42,6 +42,14 @@ import {
   hideModalCheckOutError,
   showModalCheckOutService,
   hideModalCheckOutService,
+  showModalAddNewRoom,
+  hideModalAddNewRoom,
+  showModalUpdateRoom,
+  hideModalUpdateRoom,
+  showModalUpdateRoomType,
+  hideModalUpdateRoomType,
+  showModalUpdateAlarm,
+  hideModalUpdateAlarm,
 } from "../actions/ModalAction";
 
 const initialState = {
@@ -66,6 +74,10 @@ const initialState = {
   isShowError: false,
   isShowCheckOutErr: false,
   isShowCheckOutService: false,
+  isShowAddNewRoom:false,
+  isShowUpdateRoom:false,
+  isShowUpdateRoomType:false,
+  isShowUpdateAlarm:false
 };
 export default function ModalReducer(state = initialState, action) {
   switch (action.type) {
@@ -299,6 +311,50 @@ export default function ModalReducer(state = initialState, action) {
         ...state,
         isShowCheckOutService: false,
       };
+      case getType(showModalAddNewRoom):
+      return {
+        ...state,
+        isShowAddNewRoom: true,
+      };
+
+    case getType(hideModalAddNewRoom):
+      return {
+        ...state,
+        isShowAddNewRoom: false,
+      };
+      case getType(showModalUpdateRoom):
+        return {
+          ...state,
+          isShowUpdateRoom: true,
+        };
+  
+      case getType(hideModalUpdateRoom):
+        return {
+          ...state,
+          isShowUpdateRoom: false,
+        };
+        case getType(showModalUpdateRoomType):
+          return {
+            ...state,
+            isShowUpdateRoomType: true,
+          };
+    
+        case getType(hideModalUpdateRoomType):
+          return {
+            ...state,
+            isShowUpdateRoomType: false,
+          };
+          case getType(showModalUpdateAlarm):
+          return {
+            ...state,
+            isShowUpdateAlarm: true,
+          };
+    
+        case getType(hideModalUpdateAlarm):
+          return {
+            ...state,
+            isShowUpdateAlarm: false,
+          };
     default:
       return state;
   }

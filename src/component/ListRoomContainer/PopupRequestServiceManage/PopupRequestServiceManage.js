@@ -66,28 +66,31 @@ export default function PopupRequestServiceManage({ bookingId }) {
   const renderArr = () => {
     let arrNew = [];
     let listRequestServiceNew = [];
-    listRequestService.forEach((item) => {
-      for (let i = 0; i < item.orderDetails.length; i++) {
-        if (
-          item.orderDetails[i].service.id !== 70 &&
-          item.orderDetails[i].service.id !== 71 &&
-          item.orderDetails[i].service.id !== 57 &&
-          item.orderDetails[i].service.id !== 58
-        ) {
-          listRequestServiceNew.push(item);
-        }
+    listRequestService.requestService?.forEach((item,i) => {
+      if (
+        item.orderDetails[0].service?.id !== 70 &&
+        item.orderDetails[0].service?.id !== 71 &&
+        item.orderDetails[0].service?.id !== 57 &&
+        item.orderDetails[0].service?.id !== 58
+      ) {
+        listRequestServiceNew.push(item);
       }
     });
     listRequestServiceNew?.forEach((item, i) => {
-      item.orderDetails.forEach((itemOrder, i) => {
+      item.orderDetails.forEach((itemOrder, index) => {
         arrNew.push({
-          stt: i + 1,
-          id: item.id,
+          stt: index + 1,
+          id: itemOrder.id,
           roomNo: item.booking?.room?.roomNo,
           serviceName: itemOrder.service.name,
-          totalAmount: item.totalAmount,
+          totalAmount: itemOrder.amount,
           createDate: item.createDate?.substring(0, 10),
-          customerName: item.createBy,
+          customerName:
+            listRequestService.primaryCustomer?.firstName +
+            " " +
+            listRequestService.primaryCustomer?.middleName +
+            " " +
+            listRequestService.primaryCustomer?.lastName,
           // listRequestService.customer.firstName +
           // "" +
           // listRequestService.customer.middleName +
@@ -102,7 +105,7 @@ export default function PopupRequestServiceManage({ bookingId }) {
   const renderArrOtherService = () => {
     let arrNew = [];
     let orderDetail = [];
-    listRequestService.forEach((item) => {
+    listRequestService.requestService?.forEach((item) => {
       for (let i = 0; i < item.orderDetails.length; i++) {
         if (
           item.orderDetails[i].service.id === 70 ||
@@ -140,17 +143,17 @@ export default function PopupRequestServiceManage({ bookingId }) {
   // );
   let serviceColumns = useMemo(
     () => [
-      {
-        field: "stt",
-        headerName: "STT",
-        width: 50,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.stt}</div>;
-        },
-      },
+      // {
+      //   field: "stt",
+      //   headerName: "STT",
+      //   width: 50,
+      //   renderCell: (params) => {
+      //     return <div className="cellWithImg">{params.row.stt}</div>;
+      //   },
+      // },
       {
         field: "id",
-        headerName: "Mã Hóa Đơn",
+        headerName: "Mã dịch vụ",
         width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.id}</div>;
@@ -187,7 +190,7 @@ export default function PopupRequestServiceManage({ bookingId }) {
       {
         field: "customerName",
         headerName: "Tên Khách",
-        width: 200,
+        width: 250,
         renderCell: (params) => {
           return (
             <div className={`cellWithStatus`}>{params.row.customerName}</div>

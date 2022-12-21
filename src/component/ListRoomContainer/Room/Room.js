@@ -15,6 +15,8 @@ import {
   BOOKED,
   CHECKOUT,
   PROCESSING,
+  TURNDOWN,
+  USER_LOGIN,
   USER_ROLE,
 } from "../../../utils/constants/settingSystem";
 // import RoomPopup from "./roomPopup";
@@ -32,7 +34,7 @@ import PopupSendMessage from "../PopupSendMessage/PopupSendMessage";
 export default function Room() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userInfo = useSelector(userState$);
+  const userInfo = JSON.parse(localStorage.getItem(USER_LOGIN));
   const listRoom = useSelector(roomManageState$);
   useEffect(() => {
     dispatch(actionRoom.getAllRoom.getAllRoomRequest());
@@ -204,7 +206,13 @@ export default function Room() {
       let arrRequestService = item.booking.data?.orders.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
-      let arrTurnDown = item.booking.data?.requestServices.filter(
+      let arrTurnDownNew = [];
+      item.booking.data?.requestServices.forEach((item) => {
+        if (item.requestServiceType !== CHECKOUT) {
+          arrTurnDownNew.push(item);
+        }
+      });
+      let arrTurnDown = arrTurnDownNew.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
       return (
@@ -396,20 +404,25 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
-      let arrCheckOut = [];
-      item.booking?.data.requestServices.forEach(
-        (item, i) => {
-          if(item.requestServiceType !== CHECKOUT){
-            arrCheckOut.push(item);
-          }
+      let arrTurnDownNew = [];
+      item.booking.data?.requestServices.forEach((item) => {
+        if (item.requestServiceType !== CHECKOUT) {
+          arrTurnDownNew.push(item);
         }
-      );
-      let arrCheckOutNew = arrCheckOut.filter(
+      });
+      let arrTurnDown = arrTurnDownNew.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
+      // if (turnDownItem) {
+      //   arrTurnDown.push(turnDownItem);
+      // }
+      console.log("LISTTURNDOWN", index);
+      // let arrTurnDownNew = arrTurnDown.filter(
+      //   (item) =>
+      // );
       return (
         <div className="rowIcon">
-          {arrCheckOutNew?.length !== 0 ? (
+          {arrTurnDown.length !== 0 ? (
             <CleaningServicesIcon
               onClick={() => {
                 setOpenNotEmpty({

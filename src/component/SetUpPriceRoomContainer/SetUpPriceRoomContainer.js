@@ -4,16 +4,27 @@ import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../data/DataTableNews";
 import { useState } from "react";
 import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUpRoomTypeManageState$ } from "../../redux/selectors/SetUpRoomPriceManageSelector";
+import * as actions from "../../redux/actions/SetUpRoomManageAction"
+import { showModalUpdateRoomType } from "../../redux/actions/ModalAction";
+import UpdatePriceRoomModal from "./UpdatePriceRoomModal/UpdatePriceRoomModal";
 export default function SetUpPriceRoomContainer() {
   const [data, setData] = useState(userRows);
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
-  const handleUpdateRoom = useCallback(() => {});
   const listRoom = useSelector(setUpRoomTypeManageState$);
+  const dispatch = useDispatch()
+  const formatNumber = (number) =>{
+    let numFormatted = number.toLocaleString('de-DE')
+    return numFormatted
+  }
+  const handleUpdateRoomType = useCallback(
+    (id) => {
+      let roomItem = listRoom.find((item) => item.id === id);
+      dispatch(actions.filInfoRoomType.filInfoRoomTypeRequest(roomItem));
+      dispatch(showModalUpdateRoomType());
+    },
+    [dispatch, listRoom]
+  );
   const renderArr = () => {
     let arrNew = [];
     listRoom.forEach((item, i) => {
@@ -34,22 +45,16 @@ export default function SetUpPriceRoomContainer() {
   const actionColumn = [
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Hành động",
       width: 200,
       renderCell: (params) => {
         return (
           <div className="cellAction">
             <div
-              onClick={() => handleUpdateRoom(params.row.id)}
+              onClick={() => handleUpdateRoomType(params.row.id)}
               style={{ textDecoration: "none" }}
             >
               <div className="updateButton">Cập nhật</div>
-            </div>
-            <div
-              className="deleteButton"
-              // onClick={() => handleDelete(params.row.id)}
-            >
-              Delete
             </div>
           </div>
         );
@@ -60,7 +65,7 @@ export default function SetUpPriceRoomContainer() {
     {
       field: "stt",
       headerName: "STT",
-      width: 5,
+      width: 100,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.stt}</div>;
       },
@@ -83,16 +88,16 @@ export default function SetUpPriceRoomContainer() {
     },
     {
       field: "defaultPrice",
-      headerName: "Giá/1 ngày",
+      headerName: "Giá / Ngày",
       width: 150,
       renderCell: (params) => {
-        return <div className="cellWithImg">{params.row.defaultPrice}</div>;
+        return <div className="cellWithImg">{formatNumber(params.row.defaultPrice)}</div>;
       },
     },
     {
       field: "description",
       headerName: "Mô tả",
-      width: 350,
+      width: 400,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.description}</div>;
       },
@@ -109,6 +114,7 @@ export default function SetUpPriceRoomContainer() {
         pageSize={9}
         rowsPerPageOptions={[9]}
       />
+      <UpdatePriceRoomModal/>
     </div>
   );
 }

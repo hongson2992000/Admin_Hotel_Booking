@@ -4,13 +4,13 @@ import { useFormik } from "formik";
 import moment from "moment/moment";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as yup from "yup";
+import * as Yup from "yup";
 import { hideUpdateAccountModel } from "../../../redux/actions/ModalAction";
 import { accountItemManageState$ } from "../../../redux/selectors/AccountManageSelector";
 import { modelUpdateAccountState$ } from "../../../redux/selectors/ModalSelector";
-import { PHONE_VALID, USER_ROLE } from "../../../utils/constants/settingSystem";
+import { PHONE_VALID, USER_LOGIN, USER_ROLE } from "../../../utils/constants/settingSystem";
 import Styles from "./UpdateAccountModel.scss";
-
+import * as actions from "../../../redux/actions/AccountManageAction";
 const UpdateAccountModel = () => {
   const dispatch = useDispatch();
   const isShow = useSelector(modelUpdateAccountState$);
@@ -18,12 +18,48 @@ const UpdateAccountModel = () => {
   const onClose = useCallback(() => {
     dispatch(hideUpdateAccountModel());
   }, [dispatch]);
+  const userInfo = JSON.parse(localStorage.getItem(USER_LOGIN));
+  const handleAddAccount = useCallback(
+    (values) => {
+      let arrBirthDate = values.dateOfBirth.split("-");
+      let formatDate =
+        arrBirthDate[2] + "/" + arrBirthDate[1] + "/" + arrBirthDate[0];
+      let account = {
+        createBy:
+          userInfo.firstName +
+          " " +
+          userInfo.middleName +
+          " " +
+          userInfo.lastName,
+        createDate: moment().format("DD/MM/YYYY").substring(0, 10),
+        dateOfBirth: formatDate,
+        firstName: values.firstName,
+        gender: values.gender,
+        hotelId: 1,
+        id: values.id,
+        lastModifyBy:
+          userInfo.firstName +
+          " " +
+          userInfo.middleName +
+          " " +
+          userInfo.lastName,
+        lastName: values.lastName,
+        middleName: values.middleName,
+        password: values.password,
+        phoneNumber: values.phoneNumber,
+        role: values.userRole === 1 ? "ROLE_MANAGER": values.userRole === 2 ? "ROLE_RESTAURANT":values.userRole === 3 ? "ROLE_HOUSEKEEPING":"ROLE_RECEPTIONIST",
+        status: true,
+        updateDate: moment().format("DD/MM/YYYY").substring(0, 10),
+        username: values.username,
+      };
 
-  const handleAddAccount = useCallback((values) => {}, []);
+      dispatch(actions.updateAccount.updateAccountRequest(account));
+      console.log("UPDATEACCOUNT",account);
+      dispatch(hideUpdateAccountModel())
+    },
+    [userInfo, dispatch]
+  );
 
-  const SignupSchema = yup.object().shape({
-    phoneNumber: yup.string().matches(PHONE_VALID, "Phone incorrect"),
-  });
 
   const mockRole = [
     {
@@ -41,10 +77,6 @@ const UpdateAccountModel = () => {
     {
       id: 4,
       name: "ROLE_RECEPTIONIST",
-    },
-    {
-      id: 5,
-      name: "STAFF",
     },
   ];
   const renderDate = (date) => {
@@ -75,7 +107,7 @@ const UpdateAccountModel = () => {
           : accountItem?.userRole === USER_ROLE.RECEPTIONIST
           ? 4
           : "",
-      status: accountItem?.status,
+      active: accountItem?.active,
       hotel_Id: accountItem?.hotel_Id,
       createDate: accountItem?.createDate,
       createBy: accountItem?.createBy,
@@ -109,6 +141,7 @@ const UpdateAccountModel = () => {
               name="username"
               value={formik.values.username}
               onChange={formik.handleChange}
+              disabled
             />
           </div>
           <div className="col-6 simpleModalItem">
@@ -198,13 +231,14 @@ const UpdateAccountModel = () => {
             <Select
               className="title"
               required
-              id="status"
-              name="status"
-              value={formik.values.status}
+              id="active"
+              name="active"
+              value={formik.values.active}
               onChange={formik.handleChange}
+              disabled
             >
-              <MenuItem value={true}>Đang Sử Dụng</MenuItem>
-              <MenuItem value={false}>Không Sử Dụng</MenuItem>
+              <MenuItem value={true}>Đang hoạt động</MenuItem>
+              <MenuItem value={false}>Đang ẩn</MenuItem>
             </Select>
           </div>
           <div className="col-6 simpleModalItem">

@@ -22,6 +22,10 @@ class BookingManage extends BaseServices {
     );
   };
   getRevenueDashBoard = (payload) => {
+    console.log(
+      "dash-board: ",
+      `v1/booking/revenuesEntire?dateEnd=${payload.endDate}&dateStart=${payload.startDate}`
+    );
     return this.get(
       `v1/booking/revenuesEntire?dateEnd=${payload.endDate}&dateStart=${payload.startDate}`
     );
@@ -33,6 +37,9 @@ class BookingManage extends BaseServices {
   };
   checkInRoomInHotel = (model) => {
     return this.post(`v1/booking/checkInAtHotel`, model);
+  };
+  cancelBooking = (id) => {
+    return this.post(`v1/booking/cancleBooking?booking_id=${id}`);
   };
 }
 export const bookingManage = new BookingManage();

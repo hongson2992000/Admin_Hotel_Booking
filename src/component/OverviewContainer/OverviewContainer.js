@@ -24,6 +24,7 @@ import moment from "moment";
 import * as actions from "../../redux/actions/BookingManageAction";
 import * as customerActions from "../../redux/actions/CustomerManageAction";
 import { customerFeedbackState$ } from "../../redux/selectors/CuatomerManageSelector";
+import image from "../../../src/assets/img/loading13.gif";
 
 const OverviewContainer = () => {
   const dashBoard = useSelector(getDashBoardState$);
@@ -39,41 +40,45 @@ const OverviewContainer = () => {
   const endDateRef = useRef();
 
   useEffect(() => {
-    dispatch(
-      actions.getDashBoardOverview.getDashBoardOverviewRequest({
-        startDate: firstDay,
-        endDate: currentDate,
-      })
-    );
-    dispatch(
-      actions.getRevenueEntireDate.getRevenueEntireDateRequest({
-        startDate: firstDay,
-        endDate: currentDate,
-      })
-    );
-    dispatch(
-      actions.getRevenueCancelEntireDate.getRevenueCancelEntireDateRequest({
-        startDate: firstDay,
-        endDate: currentDate,
-      })
-    );
-    dispatch(
-      customerActions.getCustomerFeedbackByBetween.getCustomerFeedbackByBetweenRequest(
-        {
+    if (
+      Object.keys(dashBoard).length === 0 &&
+      revenueData.length === 0 &&
+      revenueCancelData.length === 0 &&
+      feedbackData.length === 0
+    ) {
+      dispatch(
+        actions.getDashBoardOverview.getDashBoardOverviewRequest({
           startDate: firstDay,
           endDate: currentDate,
-        }
-      )
-    );
+        })
+      );
+      dispatch(
+        actions.getRevenueEntireDate.getRevenueEntireDateRequest({
+          startDate: firstDay,
+          endDate: currentDate,
+        })
+      );
+      dispatch(
+        actions.getRevenueCancelEntireDate.getRevenueCancelEntireDateRequest({
+          startDate: firstDay,
+          endDate: currentDate,
+        })
+      );
+      dispatch(
+        customerActions.getCustomerFeedbackByBetween.getCustomerFeedbackByBetweenRequest(
+          {
+            startDate: firstDay,
+            endDate: currentDate,
+          }
+        )
+      );
+    }
   }, [dispatch]);
 
   useEffect(() => {
     let newArr = [];
-    const revenuesDataAlterMerge = removeDuplicateInArray(revenueData);
-    const revenuesCancelDataAlterMerge =
-      removeDuplicateInArray(revenueCancelData);
-    revenuesDataAlterMerge.map((r) => {
-      const cancelInSameDay = revenuesCancelDataAlterMerge.find(
+    revenueData.map((r) => {
+      const cancelInSameDay = revenueCancelData.find(
         (rc) => rc.date === r.date
       );
       if (cancelInSameDay) {
@@ -90,8 +95,8 @@ const OverviewContainer = () => {
         });
       }
     });
-    revenuesCancelDataAlterMerge.map((rc) => {
-      const sameDay = revenuesDataAlterMerge.find((r) => r.date === rc.date);
+    revenueCancelData.map((rc) => {
+      const sameDay = revenueData.find((r) => r.date === rc.date);
       if (!sameDay) {
         newArr.push({
           date: rc.date,
@@ -187,6 +192,7 @@ const OverviewContainer = () => {
   return (
     <div className="homeContainer">
       <Navbar />
+
       <div className="d-flex justify-content-start searchContainer">
         <div className="d-flex searchBox align-items-center justify-content-between">
           <label>Từ Ngày: </label>
@@ -223,71 +229,84 @@ const OverviewContainer = () => {
           Tra cứu
         </div>
       </div>
-      <div className="widgets">
-        <Widget type="dat_hom_nay" amount={dashBoard.bookedToday} />
-        <Widget type="doanh_thu" amount={dashBoard.revenue} />
-        <Widget type="doanh_thu_luy_ke" amount={dashBoard.accumulateRevenue} />
-      </div>
-      <div className="widgets">
-        <Widget type="huy_hom_nay" amount={dashBoard.canceledToday} />
-        <Widget type="doanh_thu_huy" amount={dashBoard.cancelRevenue} />
-        <Widget
-          type="doanh_thu_huy_luy_ke"
-          amount={dashBoard.cancelAccumulateRevenue}
-        />
-      </div>
-
-      <div className="widgetHotel">
-        <div className="widgethotel">
-          <div className="left">
-            <span className="counter">{dashBoard.actualArriveToday}</span>
-            <span className="title">Phòng đến trong ngày</span>
+      {Object.keys(dashBoard).length !== 0 ? (
+        <>
+          <div className="widgets">
+            <Widget type="dat_hom_nay" amount={dashBoard.bookedToday} />
+            <Widget type="doanh_thu" amount={dashBoard.revenue} />
+            <Widget
+              type="doanh_thu_luy_ke"
+              amount={dashBoard.accumulateRevenue}
+            />
           </div>
-          <div className="right">
-            <div className="percentage positive">
-              <HomeIcon />
-              <DirectionsRunIcon />
+          <div className="widgets">
+            <Widget type="huy_hom_nay" amount={dashBoard.canceledToday} />
+            <Widget type="doanh_thu_huy" amount={dashBoard.cancelRevenue} />
+            <Widget
+              type="doanh_thu_huy_luy_ke"
+              amount={dashBoard.cancelAccumulateRevenue}
+            />
+          </div>
+
+          <div className="widgetHotel">
+            <div className="widgethotel">
+              <div className="left">
+                <span className="counter">{dashBoard.actualArriveToday}</span>
+                <span className="title">Phòng đến trong ngày</span>
+              </div>
+              <div className="right">
+                <div className="percentage positive">
+                  <HomeIcon />
+                  <DirectionsRunIcon />
+                </div>
+              </div>
+            </div>
+
+            <div className="widgethotel">
+              <div className="left">
+                <span className="counter">
+                  {dashBoard.actualDepartureToday}
+                </span>
+                <span className="title">Phòng đi trong ngày</span>
+              </div>
+              <div className="right">
+                <div className="percentage positive">
+                  <DirectionsRunIcon />
+                  <HomeIcon />
+                </div>
+              </div>
+            </div>
+
+            <div className="widgethotel">
+              <div className="left">
+                <span className="counter">{dashBoard.roomBusy}</span>
+                <span className="title">Phòng có khách</span>
+              </div>
+              <div className="right">
+                <div className="percentage positive">
+                  <HotelIcon />
+                </div>
+              </div>
+            </div>
+
+            <div className="widgethotel">
+              <div className="left">
+                <span className="counter">{dashBoard.numOfStay}</span>
+                <span className="title">Số khách ở</span>
+              </div>
+              <div className="right">
+                <div className="percentage positive">
+                  <SupervisorAccountIcon />
+                </div>
+              </div>
             </div>
           </div>
+        </>
+      ) : (
+        <div className="d-flex justify-content-center">
+          <img src={image} alt="" />
         </div>
-
-        <div className="widgethotel">
-          <div className="left">
-            <span className="counter">{dashBoard.actualDepartureToday}</span>
-            <span className="title">Phòng đi trong ngày</span>
-          </div>
-          <div className="right">
-            <div className="percentage positive">
-              <DirectionsRunIcon />
-              <HomeIcon />
-            </div>
-          </div>
-        </div>
-
-        <div className="widgethotel">
-          <div className="left">
-            <span className="counter">{dashBoard.roomBusy}</span>
-            <span className="title">Phòng có khách</span>
-          </div>
-          <div className="right">
-            <div className="percentage positive">
-              <HotelIcon />
-            </div>
-          </div>
-        </div>
-
-        <div className="widgethotel">
-          <div className="left">
-            <span className="counter">{dashBoard.numOfStay}</span>
-            <span className="title">Số khách ở</span>
-          </div>
-          <div className="right">
-            <div className="percentage positive">
-              <SupervisorAccountIcon />
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
       <div className=""></div>
       {dataChart && dataChart.length > 0 && (
         <div className="charts">

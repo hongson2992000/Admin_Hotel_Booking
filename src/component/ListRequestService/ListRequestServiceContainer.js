@@ -10,22 +10,26 @@ import { requestServiceManageState$ } from "../../redux/selectors/RequestService
 export default function ListRequestServiceContainer() {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
+  const formatNumber = (number) => {
+    let numFormatted = number.toLocaleString("de-DE");
+    return numFormatted;
+  };
   const listRequestService = useSelector(requestServiceManageState$);
   const renderArr = () => {
     let arrNew = [];
     listRequestService?.forEach((item) => {
       arrNew.push({
-        id: item.orders.id,
+        id: item.orders?.id,
         roomNo: item.room?.data.roomNo,
-        totalAmount: item.orders.totalAmount,
-        createDate: item.orders.createDate.substring(0,10),
-        customerName: item.orders.createBy,
+        totalAmount: item.orders?.totalAmount,
+        createDate: item.orders?.createDate.substring(0, 10),
+        customerName: item.orders?.lastModifyBy,
         // listRequestService.customer.firstName +
         // "" +
         // listRequestService.customer.middleName +
         // "" +
         // listRequestService.customer.lastName,
-        status: item.orders.status,
+        status: item.orders?.status,
       });
     });
     return arrNew;
@@ -88,7 +92,7 @@ export default function ListRequestServiceContainer() {
         width: 200,
         renderCell: (params) => {
           return (
-            <div className={`cellWithStatus`}>{params.row.totalAmount}</div>
+            <div className={`cellWithStatus`}>{formatNumber(params.row.totalAmount)}</div>
           );
         },
       },
@@ -134,9 +138,9 @@ export default function ListRequestServiceContainer() {
   const openRequestServiceModal = useCallback(
     (id) => {
       const service = listRequestService.find(
-        (serviceItem) => serviceItem.orders.id === id
+        (serviceItem) => serviceItem.orders?.id === id
       );
-      console.log("HELLO BE SON", service)
+      console.log("HELLO BE SON", service);
       //  let newService = service
       dispatch(
         actions.getRequestServiceById.getRequestServiceByIdRequest(service)

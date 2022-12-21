@@ -2,12 +2,14 @@ import * as actions from "./../actions/RoomManageAction";
 import * as actionSetUpRoom from "./../actions/SetUpRoomManageAction";
 import {
   DISPLAY_LOADING,
+  DISPLAY_POPUP_SUCCESS,
   HIDE_LOADING,
   STATUS_CODE,
 } from "../../utils/constants/settingSystem";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { setUpRoomManage } from "../../services/SetpUpRoomManage";
 import { roomManage } from "../../services/RoomManage";
+import { showModalError } from "../actions/ModalAction";
 function* getAllRoomToSetUp(action) {
   try {
     yield put({
@@ -85,5 +87,42 @@ export function* followActionGetAllRoomTypeToSetUp() {
   yield takeLatest(
     actionSetUpRoom.getAllRoomTypeToSetUp.getAllRoomTypeToSetUpRequest,
     getAllRoomTypeToSetUp
+  );
+}
+function* updateRoomTypeToSetUp(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let roomType = yield call(() => {
+      return setUpRoomManage.updateRoomType(action.payload);
+    });
+    console.log("UPDATE ROOM TYPE", roomType);
+    if (roomType.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actionSetUpRoom.updateRoomType.updateRoomTypeSuccess(
+          roomType.data
+        )
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+    // navigate("/location")
+  } catch (error) {
+    yield put(actionSetUpRoom.updateRoomType.updateRoomTypeFailure(error));
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalError());
+  }
+}
+export function* followActionUpdateRoomType() {
+  yield takeLatest(
+    actionSetUpRoom.updateRoomType.updateRoomTypeRequest,
+    updateRoomTypeToSetUp
   );
 }

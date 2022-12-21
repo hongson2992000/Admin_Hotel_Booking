@@ -57,28 +57,40 @@ function* createAccount(action) {
 export function* followActionCreateAccount() {
   yield takeLatest(actions.createAccount.createAccountRequest, createAccount);
 }
-// function* updateLocation(action) {
-//   try {
-//     yield put({
-//       type: DISPLAY_LOADING,
-//     });
-//     // yield delay(1000);
-//     let location = yield call(() => {
-//       return locationManage.updateLocation(action.payload);
-//     });
-//     if (location.status === STATUS_CODE.SUCCESS) {
-//       yield put(
-//         actions.updateLocation.updateLocationSuccess(location.data)
-//       );
-//     }
-//     yield put({
-//       type: HIDE_LOADING,
-//     });
-//   } catch (error) {
-//     yield put(actions.updateLocation.updateLocationFailure(error));
-//   }
-// }
-
+function* updateAccount(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let account = yield call(() => {
+      return accountManage.updateAccount(action.payload);
+    });
+    if (account.status === STATUS_CODE.SUCCESS) {
+      yield put(
+        actions.updateAccount.updateAccountSuccess(account.data)
+      );
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+  } catch (error) {
+    yield put(actions.updateAccount.updateAccountFailure(error));
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalError())
+  }
+}
+export function* followActionUpdateAccount() {
+  yield takeLatest(
+    actions.updateAccount.updateAccountRequest,
+    updateAccount
+  );
+}
 // function* deleteLocation(action) {
 //   try {
 //     yield put({
@@ -106,12 +118,7 @@ export function* followActionCreateAccount() {
 export function* followActionGetAllAccount() {
   yield takeLatest(actions.getAccount.getAccountRequest, getAllAccount);
 }
-// export function* followActionUpdateLocation() {
-//   yield takeLatest(
-//     actions.updateLocation.updateLocationRequest,
-//     updateLocation
-//   );
-// }
+
 // export function* followActionDeleteLocation() {
 //   yield takeLatest(
 //     actions.deleteLocation.deleteLocationRequest,

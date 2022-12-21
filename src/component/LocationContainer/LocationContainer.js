@@ -19,7 +19,7 @@ export default function LocationContainer() {
   // };
   const renderArr = () => {
     let arrNew = [];
-    listLocation.forEach((item, i) => {
+    listLocation?.forEach((item, i) => {
       arrNew.push({
         stt: i + 1,
         id: item.id,

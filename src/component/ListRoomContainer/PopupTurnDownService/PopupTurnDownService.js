@@ -14,6 +14,7 @@ import DialogDelete from "../../DialogDelete/DialogDelete";
 import ModalListRequestService from "../../ListRequestService/ModalListRequestService.js/ModalListRequestService";
 import {
   BOOKED,
+  CHECKOUT,
   DONE,
   PROCESSING,
   USER_ROLE,
@@ -34,25 +35,25 @@ export default function PopupTurnDownService({ bookingId }) {
 
   const renderArr = () => {
     let arrNew = [];
-    let listRequestServiceNew = listRequestService.filter(
-      (item) => item.status !== DONE
+    let listRequestServiceNew = listRequestService.turnDownService?.filter(
+      (item) => item.requestServiceType !== CHECKOUT
     );
-    listRequestService?.forEach((item, index) => {
+    listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
         id: item.id,
-        booking_Id: item.booking.id,
+        booking_Id: item.booking?.id,
         requestServiceName: item.requestServiceName,
         requestServiceType: item.requestServiceType,
-        roomNo: item.booking.room?.roomNo,
+        roomNo: item.booking?.room?.roomNo,
         dateTime: item.dateTime.substring(0, 10),
         time: item.dateTime.substring(10),
         customerName:
-          item.booking.customer.firstName +
+          listRequestService.primaryCustomer?.firstName +
           " " +
-          item.booking.customer.middleName +
+          listRequestService.primaryCustomer?.middleName +
           " " +
-          item.booking.customer.lastName,
+          listRequestService.primaryCustomer?.lastName,
         status: item.status,
       });
     });
@@ -65,7 +66,7 @@ export default function PopupTurnDownService({ bookingId }) {
         actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
           info: {
             booking_Id: item.booking_Id,
-            dateTime: item.dateTime,
+            dateTime: item.dateTime + " " + item.time,
             id: item.id,
             requestServiceName: item.requestServiceName,
             requestServiceType: item.requestServiceType,
@@ -74,6 +75,7 @@ export default function PopupTurnDownService({ bookingId }) {
           bookingId: bookingId,
         })
       );
+      dispatch(hideModalTurnDown())
     },
     [dispatch, bookingId]
   );
@@ -83,7 +85,7 @@ export default function PopupTurnDownService({ bookingId }) {
         actions.confirmTurnDownServiceStaff.confirmTurnDownServiceStaffRequest({
           info: {
             booking_Id: item.booking_Id,
-            dateTime: item.dateTime,
+            dateTime: item.dateTime + " " + item.time,
             id: item.id,
             requestServiceName: item.requestServiceName,
             requestServiceType: item.requestServiceType,
@@ -92,6 +94,7 @@ export default function PopupTurnDownService({ bookingId }) {
           bookingId: bookingId,
         })
       );
+      dispatch(hideModalTurnDown())
     },
     [dispatch, bookingId]
   );

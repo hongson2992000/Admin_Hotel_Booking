@@ -49,23 +49,29 @@ function* checkInRoom(action) {
     console.log(listBooking.data);
     if (listBooking.status === STATUS_CODE.SUCCESS) {
       yield put(actions.checkInRoom.checkInRoomSuccess(listBooking.data));
-      let list = yield call(() => {
-        return bookingManage.getAllBooking();
+      // let list = yield call(() => {
+      //   return bookingManage.getAllBooking();
+      // });
+      // if (list.status === STATUS_CODE.SUCCESS) {
+      //   yield put(actions.getAllBooking.getAllBookingSuccess(list.data));
+
+      // }
+      action.payload.navigate("/listBooking");
+      yield put({
+        type: HIDE_LOADING,
       });
-      if (list.status === STATUS_CODE.SUCCESS) {
-        yield put(actions.getAllBooking.getAllBookingSuccess(list.data));
-        action.payload.navigate("/listBooking");
-        yield put({
-          type: DISPLAY_POPUP_SUCCESS,
-        });
-      }
+      yield put({
+        type: DISPLAY_POPUP_SUCCESS,
+      });
     }
-    yield put({
-      type: HIDE_LOADING,
-    });
   } catch (error) {
     console.log(error);
     yield put(actions.checkInRoom.checkInRoomFailure(error));
+    action.payload.navigate("/listBooking");
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalCheckOutError());
   }
 }
 export function* followActionCheckIn() {
@@ -251,6 +257,10 @@ function* checkInRoomInHotel(action) {
   } catch (error) {
     console.log(error);
     yield put(actions.checkInRoomInHotel.checkInRoomInHotelFailure(error));
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalCheckOutError());
   }
 }
 export function* followActionCheckInHotel() {
@@ -270,6 +280,7 @@ function* getRevenueEntireDate(action) {
     let listBooking = yield call(() => {
       return bookingManage.getRevenueDashBoard(action.payload);
     });
+    console.log(listBooking.data);
     if (listBooking.status === STATUS_CODE.SUCCESS) {
       yield put(
         actions.getRevenueEntireDate.getRevenueEntireDateSuccess(
@@ -296,8 +307,9 @@ export function* followActionGetRevenueEntireDate() {
 }
 function* checkOutInRoom(action) {
   try {
-    console.log("ActionCheckIn", action);
-    // yield delay(1000);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
     let formData = new FormData();
     formData.append("booking_id", action.payload.id);
     let listBooking = yield call(() => {
@@ -352,6 +364,12 @@ function* checkOutInRoom(action) {
     }
   }
 }
+export function* followActionCheckOutInRoom() {
+  yield takeLatest(
+    actions.checkOutInRoom.checkOutInRoomRequest,
+    checkOutInRoom
+  );
+}
 function* getRevenueCancelEntireDate(action) {
   try {
     yield put({
@@ -388,4 +406,33 @@ export function* followActionGetRevenueCancelEntireDate() {
     actions.getRevenueCancelEntireDate.getRevenueCancelEntireDateRequest,
     getRevenueCancelEntireDate
   );
+}
+function* cancelBooking(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let booking = yield call(() => {
+      return bookingManage.cancelBooking(action.payload);
+    });
+    if (booking.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.cancelBooking.cancelBookingSuccess(booking.data));
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+  } catch (error) {
+    console.log(error);
+    yield put(actions.cancelBooking.cancelBookingFailure(error));
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalError())
+  }
+}
+export function* followActionCancelBooing() {
+  yield takeLatest(actions.cancelBooking.cancelBookingRequest, cancelBooking);
 }

@@ -36,3 +36,23 @@ export const setRoomPrice = createActions({
   setRoomPriceFailure: (err) => err,
   removeSetRoomPrice: undefined,
 });
+export const createRoom = createActions({
+  createRoomRequest: (payload) => payload,
+  createRoomSuccess: (payload) => payload,
+  createRoomFailure: (err) => err,
+});
+export const updateRoom = createActions({
+  updateRoomRequest: (payload) => payload,
+  updateRoomSuccess: (payload) => payload,
+  updateRoomFailure: (err) => err,
+});
+
+export const deleteRoom = createActions({
+  deleteRoomRequest: (payload) => payload,
+  deleteRoomSuccess: (payload) => payload,
+  deleteRoomFailure: (err) => err,
+});
+
+export const filInfoRoom = createActions({
+  filInfoRoomRequest: (payload) => payload,
+});

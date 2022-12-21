@@ -10,6 +10,7 @@ import { NotificationsNoneOutlined } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HelpIcon from "@mui/icons-material/Help";
 import BadgeIcon from "@mui/icons-material/Badge";
+import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
 import ModalProfile from "../ModalProfile/ModalProfile";
 import {
   showModalCheckOutService,
@@ -43,6 +44,7 @@ export default function Navbar() {
   const handleProfile = useCallback(() => {
     dispatch(
       actions.filInfoProfile.filInfoProfileRequest({
+        id:userInfo.id,
         firstName: userInfo.firstName,
         middleName: userInfo.middleName,
         lastName: userInfo.lastName,
@@ -69,15 +71,15 @@ export default function Navbar() {
   const renderArr = () => {
     let arrNew = [];
     let listServiceNew = [];
-    listServiceNew = listRequestService.filter(
+    listServiceNew = listRequestService?.filter(
       (item, i) =>
-        item.orders.requestServiceType === CHECKOUT ||
-        item.orders.status !== DONE
+        item.orders?.requestServiceType === CHECKOUT &&
+        item.orders?.status !== DONE
     );
     listServiceNew.forEach((item, i) => {
       arrNew.push({
-        name: item.orders.requestServiceName,
-        roomNo: item.room.data.roomNo,
+        name: item.orders?.requestServiceName,
+        roomNo: item.room?.data.roomNo,
       });
     });
     return arrNew;
@@ -108,8 +110,12 @@ export default function Navbar() {
           </div>
           <div className="sub-menu-notifi" id="subMenuNotifi">
             <div className="sub-menu">
-              {userInfo.userRole === USER_ROLE.RECEPTIONIST ? (
-                <div className="sub-menu-top">
+              <div className="sub-menu-top">
+                <p>Thông báo mới nhận</p>
+              </div>
+              {userInfo.userRole === USER_ROLE.RECEPTIONIST &&
+              renderArr().length !== 0 ? (
+                <div className="sub-menu-center">
                   {renderArr().map((item, index) => (
                     <div className="sub-menu-item">
                       <p style={{ fontSize: "15px" }}>
@@ -122,16 +128,10 @@ export default function Navbar() {
                     </div>
                   ))}
                 </div>
-              ) : userInfo.userRole === USER_ROLE.RECEPTIONIST &&
-                renderArr().length === 0 ? (
-                <div className="sub-menu-top">
-                  <div className="sub-menu-item notifi">
-                    <p>Bạn chưa có thông báo</p>
-                  </div>
-                </div>
               ) : (
-                <div className="sub-menu-top">
+                <div className="sub-menu-center">
                   <div className="sub-menu-item notifi">
+                    <NotificationsOffIcon className="icon" />
                     <p>Bạn chưa có thông báo</p>
                   </div>
                 </div>
@@ -148,13 +148,7 @@ export default function Navbar() {
                     <p>Xem tất cả</p>
                   </div>
                 ) : (
-                  <div
-                    className="buttonViewAll"
-                    style={{pointerEvents:"none"}}
-                    onClick={() => {
-                      handleViewAllNotifi();
-                    }}
-                  >
+                  <div className="buttonViewAll">
                     <p>Xem tất cả</p>
                   </div>
                 )}

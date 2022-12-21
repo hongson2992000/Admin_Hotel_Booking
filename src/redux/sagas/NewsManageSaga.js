@@ -1,11 +1,13 @@
 import * as actions from "../actions/NewsManageAction";
 import {
   DISPLAY_LOADING,
+  DISPLAY_POPUP_SUCCESS,
   HIDE_LOADING,
   STATUS_CODE,
 } from "../../utils/constants/settingSystem";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { newsManage } from "../../services/NewsManage";
+import { showModalError } from "../actions/ModalAction";
 
 function* getAllNews(action) {
   try {
@@ -16,9 +18,7 @@ function* getAllNews(action) {
       return newsManage.getAllNews();
     });
     if (listNews.status === STATUS_CODE.SUCCESS) {
-      yield put(
-        actions.getNews.getNewsSuccess(listNews.data)
-      );
+      yield put(actions.getNews.getNewsSuccess(listNews.data));
     }
     yield put({
       type: HIDE_LOADING,
@@ -26,6 +26,9 @@ function* getAllNews(action) {
   } catch (error) {
     yield put(actions.getNews.getNewsFailure(error));
   }
+}
+export function* followActionGetAllNews() {
+  yield takeLatest(actions.getNews.getNewsRequest, getAllNews);
 }
 function* createNews(action) {
   try {
@@ -37,86 +40,80 @@ function* createNews(action) {
       return newsManage.createNews(action.payload);
     });
     if (news.status === STATUS_CODE.SUCCESS) {
-      yield put(
-        actions.createNews.createNewsSuccess(news.data)
-      );
+      yield put(actions.createNews.createNewsSuccess(news.data));
     }
     yield put({
       type: HIDE_LOADING,
     });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
   } catch (error) {
     yield put(actions.createNews.createNewsFailure(error));
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalError());
   }
 }
 export function* followActionCreateNews() {
-  yield takeLatest(
-    actions.createNews.createNewsRequest,
-    createNews
-  );
+  yield takeLatest(actions.createNews.createNewsRequest, createNews);
 }
-// function* updateLocation(action) {
-//   try {
-//     yield put({
-//       type: DISPLAY_LOADING,
-//     });
-//     // yield delay(1000);
-//     let location = yield call(() => {
-//       return locationManage.updateLocation(action.payload);
-//     });
-//     if (location.status === STATUS_CODE.SUCCESS) {
-//       yield put(
-//         actions.updateLocation.updateLocationSuccess(location.data)
-//       );
-//     }
-//     yield put({
-//       type: HIDE_LOADING,
-//     });
-//   } catch (error) {
-//     yield put(actions.updateLocation.updateLocationFailure(error));
-//   }
-// }
-
-// function* deleteLocation(action) {
-//   try {
-//     yield put({
-//       type: DISPLAY_LOADING,
-//     });
-//     console.log(action.payload)
-//     // yield delay(1000);
-//     let location = yield call(() => {
-//       return locationManage.deleteLocation(action.payload);
-//     });
-//     console.log("Thanh An",location)
-//     if (location.status === STATUS_CODE.SUCCESS) {
-//       yield put(
-//         actions.deleteLocation.deleteLocationSuccess(location.data)
-//       );
-//     }
-//     yield put({
-//       type: HIDE_LOADING,
-//     });
-//   } catch (error) {
-//     yield put(actions.deleteLocation.deleteLocationFailure(error));
-//   }
-// }
-
-export function* followActionGetAllNews() {
-  yield takeLatest(
-    actions.getNews.getNewsRequest,
-    getAllNews
-  );
+function* updateNews(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let news = yield call(() => {
+      return newsManage.updateNews(action.payload);
+    });
+    if (news.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.updateNews.updateNewsSuccess(news.data));
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+  } catch (error) {
+    yield put(actions.updateNews.updateNewsFailure(error));
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalError());
+  }
 }
-
-
-// export function* followActionUpdateLocation() {
-//   yield takeLatest(
-//     actions.updateLocation.updateLocationRequest,
-//     updateLocation
-//   );
-// }
-// export function* followActionDeleteLocation() {
-//   yield takeLatest(
-//     actions.deleteLocation.deleteLocationRequest,
-//     deleteLocation
-//   );
-// }
+export function* followActionUpdateNews() {
+  yield takeLatest(actions.updateNews.updateNewsRequest, updateNews);
+}
+function* deleteNews(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    // yield delay(1000);
+    let news = yield call(() => {
+      return newsManage.deleteNews(action.payload.id);
+    });
+    if (news.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.deleteNews.deleteNewsSuccess(news.data));
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+  } catch (error) {
+    yield put(actions.deleteNews.deleteNewsFailure(error));
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalError());
+  }
+}
+export function* followActionDeleteNews() {
+  yield takeLatest(actions.deleteNews.deleteNewsRequest, deleteNews);
+}

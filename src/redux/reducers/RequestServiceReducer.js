@@ -19,7 +19,7 @@ const initialState = {
   // bookingItem: {},
   // userInfoBooking: [],
   arrTurnDownService: [],
-  turnDownServiceInRoom: [],
+  turnDownServiceInRoom: {},
 };
 export default function RequestServiceReducer(state = initialState, action) {
   switch (action.type) {
@@ -104,7 +104,7 @@ export default function RequestServiceReducer(state = initialState, action) {
     case getType(getTurnDownService.getTurnDownServiceSuccess):
       return {
         ...state,
-        arrTurnDownService: action.payload,
+        arrTurnDownService : action.payload
       };
     case getType(getTurnDownService.getTurnDownServiceFailure):
       return {
@@ -115,9 +115,11 @@ export default function RequestServiceReducer(state = initialState, action) {
         ...state,
       };
     case getType(confirmTurnDownService.confirmTurnDownServiceSuccess):
+      let turnDownGet = [];
+      turnDownGet = action.payload;
+      state.arrTurnDownService = turnDownGet;
       return {
         ...state,
-        arrTurnDownService: action.payload,
       };
     case getType(confirmTurnDownService.confirmTurnDownServiceFailure):
       return {
@@ -155,7 +157,7 @@ export default function RequestServiceReducer(state = initialState, action) {
     ):
       let arrRequestServiceStaffNew = [];
       arrRequestServiceStaffNew = action.payload;
-      state.arrRequestServiceInRoom = arrRequestServiceStaffNew;
+      state.turnDownServiceInRoom = arrRequestServiceStaffNew;
       return {
         ...state,
       };
@@ -174,7 +176,7 @@ export default function RequestServiceReducer(state = initialState, action) {
     case getType(
       getTurnDownServiceByBookingId.getTurnDownServiceByBookingIdSuccess
     ):
-      let newTurnDownService = [];
+      let newTurnDownService = {};
       newTurnDownService = action.payload;
       state.turnDownServiceInRoom = newTurnDownService;
       return {

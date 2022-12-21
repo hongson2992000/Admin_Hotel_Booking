@@ -23,25 +23,26 @@ export default function ListTurnDownServiceContainer() {
   const renderArr = () => {
     let arrNew = [];
     let listRequestServiceNew = listRequestService.filter(
-      (item) => item.orders.requestServiceType !== CHECKOUT
+      (item) => item.orders?.requestServiceType !== CHECKOUT
     );
-    listRequestServiceNew?.forEach((item, index) => {
+    console.log("JJJJJ", listRequestServiceNew);
+    listRequestServiceNew.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
         id: item.orders.id,
-        booking_Id: item.orders.booking.id,
-        requestServiceName: item.orders.requestServiceName,
-        requestServiceType: item.requestServiceType,
-        roomNo: item.room.data.roomNo,
-        dateTime: item.orders.dateTime.substring(0,10),
-        time: "12:00",
+        booking_Id: item.orders?.booking.id,
+        requestServiceName: item.orders?.requestServiceName,
+        requestServiceType: item.orders?.requestServiceType,
+        roomNo: item.room?.data.roomNo,
+        dateTime: item.orders?.dateTime.substring(0,10),
+        time: item.orders?.dateTime.substring(10),
         customerName:
-          item.orders.booking.customer.firstName +
+          item.primaryCustomer?.data.firstName +
           " " +
-          item.orders.booking.customer.middleName +
+          item.primaryCustomer?.data.middleName +
           " " +
-          item.orders.booking.customer.lastName,
-        status: item.orders.status,
+          item.primaryCustomer?.data.lastName,
+        status: item.orders?.status,
       });
     });
     return arrNew;
@@ -82,7 +83,7 @@ export default function ListTurnDownServiceContainer() {
       dispatch(
         actions.confirmTurnDownService.confirmTurnDownServiceRequest({
           booking_Id: item.booking_Id,
-          dateTime: item.dateTime,
+          dateTime: item.dateTime + "" + item.time,
           id: item.id,
           requestServiceName: item.requestServiceName,
           requestServiceType: item.requestServiceType,
@@ -97,7 +98,7 @@ export default function ListTurnDownServiceContainer() {
       dispatch(
         actions.confirmTurnDownService.confirmTurnDownServiceRequest({
           booking_Id: item.booking_Id,
-          dateTime: item.dateTime,
+          dateTime: item.dateTime + "" + item.time,
           id: item.id,
           requestServiceName: item.requestServiceName,
           requestServiceType: item.requestServiceType,
@@ -236,17 +237,7 @@ export default function ListTurnDownServiceContainer() {
                   Hoàn Thành
                 </div>
               </div>
-            ) : (
-              <div className="cellAction">
-              <div
-                className="doneButton"
-                onClick={() => handleCompeleteturnService(params.row)}
-                style={{pointerEvents:"none"}}
-              >
-                Hoàn Thành
-              </div>
-            </div>
-            )}
+            ) : ""}
           </div>
         );
       },

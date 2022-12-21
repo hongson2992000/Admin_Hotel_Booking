@@ -3,29 +3,77 @@ import "./SetUpRoomContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUpRoomManageState$ } from "../../redux/selectors/SetUpRoomPriceManageSelector";
 import getImageUrlByType from "../../utils/constants/GetImageUrlByType";
+import AddNewRoomModal from "./AddNewRoomModal/AddNewRoomModal";
+import UpdateRoomModal from "./UpdateRoomModal/UpdateRoomModal";
+import {
+  showModalAddNewRoom,
+  showModalUpdateRoom,
+} from "../../redux/actions/ModalAction";
+import * as actions from "../../redux/actions/RoomManageAction";
+import DialogDelete from "../DialogDelete/DialogDelete";
 export default function SetUpRoomContainer() {
-
-  const handleDelete = (id) => {
-    // setData(data.filter((item) => item.id !== id));
+  const dispatch = useDispatch();
+  const listRoom = useSelector(setUpRoomManageState$);
+  const handleAddNewRoom = useCallback(() => {
+    dispatch(showModalAddNewRoom());
+  }, [dispatch]);
+  const handleUpdateRoom = useCallback(
+    (id) => {
+      let roomItem = listRoom.find((item) => item.room.id === id);
+      dispatch(actions.filInfoRoom.filInfoRoomRequest(roomItem));
+      dispatch(showModalUpdateRoom());
+    },
+    [dispatch, listRoom]
+  );
+  //Handle Dialog
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
+  const [idBooking, setIdBooking] = useState({
+    id: 0,
+  });
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
   };
-  const handleUpdateRoom = useCallback((id)=>{
-
-  })
-  const listRoom = useSelector(setUpRoomManageState$)
+  const handleDeleteRoom = useCallback((id) => {
+    handleDialog("Bạn chắc chắn muốn xóa ?", true);
+    setIdBooking({
+      id: id,
+    });
+  }, []);
+  const areUSureCheckOut = (choose) => {
+    if (choose) {
+      dispatch(
+        actions.deleteRoom.deleteRoomRequest({
+          id: idBooking.id,
+          // navigate: navigate,
+        })
+      );
+      handleDialog("", false);
+    } else {
+      handleDialog("", false);
+    }
+  };
   const renderArr = () => {
     let arrNew = [];
     listRoom.forEach((item, i) => {
       arrNew.push({
         stt: i + 1,
         id: item.room.id,
-        roomType:item.roomType.data.name,
-        description:item.roomType.data.description,
-        maxAdult:item.roomType.data.maxAdult,
-        maxChildren:item.roomType.data.maxChildren,
-        maxOccupancy:item.roomType.data.maxOccupancy,
+        roomName:item.room.name,
+        roomNo:item.room.roomNo,
+        roomType: item.roomType.data.name,
+        description: item.roomType.data.description,
+        maxOccupancy: item.roomType.data.maxOccupancy,
+        maxChildren: item.roomType.data.maxChildren,
+        maxOccupancy: item.roomType.data.maxOccupancy,
         image: getImageUrlByType(`img_room_${item.room.id}`)?.pictureUrl,
       });
     });
@@ -47,7 +95,7 @@ export default function SetUpRoomContainer() {
             </div>
             <div
               className="deleteButton"
-              // onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDeleteRoom(params.row.id)}
             >
               Xóa
             </div>
@@ -63,6 +111,22 @@ export default function SetUpRoomContainer() {
       width: 100,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.stt}</div>;
+      },
+    },
+    {
+      field: "roomName",
+      headerName: "Tên phòng",
+      width: 150,
+      renderCell: (params) => {
+        return <div className="cellWithImg">{params.row.roomName}</div>;
+      },
+    },
+    {
+      field: "roomNo",
+      headerName: "Số phòng",
+      width: 150,
+      renderCell: (params) => {
+        return <div className="cellWithImg">{params.row.roomNo}</div>;
       },
     },
     {
@@ -87,24 +151,8 @@ export default function SetUpRoomContainer() {
       },
     },
     {
-      field: "maxAdult",
-      headerName: "Người lớn tối da",
-      width: 150,
-      renderCell: (params) => {
-        return <div className="cellWithImg">{params.row.maxAdult}</div>;
-      },
-    },
-    {
-      field: "maxChildren",
-      headerName: "Trẻ em tối da",
-      width: 150,
-      renderCell: (params) => {
-        return <div className="cellWithImg">{params.row.maxChildren}</div>;
-      },
-    },
-    {
       field: "maxOccupancy",
-      headerName: "Số khách tối da",
+      headerName: "Người lớn tối da",
       width: 150,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.maxOccupancy}</div>;
@@ -115,7 +163,12 @@ export default function SetUpRoomContainer() {
     <div className="datatableSetupRoomContainer">
       <div className="datatableTitle">
         Danh sách phòng
-        <span className="link">
+        <span
+          className="link"
+          onClick={() => {
+            handleAddNewRoom();
+          }}
+        >
           Thêm Phòng
         </span>
       </div>
@@ -127,6 +180,11 @@ export default function SetUpRoomContainer() {
         pageSize={9}
         rowsPerPageOptions={[9]}
       />
+      <AddNewRoomModal />
+      <UpdateRoomModal />
+      {dialog.isLoading && (
+        <DialogDelete onDialog={areUSureCheckOut} message={dialog.message} />
+      )}
     </div>
   );
 }
