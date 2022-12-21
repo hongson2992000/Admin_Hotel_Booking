@@ -22,11 +22,11 @@ const FirebaseTest = () => {
     listAll(imagesListRef).then((response) => {
       response.items.forEach((item) => {
         getDownloadURL(item).then((url) => {
-          setImageUrls((prev) => [...prev, url]);
+          setImageUrls([...imageUrls, { name: item.name, url: url }]);
         });
       });
     });
-  }, []);
+  }, [imageUpload]);
 
   return (
     <div className="App">
@@ -37,8 +37,8 @@ const FirebaseTest = () => {
         }}
       />
       <button onClick={uploadFile}> Upload Image</button>
-      {imageUrls.map((url) => {
-        return <img src={url} />;
+      {imageUrls.map((image, index) => {
+        return <img src={image.url} key={index} alt="mock" />;
       })}
     </div>
   );
