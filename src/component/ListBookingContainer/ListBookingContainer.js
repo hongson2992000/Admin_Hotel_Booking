@@ -124,7 +124,6 @@ export default function ListBookingContainer() {
       return "Không có";
     }
   };
-  console.log("NNNN", haveRequestService());
   const renderArr = () => {
     let arrNew = [];
     let arrPlan = [];

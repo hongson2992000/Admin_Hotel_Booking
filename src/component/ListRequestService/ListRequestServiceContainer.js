@@ -140,7 +140,6 @@ export default function ListRequestServiceContainer() {
       const service = listRequestService.find(
         (serviceItem) => serviceItem.orders?.id === id
       );
-      console.log("HELLO BE SON", service);
       //  let newService = service
       dispatch(
         actions.getRequestServiceById.getRequestServiceByIdRequest(service)

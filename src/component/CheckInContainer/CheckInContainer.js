@@ -27,7 +27,10 @@ export default function CheckInContainer() {
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
-
+  const formatNumber = (number) =>{
+    let numFormatted = number.toLocaleString('de-DE')
+    return numFormatted
+  }
   const renderTypeRoom = () => {
     let roomType = "";
     switch (infoBooking.roomTypeId) {
@@ -326,7 +329,7 @@ export default function CheckInContainer() {
                 <span style={{ color: "red" }}>{formik.errors.room_Id}</span>
               )}
               <span style={{ paddingLeft: "50px" }}>
-                Tiền Phòng: {infoBooking?.roomPayment}
+                Tiền Phòng: {infoBooking?.roomPayment.split(".")[0]}
               </span>
             </div>
           </div>

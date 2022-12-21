@@ -51,7 +51,6 @@ export default function InfomationCustomerContainer() {
     return arrNew;
   };
   // const [dataInfoCustomer, setDataInfoCustomer] = useState(infoCustomer);
-  console.log(renderCurrentDate());
   const renderTypeRoom = (roomType_id) => {
     let roomType = "";
     switch (roomType_id) {

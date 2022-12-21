@@ -97,7 +97,6 @@ function* updateRoomTypeToSetUp(action) {
     let roomType = yield call(() => {
       return setUpRoomManage.updateRoomType(action.payload);
     });
-    console.log("UPDATE ROOM TYPE", roomType);
     if (roomType.status === STATUS_CODE.SUCCESS) {
       // yield put(
       //   actionSetUpRoom.updateRoomType.updateRoomTypeSuccess(

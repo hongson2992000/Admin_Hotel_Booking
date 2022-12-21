@@ -53,7 +53,6 @@ export default function ModalProfile() {
         )
       );
       dispatch(hideModalProfile());
-      console.log("HOANG DUONG", infoUserCheckIn);
       dispatch(hideModalUpdateUser());
       // navigate("/checkIn");
     },

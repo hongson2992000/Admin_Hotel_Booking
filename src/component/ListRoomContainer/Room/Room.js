@@ -416,7 +416,6 @@ export default function Room() {
       // if (turnDownItem) {
       //   arrTurnDown.push(turnDownItem);
       // }
-      console.log("LISTTURNDOWN", index);
       // let arrTurnDownNew = arrTurnDown.filter(
       //   (item) =>
       // );

@@ -29,7 +29,6 @@ export default function AlarmContainer() {
         id: 0,
         status: true,
       };
-      console.log("ALARM", alarm);
       dispatch(actions.createNewAlarm.createNewAlarmRequest(alarm));
     },
     [dispatch]
@@ -88,7 +87,6 @@ export default function AlarmContainer() {
     });
     return arrNew;
   };
-  console.log(renderArr());
   let serviceColumns = useMemo(
     () => [
       {
@@ -209,7 +207,7 @@ export default function AlarmContainer() {
                   value={formik.values.dateTime}
                   onChange={formik.handleChange}
                   style={{ padding: "10px" }}
-                  min={moment().format("YYYY-MM-DD")}
+                  min={`${moment().format("YYYY-MM-DD")}T00:00`}
                 />
                 {formik.errors.dateTime && (
                   <span style={{ color: "red" }}>{formik.errors.dateTime}</span>

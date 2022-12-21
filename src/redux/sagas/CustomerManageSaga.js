@@ -124,7 +124,6 @@ function* getInfoCustomerByBookingId(action) {
       type: HIDE_LOADING,
     });
   } catch (error) {
-    console.log(error);
     yield put(
       actions.getInfoCustomerByBookingId.getInfoCustomerByBookingIdFailure(
         error

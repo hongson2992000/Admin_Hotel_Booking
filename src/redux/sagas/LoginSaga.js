@@ -25,7 +25,6 @@ function* login(action) {
     let userToken = yield call(() => {
       return loginService.login(formData);
     });
-    console.log(userToken);
     if (userToken.status === STATUS_CODE.SUCCESS) {
       localStorage.setItem(TOKEN, userToken.data);
       let listImage = yield call(() => {
@@ -59,7 +58,6 @@ function* login(action) {
       type: HIDE_LOADING,
     });
   } catch (error) {
-    console.log(error);
     if (error.response.status === 404) {
       action.payload.navigate("/");
       yield put(actions.login.loginFailure(error.response.data.message));
