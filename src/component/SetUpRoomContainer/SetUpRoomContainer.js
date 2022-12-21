@@ -74,6 +74,7 @@ export default function SetUpRoomContainer() {
         maxOccupancy: item.roomType.data.maxOccupancy,
         maxChildren: item.roomType.data.maxChildren,
         maxOccupancy: item.roomType.data.maxOccupancy,
+        status:item.room.status,
         image: getImageUrlByType(`img_room_${item.room.id}`)?.pictureUrl,
       });
     });
@@ -93,12 +94,19 @@ export default function SetUpRoomContainer() {
             >
               <div className="updateButton">Cập nhật</div>
             </div>
-            <div
+            {params.row.status === true ? ( <div
+              className="deleteButtonDisable"
+              // onClick={() => handleDeleteRoom(params.row.id)}
+              style={{pointerEvents:"none"}}
+            >
+              Xóa
+            </div>):( <div
               className="deleteButton"
               onClick={() => handleDeleteRoom(params.row.id)}
             >
               Xóa
-            </div>
+            </div>)}
+           
           </div>
         );
       },
