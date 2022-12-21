@@ -16,6 +16,7 @@ export default function AlarmContainer() {
   useEffect(() => {
     dispatch(actions.getAllRoomAlarm.getAllRoomAlarmRequest());
   }, [dispatch]);
+  let [bookingId, setBookingId] =useState(0)
   const onSubmitRoomAlarm = useCallback(
     (values) => {
       let dateString = values.dateTime.substring(0, 10);
@@ -33,17 +34,16 @@ export default function AlarmContainer() {
     [dispatch]
   );
   const handleUpdateAlarm = useCallback(
-    (id) => {
-      let alarmItem ;
+    (id,bookingId) => {
+      let alarmItem;
       let arrRoomNew = [];
       arrRoomNew = arrRoomAlarm?.filter((item) => item.room.status === true);
       arrRoomNew?.forEach((item) => {
         alarmItem = item.alarm.data?.find((itemAlarm) => itemAlarm.id === id);
       });
-      console.log("ALARM", alarmItem)
-      console.log("ALARM", id)
       dispatch(actions.fillInFoAlarm.fillInFoAlarmRequest(alarmItem));
-      dispatch(showModalUpdateAlarm())
+      dispatch(showModalUpdateAlarm());
+      setBookingId(bookingId)
     },
     [dispatch, arrRoomAlarm]
   );
@@ -78,6 +78,7 @@ export default function AlarmContainer() {
         arrNew.push({
           stt: i + 1,
           id: itemAlarm.id,
+          bookingId:item.booking?.data.id,
           roomNo: item.room.roomNo,
           datetime: itemAlarm.dateTime,
           status: itemAlarm.status,
@@ -86,12 +87,13 @@ export default function AlarmContainer() {
     });
     return arrNew;
   };
+  console.log(renderArr());
   let serviceColumns = useMemo(
     () => [
       {
         field: "stt",
         headerName: "STT",
-        width: 150,
+        width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.stt}</div>;
         },
@@ -119,7 +121,7 @@ export default function AlarmContainer() {
         renderCell: (params) => {
           return (
             <div className={`cellWithStatus ${params.row.status}`}>
-              {params.row.status === true ? "Bật" : "Tắt"}
+              {params.row.status === true ? "Đang bật" : "Đang tắt"}
             </div>
           );
         },
@@ -137,7 +139,7 @@ export default function AlarmContainer() {
           <div className="cellAction">
             <div
               className="updateButton"
-              onClick={() => handleUpdateAlarm(params.row.id)}
+              onClick={() => handleUpdateAlarm(params.row.id,params.row.bookingId)}
             >
               Cập nhật
             </div>
@@ -196,7 +198,7 @@ export default function AlarmContainer() {
         <div className="row">
           <div className="col-12 simpleModalItem">
             <div className="row">
-              <div className="col-4">
+              <div className="col-5">
                 <InputLabel>Giờ Báo Thức</InputLabel>
                 <input
                   className="title"
@@ -205,12 +207,13 @@ export default function AlarmContainer() {
                   name="dateTime"
                   value={formik.values.dateTime}
                   onChange={formik.handleChange}
+                  style={{ padding: "10px" }}
                 />
                 {formik.errors.dateTime && (
                   <span style={{ color: "red" }}>{formik.errors.dateTime}</span>
                 )}
               </div>
-              <div className="col-4 simpleModalItem">
+              <div className="col-5 simpleModalItem">
                 <InputLabel>Phòng</InputLabel>
                 <Select
                   className="title"
@@ -234,15 +237,16 @@ export default function AlarmContainer() {
                   </span>
                 )}
               </div>
+              <div className="col-2 buttonDiv">
+              <InputLabel></InputLabel>
+                <button className="buttonSave" type="submit">
+                  Lưu
+                </button>
+              </div>
             </div>
-            <div className="footer">
-              <button className="buttonSave" type="submit">
-                Lưu
-              </button>
-              {/* <button className="buttonClose" onClick={onClose}>
-              Đóng
-            </button> */}
-            </div>
+            {/* <div className="footer">
+              
+            </div> */}
           </div>
         </div>
       </form>
@@ -257,7 +261,7 @@ export default function AlarmContainer() {
       {dialog.isLoading && (
         <DialogDelete onDialog={areUSureCheckOut} message={dialog.message} />
       )}
-      <UpdateAlarmModal/>
+      <UpdateAlarmModal bookingId={bookingId}/>
     </div>
   );
 }

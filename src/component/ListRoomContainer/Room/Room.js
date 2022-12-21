@@ -206,14 +206,13 @@ export default function Room() {
       let arrRequestService = item.booking.data?.orders.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
-      let arrTurnDownNew = []
-      item.booking.data?.requestServices.forEach((item)=>{
-        if(item.requestServiceType !== CHECKOUT){
-          arrTurnDownNew.push(item)
+      let arrTurnDownNew = [];
+      item.booking.data?.requestServices.forEach((item) => {
+        if (item.requestServiceType !== CHECKOUT) {
+          arrTurnDownNew.push(item);
         }
-      })
-      console.log("ARRRTURNDOWN", arrTurnDownNew);
-      let arrTurnDown = item.booking.data?.requestServices.filter(
+      });
+      let arrTurnDown = arrTurnDownNew.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
       return (
@@ -405,25 +404,25 @@ export default function Room() {
         </div>
       );
     } else if (userInfo.userRole === USER_ROLE.HOUSEKEEPING) {
-      let arrTurnDownNew = []
-      item.booking.data?.requestServices.forEach((item)=>{
-        if(item.requestServiceType !== CHECKOUT){
-          arrTurnDownNew.push(item)
+      let arrTurnDownNew = [];
+      item.booking.data?.requestServices.forEach((item) => {
+        if (item.requestServiceType !== CHECKOUT) {
+          arrTurnDownNew.push(item);
         }
-      })
+      });
       let arrTurnDown = arrTurnDownNew.filter(
         (item) => item.status === BOOKED || item.status === PROCESSING
       );
       // if (turnDownItem) {
       //   arrTurnDown.push(turnDownItem);
       // }
-      console.log("LISTTURNDOWN",index)
+      console.log("LISTTURNDOWN", index);
       // let arrTurnDownNew = arrTurnDown.filter(
-      //   (item) => 
+      //   (item) =>
       // );
       return (
         <div className="rowIcon">
-          {arrTurnDown.length !== 0? (
+          {arrTurnDown.length !== 0 ? (
             <CleaningServicesIcon
               onClick={() => {
                 setOpenNotEmpty({

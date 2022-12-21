@@ -8,7 +8,7 @@ class AlarmManage extends BaseServices {
     return this.post(`v1/roomAlarm`, model);
   };
   updateAlarm = (model) => {
-    return this.put(`v1/rooomAlarm`, model);
+    return this.put(`v1/roomAlarm`, model);
   };
   deleteAlarm = (id) => {
     return this.delete(`v1/roomAlarm/${id}`);

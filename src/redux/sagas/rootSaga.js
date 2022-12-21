@@ -70,6 +70,12 @@ export default function* rootSaga() {
     roomManageSaga.followActionCreateRoom(),
     roomManageSaga.followActionUpdateRoom(),
     alarmManageSaga.followActionGetAllRoomAlarm(),
-    alarmManageSaga.followActionCreateNewAlarm()
+    alarmManageSaga.followActionCreateNewAlarm(),
+    alarmManageSaga.followActionUpdateAlarm(),
+    alarmManageSaga.followActionDeleteAlarm(),
+    setUpRoomManageSaga.followActionUpdateRoomType(),
+    roomManageSaga.followActionDeleteRoom(),
+    accountManageSaga.followActionUpdateAccount(),
+    bookingManageSaga.followActionCancelBooing()
   ]);
 }

@@ -8,7 +8,7 @@ import {
   hideModalUpdateRoomType,
 } from "../../../redux/actions/ModalAction";
 import {setUpRoomTypeItemManageState$} from "../../../redux/selectors/SetUpRoomPriceManageSelector"
-import * as actions from "../../../redux/actions/LocationManageAction";
+import * as actions from "../../../redux/actions/SetUpRoomManageAction";
 import moment from "moment";
 import * as Yup from "yup";
 export default function UpdatePriceRoomModal() {
@@ -29,7 +29,8 @@ export default function UpdatePriceRoomModal() {
   ]
   const onSubmitService = useCallback(
     (values) => {
-      dispatch(actions.createLocation.createLocationRequest(values));
+      console.log("ROOMTYPE", values);
+      dispatch(actions.updateRoomType.updateRoomTypeRequest(values));
       dispatch(hideModalUpdateRoomType());
     },
     [dispatch]

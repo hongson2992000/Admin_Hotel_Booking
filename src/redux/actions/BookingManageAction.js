@@ -81,3 +81,9 @@ export const getRevenueCancelEntireDate = createActions({
   getRevenueCancelEntireDateSuccess: (payload) => payload,
   getRevenueCancelEntireDateFailure: (err) => err,
 });
+
+export const cancelBooking = createActions({
+  cancelBookingRequest: (payload) => payload,
+  cancelBookingSuccess: (payload) => payload,
+  cancelBookingFailure: (err) => err,
+});

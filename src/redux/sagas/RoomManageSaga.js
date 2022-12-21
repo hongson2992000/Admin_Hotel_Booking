@@ -309,11 +309,33 @@ function* deleteRoom(action) {
     });
     if (room.status === STATUS_CODE.SUCCESS) {
       yield put(actions.deleteRoom.deleteRoomSuccess(room.data));
-      yield { type: DISPLAY_POPUP_SUCCESS };
+      let listRoom = yield call(() => {
+        return setUpRoomManage.getAllRoom();
+      });
+      if (listRoom.status === STATUS_CODE.SUCCESS) {
+        let arrRoom = [];
+        for (let i = 0; i < listRoom.data.length; i++) {
+          let roomType = yield call(() => {
+            return roomManage.getRoomTypeByRoomId(listRoom.data[i].id);
+          });
+          if (roomType.status === STATUS_CODE.SUCCESS) {
+            let newRoom = {};
+            newRoom = {
+              room: listRoom.data[i],
+              roomType: roomType,
+            };
+            arrRoom.push(newRoom);
+          }
+        }
+        yield put(
+          actionSetUpRoom.getAllRoomToSetUp.getAllRoomToSetUpSuccess(arrRoom)
+        );
+      }
     }
     yield put({
       type: HIDE_LOADING,
     });
+    yield { type: DISPLAY_POPUP_SUCCESS };
   } catch (error) {
     yield put(actions.deleteRoom.deleteRoomFailure(error));
     yield put(showModalError());

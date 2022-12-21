@@ -8,7 +8,7 @@ class AccountManage extends BaseServices {
     return this.post(`v1/signup`, model);
   };
   updateAccount = (model) => {
-    return this.put(`v1/abstraction`, model);
+    return this.post(`v1/user/update`, model);
   };
   deleteAccount = (id) => {
     return this.delete(`v1/abstraction/${id}`);

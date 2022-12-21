@@ -36,7 +36,7 @@ const UpdateAccountModel = () => {
         firstName: values.firstName,
         gender: values.gender,
         hotelId: 1,
-        id: 0,
+        id: values.id,
         lastModifyBy:
           userInfo.firstName +
           " " +
@@ -47,13 +47,15 @@ const UpdateAccountModel = () => {
         middleName: values.middleName,
         password: values.password,
         phoneNumber: values.phoneNumber,
-        role: values.role,
+        role: values.userRole === 1 ? "ROLE_MANAGER": values.userRole === 2 ? "ROLE_RESTAURANT":values.userRole === 3 ? "ROLE_HOUSEKEEPING":"ROLE_RECEPTIONIST",
         status: true,
         updateDate: moment().format("DD/MM/YYYY").substring(0, 10),
         username: values.username,
       };
 
       dispatch(actions.updateAccount.updateAccountRequest(account));
+      console.log("UPDATEACCOUNT",account);
+      dispatch(hideUpdateAccountModel())
     },
     [userInfo, dispatch]
   );
@@ -75,10 +77,6 @@ const UpdateAccountModel = () => {
     {
       id: 4,
       name: "ROLE_RECEPTIONIST",
-    },
-    {
-      id: 5,
-      name: "STAFF",
     },
   ];
   const renderDate = (date) => {
