@@ -4,6 +4,7 @@ import {
   filInfoAccount,
   filInfoProfile,
   createAccount,
+  updateAccount,
   // createNews,
   // updateNews,
   // deleteNews,
@@ -41,15 +42,20 @@ export default function AccountManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-    // case getType(updateLocation.updateLocationSuccess):
-    //   return {
-    //     ...state,
-    //     arrLocation: action.payload,
-    //   };
-    // case getType(updateLocation.updateLocationFailure):
-    //   return {
-    //     ...state,
-    //   };
+    case getType(updateAccount.updateAccountSuccess):
+      let accountUpdate = [...state.arrAccount]
+      let indexUpdateAccount = accountUpdate.findIndex((item)=>item.id === action.payload.id)
+      if(indexUpdateAccount !==-1){
+        accountUpdate[indexUpdateAccount] = action.payload
+      }
+      state.arrAccount = accountUpdate
+      return {
+        ...state,
+      };
+    case getType(updateAccount.updateAccountFailure):
+      return {
+        ...state,
+      };
     // case getType(deleteLocation.deleteLocationSuccess):
     //   return {
     //     ...state,

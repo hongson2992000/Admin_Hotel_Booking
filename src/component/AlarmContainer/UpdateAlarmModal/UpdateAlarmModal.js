@@ -8,29 +8,49 @@ import {
   hideModalUpdateAlarm,
   hideModalUpdateRoomType,
 } from "../../../redux/actions/ModalAction";
-import * as actions from "../../../redux/actions/LocationManageAction";
+import * as actions from "../../../redux/actions/AlarmManageAction";
 import * as Yup from "yup";
 import { roomAlarmItemManageState$ } from "../../../redux/selectors/AlarmManageSelector";
-export default function UpdateAlarmModal() {
+export default function UpdateAlarmModal({bookingId}) {
   const dispatch = useDispatch();
   const isShow = useSelector(modalUpdateAlarmState$);
   const roomAlarmItem = useSelector(roomAlarmItemManageState$);
   const onClose = useCallback(() => {
     dispatch(hideModalUpdateAlarm());
   }, [dispatch]);
-  const onSubmitService = useCallback(
+  const onSubmitAlarm = useCallback(
     (values) => {
-      dispatch(actions.createLocation.createLocationRequest(values));
-      dispatch(hideModalUpdateRoomType());
+        let dateString = values.dateTime.substring(0, 10);
+        let date = dateString.split("-");
+        let formatDate = date[2] + "/" + date[1] + "/" + date[0];
+        const alarm = {
+          booking_Id: bookingId,
+          dateTime: formatDate + " " + values.dateTime.substring(11) + ":00",
+          id: values.id,
+          status: values.status,
+        };
+      dispatch(actions.updateAlarm.updateAlarmRequest(alarm));
+      dispatch(hideModalUpdateAlarm());
     },
-    [dispatch]
+    [dispatch,bookingId]
   );
-  const renderDate = () => {
-    let date = roomAlarmItem.dateTime.substring(0, 10);
-    let dateFormat = date.split("/");
-    let formatDate = dateFormat[2] + "-" + dateFormat[1] + "-" + dateFormat[0] + " " + roomAlarmItem.dateTime.substring(11,16);
-    return formatDate
-  };
+  const renderDate = useCallback(() => {
+    let date = roomAlarmItem.dateTime?.substring(0, 10);
+    let dateFormat = date?.split("/");
+    let formatDate;
+    if (dateFormat) {
+      formatDate =
+        dateFormat[2] +
+        "-" +
+        dateFormat[1] +
+        "-" +
+        dateFormat[0] +
+        " " +
+        roomAlarmItem.dateTime?.substring(11, 16);
+    }
+    return formatDate;
+  }, [roomAlarmItem]);
+
   console.log("DATE", renderDate());
   const formik = useFormik({
     initialValues: {
@@ -40,15 +60,9 @@ export default function UpdateAlarmModal() {
       status: roomAlarmItem.status,
     },
     onSubmit: (values, { resetForm }) => {
-      onSubmitService(values);
+      onSubmitAlarm(values);
       resetForm({ values: "" });
     },
-    validationSchema: Yup.object({
-      defaultPrice: Yup.string()
-        .required("Yêu cầu *")
-        .matches(/^\d+\.?\d*$/, "Vui lòng nhập đúng định dạng giá")
-        .max(10, "Vui lòng nhập đúng định dạng giá"),
-    }),
     enableReinitialize: true,
   });
   const body = (
@@ -73,9 +87,6 @@ export default function UpdateAlarmModal() {
               onChange={formik.handleChange}
               style={{ height: "55px", padding: "5px" }}
             />
-            {formik.errors.dateTime && (
-              <span style={{ color: "red" }}>{formik.errors.dateTime}</span>
-            )}
           </div>
           <div className="col-12 simpleModalItem">
             <InputLabel>Trạng thái</InputLabel>
@@ -90,9 +101,6 @@ export default function UpdateAlarmModal() {
               <MenuItem value={true}>Bật</MenuItem>
               <MenuItem value={false}>Tắt</MenuItem>
             </Select>
-            {formik.errors.defaultPrice && (
-              <span style={{ color: "red" }}>{formik.errors.defaultPrice}</span>
-            )}
           </div>
           <div className="footer">
             <button className="buttonSave" type="submit">

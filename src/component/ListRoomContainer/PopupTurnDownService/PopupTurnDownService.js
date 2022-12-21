@@ -38,7 +38,6 @@ export default function PopupTurnDownService({ bookingId }) {
     let listRequestServiceNew = listRequestService.turnDownService?.filter(
       (item) => item.requestServiceType !== CHECKOUT
     );
-    console.log("KIM NGAN", listRequestServiceNew);
     listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,
@@ -76,6 +75,7 @@ export default function PopupTurnDownService({ bookingId }) {
           bookingId: bookingId,
         })
       );
+      dispatch(hideModalTurnDown())
     },
     [dispatch, bookingId]
   );
@@ -94,6 +94,7 @@ export default function PopupTurnDownService({ bookingId }) {
           bookingId: bookingId,
         })
       );
+      dispatch(hideModalTurnDown())
     },
     [dispatch, bookingId]
   );

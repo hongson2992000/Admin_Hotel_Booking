@@ -31,7 +31,7 @@ export default function ModalAllRequestService() {
 
   const renderArr = () => {
     let arrNew = [];
-    let listRequestServiceNew = listRequestService.filter(
+    let listRequestServiceNew = listRequestService?.filter(
       (item) => item.orders?.requestServiceType === CHECKOUT && item.orders?.status !== DONE
     );
     listRequestServiceNew?.forEach((item, index) => {

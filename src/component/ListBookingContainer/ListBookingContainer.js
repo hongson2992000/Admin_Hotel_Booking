@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import "./ListBookingContainer.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -11,13 +11,16 @@ import * as actionRoom from "../../redux/actions/RoomManageAction";
 import moment from "moment";
 import {
   BOOKED,
+  CANCEL,
   CHECKIN,
   CHECKOUT,
   INFO_BOOKING_DETAIL,
+  NOTSHOW,
   USER_LOGIN,
   USER_ROLE,
 } from "../../utils/constants/settingSystem";
 import { useEffect } from "react";
+import DialogDelete from "../DialogDelete/DialogDelete";
 export default function ListBookingContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,6 +55,37 @@ export default function ListBookingContainer() {
     },
     [navigate, dispatch]
   );
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
+  const [idBooking, setIdBooking] = useState({
+    id: 0,
+  });
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
+  };
+  const handleCancelBooking = (id) => {
+    handleDialog("Bạn chắc chắn hủy booking này?", true);
+    setIdBooking({
+      id: id,
+    });
+  };
+  const areUSureDelete = useCallback(
+    (choose) => {
+      if (choose) {
+        dispatch(actions.cancelBooking.cancelBookingRequest(idBooking.id));
+        handleDialog("", false);
+      } else {
+        handleDialog("", false);
+      }
+    },
+    [dispatch, idBooking]
+  );
+
   const renderTypeRoom = (roomTypeId) => {
     let roomType = "";
     switch (roomTypeId) {
@@ -83,8 +117,7 @@ export default function ListBookingContainer() {
 
       if (existItem) {
         return "Đưa đón sân bay";
-      }
-      else {
+      } else {
         return "Không có";
       }
     } else {
@@ -264,7 +297,9 @@ export default function ListBookingContainer() {
                   ? "CHECKOUT"
                   : params.row.status === BOOKED
                   ? "BOOKED"
-                  : "NOTSHOW"
+                  : params.row.status === NOTSHOW
+                  ? "NOTSHOW"
+                  : "CANCEL"
               }`}
             >
               {params.row.status === BOOKED
@@ -273,7 +308,9 @@ export default function ListBookingContainer() {
                 ? "Đang Ở"
                 : params.row.status === CHECKOUT
                 ? "Đã rời khỏi"
-                : "Không đến"}
+                : params.row.status === NOTSHOW
+                ? "Không đến"
+                : "Đã hủy"}
             </div>
           );
         },
@@ -535,12 +572,15 @@ export default function ListBookingContainer() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            {checkIsBefore(
+            {params.row.status === CHECKIN ||
+            params.row.status === CHECKOUT ||
+            params.row.status === NOTSHOW ||params.row.status === CANCEL|| 
+            params.row.arrivalDate.substring(0, 10) ===
+              moment().format("DD/MM/YYYY") ||
+            checkIsBefore(
               params.row.arrivalDate.substring(0, 10),
               moment().format("DD/MM/YYYY")
-            ) ||
-            params.row.status === CHECKIN ||
-            params.row.status === CHECKOUT ? (
+            ) ? (
               <div
                 className="cancelBookingButtonDisable"
                 style={{ pointerEvents: "none" }}
@@ -559,7 +599,7 @@ export default function ListBookingContainer() {
             ) : (
               <div
                 className="cancelBookingButton"
-                onClick={() => handleFillInfoCheckIn(params.row)}
+                onClick={() => handleCancelBooking(params.row.id)}
               >
                 Hủy
               </div>
@@ -644,6 +684,9 @@ export default function ListBookingContainer() {
           />
         </TabPanel>
       </TabContext>
+      {dialog.isLoading && (
+        <DialogDelete onDialog={areUSureDelete} message={dialog.message} />
+      )}
     </div>
   );
 }

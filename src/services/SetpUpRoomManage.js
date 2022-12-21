@@ -17,6 +17,9 @@ class SetUpRoomManage extends BaseServices {
   getAllRoomtype = () => {
     return this.get(`v1/roomTypes`);
   };
-    
+
+  updateRoomType = (model) => {
+    return this.put(`v1/roomType`, model);
+  };
 }
 export const setUpRoomManage = new SetUpRoomManage();

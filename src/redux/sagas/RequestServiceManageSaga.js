@@ -684,24 +684,21 @@ function* confirmTurnDownServiceStaff(action) {
     yield put({
       type: DISPLAY_LOADING,
     });
+    const d = new Date();
+    let time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
     let listService = yield call(() => {
       return requestServiceManage.confirmTurnDownService(action.payload.info);
     });
     console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
-      yield put(
-        actions.confirmTurnDownService.confirmTurnDownServiceSuccess(
-          listService.data
-        )
-      );
       let turnDownService = yield call(() => {
         return requestServiceManage.getTurnDownServiceByBookingId(
-          action.payload.booking_id
+          action.payload.bookingId
         );
       });
       let primaryCustomer = yield call(() => {
         return customerManage.getPrimaryCustomerByBookingId(
-          action.payload.booking_id
+          action.payload.bookingId
         );
       });
       if (
@@ -718,19 +715,18 @@ function* confirmTurnDownServiceStaff(action) {
             turnDownServiceInRoom
           )
         );
-        yield put(
-          actions.confirmTurnDownService.confirmTurnDownServiceSuccess(
-            turnDownServiceInRoom
-          )
-        );
+        // yield put(
+        //   actions.confirmTurnDownService.confirmTurnDownServiceSuccess(
+        //     listService.data
+        //   )
+        // );
       }
       if (action.payload.status === DONE) {
         let listMessage = yield call(() => {
           return sendMessageService.sendMessage({
             booking_Id: action.payload.booking_Id,
             id: 0,
-            messageContent:
-              "Chúng tôi đã hoàn thành dịch vụ dọn phòng nhanh tại phòng của quý khách",
+            messageContent: `Phòng của quý khách đã được dọn dẹp vào ${time} ! Cảm ơn quý khách đã sử dụng dịch vụ`,
           });
         });
         if (listMessage.status === STATUS_CODE.SUCCESS) {
@@ -745,6 +741,7 @@ function* confirmTurnDownServiceStaff(action) {
     yield put({
       type: HIDE_LOADING,
     });
+    yield put(actionModal.showModalTurnDown())
     yield put({
       type: DISPLAY_POPUP_SUCCESS,
     });

@@ -3,6 +3,7 @@ import {
   getAllRoomToSetUp,
   getAllRoomTypeToSetUp,
   filInfoRoomType,
+  updateRoomType,
 } from "../actions/SetUpRoomManageAction";
 import {
   createRoom,
@@ -46,6 +47,20 @@ export default function SetUpRoomPriceManageReducer(
       return {
         ...state,
       };
+      case getType(updateRoomType.updateRoomTypeSuccess):
+        let roomTypeUpdate = [...state.payload]
+        let indexUpdateRoomType = roomTypeUpdate.findIndex((item)=>item.id === action.payload.id)
+        if(indexUpdateRoomType !== -1){
+          roomTypeUpdate[indexUpdateRoomType] = action.payload
+        }
+        state.arrRoomType = roomTypeUpdate
+        return {
+          ...state
+        };
+      case getType(updateRoomType.updateRoomTypeFailure):
+        return {
+          ...state,
+        };
     case getType(createRoom.createRoomRequest):
       return {
         ...state,

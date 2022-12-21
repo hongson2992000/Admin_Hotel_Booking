@@ -38,5 +38,8 @@ class BookingManage extends BaseServices {
   checkInRoomInHotel = (model) => {
     return this.post(`v1/booking/checkInAtHotel`, model);
   };
+  cancelBooking = (id) => {
+    return this.post(`v1/booking/cancleBooking?booking_id=${id}`);
+  };
 }
 export const bookingManage = new BookingManage();

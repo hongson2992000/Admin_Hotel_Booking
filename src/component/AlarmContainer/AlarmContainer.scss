@@ -1,12 +1,30 @@
 .AlarmContainer {
     padding: 20px;
     margin-top: 100px;
+    .buttonDiv {
+        padding-top: 20px;
+        .buttonSave {
+            background-color: #c4c4c4;
+            color: #fff;
+            padding: 10px;
+            width: 100px;
+            border-radius: 5px;
+            border: 1px solid #c4c4c4;
+            &:hover {
+                background-color: #fff;
+                color: #c4c4c4;
+                padding: 10px;
+                width: 100px;
+                border-radius: 5px;
+                border: 1px solid #c4c4c4;
+            }
+        }
+    }
     .title {
         height: 40px;
     }
     .datagrid {
-        height: 500px;
-        margin-top: 100px;
+        height: 470px;
     }
     .datatableTitle {
         width: 100%;
@@ -109,24 +127,6 @@
                 border: 1px solid #d64949;
                 background-color: #fff;
                 cursor: pointer;
-            }
-        }
-    }
-    .footer {
-        .buttonSave {
-            background-color: #c4c4c4;
-            color: #fff;
-            padding: 15px;
-            width: 100px;
-            border-radius: 5px;
-            border: 1px solid #c4c4c4;
-            &:hover {
-                background-color: #fff;
-                color: #c4c4c4;
-                padding: 15px;
-                width: 100px;
-                border-radius: 5px;
-                border: 1px solid #c4c4c4;
             }
         }
     }

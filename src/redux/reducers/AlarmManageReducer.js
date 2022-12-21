@@ -2,6 +2,7 @@ import {
   getType,
   getAllRoomAlarm,
   fillInFoAlarm,
+  updateAlarm,
 } from "../actions/AlarmManageAction";
 
 const initialState = {
@@ -15,6 +16,30 @@ export default function AlarmManageReducer(state = initialState, action) {
         ...state,
       };
     case getType(getAllRoomAlarm.getAllRoomAlarmSuccess):
+      return {
+        ...state,
+        arrRoomAlarm: action.payload,
+      };
+
+    case getType(getAllRoomAlarm.getAllRoomAlarmFailure):
+      return {
+        ...state,
+      };
+    case getType(updateAlarm.updateAlarmSuccess):
+      let arrUpdateAlarm = [...state.arrRoomAlarm];
+      let indexUpdate;
+      let arrRoomNotEmpty = arrUpdateAlarm.filter(
+        (item) => item.room.status === true
+      );
+      arrRoomNotEmpty.forEach((item, i) => {
+        indexUpdate = item.alarm.data?.findIndex(
+          (itemA) => itemA.id === action.payload.id
+        );
+        if (indexUpdate !== -1) {
+          item.alarm.data[indexUpdate] = action.payload;
+        }
+      });
+      state.arrRoomAlarm = arrUpdateAlarm;
       return {
         ...state,
         arrRoomAlarm: action.payload,

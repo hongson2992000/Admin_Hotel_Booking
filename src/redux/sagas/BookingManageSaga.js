@@ -407,3 +407,32 @@ export function* followActionGetRevenueCancelEntireDate() {
     getRevenueCancelEntireDate
   );
 }
+function* cancelBooking(action) {
+  try {
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let booking = yield call(() => {
+      return bookingManage.cancelBooking(action.payload);
+    });
+    if (booking.status === STATUS_CODE.SUCCESS) {
+      yield put(actions.cancelBooking.cancelBookingSuccess(booking.data));
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({
+      type: DISPLAY_POPUP_SUCCESS,
+    });
+  } catch (error) {
+    console.log(error);
+    yield put(actions.cancelBooking.cancelBookingFailure(error));
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put(showModalError())
+  }
+}
+export function* followActionCancelBooing() {
+  yield takeLatest(actions.cancelBooking.cancelBookingRequest, cancelBooking);
+}
