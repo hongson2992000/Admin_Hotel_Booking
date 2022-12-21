@@ -48,7 +48,6 @@ export default function UpdateNewsModal() {
         ticketInformation: values.ticketInformation,
       };
       dispatch(actions.updateNews.updateNewsRequest(news));
-      console.log("HELLO", news);
       dispatch(hideModalUpdateNews());
     },
     [dispatch]

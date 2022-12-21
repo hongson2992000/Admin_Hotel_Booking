@@ -54,7 +54,6 @@ const UpdateAccountModel = () => {
       };
 
       dispatch(actions.updateAccount.updateAccountRequest(account));
-      console.log("UPDATEACCOUNT",account);
       dispatch(hideUpdateAccountModel())
     },
     [userInfo, dispatch]

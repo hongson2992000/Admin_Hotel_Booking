@@ -64,7 +64,6 @@ export function* followActionGetAllRequestService() {
 }
 function* confirmRequestService(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -129,7 +128,6 @@ export function* followActionConfirmRequestService() {
 }
 function* cancelRequestService(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -139,7 +137,6 @@ function* cancelRequestService(action) {
     let service = yield call(() => {
       return requestServiceManage.cancelRequestService(formData);
     });
-    console.log(service.data);
     if (service.status === STATUS_CODE.SUCCESS) {
       let listService = yield call(() => {
         return requestServiceManage.getAllRequestService();
@@ -176,7 +173,7 @@ function* cancelRequestService(action) {
       type: HIDE_LOADING,
     });
     yield put({ type: DISPLAY_POPUP_SUCCESS });
-    yield put(showModalListService());
+    // yield put(showModalListService());
   } catch (error) {
     yield put(
       actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdFailure(
@@ -244,14 +241,12 @@ export function* followActionGetRequestServiceByBookingId() {
 }
 function* getAllTurnDownService(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
     let listService = yield call(() => {
       return requestServiceManage.getAllTurnDownService();
     });
-    console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
       let arrRequestService = [];
       for (let i = 0; i < listService.data.length; i++) {
@@ -298,7 +293,6 @@ export function* followActionGetAllTurnDownService() {
 }
 function* confirmTurnDownService(action) {
   try {
-    console.log("Action", action);
     const d = new Date();
     let time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
     yield put({
@@ -307,7 +301,6 @@ function* confirmTurnDownService(action) {
     let listService = yield call(() => {
       return requestServiceManage.confirmTurnDownService(action.payload);
     });
-    console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
       if (action.payload.status === DONE) {
         let listMessage = yield call(() => {
@@ -331,7 +324,6 @@ function* confirmTurnDownService(action) {
       if (listTurnDown.status === STATUS_CODE.SUCCESS) {
         let arrRequestService = [];
         for (let i = 0; i < listTurnDown.data.length; i++) {
-          console.log("TURNDOWN");
           let room = yield call(() => {
             return roomManage.getRoomByBookingId(
               listTurnDown.data[i].booking.id
@@ -522,7 +514,6 @@ function* confirmRequestServiceByManage(action) {
     let service = yield call(() => {
       return requestServiceManage.confirmRequestService(formData);
     });
-    console.log(service.data);
     if (service.status === STATUS_CODE.SUCCESS) {
       let listService = yield call(() => {
         return requestServiceManage.getRequestServiceByBookingId(
@@ -578,7 +569,6 @@ export function* followActionConfirmRequestServiceByManage() {
 }
 function* getRequestServiceByBookingIdStaff(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -630,7 +620,6 @@ export function* followActionGetRequestServiceByBookingIdStaff() {
 
 function* getTurnDownByBookingIdByStaff(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -689,7 +678,6 @@ function* confirmTurnDownServiceStaff(action) {
     let listService = yield call(() => {
       return requestServiceManage.confirmTurnDownService(action.payload.info);
     });
-    console.log(listService.data);
     if (listService.status === STATUS_CODE.SUCCESS) {
       let turnDownService = yield call(() => {
         return requestServiceManage.getTurnDownServiceByBookingId(
@@ -762,7 +750,6 @@ export function* followActionConfirmTurnDownServiceStaff() {
 
 function* confirmCheckOutService(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -833,7 +820,6 @@ export function* followActionConfirmCheckOutService() {
 }
 function* cancelRequestServiceByStaff(action) {
   try {
-    console.log("Action", action);
     yield put({
       type: DISPLAY_LOADING,
     });
@@ -843,7 +829,6 @@ function* cancelRequestServiceByStaff(action) {
     let service = yield call(() => {
       return requestServiceManage.cancelRequestService(formData);
     });
-    console.log(service.data);
     if (service.status === STATUS_CODE.SUCCESS) {
       let listService = yield call(() => {
         return requestServiceManage.getRequestServiceByBookingId(

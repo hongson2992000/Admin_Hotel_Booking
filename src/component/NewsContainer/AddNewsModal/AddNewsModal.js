@@ -39,7 +39,6 @@ export default function AddNewsModal() {
         ticketInformation: values.ticketInformation,
       };
       // dispatch(actions.createNews.createNewsRequest(news));
-      console.log("LONG",news);
       dispatch(hideModalAddNews());
     },
     [dispatch]

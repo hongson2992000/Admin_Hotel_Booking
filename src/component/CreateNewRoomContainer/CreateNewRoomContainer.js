@@ -228,8 +228,6 @@ export default function CreateNewRoomContainer() {
     // const currentRoomSelect = roomSelect.find((x) => x.id === roomType.id);
     // if (currentRoomSelect) {
     const cleanRoomPrices = removeDuplicateInArray(roomType.roomPrices);
-    console.log("Ngay Den", formik.values.arrivalDate);
-    console.log("Ngay Den", formik.values.departureDate);
     const dateRange = getDayInRange(
       formik.values.arrivalDate,
       formik.values.departureDate
@@ -256,7 +254,6 @@ export default function CreateNewRoomContainer() {
     // }
     setTotalPrice(price);
   }, [formik]);
-  console.log("TOTAL PRICE", totalPrice);
   // console.log("DATE", moment(new Date(formik.values.arrivalDate)) +" " + moment(new Date(formik.values.departureDate)))
   let handleUpdateInfoUser = useCallback(
     (id) => {

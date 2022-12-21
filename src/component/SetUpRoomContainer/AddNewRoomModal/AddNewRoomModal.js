@@ -1,5 +1,5 @@
 import { InputLabel, MenuItem, Modal, Select, TextareaAutosize, TextField } from "@mui/material";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { modalAddNewRoomState$ } from "../../../redux/selectors/ModalSelector";
@@ -29,13 +29,27 @@ export default function AddNewRoomModal() {
     {id:5, name:"Standard King/ Phòng thường"},
     {id:6, name:"Standard Twin/ Phòng thường"}
   ]
+  let [duplicateName , setDuplicateName] =useState("")
+  let [duplicateRoomNo , setDuplicateRoomNo] =useState("")
+  let handleDuplicate = () =>{
+    setDuplicateName("")
+    setDuplicateRoomNo("")
+  }
   const onSubmitService = useCallback(
     (values) => {
-      let duplicateRoom = listRoom.filter((item)=>item)
-      dispatch(actions.createRoom.createRoomRequest(values));
-      dispatch(hideModalAddNewRoom());
+      let duplicateRoom = listRoom.filter((item)=>item.room.name === values.name)
+      let duplicateRoomNo = listRoom.filter((item)=>item.room.roomNo === values.roomNo)
+      if(duplicateRoom.length !== 0){
+        setDuplicateName("Tên phòng này đã tồn tại")
+      }else if(duplicateRoomNo.length !==0){
+        setDuplicateRoomNo("Số phòng này đã tồn tại")
+      }else{
+        dispatch(actions.createRoom.createRoomRequest(values));
+        dispatch(hideModalAddNewRoom());
+      }
+
     },
-    [dispatch]
+    [dispatch,listRoom]
   );
   const formik = useFormik({
     initialValues: {
@@ -83,7 +97,9 @@ export default function AddNewRoomModal() {
               name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
+              onClick={()=>handleDuplicate()}
             />
+            <span style={{ color: "red" }}>{duplicateName}</span>
             {formik.errors.name && (
               <span style={{ color: "red" }}>{formik.errors.name}</span>
             )}
@@ -97,7 +113,9 @@ export default function AddNewRoomModal() {
               name="roomNo"
               value={formik.values.roomNo}
               onChange={formik.handleChange}
+              onClick={()=>handleDuplicate()}
             />
+             <span style={{ color: "red" }}>{duplicateRoomNo}</span>
             {formik.errors.roomNo && (
               <span style={{ color: "red" }}>{formik.errors.roomNo}</span>
             )}

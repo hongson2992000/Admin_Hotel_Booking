@@ -349,6 +349,9 @@ function* checkOutInRoom(action) {
         yield put({
           type: HIDE_LOADING,
         });
+        yield put({
+          type: DISPLAY_POPUP_SUCCESS,
+        });
       }
     }
   } catch (error) {
@@ -417,6 +420,13 @@ function* cancelBooking(action) {
     });
     if (booking.status === STATUS_CODE.SUCCESS) {
       yield put(actions.cancelBooking.cancelBookingSuccess(booking.data));
+      let listBooking = yield call(() => {
+        return bookingManage.getAllBooking();
+      });
+      console.log(listBooking.data);
+      if (listBooking.status === STATUS_CODE.SUCCESS) {
+        yield put(actions.getAllBooking.getAllBookingSuccess(listBooking.data));
+      }
     }
     yield put({
       type: HIDE_LOADING,
@@ -430,7 +440,7 @@ function* cancelBooking(action) {
     yield put({
       type: HIDE_LOADING,
     });
-    yield put(showModalError())
+    yield put(showModalError());
   }
 }
 export function* followActionCancelBooing() {

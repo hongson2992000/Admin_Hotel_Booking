@@ -51,7 +51,6 @@ export default function UpdateAlarmModal({bookingId}) {
     return formatDate;
   }, [roomAlarmItem]);
 
-  console.log("DATE", renderDate());
   const formik = useFormik({
     initialValues: {
       booking_Id: roomAlarmItem.booking_Id,

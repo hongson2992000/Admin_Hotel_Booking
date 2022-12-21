@@ -25,7 +25,6 @@ export default function ListTurnDownServiceContainer() {
     let listRequestServiceNew = listRequestService.filter(
       (item) => item.orders?.requestServiceType !== CHECKOUT
     );
-    console.log("JJJJJ", listRequestServiceNew);
     listRequestServiceNew.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,

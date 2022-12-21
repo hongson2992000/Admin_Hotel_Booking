@@ -15,7 +15,6 @@ export default function UpdateLocationModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalUpdateLocationState$);
   const locationItem = useSelector(locationItemManageState$);
-  console.log("LOCATION",locationItem)
   let currentDate = moment().format("YYYY-MM-DD");
   const onClose = useCallback(() => {
     dispatch(hideModalUpdateLocation());
