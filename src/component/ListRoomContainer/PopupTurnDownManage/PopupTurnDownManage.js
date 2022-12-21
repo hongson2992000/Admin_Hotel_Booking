@@ -30,7 +30,6 @@ export default function PopupTurnDownManage() {
     let listRequestServiceNew = listRequestService.turnDownService?.filter(
       (item) => item.requestServiceType !== CHECKOUT
     );
-    console.log("AAAAA" ,listRequestServiceNew)
     listRequestServiceNew?.forEach((item, index) => {
       arrNew.push({
         stt: index + 1,

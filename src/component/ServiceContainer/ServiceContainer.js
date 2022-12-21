@@ -76,7 +76,7 @@ const ServiceContainer = () => {
       },
       {
         field: "name",
-        headerName: "Tên dịch vụ",
+        headerName: "Tên Dịch Vụ",
         width: 300,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.name}</div>;
@@ -93,7 +93,7 @@ const ServiceContainer = () => {
 
       {
         field: "image",
-        headerName: "Hình ảnh",
+        headerName: "Hình Ảnh",
         width: 150,
         renderCell: (params) => {
           return (
@@ -105,7 +105,7 @@ const ServiceContainer = () => {
       },
       {
         field: "status",
-        headerName: "Trạng thái",
+        headerName: "Trạng Thái",
         width: 200,
         renderCell: (params) => {
           return (
@@ -146,7 +146,7 @@ const ServiceContainer = () => {
   const actionColumn = [
     {
       field: "action",
-      headerName: "Chức năng",
+      headerName: "Hành Động",
       width: 200,
       renderCell: (params) => {
         return (
@@ -175,7 +175,7 @@ const ServiceContainer = () => {
   return (
     <div className="datatableService">
       <div className="datatableTitle">
-        Danh sách dịch vụ
+        Danh Sách Dịch Vụ
         <span onClick={openCreateServiceModal} className="link">
           Thêm dịch vụ
         </span>

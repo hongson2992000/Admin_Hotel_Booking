@@ -47,7 +47,7 @@ export default function PopupDetailRequestServiceInRoom({bookingId}) {
   const areUSureDelete = (choose) => {
     if (choose) {
       dispatch(
-        actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdRequest(
+        actions.cancelRequestServiceByStaff.cancelRequestServiceByStaffRequest(
           { orderDetailId: idService, orderId: infoOderDetail.id }
         )
       );

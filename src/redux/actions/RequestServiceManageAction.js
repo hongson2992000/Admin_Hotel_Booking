@@ -77,3 +77,8 @@ export const confirmCheckOutService = createActions({
   confirmCheckOutServiceSuccess: (payload) => payload,
   confirmCheckOutServiceFailure: (err) => err,
 });
+export const cancelRequestServiceByStaff = createActions({
+  cancelRequestServiceByStaffRequest: (payload) => payload,
+  cancelRequestServiceByStaffSuccess: (payload) => payload,
+  cancelRequestServiceByStaffFailure: (err) => err,
+});

@@ -48,12 +48,6 @@ export default function SetUpRoomPriceManageReducer(
         ...state,
       };
       case getType(updateRoomType.updateRoomTypeSuccess):
-        let roomTypeUpdate = [...state.payload]
-        let indexUpdateRoomType = roomTypeUpdate.findIndex((item)=>item.id === action.payload.id)
-        if(indexUpdateRoomType !== -1){
-          roomTypeUpdate[indexUpdateRoomType] = action.payload
-        }
-        state.arrRoomType = roomTypeUpdate
         return {
           ...state
         };

@@ -14,7 +14,7 @@ import {
   getRevenueCancelEntireDate,
   cancelBooking,
 } from "../actions/BookingManageAction";
-
+import { getAllRoom } from "../actions/RoomManageAction";
 const initialState = {
   arrBooking: [],
   bookingItem: {},
@@ -52,6 +52,11 @@ export default function BookingManageReducer(state = initialState, action) {
       return {
         ...state,
         bookingItem: action.payload,
+      };
+    case getType(getAllRoom.getAllRoomRequest):
+      return {
+        ...state,
+        userInfoBooking: [],
       };
     case getType(addNewUserBooking.addNewUserBookingRequest):
       let bookingItemNew = [...state.userInfoBooking];
@@ -160,15 +165,17 @@ export default function BookingManageReducer(state = initialState, action) {
       return {
         ...state,
       };
-      case getType(cancelBooking.cancelBookingSuccess):
-        let arrCancelBooking = [...state.arrBooking]
-        let indexCancelBooking = arrCancelBooking.findIndex((item)=>item.id === action.payload.id)
-        if(indexCancelBooking !==-1){
-          arrCancelBooking[indexCancelBooking] = action.payload
-        }
-        state.arrBooking = arrCancelBooking
+    case getType(cancelBooking.cancelBookingSuccess):
+      let arrCancelBooking = [...state.arrBooking];
+      let indexCancelBooking = arrCancelBooking.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (indexCancelBooking !== -1) {
+        arrCancelBooking[indexCancelBooking] = action.payload;
+      }
+      state.arrBooking = arrCancelBooking;
       return {
-        ...state
+        ...state,
       };
     case getType(cancelBooking.cancelBookingFailure):
       return {

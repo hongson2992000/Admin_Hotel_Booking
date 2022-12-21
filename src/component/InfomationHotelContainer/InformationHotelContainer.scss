@@ -21,19 +21,19 @@
     .buttonCheckIn {
         text-align: end;
         .buttonCheckInItem {
-            background-color: #c4c4c4;
+            background-color: blue;
             color: #fff;
             padding: 15px;
             width: 100px;
             border-radius: 5px;
-            border: 1px solid #c4c4c4;
+            border: 1px solid blue;
             &:hover {
                 background-color: #fff;
-                color: #c4c4c4;
+                color: blue;
                 padding: 15px;
                 width: 100px;
                 border-radius: 5px;
-                border: 1px solid #c4c4c4;
+                border: 1px solid blue;
             }
         }
     }

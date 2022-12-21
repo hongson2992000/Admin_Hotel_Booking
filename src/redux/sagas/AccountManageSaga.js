@@ -4,6 +4,7 @@ import {
   HIDE_LOADING,
   STATUS_CODE,
   DISPLAY_POPUP_SUCCESS,
+  USER_LOGIN,
 } from "../../utils/constants/settingSystem";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { accountManage } from "../../services/AccountManage";
@@ -39,6 +40,12 @@ function* createAccount(action) {
     });
     if (account.status === STATUS_CODE.SUCCESS) {
       yield put(actions.createAccount.createAccountSuccess(account.data));
+      let listAccount = yield call(() => {
+        return accountManage.getAllAccount();
+      });
+      if (listAccount.status === STATUS_CODE.SUCCESS) {
+        yield put(actions.getAccount.getAccountSuccess(listAccount.data));
+      }
       yield put({
         type: DISPLAY_POPUP_SUCCESS,
       });
@@ -67,6 +74,7 @@ function* updateAccount(action) {
       return accountManage.updateAccount(action.payload);
     });
     if (account.status === STATUS_CODE.SUCCESS) {
+      localStorage.setItem(USER_LOGIN, JSON.stringify(account.data));
       yield put(
         actions.updateAccount.updateAccountSuccess(account.data)
       );

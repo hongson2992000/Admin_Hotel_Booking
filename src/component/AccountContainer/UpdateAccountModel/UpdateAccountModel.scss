@@ -13,17 +13,17 @@
             margin: 5px;
             padding: 10px;
             width: 100px;
-            border: 1px solid #c4c4c4;
-            color: #c4c4c4;
-            background-color: #fff;
+            border: 1px solid blue;
+            color: #fff;
+            background-color: blue;
             border-radius: 5px;
             &:hover {
                 margin: 5px;
                 padding: 10px;
                 width: 100px;
-                border: 1px solid #c4c4c4;
-                color: #fff;
-                background-color: #c4c4c4;
+                border: 1px solid blue;
+                color: blue;
+                background-color: #fff;
                 border-radius: 5px;
             }
         }
@@ -32,16 +32,16 @@
             padding: 10px;
             width: 100px;
             border: 1px solid #ed4646;
-            color: #ed4646;
-            background-color: #fff;
+            color: #fff;
+            background-color: #ed4646;
             border-radius: 5px;
             &:hover {
                 margin: 5px;
                 padding: 10px;
                 width: 100px;
                 border: 1px solid #ed4646;
-                color: #fff;
-                background-color: #ed4646;
+                color: #ed4646;
+                background-color: #fff;
                 border-radius: 5px;
             }
         }

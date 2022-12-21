@@ -93,7 +93,7 @@ export default function NewsContainer() {
     },
     {
       field: "name",
-      headerName: "Tên sự kiện",
+      headerName: "Tên Sự Kiện",
       width: 400,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.name}</div>;
@@ -114,7 +114,7 @@ export default function NewsContainer() {
     },
     {
       field: "startDate",
-      headerName: "Ngày diễn ra",
+      headerName: "Ngày Diễn Ra",
       width: 250,
       renderCell: (params) => {
         return (
@@ -126,7 +126,7 @@ export default function NewsContainer() {
     },
     {
       field: "startTime",
-      headerName: "Thời gian",
+      headerName: "Thời Gian",
       width: 150,
       renderCell: (params) => {
         return (
@@ -165,7 +165,7 @@ export default function NewsContainer() {
   return (
     <div className="datatableNewsContainer">
       <div className="datatableTitle">
-        Danh sách tin tức
+        Danh Sách Tin Tức
         <span
           className="link"
           onClick={() => {

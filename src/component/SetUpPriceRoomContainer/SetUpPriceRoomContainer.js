@@ -72,7 +72,7 @@ export default function SetUpPriceRoomContainer() {
     },
     {
       field: "name",
-      headerName: "Loại phòng",
+      headerName: "Loại Phòng",
       width: 250,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.name}</div>;
@@ -80,7 +80,7 @@ export default function SetUpPriceRoomContainer() {
     },
     {
       field: "maxOccupancy",
-      headerName: "Số khách tối da",
+      headerName: "Số Khách Tối Đa",
       width: 150,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.maxOccupancy}</div>;
@@ -96,7 +96,7 @@ export default function SetUpPriceRoomContainer() {
     },
     {
       field: "description",
-      headerName: "Mô tả",
+      headerName: "Mô Tả",
       width: 400,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.description}</div>;
@@ -106,7 +106,7 @@ export default function SetUpPriceRoomContainer() {
   ];
   return (
     <div className="datatableSetUpPriceRoomContainer">
-      <div className="datatableTitle">Cấu hình giá</div>
+      <div className="datatableTitle">Cấu Hình Giá</div>
       <DataGrid
         className="datagrid"
         rows={renderArr()}

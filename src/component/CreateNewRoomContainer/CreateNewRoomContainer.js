@@ -19,13 +19,13 @@ import {
   INFO_BOOKING_DETAIL,
   USER_LOGIN,
 } from "../../utils/constants/settingSystem";
-import moment from "moment";
 import { useNavigate, useParams } from "react-router-dom";
 import AddNewCustomerModal from "../CheckInContainer/AddNewCustomerModal/AddNewCustomerModal";
 import UpdateNewCustomerModal from "../CheckInContainer/UpdateNewCustomerModal/UpdateNewCustomerModal";
 // import { info } from "sass";
 import { useState } from "react";
 import { getDayInRange, removeDuplicateInArray } from "../../utils/util";
+import moment from "moment";
 export default function CreateNewRoomContainer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -203,16 +203,23 @@ export default function CreateNewRoomContainer() {
       resetForm({ values: "" });
     },
     validationSchema: Yup.object({
-      arrivalDate: Yup.string().required("Required"),
+      arrivalTime:Yup.string().required("Yêu cầu *"),
+      actualArrivalDate: Yup.string().required("Yêu cầu *"),
+      birthDate:Yup.string().required("Yêu cầu *"),
       email: Yup.string()
-        .required("Required")
+        .required("Yêu cầu")
         .matches(
           /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
           "Vui lòng nhập đúng email"
         ),
+      name: Yup.string().required("Yêu cầu *"),
+      phoneNumber: Yup.string().required("Yêu cầu *").matches(
+        /^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$/,
+        "Vui lòng nhập đúng số điện thoại"
+      ),
+      idNo: Yup.string().required("Yêu cầu *").min(9,"Vui lòng nhập đúng định dạng").max(12,"Vui lòng nhập đúng định dạng"),
     }),
   });
-  console.log("NGAY DIIII", formik.values.departureDate);
   let [depatureDate, setDepartureDate] = useState();
   const getTotalPrice = useCallback(() => {
     let price = 0;
@@ -292,7 +299,7 @@ export default function CreateNewRoomContainer() {
       },
       {
         field: "phoneNumber",
-        headerName: "Số điện thoại",
+        headerName: "Số Điện Thoại",
         width: 170,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.phoneNumber}</div>;
@@ -352,7 +359,7 @@ export default function CreateNewRoomContainer() {
     },
     {
       field: "action",
-      headerName: "Chức năng",
+      headerName: "Hành Động",
       width: 150,
       renderCell: (params) => {
         return (
@@ -387,7 +394,13 @@ export default function CreateNewRoomContainer() {
               <span style={{ width: "150px", fontSize: "20px" }}>
                 Số Phòng: {params.roomNo}
               </span>
-              <span style={{ paddingLeft: "50px", fontSize: "20px" ,width:"300px"}}>
+              <span
+                style={{
+                  paddingLeft: "50px",
+                  fontSize: "20px",
+                  width: "300px",
+                }}
+              >
                 Tiền phòng: {formatNumber(totalPrice)}
               </span>
               <div
@@ -403,7 +416,7 @@ export default function CreateNewRoomContainer() {
           <hr />
           <div className="col-12 InfoRoom">
             <div className="row">
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Ngày Đến </InputLabel>
                 <input
                   className="title"
@@ -420,7 +433,7 @@ export default function CreateNewRoomContainer() {
                   <p style={{ color: "red" }}>{formik.errors.arrivalDate}</p>
                 )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Ngày Đi</InputLabel>
                 <input
                   className="title"
@@ -434,7 +447,7 @@ export default function CreateNewRoomContainer() {
                   min={today()}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Giờ Đến</InputLabel>
                 <TextField
                   className="title"
@@ -445,8 +458,11 @@ export default function CreateNewRoomContainer() {
                   value={formik.values.arrivalTime || ""}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.arrivalTime && (
+                  <p style={{ color: "red" }}>{formik.errors.arrivalTime}</p>
+                )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Giờ Đi</InputLabel>
                 <TextField
                   className="title"
@@ -457,8 +473,11 @@ export default function CreateNewRoomContainer() {
                   value={formik.values.departureTime}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.departureTime && (
+                  <p style={{ color: "red" }}>{formik.errors.departureTime}</p>
+                )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Ngày Đến Thực Tế</InputLabel>
                 <input
                   className="title"
@@ -471,8 +490,11 @@ export default function CreateNewRoomContainer() {
                   value={formik.values.actualArrivalDate}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.actualArrivalDate && (
+                  <p style={{ color: "red" }}>{formik.errors.actualArrivalDate}</p>
+                )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Ngày Đặt</InputLabel>
                 <TextField
                   className="title"
@@ -484,21 +506,7 @@ export default function CreateNewRoomContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              {/* <div className="col-2 InfoRoomItem">
-                <InputLabel className="label">Ngày Đi Thực Tế</InputLabel>
-                <input
-                  className="title"
-                  style={{ padding: "0.875rem", borderRadius: "5px" }}
-                  type="date"
-                  required
-                  min={moment().format("YYYY-MM-DD")}
-                  id="actualDepartureDate"
-                  name="actualDepartureDate"
-                  value={formik.values.actualDepartureDate}
-                  onChange={formik.handleChange}
-                />
-              </div> */}
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Người Lớn</InputLabel>
                 <TextField
                   className="title"
@@ -510,7 +518,7 @@ export default function CreateNewRoomContainer() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Trẻ Em</InputLabel>
                 <TextField
                   className="title"
@@ -528,7 +536,7 @@ export default function CreateNewRoomContainer() {
           <hr style={{ width: "20%" }} />
           <div className="col-12 InfoRoom">
             <div className="row" style={{ paddingBottom: "20px" }}>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Tên Khách Hàng</InputLabel>
                 <TextField
                   className="title"
@@ -538,8 +546,11 @@ export default function CreateNewRoomContainer() {
                   value={formik.values.name}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.name && (
+                  <p style={{ color: "red" }}>{formik.errors.name}</p>
+                )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Số Điện Thoại</InputLabel>
                 <TextField
                   className="title"
@@ -549,8 +560,11 @@ export default function CreateNewRoomContainer() {
                   value={formik.values.phoneNumber}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.phoneNumber && (
+                  <p style={{ color: "red" }}>{formik.errors.phoneNumber}</p>
+                )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Email</InputLabel>
                 <TextField
                   className="title"
@@ -564,7 +578,7 @@ export default function CreateNewRoomContainer() {
                   <p style={{ color: "red" }}>{formik.errors.email}</p>
                 )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Số Hộ Chiếu/CCCD</InputLabel>
                 <TextField
                   className="title"
@@ -574,8 +588,11 @@ export default function CreateNewRoomContainer() {
                   value={formik.values.idNo}
                   onChange={formik.handleChange}
                 />
+                {formik.errors.idNo && (
+                  <p style={{ color: "red" }}>{formik.errors.idNo}</p>
+                )}
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel>Giới Tính</InputLabel>
                 <Select
                   className="title"
@@ -589,21 +606,21 @@ export default function CreateNewRoomContainer() {
                   <MenuItem value={0}>Nữ</MenuItem>
                 </Select>
               </div>
-              <div className="col-2 InfoRoomItem">
+              <div className="col-2 simpleModalItem">
                 <InputLabel className="label">Ngày Sinh</InputLabel>
-
-                <TextField
+                <input
                   id="birthDate"
                   type="date"
                   name="birthDate"
+                  className="title"
                   value={formik.values.birthDate}
                   onChange={formik.handleChange}
-                  // defaultValue="2022-05-24"
-                  style={{ width: "100%" }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  style={{ padding: "0.875rem", borderRadius: "5px" }}
+                  max={moment().format("YYYY-MM-DD")}
                 />
+                {formik.errors.birthDate && (
+                  <p style={{ color: "red" }}>{formik.errors.birthDate}</p>
+                )}
               </div>
             </div>
           </div>

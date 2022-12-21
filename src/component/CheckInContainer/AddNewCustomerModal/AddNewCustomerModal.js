@@ -20,7 +20,9 @@ export default function AddNewCustomerModal() {
     let newList = listCustomer.filter((item) => item.primary === true);
     return newList;
   };
-  let [duplicateName, setDuplicateName] = useState("");
+  let [duplicatePhone, setDuplicatePhone] = useState("");
+  let [duplicateIdNo, setDuplicateIdNo] = useState("");
+  let [duplicateEmail, setDuplicateEmail] = useState("");
   const onClose = useCallback(() => {
     dispatch(hideModalAddUser());
   }, [dispatch]);
@@ -45,15 +47,27 @@ export default function AddNewCustomerModal() {
         lastModifyBy: values.lastModifyBy,
         primary: values.primary,
       };
-      let duplicateName = listCustomer.filter(
-        (item) =>
-          item.firstName + " " + item.middleName + " " + item.lastName ===
-          values.firstName + " " + values.middleName + " " + values.lastName
+      
+      let duplicatePhone = listCustomer.filter(
+        (item) => item.phoneNumber === values.phoneNumber
+         
+      );
+      let duplicateCMND = listCustomer.filter(
+        (item) => item.idNo === values.idNo
+         
+      );
+      let duplicateEmail = listCustomer.filter(
+        (item) => item.email === values.email
+         
       );
 
-      if (duplicateName.length !== 0) {
-        setDuplicateName("Tên này đã được sử dụng");
-      } else {
+      if (duplicatePhone.length !== 0) {
+        setDuplicatePhone("Số điện thoại này đã được sử dụng");
+      } else if(duplicateCMND.length !== 0){
+        setDuplicateIdNo("CMND/CCCD này tồn tại")
+      } else if(duplicateEmail.length !== 0){
+        setDuplicateEmail("Email này đã tồn tại")
+      }else {
         dispatch(
           actions.addNewUserBooking.addNewUserBookingRequest(infoUserCheckIn)
         );
@@ -137,16 +151,17 @@ export default function AddNewCustomerModal() {
           "Vui lòng nhập đúng số điện thoại"
         ),
       idNo: Yup.string()
-        .required("Yêu cầu *")
         .min(9, "Vui lòng nhập đúng CMND/CCCD")
-        .max(10, "Vui lòng nhập đúng CMND/CCCD")
+        .max(12, "Vui lòng nhập đúng CMND/CCCD")
         .matches(/[0-9]/, "Vui lòng nhập đúng CMND/CCCD"),
     }),
 
     enableReinitialize: true,
   });
   const handleChangeName = () => {
-    setDuplicateName("");
+    setDuplicatePhone("");
+    setDuplicateIdNo("");
+    setDuplicateEmail("");
   };
   const body = (
     <div className="paperAddNewCustomer" id="simple-modal-title">
@@ -174,7 +189,6 @@ export default function AddNewCustomerModal() {
                     handleChangeName();
                   }}
                 />
-                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.firstName && (
                   <span style={{ color: "red" }}>
                     {formik.errors.firstName}
@@ -194,7 +208,6 @@ export default function AddNewCustomerModal() {
                     handleChangeName();
                   }}
                 />
-                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.middleName && (
                   <span style={{ color: "red" }}>
                     {formik.errors.middleName}
@@ -214,7 +227,6 @@ export default function AddNewCustomerModal() {
                     handleChangeName();
                   }}
                 />
-                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.lastName && (
                   <span style={{ color: "red" }}>{formik.errors.lastName}</span>
                 )}
@@ -231,6 +243,7 @@ export default function AddNewCustomerModal() {
               value={formik.values.phoneNumber || ""}
               onChange={formik.handleChange}
             />
+            <span style={{ color: "red" }}>{duplicatePhone}</span>
             {formik.errors.phoneNumber && (
               <span style={{ color: "red" }}>{formik.errors.phoneNumber}</span>
             )}
@@ -264,6 +277,7 @@ export default function AddNewCustomerModal() {
               value={formik.values.idNo || ""}
               onChange={formik.handleChange}
             />
+            <span style={{ color: "red" }}>{duplicateIdNo}</span>
             {formik.errors.idNo && (
               <span style={{ color: "red" }}>{formik.errors.idNo}</span>
             )}
@@ -292,6 +306,7 @@ export default function AddNewCustomerModal() {
               value={formik.values.email || ""}
               onChange={formik.handleChange}
             />
+            <span style={{ color: "red" }}>{duplicateEmail}</span>
             {formik.errors.email && (
               <span style={{ color: "red" }}>{formik.errors.email}</span>
             )}

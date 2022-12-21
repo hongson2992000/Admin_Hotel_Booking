@@ -138,10 +138,10 @@
             padding: 10px;
             width: 150px;
             border: none;
-            color: #000000;
-            background-color: #fff;
+            color: #fff;
+            background-color: red;
             border-radius: 5px;
-            border: 0.5px solid #000000;
+            border: 0.5px solid red;
             .icon {
                 color: red;
             }
@@ -150,8 +150,8 @@
                 padding: 10px;
                 width: 150px;
                 border: none;
-                color: #fff;
-                background-color: red;
+                color: red;
+                background-color: #fff;
                 border-radius: 5px;
                 border: 0.5px solid red;
                 .icon {

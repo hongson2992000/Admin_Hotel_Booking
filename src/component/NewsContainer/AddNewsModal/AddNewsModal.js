@@ -1,17 +1,10 @@
-import {
-  InputLabel,
-  Modal,
-  TextareaAutosize,
-  TextField,
-} from "@mui/material";
+import { InputLabel, Modal, TextareaAutosize, TextField } from "@mui/material";
 import React, { useCallback } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { modalAddNewsState$ } from "../../../redux/selectors/ModalSelector";
 import "./AddNewsModal.scss";
-import {
-  hideModalAddNews,
-} from "../../../redux/actions/ModalAction";
+import { hideModalAddNews } from "../../../redux/actions/ModalAction";
 import * as actions from "../../../redux/actions/NewsManageAction";
 import moment from "moment";
 import * as Yup from "yup";
@@ -25,7 +18,28 @@ export default function AddNewsModal() {
   // let dataService = formik.values
   const onSubmitService = useCallback(
     (values) => {
-      dispatch(actions.createNews.createNewsRequest(values));
+      let startDate = values.startDate.split("-");
+      let formatStartDate =
+        startDate[2] + "/" + startDate[1] + "/" + startDate[0];
+      let endDate = values.endDate.split("-");
+      let formatEndDate = endDate[2] + "/" + endDate[1] + "/" + endDate[0];
+      let news = {
+        address: values.address,
+        description: values.description,
+        detailInformation: values.detailInformation,
+        endDate: formatEndDate,
+        endTime: values.endTime,
+        id: 0,
+        newName: values.newName,
+        newsType: "event",
+        numberOfView: values.numberOfView,
+        startDate: formatStartDate,
+        startTime: values.startTime,
+        status: "READY",
+        ticketInformation: values.ticketInformation,
+      };
+      // dispatch(actions.createNews.createNewsRequest(news));
+      console.log("LONG",news);
       dispatch(hideModalAddNews());
     },
     [dispatch]
@@ -61,7 +75,7 @@ export default function AddNewsModal() {
       numberOfView: Yup.string().required("Yêu cầu *"),
       ticketInformation: Yup.string().required("Yêu cầu *"),
     }),
-    enableReinitialize:true
+    enableReinitialize: true,
   });
   const body = (
     <div className="paperAddNews" id="simple-modal-title">
@@ -216,10 +230,12 @@ export default function AddNewsModal() {
               onChange={formik.handleChange}
             />
             {formik.errors.ticketInformation && (
-              <span style={{ color: "red" }}>{formik.errors.ticketInformation}</span>
+              <span style={{ color: "red" }}>
+                {formik.errors.ticketInformation}
+              </span>
             )}
           </div>
-          <div className="col-12" style={{height:"150px"}}>
+          <div className="col-12" style={{ height: "160px" }}>
             <InputLabel>Thông tin mô tả</InputLabel>
             <TextareaAutosize
               className="title"

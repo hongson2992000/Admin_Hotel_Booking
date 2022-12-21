@@ -82,7 +82,7 @@ export default function SetUpRoomContainer() {
   const actionColumn = [
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Hành Động",
       width: 200,
       renderCell: (params) => {
         return (
@@ -115,7 +115,7 @@ export default function SetUpRoomContainer() {
     },
     {
       field: "roomName",
-      headerName: "Tên phòng",
+      headerName: "Tên Phòng",
       width: 150,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.roomName}</div>;
@@ -123,7 +123,7 @@ export default function SetUpRoomContainer() {
     },
     {
       field: "roomNo",
-      headerName: "Số phòng",
+      headerName: "Số Phòng",
       width: 150,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.roomNo}</div>;
@@ -131,7 +131,7 @@ export default function SetUpRoomContainer() {
     },
     {
       field: "roomType",
-      headerName: "Loại phòng",
+      headerName: "Loại Phòng",
       width: 300,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.roomType}</div>;
@@ -152,7 +152,7 @@ export default function SetUpRoomContainer() {
     },
     {
       field: "maxOccupancy",
-      headerName: "Người lớn tối da",
+      headerName: "Người Tối Đa",
       width: 150,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.maxOccupancy}</div>;
@@ -162,7 +162,7 @@ export default function SetUpRoomContainer() {
   return (
     <div className="datatableSetupRoomContainer">
       <div className="datatableTitle">
-        Danh sách phòng
+        Danh Sách Phòng
         <span
           className="link"
           onClick={() => {

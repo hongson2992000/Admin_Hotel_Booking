@@ -4,17 +4,25 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { modalUpdateUserState$ } from "../../../redux/selectors/ModalSelector";
 import "./UpdateNewCustomerModal.scss";
-import { hideModalAddUser, hideModalUpdateUser } from "../../../redux/actions/ModalAction";
+import {
+  hideModalAddUser,
+  hideModalUpdateUser,
+} from "../../../redux/actions/ModalAction";
 import * as actions from "../../../redux/actions/BookingManageAction";
 import * as Yup from "yup";
 import { userState$ } from "../../../redux/selectors/UserSelector";
 import moment from "moment";
-import { infoUserUpdateFormState$ } from "../../../redux/selectors/BookingManageSelector";
+import {
+  infoUserBookingState$,
+  infoUserUpdateFormState$,
+} from "../../../redux/selectors/BookingManageSelector";
 export default function UpdateNewCustomerModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalUpdateUserState$);
   const infoUser = useSelector(infoUserUpdateFormState$);
-  const listCustomer = useSelector(infoUserUpdateFormState$);
+  // const listCustomer = useSelector(infoUserUpdateFormState$);
+  const listCustomer = useSelector(infoUserBookingState$);
+  let [duplicateName, setDuplicateName] = useState("");
   const onClose = useCallback(() => {
     dispatch(hideModalUpdateUser());
   }, [dispatch]);
@@ -39,10 +47,27 @@ export default function UpdateNewCustomerModal() {
         lastModifyBy: values.lastModifyBy,
         primary: values.primary,
       };
-      dispatch(
-        actions.updateNewUserBooking.updateNewUserBookingRequest(infoUserCheckIn)
+      let duplicateName1 = listCustomer.filter(
+        (item) =>
+          item.firstName + " " + item.middleName + " " + item.lastName !==
+          values.firstName + " " + values.middleName + " " + values.lastName
       );
-      dispatch(hideModalUpdateUser());
+      let duplicateName2 = duplicateName1.filter(
+        (item) =>
+          item.firstName + " " + item.middleName + " " + item.lastName !==
+          values.firstName + " " + values.middleName + " " + values.lastName
+      );
+      if (duplicateName2.length !== 0) {
+        setDuplicateName("Tên này đã được sử dụng");
+      } else {
+        dispatch(
+          actions.updateNewUserBooking.updateNewUserBookingRequest(
+            infoUserCheckIn
+          )
+        );
+        dispatch(hideModalUpdateUser());
+      }
+
       // navigate("/checkIn");
     },
     [dispatch]
@@ -54,16 +79,11 @@ export default function UpdateNewCustomerModal() {
   };
   let [id, setId] = useState(new Date().getTime());
   let currentDate = moment().format("DD/MM/YYYY");
-  const renderBirthDate = (date) =>{
+  const renderBirthDate = (date) => {
     let birthDate = date?.split("/");
-    let formatDate =
-    birthDate[2] +
-      "-" +
-      birthDate[1] +
-      "-" +
-      birthDate[0];
-      return formatDate
-  }
+    let formatDate = birthDate[2] + "-" + birthDate[1] + "-" + birthDate[0];
+    return formatDate;
+  };
   const formik = useFormik({
     initialValues: {
       id: infoUser.id,
@@ -95,7 +115,7 @@ export default function UpdateNewCustomerModal() {
     onSubmit: (values, { resetForm }) => {
       onSubmitInfoUser(values);
       resetForm({ values: "" });
-    //   renderIdRandom();
+      //   renderIdRandom();
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -130,9 +150,8 @@ export default function UpdateNewCustomerModal() {
           "Vui lòng nhập đúng số điện thoại"
         ),
       idNo: Yup.string()
-        .required("Yêu cầu *")
         .min(9, "Vui lòng nhập đúng CMND/CCCD")
-        .max(10, "Vui lòng nhập đúng CMND/CCCD")
+        .max(12, "Vui lòng nhập đúng CMND/CCCD")
         .matches(/[0-9]/, "Vui lòng nhập đúng CMND/CCCD"),
     }),
 
@@ -161,6 +180,7 @@ export default function UpdateNewCustomerModal() {
                   value={formik.values.firstName || ""}
                   onChange={formik.handleChange}
                 />
+                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.firstName && (
                   <span style={{ color: "red" }}>
                     {formik.errors.firstName}
@@ -177,6 +197,7 @@ export default function UpdateNewCustomerModal() {
                   value={formik.values.middleName || ""}
                   onChange={formik.handleChange}
                 />
+                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.middleName && (
                   <span style={{ color: "red" }}>
                     {formik.errors.middleName}
@@ -193,6 +214,7 @@ export default function UpdateNewCustomerModal() {
                   value={formik.values.lastName || ""}
                   onChange={formik.handleChange}
                 />
+                <span style={{ color: "red" }}>{duplicateName}</span>
                 {formik.errors.lastName && (
                   <span style={{ color: "red" }}>{formik.errors.lastName}</span>
                 )}

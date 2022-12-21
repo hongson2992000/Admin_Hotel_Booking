@@ -162,14 +162,14 @@ function* cancelRequestService(action) {
         yield put(
           actions.getRequestService.getRequestServiceSuccess(arrRequestService)
         );
-        let requestService = arrRequestService.finf(
-          (item) => item.orders.id === service.data.id
-        );
-        yield put(
-          actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdSuccess(
-            requestService
-          )
-        );
+        // let requestService = arrRequestService.find(
+        //   (item) => item.orders.id === service.data.id
+        // );
+        // yield put(
+        //   actions.cancelRequestServiceDetailById.cancelRequestServiceDetailByIdSuccess(
+        //     requestService
+        //   )
+        // );
       }
     }
     yield put({
@@ -829,5 +829,71 @@ export function* followActionConfirmCheckOutService() {
   yield takeLatest(
     actions.confirmCheckOutService.confirmCheckOutServiceRequest,
     confirmCheckOutService
+  );
+}
+function* cancelRequestServiceByStaff(action) {
+  try {
+    console.log("Action", action);
+    yield put({
+      type: DISPLAY_LOADING,
+    });
+    let formData = new FormData();
+    formData.append("orderDetailId", action.payload.orderDetailId.id);
+    formData.append("orderId", action.payload.orderId);
+    let service = yield call(() => {
+      return requestServiceManage.cancelRequestService(formData);
+    });
+    console.log(service.data);
+    if (service.status === STATUS_CODE.SUCCESS) {
+      let listService = yield call(() => {
+        return requestServiceManage.getRequestServiceByBookingId(
+          action.payload.booking_id
+        );
+      });
+      let primaryCustomer = yield call(() => {
+        return customerManage.getPrimaryCustomerByBookingId(
+          action.payload.booking_id
+        );
+      });
+      if (
+        listService.status === STATUS_CODE.SUCCESS &&
+        primaryCustomer.status === STATUS_CODE.SUCCESS
+      ) {
+        let requestServiceInRoom = {};
+        requestServiceInRoom = {
+          requestService: listService.data,
+          primaryCustomer: primaryCustomer.data,
+        };
+        yield put(
+          actions.getRequestServiceByBookingId.getRequestServiceByBookingIdSuccess(
+            requestServiceInRoom
+          )
+        );
+        yield put(
+          actions.confirmRequestServiceInRoom.confirmRequestServiceInRoomSuccess(
+            requestServiceInRoom
+          )
+        );
+      }
+    }
+    yield put({
+      type: HIDE_LOADING,
+    });
+    yield put({ type: DISPLAY_POPUP_SUCCESS });
+    yield put(showModalListService());
+  } catch (error) {
+    yield put(
+      actions.cancelRequestServiceByStaff.cancelRequestServiceByStaffFailure(
+        error
+      )
+    );
+  }
+}
+
+export function* followActionCancelRequestServiceByStaff() {
+  yield takeLatest(
+    actions.cancelRequestServiceByStaff
+      .cancelRequestServiceByStaffRequest,
+      cancelRequestServiceByStaff
   );
 }

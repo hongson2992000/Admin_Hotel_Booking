@@ -1,4 +1,5 @@
 import * as actions from "./../actions/RoomManageAction";
+import * as actionBooking from "./../actions/BookingManageAction"
 import {
   DISPLAY_LOADING,
   DISPLAY_POPUP_SUCCESS,

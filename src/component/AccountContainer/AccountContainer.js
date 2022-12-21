@@ -19,9 +19,13 @@ const AccountContainer = () => {
 
   const renderArr = () => {
     let arrNew = [];
-    let listAccountNew = listAccount?.filter(
-      (item) => item.userRole !== "ROLE_USER" && item.userRole !== "ROLE_ADMIN"
-    );
+    let listAccountNew
+    if(listAccount){
+      listAccountNew = listAccount?.filter(
+        (item) => item.userRole !== "ROLE_USER" && item.userRole !== "ROLE_ADMIN"
+      );
+    }
+
     listAccountNew.forEach((item, i) => {
       arrNew.push({
         stt: i + 1,
@@ -124,7 +128,7 @@ const AccountContainer = () => {
       },
       {
         field: "name",
-        headerName: "Họ và tên",
+        headerName: "Họ Và Tên",
         width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.name}</div>;
@@ -145,7 +149,7 @@ const AccountContainer = () => {
       },
       {
         field: "phoneNumber",
-        headerName: "Số điện thoại",
+        headerName: "Số Điện Thoại",
         width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.phoneNumber}</div>;
@@ -169,7 +173,7 @@ const AccountContainer = () => {
       },
       {
         field: "isActive",
-        headerName: "Trạng thái",
+        headerName: "Trạng Thái",
         width: 150,
         renderCell: (params) => {
           return (

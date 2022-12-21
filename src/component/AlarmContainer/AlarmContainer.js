@@ -10,6 +10,7 @@ import DialogDelete from "../DialogDelete/DialogDelete";
 import * as Yup from "yup";
 import UpdateAlarmModal from "./UpdateAlarmModal/UpdateAlarmModal";
 import { showModalUpdateAlarm } from "../../redux/actions/ModalAction";
+import moment from "moment";
 export default function AlarmContainer() {
   const dispatch = useDispatch();
   const arrRoomAlarm = useSelector(roomAlarmManageState$);
@@ -108,7 +109,7 @@ export default function AlarmContainer() {
       },
       {
         field: "datetime",
-        headerName: "Giờ báo thức",
+        headerName: "Giờ Báo Thức",
         width: 350,
         renderCell: (params) => {
           return <div className={`cellWithStatus`}>{params.row.datetime}</div>;
@@ -208,6 +209,7 @@ export default function AlarmContainer() {
                   value={formik.values.dateTime}
                   onChange={formik.handleChange}
                   style={{ padding: "10px" }}
+                  min={moment().format("YYYY-MM-DD")}
                 />
                 {formik.errors.dateTime && (
                   <span style={{ color: "red" }}>{formik.errors.dateTime}</span>
