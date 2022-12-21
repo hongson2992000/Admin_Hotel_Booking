@@ -122,5 +122,13 @@
                 cursor: pointer;
             }
         }
+        .deleteButtonDisable {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: #d64949;
+            border: 1px solid #d64949;
+            background-color: #fff;
+            cursor: pointer;
+        }
     }
 }
