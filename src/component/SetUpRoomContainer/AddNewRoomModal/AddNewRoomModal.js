@@ -11,11 +11,13 @@ import * as actions from "../../../redux/actions/RoomManageAction";
 import moment from "moment";
 import * as Yup from "yup";
 import { USER_LOGIN } from "../../../utils/constants/settingSystem";
+import { setUpRoomManageState$ } from "../../../redux/selectors/SetUpRoomPriceManageSelector";
 export default function AddNewRoomModal() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalAddNewRoomState$);
   let currentDate = moment().format("YYYY-MM-DD");
   const userInfo = JSON.parse(localStorage.getItem(USER_LOGIN))
+  const listRoom = useSelector(setUpRoomManageState$);
   const onClose = useCallback(() => {
     dispatch(hideModalAddNewRoom());
   }, [dispatch]);
@@ -29,6 +31,7 @@ export default function AddNewRoomModal() {
   ]
   const onSubmitService = useCallback(
     (values) => {
+      let duplicateRoom = listRoom.filter((item)=>item)
       dispatch(actions.createRoom.createRoomRequest(values));
       dispatch(hideModalAddNewRoom());
     },

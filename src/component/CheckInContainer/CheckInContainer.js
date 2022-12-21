@@ -100,7 +100,7 @@ export default function CheckInContainer() {
         createDate: values.createDate,
         customer_Id: values.customer_Id,
         departureDate: values.departureDate+" "+values.departureTime,
-        hotel_Id: values.hotel_Id,
+        hotel_Id: 1,
         id: values.id,
         lastModifyBy: "",
         numOfAdult: values.numOfAdult,

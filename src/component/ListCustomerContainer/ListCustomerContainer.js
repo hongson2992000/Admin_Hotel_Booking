@@ -86,8 +86,8 @@ export default function ListCustomerContainer() {
 
       {
         field: "idBooking",
-        headerName: "Mã đặt phòng",
-        width: 120,
+        headerName: "Mã Đặt Phòng",
+        width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.idBooking}</div>;
         },
@@ -95,7 +95,7 @@ export default function ListCustomerContainer() {
 
       {
         field: "name",
-        headerName: "Tên khách",
+        headerName: "Tên Khách",
         width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.name}</div>;
@@ -112,7 +112,7 @@ export default function ListCustomerContainer() {
       {
         field: "arrivalDate",
         headerName: "Ngày Đến",
-        width: 180,
+        width: 150,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
@@ -124,7 +124,7 @@ export default function ListCustomerContainer() {
       {
         field: "departureDate",
         headerName: "Ngày Đi",
-        width: 180,
+        width: 150,
         renderCell: (params) => {
           return (
             <div className="cellWithImg">
@@ -134,20 +134,8 @@ export default function ListCustomerContainer() {
         },
       },
       {
-        field: "createDate",
-        headerName: "Ngày đặt",
-        width: 180,
-        renderCell: (params) => {
-          return (
-            <div className="cellWithImg">
-              {params.row.createDate.substring(0, 10)}
-            </div>
-          );
-        },
-      },
-      {
         field: "roomType",
-        headerName: "Loại phòng",
+        headerName: "Loại Phòng",
         width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.roomType}</div>;
@@ -157,7 +145,7 @@ export default function ListCustomerContainer() {
       {
         field: "status",
         headerName: "Trạng Thái",
-        width: 150,
+        width: 120,
         renderCell: (params) => {
           return (
             <div
@@ -194,7 +182,7 @@ export default function ListCustomerContainer() {
   ];
   return (
     <div className="datatableCustomerContainer">
-      <div className="datatableTitle">Danh sách khách hàng</div>
+      <div className="datatableTitle">Danh Sách Khách Hàng</div>
       <DataGrid
         getRowId={(row) => row.stt}
         className="datagrid"

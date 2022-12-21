@@ -637,7 +637,7 @@ export default function ListBookingContainer() {
   };
   return (
     <div className="datatableListBooking">
-      <div className="datatableTitle">Danh sách booking</div>
+      <div className="datatableTitle">Danh Sách Booking</div>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
