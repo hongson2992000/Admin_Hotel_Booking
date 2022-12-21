@@ -108,7 +108,7 @@ export default function LocationContainer() {
     },
     {
       field: "openTime",
-      headerName: "Giờ mở",
+      headerName: "Giờ Mở",
       width: 150,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.openTime}</div>;
@@ -116,7 +116,7 @@ export default function LocationContainer() {
     },
     {
       field: "closeTime",
-      headerName: "Giờ đóng",
+      headerName: "Giờ Đóng",
       width: 150,
       renderCell: (params) => {
         return <div className="cellWithImg">{params.row.closeTime}</div>;
@@ -126,7 +126,7 @@ export default function LocationContainer() {
   const actionColumn = [
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Hành Động",
       width: 200,
       renderCell: (params) => {
         return (

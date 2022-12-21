@@ -9,17 +9,18 @@ import {
   hideModalProfile,
   hideModalUpdateUser,
 } from "../../redux/actions/ModalAction";
-import * as actions from "../../redux/actions/BookingManageAction";
+import * as actions from "../../redux/actions/AccountManageAction";
 import * as Yup from "yup";
 import { userState$ } from "../../redux/selectors/UserSelector";
 import moment from "moment";
 import { infoUserUpdateFormState$ } from "../../redux/selectors/BookingManageSelector";
 import { modalProfileState$ } from "../../redux/selectors/ModalSelector";
 import { profileItemManageState$ } from "../../redux/selectors/AccountManageSelector";
+import { USER_LOGIN } from "../../utils/constants/settingSystem";
 export default function ModalProfile() {
   const dispatch = useDispatch();
   const isShow = useSelector(modalProfileState$);
-  const infoUser = useSelector(profileItemManageState$);
+  const infoUser = JSON.parse(localStorage.getItem(USER_LOGIN));
   const listCustomer = useSelector(infoUserUpdateFormState$);
   const onClose = useCallback(() => {
     dispatch(hideModalProfile());
@@ -39,18 +40,19 @@ export default function ModalProfile() {
         lastModifyBy: values.lastModifyBy,
         lastName: values.lastName,
         middleName: values.middleName,
-        password: values.password,
+        password: "",
         phoneNumber: values.phoneNumber,
         role: values.userRole,
         status: true,
         updateDate: moment().format("DD/MM/YYYY"),
         username: values.username,
       };
-      // dispatch(
-      //   actions.updateNewUserBooking.updateNewUserBookingRequest(
-      //     infoUserCheckIn
-      //   )
-      // );
+      dispatch(
+        actions.updateAccount.updateAccountRequest(
+          infoUserCheckIn
+        )
+      );
+      dispatch(hideModalProfile());
       console.log("HOANG DUONG", infoUserCheckIn);
       dispatch(hideModalUpdateUser());
       // navigate("/checkIn");
@@ -73,7 +75,7 @@ export default function ModalProfile() {
     initialValues: {
       id: infoUser.id,
       username: infoUser.username,
-      password: infoUser.password,
+      password: "**********",
       dateOfBirth: infoUser.dateOfBirth
         ? renderBirthDate(infoUser.dateOfBirth)
         : " ",
@@ -268,7 +270,7 @@ export default function ModalProfile() {
             )}
           </div>
           <div className="col-6 simpleModalItem">
-            <InputLabel>Số điện thoại</InputLabel>
+            <InputLabel>Số Điện Thoại</InputLabel>
             <TextField
               className="title"
               required
@@ -282,7 +284,7 @@ export default function ModalProfile() {
             )}
           </div>
           <div className="col-6 simpleModalItem">
-            <InputLabel>Vai trò</InputLabel>
+            <InputLabel>Vai Trò</InputLabel>
             <TextField
               className="title"
               required

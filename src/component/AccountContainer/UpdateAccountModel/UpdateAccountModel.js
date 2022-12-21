@@ -118,6 +118,37 @@ const UpdateAccountModel = () => {
       handleAddAccount(values);
       resetForm({ values: "" });
     },
+    validationSchema: Yup.object({
+      username: Yup.string().required("Yêu cầu *"),
+      password: Yup.string()
+        .required("Yêu cầu *"),
+      firstName: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/,
+          "Vui lòng nhập đúng họ"
+        ),
+      middleName: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/,
+          "Vui lòng nhập đúng họ"
+        ),
+      lastName: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/,
+          "Vui lòng nhập đúng họ"
+        ),
+      dateOfBirth: Yup.string().required("Yêu cầu *"),
+      userRole: Yup.string().required("Yêu cầu *"),
+      phoneNumber: Yup.string()
+        .required("Yêu cầu *")
+        .matches(
+          /^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$/,
+          "Vui lòng nhập đúng số điện thoại"
+        ),
+    }),
     enableReinitialize: true,
   });
 
@@ -143,6 +174,9 @@ const UpdateAccountModel = () => {
               onChange={formik.handleChange}
               disabled
             />
+             {formik.errors.username && (
+              <span style={{ color: "red" }}>{formik.errors.username}</span>
+            )}
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Mật Khẩu</InputLabel>
@@ -155,6 +189,9 @@ const UpdateAccountModel = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
             />
+             {formik.errors.password && (
+              <span style={{ color: "red" }}>{formik.errors.password}</span>
+            )}
           </div>
           <div className="col-4 simpleModalItem">
             <InputLabel>Họ</InputLabel>
@@ -166,6 +203,9 @@ const UpdateAccountModel = () => {
               value={formik.values.firstName}
               onChange={formik.handleChange}
             />
+             {formik.errors.firstName && (
+              <span style={{ color: "red" }}>{formik.errors.firstName}</span>
+            )}
           </div>
           <div className="col-4 simpleModalItem">
             <InputLabel>Tên Lót</InputLabel>
@@ -176,6 +216,9 @@ const UpdateAccountModel = () => {
               value={formik.values.middleName}
               onChange={formik.handleChange}
             />
+             {formik.errors.middleName && (
+              <span style={{ color: "red" }}>{formik.errors.middleName}</span>
+            )}
           </div>
           <div className="col-4 simpleModalItem">
             <InputLabel>Tên</InputLabel>
@@ -187,6 +230,9 @@ const UpdateAccountModel = () => {
               value={formik.values.lastName}
               onChange={formik.handleChange}
             />
+             {formik.errors.lastName && (
+              <span style={{ color: "red" }}>{formik.errors.lastName}</span>
+            )}
           </div>
           <div className="col-4 simpleModalItem">
             <InputLabel>Số điện thoại</InputLabel>
@@ -198,6 +244,9 @@ const UpdateAccountModel = () => {
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
             />
+             {formik.errors.phoneNumber && (
+              <span style={{ color: "red" }}>{formik.errors.phoneNumber}</span>
+            )}
           </div>
           <div className="col-4 simpleModalItem">
             <InputLabel>Ngày sinh</InputLabel>
@@ -211,6 +260,9 @@ const UpdateAccountModel = () => {
               onChange={formik.handleChange}
               max={moment().format("YYYY-MM-DD")}
             />
+             {formik.errors.dateOfBirth && (
+              <span style={{ color: "red" }}>{formik.errors.dateOfBirth}</span>
+            )}
           </div>
           <div className="col-4 simpleModalItem">
             <InputLabel>Giới tính</InputLabel>
@@ -225,6 +277,9 @@ const UpdateAccountModel = () => {
               <MenuItem value={true}>Nam</MenuItem>
               <MenuItem value={false}>Nữ</MenuItem>
             </Select>
+            {formik.errors.gender && (
+              <span style={{ color: "red" }}>{formik.errors.gender}</span>
+            )}
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Trạng Thái</InputLabel>
@@ -240,6 +295,9 @@ const UpdateAccountModel = () => {
               <MenuItem value={true}>Đang hoạt động</MenuItem>
               <MenuItem value={false}>Đang ẩn</MenuItem>
             </Select>
+            {formik.errors.active && (
+              <span style={{ color: "red" }}>{formik.errors.active}</span>
+            )}
           </div>
           <div className="col-6 simpleModalItem">
             <InputLabel>Quyền Hạn</InputLabel>
@@ -259,6 +317,9 @@ const UpdateAccountModel = () => {
                 );
               })}
             </Select>
+            {formik.errors.userRole && (
+              <span style={{ color: "red" }}>{formik.errors.userRole}</span>
+            )}
           </div>
           <div className="footer">
             <button className="buttonSave" type="submit">

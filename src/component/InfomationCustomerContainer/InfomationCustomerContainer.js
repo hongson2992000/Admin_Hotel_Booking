@@ -33,17 +33,16 @@ export default function InfomationCustomerContainer() {
   };
   const renderListOrder = () => {
     let arrNew = [];
-    infoCustomer.booking?.orders.forEach((item, i) => {
-      item.orderDetails?.forEach((itemOder, index) => {
+    infoCustomer.booking?.orders.forEach((order, i) => {
+      order.orderDetails?.forEach((itemOder, index) => {
         arrNew.push({
-          stt: i + 1,
           id: itemOder.service.id,
           orderDate: itemOder.orderDate.substring(0, 10),
           name: itemOder.service.name,
           quantity: itemOder.quantity,
           price: itemOder.service.price,
           status:
-            item.orderPayment === null
+          order.orderPayment === null
               ? "Chưa thanh toán"
               : "Đã thanh toán",
         });
@@ -133,7 +132,7 @@ export default function InfomationCustomerContainer() {
       },
       {
         field: "phoneNumber",
-        headerName: "Số điện thoại",
+        headerName: "Số Điện Thoại",
         width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.phoneNumber}</div>;
@@ -166,7 +165,7 @@ export default function InfomationCustomerContainer() {
       },
       {
         field: "birthDate",
-        headerName: "Ngày sinh",
+        headerName: "Ngày Sinh",
         width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.birthDate}</div>;
@@ -177,17 +176,10 @@ export default function InfomationCustomerContainer() {
   );
   let infoOrder = useMemo(
     () => [
-      {
-        field: "stt",
-        headerName: "STT",
-        width: 100,
-        renderCell: (params) => {
-          return <div className="cellWithImg">{params.row.stt}</div>;
-        },
-      },
+      
       {
         field: "name",
-        headerName: "Tên dịch vụ",
+        headerName: "Tên Dịch Vụ",
         width: 350,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.name}</div>;
@@ -195,7 +187,7 @@ export default function InfomationCustomerContainer() {
       },
       {
         field: "price",
-        headerName: "Đơn giá",
+        headerName: "Đơn Giá",
         width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.price}</div>;
@@ -203,7 +195,7 @@ export default function InfomationCustomerContainer() {
       },
       {
         field: "quantity",
-        headerName: "Số lượng",
+        headerName: "Số Lượng",
         width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.quantity}</div>;
@@ -212,7 +204,7 @@ export default function InfomationCustomerContainer() {
 
       {
         field: "orderDate",
-        headerName: "Ngày đặt",
+        headerName: "Ngày Đặt",
         width: 200,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.orderDate}</div>;
@@ -220,7 +212,7 @@ export default function InfomationCustomerContainer() {
       },
       {
         field: "status",
-        headerName: "Trạng thái",
+        headerName: "Trạng Thái",
         width: 150,
         renderCell: (params) => {
           return <div className={`cellWithImg ${params.row.status === "Chưa thanh toán" ? "NOTPAYMENT" : "PAYMENT" }`}>{params.row.status}</div>;

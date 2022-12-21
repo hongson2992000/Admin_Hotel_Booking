@@ -99,11 +99,21 @@ function* updateRoomTypeToSetUp(action) {
     });
     console.log("UPDATE ROOM TYPE", roomType);
     if (roomType.status === STATUS_CODE.SUCCESS) {
-      yield put(
-        actionSetUpRoom.updateRoomType.updateRoomTypeSuccess(
-          roomType.data
-        )
-      );
+      // yield put(
+      //   actionSetUpRoom.updateRoomType.updateRoomTypeSuccess(
+      //     roomType.data
+      //   )
+      // );
+      let listRoomType = yield call(() => {
+        return setUpRoomManage.getAllRoomtype();
+      });
+      if (listRoomType.status === STATUS_CODE.SUCCESS) {
+        yield put(
+          actionSetUpRoom.getAllRoomTypeToSetUp.getAllRoomTypeToSetUpSuccess(
+            listRoomType.data
+          )
+        );
+      }
     }
     yield put({
       type: HIDE_LOADING,

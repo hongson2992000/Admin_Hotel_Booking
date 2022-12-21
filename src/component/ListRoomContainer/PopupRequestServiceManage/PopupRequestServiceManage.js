@@ -153,7 +153,7 @@ export default function PopupRequestServiceManage({ bookingId }) {
       // },
       {
         field: "id",
-        headerName: "Mã dịch vụ",
+        headerName: "Mã Dịch Vụ",
         width: 150,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.id}</div>;
@@ -161,7 +161,7 @@ export default function PopupRequestServiceManage({ bookingId }) {
       },
       {
         field: "serviceName",
-        headerName: "Tên dịch vụ",
+        headerName: "Tên Dịch Vụ",
         width: 250,
         renderCell: (params) => {
           return <div className="cellWithImg">{params.row.serviceName}</div>;

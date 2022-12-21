@@ -274,7 +274,7 @@ export default function PopupRequestService() {
     <div>
       <Modal open={isShow} onClose={onClose}>
         <div className="modalRequestService">
-          <h2>Dịch vụ sử dụng</h2>
+          <h2>Dịch Vụ Sử Dụng</h2>
           <hr />
 
           <DataGrid

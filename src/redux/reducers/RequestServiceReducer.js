@@ -87,9 +87,9 @@ export default function RequestServiceReducer(state = initialState, action) {
     case getType(
       cancelRequestServiceDetailById.cancelRequestServiceDetailByIdSuccess
     ):
+      state.requestServiceItem = action.payload;
       return {
         ...state,
-        requestServiceItem: action.payload,
       };
     case getType(
       cancelRequestServiceDetailById.cancelRequestServiceDetailByIdFailure
@@ -104,7 +104,7 @@ export default function RequestServiceReducer(state = initialState, action) {
     case getType(getTurnDownService.getTurnDownServiceSuccess):
       return {
         ...state,
-        arrTurnDownService : action.payload
+        arrTurnDownService: action.payload,
       };
     case getType(getTurnDownService.getTurnDownServiceFailure):
       return {

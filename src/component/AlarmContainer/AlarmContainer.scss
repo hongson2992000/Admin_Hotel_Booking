@@ -9,14 +9,15 @@
             padding: 10px;
             width: 100px;
             border-radius: 5px;
-            border: 1px solid #c4c4c4;
+            border: 1px solid blue;
+            background-color: blue;
             &:hover {
                 background-color: #fff;
-                color: #c4c4c4;
+                color: blue;
                 padding: 10px;
                 width: 100px;
                 border-radius: 5px;
-                border: 1px solid #c4c4c4;
+                border: 1px solid blue;
             }
         }
     }
