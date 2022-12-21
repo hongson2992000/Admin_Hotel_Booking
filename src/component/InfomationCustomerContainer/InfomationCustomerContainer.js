@@ -12,6 +12,10 @@ export default function InfomationCustomerContainer() {
     let currentDate = moment().format("YYYY-MM-DD");
     return currentDate;
   };
+  const formatNumber = (number) =>{
+    let numFormatted = number.toLocaleString('de-DE')
+    return numFormatted
+  }
   const renderListCustomer = () => {
     let arrNew = [];
     let listCustomerNew = infoCustomer.listCustomer?.filter(
@@ -97,7 +101,7 @@ export default function InfomationCustomerContainer() {
       actualArrivalDate: "",
       actualDepartureDate: "",
       confirmationNo: "",
-      roomPayment: "",
+      roomPayment: infoCustomer.booking.roomPayment,
       createBy: "",
       hotel_Id: "",
       roomType: renderTypeRoom(infoCustomer.booking?.roomTypeId),
@@ -423,7 +427,7 @@ export default function InfomationCustomerContainer() {
           rowsPerPageOptions={[9]}
         />
         <span style={{ paddingTop: "40px" }}>
-          Tiền Phòng: {infoCustomer.booking?.totalAmount}
+          Tiền Phòng: {infoCustomer.booking?.roomPayment.split(".")[0]}
         </span>
         <hr style={{ width: "20%" }} />
         <span style={{ paddingTop: "40px" }}>Dịch Vụ Sử Dụng</span>
